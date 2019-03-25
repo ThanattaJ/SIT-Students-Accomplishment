@@ -7,6 +7,13 @@
           <a class="navbar-start" >
             <div id="logo">
               <img src="./assets/Logo_Pro.png">
+              <div id="manu">
+                <ul>
+                  <th><router-link to="/Home" style="margin-right: 30px;">Home</router-link></th>
+                  <th><router-link to="/student" style="margin-right: 30px;">project</router-link></th>
+                  <th id="hover-manu">Profile</th>
+                </ul>
+              </div>
             </div>
           </a>
           <a class="button" id="login" >
@@ -21,7 +28,7 @@
 
 <script>
 export default {
-
+name :'app'
 }
 </script>
 
@@ -32,21 +39,21 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 #logo{
-  width: 260px;
+  width: 240px;
 }
 #box-inside{
-   width: 80%;
+  width: 80%;
   position: relative;
   margin-left: 10%;
 }
 #head_bg{
-  height: 120px;
+  height: 100px;
   background-color:#265080;
 }
 #nav-top{
-  height: 120px;
+  height: 100px;
   background-color:#265080;
-  margin-top: -120px;
+  margin-top: -100px;
 }
 #login{
   position:absolute;
@@ -55,6 +62,15 @@ export default {
   font-size: 80%;
   background: none;
   margin-top: 30px;
+}
+#manu{
+  margin-left: 20%;
+  margin-top: -18px;
+  font-size: 13px;
+  color: white;
+}
+#hover-manu {
+  border-bottom: 3px solid white;
 }
 
 </style>

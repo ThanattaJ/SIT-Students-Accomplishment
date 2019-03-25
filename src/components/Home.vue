@@ -14,6 +14,7 @@
 import './../../node_modules/bulma/css/bulma.css';
 import Multiselect from 'vue-multiselect'
 export default {
+  name :'Home'
 }
 </script>
 
@@ -26,5 +27,6 @@ export default {
 #text_header{
   text-align: center;
   font-size: 10px;
+  background: #F8F8F8;
 } 
 </style>
