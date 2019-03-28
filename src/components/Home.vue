@@ -13,20 +13,9 @@
 <script>
 import './../../node_modules/bulma/css/bulma.css';
 import Multiselect from 'vue-multiselect'
+import './css/Home.css'
 export default {
   name :'Home'
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-#header{
-  background: #F8F8F8;
-  height: 100px;
-}
-#text_header{
-  text-align: center;
-  font-size: 10px;
-  background: #F8F8F8;
-} 
-</style>
