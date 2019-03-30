@@ -1,5 +1,9 @@
 <template>
     <div id="Project-bg">
+        <div>
+            <router-link to="/CreatePortfolioPage">CreatePortfolioPage</router-link>
+            <router-view></router-view>
+        </div>
         <div class="columns">
             <div class="column is-2">
                 <div class="field">

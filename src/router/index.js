@@ -5,6 +5,7 @@ import student from '@/components/student'
 import Profile from '@/components/Profile'
 import Project from '@/components/Project'
 import Assignment from '@/components/Assignment'
+import CreatePortfolioPage from '@/components/CreatePortfolioPage'
 
 
 Vue.use(Router)
@@ -38,6 +39,11 @@ export default new Router({
       path: '/Assignment',
       name: 'Assignment',
       component: Assignment,
+    },
+    {
+      path: '/CreatePortfolioPage',
+      name: 'CreatePortfolioPage',
+      component: CreatePortfolioPage,
     }
   ]
 })
