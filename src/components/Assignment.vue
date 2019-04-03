@@ -35,12 +35,10 @@ export default {
 </script>
 
 <style scoped>
-#test{
-    margin-top: 100px;
-}
 #Assignment-bg{ 
   width: 80%;
   margin-left: 10%;
+  margin-top: 10%;
 }
 
 </style>

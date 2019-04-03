@@ -1,9 +1,5 @@
 <template>
     <div id="Project-bg">
-        <div>
-            <router-link to="/CreatePortfolioPage">CreatePortfolioPage</router-link>
-            <router-view></router-view>
-        </div>
         <div class="columns">
             <div class="column is-2">
                 <div class="field">
@@ -27,9 +23,9 @@
                         </figure>
                     </div>
                     <div class="card-content">
-                        <div class="content">
-                            <p id="h1">SIT Students Accomplishment</p>
-                            <p id="h2">โหลๆเทสๆๆ</p>
+                        <div class="content" id="content-card">
+                            <p>{{Title}}</p>
+                            <p>{{Description}}</p>
                         </div>
                     </div>
                 </div>
@@ -38,7 +34,8 @@
                 <div class="card">
                     <div class="card-image">
                         <figure class="image is-3by2">
-                            <img src="../assets/plus-symbol.png">
+                            <router-link to="/CreatePortfolioPage"><img src="../assets/plus-symbol.png"></router-link>
+                            <router-view></router-view>
                         </figure>
                     </div>
                 </div>
@@ -50,11 +47,15 @@
 <script>
 import './css/Project.css'
 export default {
-  data () {
-    return {
-    }
-  }
+            el:"#content-card",
+            data() {
+                return{
+                Title: 'SIT Students Accomplishment',
+                Description: 'โหลๆเทสๆๆ'
+                }
+            }
 }
+      
 </script>
 
 
