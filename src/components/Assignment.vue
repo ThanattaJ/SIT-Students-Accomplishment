@@ -1,26 +1,7 @@
 <template>
-        <div id="Assignment-bg">
-            <div class="body" id="body">
-                <div class="columns is-gapless.is-centered" id="head-table">
-                    <div class="button column" id="th">
-                        <router-link to="/Profile" >Profile</router-link> 
-                    </div>
-                    <div class="button column" id="tb" >
-                        <router-link to="/Project" >Project</router-link> 
-                    </div>
-                    <div class="button column" id="tb" >
-                        <router-link to="/Assignment" >Assignment</router-link> 
-                    </div>
-                    <div class="button column" id="tb" >
-                        Fingerprint
-                    </div>
-                    <div class="button column" id="te" >
-                        Generate Resume
-                    </div>
-                </div>
-            </div>
-        </div>
-  
+  <div>
+      <h1 id="test">Assignment {{ msg }} </h1> <br>
+  </div>
 </template>
 
 <script>
@@ -35,10 +16,8 @@ export default {
 </script>
 
 <style scoped>
-#Assignment-bg{ 
-  width: 80%;
-  margin-left: 10%;
-  margin-top: 10%;
-}
+  #test{
+        margin-top: 100px;
+    }
 
 </style>

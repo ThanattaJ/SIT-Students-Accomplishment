@@ -7,11 +7,11 @@
               <img src="./../assets/03-REP-Photo-KMUTT-SophonJampasornklin.jpg"  id="img">
             </div>
             <div class="column" id="information">
-              <p id="name">Sophon Jampasornklin</p>
-              <p id="info">Bachelor of Science Programme in Information Technology</p>
-              <p id="info"> 3rd year SIT Student</p>
-              <p id="info"> 59130500109</p>
-              <p id="internship">Internship: @G-Able</p>
+              <p id="name">{{name}}</p>
+              <p id="info">{{info}}</p>
+              <p id="info"> {{year}}</p>
+              <p id="info"> {{student_id}}</p>
+              <p id="internship">{{internship}}</p>
             </div>
             <div class="column">
             </div>
@@ -46,6 +46,15 @@
 import './../../node_modules/bulma/css/bulma.css';
 import './css/student.css'
 export default {
-    name : 'student'
+  el:"#information",
+    data(){
+      return{
+        name: 'Sophon Jampasornklin',
+        info: 'Bachelor of Science Programme in Information Technology',
+        year: '3rd year SIT Student',
+        student_id: '59130500109',
+        internship: 'Internship: @G-Able'
+      }
+    }
 }
 </script>

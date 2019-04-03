@@ -24,9 +24,9 @@ export default new Router({
       component: student,
       children:[
       {
-        path: '/profile',
-        name: 'profile',
-        component: Profile,
+        path: '/Assignment',
+        name: 'Assignment',
+        component: Assignment,
       },
       {
         path: '/Project',
@@ -36,9 +36,9 @@ export default new Router({
        ]
     },
     {
-      path: '/Assignment',
-      name: 'Assignment',
-      component: Assignment,
+      path: '/Profile',
+      name: 'Profile',
+      component: Profile,
     },
     {
       path: '/CreatePortfolioPage',
