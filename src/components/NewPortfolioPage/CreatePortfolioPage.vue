@@ -8,7 +8,7 @@
             </div>
             <div class="column">
                 <div class="card card-equal-height">
-                    <div class="card-content">
+                    <div class="card-content form">
                         <div class="content">
                             <div class="stepName">Create My Portfolio Page</div>
                             <div class="field">
@@ -60,7 +60,7 @@
                             </div> -->
                         </div>
                     </div>
-                    <footer class="card-footer field is-grouped is-grouped-centered">
+                    <footer class="card-footer field is-grouped is-grouped-centered backNext">
                         <router-link to="/Project">
                             <a class="card-footer-item button backButton">
                                 Back

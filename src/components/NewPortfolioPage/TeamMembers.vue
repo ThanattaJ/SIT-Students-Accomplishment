@@ -8,7 +8,7 @@
             </div>
             <div class="column">
                 <div class="card card-equal-height">
-                    <div class="card-content">
+                    <div class="card-content form">
                         <div class="content">
                             <div class="stepName">My Team</div>
                             <div class="columns"> 
@@ -29,12 +29,50 @@
                                     </div>
                                 </div>
                             </div>
-                            <div>+Add more members...</div>
-                            <button type="button" name="button" v-on:click="like=!like">like</button>
-                            <div v-if="like">hi, gib</div><br>
+                            <div class="addMember" v-on:click="clickAddMember=!clickAddMember">+ Add more members...</div>
+                            <div v-if="clickAddMember">
+                                <!-- เพิ่มตรงเน้ -->
+                                <div class="column is-one-fifth">
+                                <div class="card borderSelectMember">
+                                    <div class="card-content selectMember">
+                                        <div class="content">
+                                            <div class="chooseMemberType" v-on:click="chooseSIT=true">SIT Student</div>
+                                            <div v-if="chooseSIT">
+                                            <!-- เพิ่มตรงเน้ -->
+                                            </div>
+                                            <hr>
+                                            <div class="chooseMemberType" v-on:click="chooseExternal=true">External </div>
+                                            <div v-if="chooseExternal">
+                                            <!-- เพิ่มตรงเน้ -->
+                                            </div>
+                                         </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <!-- <div class="columns"> 
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label inputName">Firstname</label>
+                                            <div class="control">
+                                                <input class="input inputData" type="text" value="Nattanat" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label inputName">Lastname</label>
+                                            <div class="control">
+                                                <input class="input inputData" type="text" value="Wimaluangtrakul" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                                <!-- --------------------------------- -->
+                            </div>
                         </div>
                     </div>
-                    <footer class="card-footer field is-grouped is-grouped-centered">
+                    <footer class="card-footer field is-grouped is-grouped-centered backNext">
                         <router-link to="/PortfolioPageDetail">
                             <a class="card-footer-item button backButton">
                                 Back
@@ -57,16 +95,13 @@ import './../../../node_modules/bulma/css/bulma.css';
 import './../css/form.css';
 import vueStep from 'vue-step';
 
-// Vue.component('gib',{
-//     template:'<button v-on:click="count++">click: {{count}}</button>'
-    
-// });
-
 export default {
     data () {
-    return {
+    return {el:"#addMember",
         name : 'TeamMembers',
-        like: false,
+        clickAddMember: false,
+        chooseSIT: false,
+        chooseExternal: false,
         nowStep: 3,
         stepList: [
             'Create Portfolio Page',

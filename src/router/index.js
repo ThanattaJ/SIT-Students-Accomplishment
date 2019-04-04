@@ -5,7 +5,10 @@ import student from '@/components/student'
 import Profile from '@/components/Profile'
 import Project from '@/components/Project'
 import Assignment from '@/components/Assignment'
-import CreatePortfolioPage from '@/components/CreatePortfolioPage'
+import CreatePortfolioPage from '@/components/NewPortfolioPage/CreatePortfolioPage'
+import PortfolioPageDetail from '@/components/NewPortfolioPage/PortfolioPageDetail'
+import TeamMembers from '@/components/NewPortfolioPage/TeamMembers'
+import Achievement from '@/components/NewPortfolioPage/Achievement'
 
 
 

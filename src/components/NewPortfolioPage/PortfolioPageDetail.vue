@@ -8,20 +8,20 @@
             </div>
             <div class="column">
                 <div class="card card-equal-height">
-                    <div class="card-content">
+                    <div class="card-content form">
                         <div class="content">
                             <div class="stepName">My Portfolio Page Detail</div>
                             <div class="field">
                                 <label class="label inputName">Portfolio Page Detail(TH)</label>
                                 <div class="control">
-                                    <textarea class="Normal textarea inputData" placeholder="Detail..."></textarea>
+                                    <textarea class="Normal textarea inputData portDetail" placeholder="Detail..."></textarea>
                                 </div>
                             </div>
 
                             <div class="field">
                                 <label class="label inputName">Portfolio Page Detail(EN)</label>
                                 <div class="control">
-                                    <textarea class="Normal textarea inputData" placeholder="Detail..."></textarea>
+                                    <textarea class="Normal textarea inputData portDetail" placeholder="Detail..."></textarea>
                                     <div class="field is-grouped is-grouped-right">0/200</div>
                                     <div>* Please write at least 1 language</div>
                                 </div>
@@ -44,7 +44,7 @@
                             </div> -->
                         </div>
                     </div>
-                    <footer class="card-footer field is-grouped is-grouped-centered">
+                    <footer class="card-footer field is-grouped is-grouped-centered backNext">
                         <router-link to="/CreatePortfolioPage">
                             <a class="card-footer-item button backButton">
                                 Back

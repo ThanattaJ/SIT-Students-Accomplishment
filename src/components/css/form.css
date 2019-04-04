@@ -1,3 +1,108 @@
 #body-bg{
-    margin: 10% 10% 0 10%;
+    margin: 5.5% 10% 0 10%;
+}
+
+.form{
+    padding: 4% 6% 0% 6%;
+}
+
+.stepName{
+    font-size:20px;
+    color: #545454;
+    margin-bottom: 3%;
+}
+
+.inputName{
+    font-size:18px;
+    font-weight: 100;
+    color: #949494;
+    margin-bottom: 1px !important;
+}
+
+.inputData{
+    background: #ECECEC;
+}
+
+.card-equal-height{
+    display: flex;
+    flex-direction: column;
+    height: 520px;
+    border-radius: 10px;
+}
+.card-equal-height .card-footer{
+   margin-top: auto;
+   border-top: 0px;
+   margin-bottom: 3% !important;
+}
+
+/* step */
+.v-step-warp-vertical{
+    height: 520px;
+}
+
+.v-step-item-label{
+    font-size: 16px !important; 
+}
+
+.v-step-item-number{
+    width: 37px !important;
+    height: 37px !important;
+    line-height: 40px !important;
+    font-size: 20px !important;
+}
+
+.v-step-progress-bg{
+    position: absolute !important;
+    top: 0px !important;
+    left: 26px !important;
+    width: 3px !important;
+}
+
+.v-step-warp-vertical .v-step-item-label {
+    position: absolute !important;
+    order: 1 !important;
+    padding-left: 50px !important;
+}
+
+/* add member */
+.addMember:hover,.chooseMemberType:hover {
+    cursor: pointer;
+    color: #265080;
+}
+
+.selectMember{
+    padding: 10px;
+}
+
+hr{
+    margin: 3px
+}
+
+.borderSelectMember{
+    border-radius: 3px;
+}
+/* --------------------- */
+
+.portDetail{
+    min-height: 100px !important;
+}
+
+/* ปุ่ม back next */
+.backButton{
+    color: #949494;
+    border-color: #949494;
+    background-color: white;
+    margin-right: 15px;
+}
+
+.nextButton{
+    color: white;
+    border-color: #265080;
+    background-color: #265080;
+    border-radius: 5px;
+    margin-left: 15px;
+}
+
+.field{
+    margin-bottom: 17px !important
 }
