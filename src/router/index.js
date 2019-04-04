@@ -8,6 +8,7 @@ import Assignment from '@/components/Assignment'
 import CreatePortfolioPage from '@/components/CreatePortfolioPage'
 
 
+
 Vue.use(Router)
 
 
@@ -44,6 +45,22 @@ export default new Router({
       path: '/CreatePortfolioPage',
       name: 'CreatePortfolioPage',
       component: CreatePortfolioPage,
+    },
+    {
+      path: '/PortfolioPageDetail',
+      name: 'PortfolioPageDetail',
+      component: PortfolioPageDetail,
+    },
+    {
+      path: '/TeamMembers',
+      name: 'TeamMembers',
+      component: TeamMembers,
+    },
+    {
+      path: '/Achievement',
+      name: 'Achievement',
+      component: Achievement,
     }
+
   ]
 })
