@@ -26,22 +26,6 @@
                                     <div>* Please write at least 1 language</div>
                                 </div>
                             </div>
-                            <!-- <div class="field is-grouped is-grouped-centered">
-                                <p class="control">
-                                    <router-link to="/CreatePortfolioPage">
-                                        <a class="button backButton">
-                                            Back
-                                        </a>
-                                    </router-link>
-                                </p>
-                                <p class="control">
-                                    <router-link to="/TeamMembers">
-                                        <a class="button nextButton">
-                                            Next
-                                        </a>
-                                    </router-link>
-                                </p>
-                            </div> -->
                         </div>
                     </div>
                     <footer class="card-footer field is-grouped is-grouped-centered backNext">

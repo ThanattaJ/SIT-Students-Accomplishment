@@ -21,6 +21,7 @@
 
 .inputData{
     background: #ECECEC;
+    color: #265080;
 }
 
 .card-equal-height{
@@ -93,6 +94,7 @@ hr{
     border-color: #949494;
     background-color: white;
     margin-right: 15px;
+    width: 80px;
 }
 
 .nextButton{
@@ -101,8 +103,37 @@ hr{
     background-color: #265080;
     border-radius: 5px;
     margin-left: 15px;
+    width: 80px;
 }
 
 .field{
     margin-bottom: 17px !important
+}
+
+.startMonth{
+    margin-right: -40px;
+}
+
+.header{
+    margin-bottom: -50px !important;
+}
+
+/* modal */
+.modal-card-title{
+    margin-bottom: -10px !important;
+    font-size: 18px;
+}
+
+.is-success{
+    background-color: #265080 !important;
+    border-radius: 5px;
+    width: 80px;
+}
+
+.addOutsiderButton, .addStudentButton{
+    text-align: center !important;
+}
+
+.modal-card{
+    border-radius: 5px;
 }

@@ -35,32 +35,41 @@
                                 <div class="column">
                                     <div class="field">
                                         <label class="label inputName">Date of Event</label>
-                                        <div class="control">
+                                        <!-- <div class="control">
                                             <input class="input inputData" type="text" placeholder="Wimaluangtrakul">
-                                        </div>
+                                        </div> -->
+                                        <div class="columns field"> 
+                                <div class="column">
+                                    <span class="select">
+                                        <select style="background-color: #ECECEC;">
+                                            <option selected>Date</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="column">
+                                    <span class="select">
+                                        <select style="background-color: #ECECEC;">
+                                            <option selected>Month</option>
+                                            <option>Jan</option>
+                                            <option>Feb</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="column">
+                                    <span class="select">
+                                        <select style="background-color: #ECECEC;">
+                                            <option selected>Year</option>
+                                            <option>2016</option>
+                                            <option>2017</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="field is-grouped is-grouped-centered">
-                                <p class="control">
-                                    <router-link to="/TeamMembers">
-                                        <a class="button backButton">
-                                            Back
-                                        </a>
-                                    </router-link>
-                                </p>
-                                <p class="control">
-                                    <a class="button nextButton">
-                                        Next
-                                    </a>
-                                </p>
-                            </div> -->
-                            <!-- <input type="date" data-display-mode="inline" data-is-range="true" data-close-on-select="false">
-                            <hr>
-                            <div id='calendar'>
-                                Selected date: {{niceDate}}
-                                <button ref='calendarTrigger' type='button'>Change</button>
-                            </div> -->
                         </div>
                     </div>
                     <footer class="card-footer field is-grouped is-grouped-centered backNext">
@@ -84,8 +93,8 @@
 <script>
 import './../../../node_modules/bulma/css/bulma.css';
 import './../css/form.css';
-import bulmaCalendar from './../../../node_modules/bulma-extensions/bulma-calendar/dist/js/bulma-calendar.min.js';
-import vueStep from 'vue-step'
+// import bulmaCalendar from './../../../node_modules/bulma-extensions/bulma-calendar/dist/js/bulma-calendar.min.js';
+import vueStep from 'vue-step';
 
 export default {
     name : 'Achievement',
