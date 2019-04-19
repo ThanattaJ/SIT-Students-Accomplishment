@@ -7,19 +7,21 @@
                         <input class="input" type="text" placeholder="Search Project...">
                     </div>
                 </div>
-                <aside class="manu">
+                <aside class="menu">
                     <ul class="menu-list">
                         <li><a>All Project</a></li>
                         <li><a>Assignment Project</a></li>
                         <li><a>External Project</a></li>
+                        <li><a><router-link to="/CreatePortfolioPage">CreatePortfolioPage</router-link></a></li>
                     </ul>
                 </aside>
             </div>
+            <router-link to="/ProjectDetail">
             <div class="column">
                 <div class="card" id="card">
                     <div class="card-image">
                         <figure class="image is-3by2">
-                            <img src="../assets/LUNA.png">
+                            <img src="./../../assets/LUNA.png">
                         </figure>
                     </div>
                     <div class="card-content">
@@ -30,24 +32,15 @@
                     </div>
                 </div>
             </div>
-            <div class="column">
-                <div class="card">
-                    <div class="card-image">
-                        <figure class="image is-3by2">
-                            <router-link to="/CreatePortfolioPage"><img src="../assets/plus-symbol.png"></router-link>
-                            <router-view></router-view>
-                        </figure>
-                    </div>
-                </div>
-            </div>
+            </router-link>
         </div>
     </div>
 </template>
 
 <script>
-import './css/Project.css'
+import './../css/Project.css'
 export default {
-            el:"#content-card",
+            // el:"#content-card",
             data() {
                 return{
                 Title: 'SIT Students Accomplishment',

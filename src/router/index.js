@@ -3,14 +3,13 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import student from '@/components/student'
 import Profile from '@/components/Profile'
-import Project from '@/components/Project'
+import ShowProject from '@/components/Project/ShowProject'
 import Assignment from '@/components/Assignment'
 import CreatePortfolioPage from '@/components/NewPortfolioPage/CreatePortfolioPage'
 import PortfolioPageDetail from '@/components/NewPortfolioPage/PortfolioPageDetail'
 import TeamMembers from '@/components/NewPortfolioPage/TeamMembers'
 import Achievement from '@/components/NewPortfolioPage/Achievement'
-
-
+import ProjectDetail from '@/components/Project/ProjectDetail'
 
 Vue.use(Router)
 
@@ -33,9 +32,9 @@ export default new Router({
         component: Assignment,
       },
       {
-        path: '/Project',
-        name: 'project',
-        component: Project,
+        path: '/ShowProject',
+        name: 'ShowProject',
+        component: ShowProject,
       }
        ]
     },
@@ -63,7 +62,11 @@ export default new Router({
       path: '/Achievement',
       name: 'Achievement',
       component: Achievement,
-    }
-
+    },
+    {
+      path: '/ProjectDetail',
+      name: 'ProjectDetail',
+      component: ProjectDetail
+    },
   ]
 })

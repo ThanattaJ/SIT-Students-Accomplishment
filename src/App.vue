@@ -53,7 +53,7 @@ name :'app',
 #nav-top{
   height: 100px;
   background-color:#265080;
-  margin-top: -100px;
+  margin-top: -107px;
 }
 #login{
   position:absolute;
@@ -61,7 +61,7 @@ name :'app',
   color: aliceblue;
   font-size: 80%;
   background: none;
-  margin-top: 30px;
+  margin-top: -8%;
 }
 #manu{
   margin-left: 20%;

@@ -1,0 +1,62 @@
+#ProjectDetail-bg{
+    max-width: 80%;
+    margin: 2% 0 0 10%;    
+}
+#TitleName{
+    text-align: center;
+}
+#TitleName_eg{
+    font-size: 1.1em;
+    color: #265080;
+}
+#TitleName_th{
+    font-size: 0.7em;
+    color: #6F6F6F;
+}
+#img-project{
+    text-align: center;
+    margin: 2% 0 0 0;
+}
+#body-project{
+    margin: 4% 0 0 0;
+}
+.card{
+    margin: 5% 0 0 0; 
+    border-radius: 5px;
+}
+#video{
+    margin: 5% 0 0 0;
+    text-align: center;
+}
+.card-header-title{
+    background:#F9F9F9;
+    color: #265080;
+}
+#content{
+    border-color: transparent;
+    background-color: white;
+    color: #6F6F6F;
+    font-size: 0.85em;
+    margin: 0.5% 0 0 0 ;
+}
+/* ___Authors__ */
+#student_name{
+    font-size: 0.85em;
+}
+#mail{
+    font-size: 0.7em;
+    color: #6F6F6F;
+}
+#student_id{
+    font-size: 0.85em;
+}
+/* _____ */
+#tool{
+    font-size: 0.85em;
+}
+#Acheivement{
+    font-size: 0.85em;
+}
+#carousel{
+    margin: 5% 0 0 0;
+}

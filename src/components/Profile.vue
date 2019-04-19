@@ -6,7 +6,7 @@
                         <router-link to="/Profile" >Profile</router-link> 
                     </div>
                     <div class="button column" id="tb" >
-                        <router-link to="/Project" >Project</router-link> 
+                        <router-link to="/ShowProject" >Project</router-link> 
                     </div>
                     <div class="button column" id="tb" >
                         <router-link to="/AssiPrgnment" >Assignment</router-link> 
