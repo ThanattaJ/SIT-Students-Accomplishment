@@ -5,11 +5,10 @@ import student from '@/components/student'
 import Profile from '@/components/Profile'
 import ShowProject from '@/components/Project/ShowProject'
 import Assignment from '@/components/Assignment'
-import CreatePortfolioPage from '@/components/NewPortfolioPage/CreatePortfolioPage'
-import PortfolioPageDetail from '@/components/NewPortfolioPage/PortfolioPageDetail'
-import TeamMembers from '@/components/NewPortfolioPage/TeamMembers'
-import Achievement from '@/components/NewPortfolioPage/Achievement'
-import ProjectDetail from '@/components/Project/ProjectDetail'
+import CreateExternalPortPage from '@/components/NewPortfolioPage/CreateExternalPortPage'
+import File from '@/components/NewPortfolioPage/File'
+
+
 
 Vue.use(Router)
 
@@ -29,44 +28,25 @@ export default new Router({
       {
         path: '/Assignment',
         name: 'Assignment',
-        component: Assignment,
-      },
-      {
-        path: '/ShowProject',
-        name: 'ShowProject',
-        component: ShowProject,
+        component: Assignment
       }
        ]
     },
     {
       path: '/Profile',
       name: 'Profile',
-      component: Profile,
+      component: Profile
     },
     {
-      path: '/CreatePortfolioPage',
-      name: 'CreatePortfolioPage',
-      component: CreatePortfolioPage,
+      path: '/CreateExternalPortPage',
+      name: 'CreateExternalPortPage',
+      component: CreateExternalPortPage
     },
     {
-      path: '/PortfolioPageDetail',
-      name: 'PortfolioPageDetail',
-      component: PortfolioPageDetail,
-    },
-    {
-      path: '/TeamMembers',
-      name: 'TeamMembers',
-      component: TeamMembers,
-    },
-    {
-      path: '/Achievement',
-      name: 'Achievement',
-      component: Achievement,
-    },
-    {
-      path: '/ProjectDetail',
-      name: 'ProjectDetail',
-      component: ProjectDetail
-    },
+      path: '/File',
+      name: 'File',
+      component: File
+    }
+
   ]
 })

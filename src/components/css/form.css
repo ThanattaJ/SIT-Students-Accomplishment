@@ -137,3 +137,12 @@ hr{
 .modal-card{
     border-radius: 5px;
 }
+
+.studentFoot{
+    border-top: 1px !important;
+    background-color: white;
+}
+
+.letterBackNext{
+    margin-top: -7px;
+}
