@@ -146,3 +146,15 @@ hr{
 .letterBackNext{
     margin-top: -7px;
 }
+
+/* validate */
+.is-danger{
+    position: absolute;
+    margin-top: 0;
+    color: #EB5656 !important;
+}
+
+/* input:focus{
+    border-color: red !important;
+    box-shadow: 0 0 3px red !important;
+} */

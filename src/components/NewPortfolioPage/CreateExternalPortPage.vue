@@ -18,7 +18,6 @@
                                         v-on:childToParent2="getPortPageNameTHfromChild($event)"
                                         v-on:childToParent3="getStartMonthfromChild($event)"
                                         v-on:childToParent4="getStartYearfromChild($event)"
-                                        v-on:childToParent5="getHaveOutsiderfromChild($event)"
                                         :portParent="portParent"
                                     />
                                 </div>
@@ -32,18 +31,19 @@
                                 </div>
 <!-- step3 -->
                                 <div v-if="nowStep === 3">
-                                    <step3haveOutsider v-if="portParent.haveOutsider=='true'"
+                                    <!-- v-if="portParent.haveOutsider=='true'" -->
+                                    <step3haveOutsider 
                                         v-on:childToParent8="getMemberfromChild($event)"
                                         v-on:childToParent9="getSelectedStudentfromChild($event)"
                                         :membersParent="membersParent"
                                         :selectedStudentParent="selectedStudentParent"
                                     />
-                                    <step3noOutsider v-if="portParent.haveOutsider=='false'"
+                                    <!-- <step3noOutsider v-if="portParent.haveOutsider=='false'"
                                         v-on:childToParent8="getMemberfromChild($event)"
                                         v-on:childToParent9="getSelectedStudentfromChild($event)"
                                         :membersParent="membersParent"
                                         :selectedStudentParent="selectedStudentParent"
-                                    />
+                                    /> -->
                                 </div>
 <!-- step1 -->
                                 <div v-if="nowStep === 4">
@@ -65,6 +65,9 @@
                                     <button class="card-footer-item button nextButton" @click.prevent="next">
                                         <p class="letterBackNext">Next</p> 
                                     </button>
+                                    <!-- <button class="card-footer-item button nextButton" @click.prevent="sendDataToDb">
+                                        <p class="letterBackNext">Test Submit</p> 
+                                    </button> -->
                                 </footer>
                             </form>
                             <!-- Child to Parent<br>
@@ -78,7 +81,7 @@
         Port name EN : {{portParent.portPageNameEN}} <br>
         Port name TH : {{portParent.portPageNameTH}} <br>
         Start : {{portParent.startMonth}} / {{portParent.startYear}} <br>
-        Have outsider : {{portParent.haveOutsider}} <br>
+        Have outsider : {{membersParent.haveOutsider}} <br>
         <hr>
         Port Detail EN : {{port_detail_Parent.portPageDetailEN}} <br>
         Port Detail TH : {{port_detail_Parent.portPageDetailTH}} <br>
@@ -101,7 +104,7 @@ import step2 from './step2.vue';
 import step3haveOutsider from './step3haveOutsider.vue';
 import step3noOutsider from './step3noOutsider.vue';
 import step4 from './step4.vue';
-
+import axios from 'axios';
 
 export default {
     data() {
@@ -119,11 +122,10 @@ export default {
 
             //step1
             portParent: {
-                portPageNameEN: null,
-                portPageNameTH: null,
+                portPageNameEN: "",
+                portPageNameTH: "",
                 startMonth: null,
                 startYear: null,
-                haveOutsider: null
             },
             //step2
             port_detail_Parent: {
@@ -132,6 +134,7 @@ export default {
             },
             //step3
             membersParent: {
+                haveOutsider: null,
                 student: [],
                 outsider: []
             },
@@ -167,9 +170,6 @@ export default {
         getStartYearfromChild(startYear){
             this.portParent.startYear = startYear
         },
-        getHaveOutsiderfromChild(haveOutsider){
-            this.portParent.haveOutsider = haveOutsider
-        },
         //step2
         getPortPageDetailENfromChild(portPageDetailEN){
             this.port_detail_Parent.portPageDetailEN = portPageDetailEN
@@ -203,6 +203,55 @@ export default {
         getYearOfEventfromChild(yearOfEvent){
             this.achievementParent.yearOfEvent = yearOfEvent 
         },
+        async sendDataToDb() {
+            const data = 
+                {
+                    "project_data": {
+                        "project_name_th": this.portParent.portPageNameTH,
+                        "project_name_en": this.portParent.portPageNameEN,
+                        "project_type_name": "external",
+                        "project_detail_th": "ดีเทลลึ",
+                        "project_detail_en": null,
+                        "start_month": 2,
+                        "start_year_en": 2019,
+                        "haveOutsider": true
+                    },
+                    "member": {
+                        "students": [
+                            {
+                                "student_id":59130500001
+                            },
+                            {
+                                "student_id":59130500002
+                            }
+                        ],
+                        "outsiders": [ 
+                            {
+                                "firstname": "firstname1",
+                                "lastname": "lastname1"
+                            }
+                        ]
+                    },
+                    "achievement": {
+                    "achievement_name": "test",
+                    "achievement_detail": "test",
+                    "organize_by": "test",
+                    "date_of_event": "06-04-2019"
+                    }
+                };
+            try {
+                await axios.post("http://localhost:7000/projects/external", data
+                )
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(res => {
+                    console.log(res);
+                })
+            } catch(err) {
+                console.log('FAILURE!!'+err)
+            }
+        }
         // //validation
         // validate() {
         //     if(this.nowStep = 1){

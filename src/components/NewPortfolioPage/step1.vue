@@ -6,14 +6,15 @@
             {{portParent.portPageNameEN}} <br> -->
             <label class="label inputName">Portfolio Page Name(EN)</label>
             <div class="control">
-                <input ref="portNameEN" class="input inputData" type="text" placeholder="Portfolio Page Name" v-model="portChild.portPageNameEN" v-on:keyup="emitToParent1();">
+                <input ref="portNameEN" class="input inputData" type="text" placeholder="Portfolio Page Name" v-model="portChild.portPageNameEN" v-on:keyup="emitToParent1(); validate();">
+                <p ref="portNameENValidate" class="help is-danger"></p>
             </div>
         </div>
         <div class="field">
             <label class="label inputName">Portfolio Page Name(TH)</label>
             <div class="control">
-                <input class="input inputData" type="text" placeholder="Portfolio Page Name" v-model="portChild.portPageNameTH" v-on:keyup="emitToParent2">
-                <!-- <p class="help is-danger" style="z-index:auto">This email is invalid</p> -->
+                <input ref="portNameTH" class="input inputData" type="text" placeholder="Portfolio Page Name" v-model="portChild.portPageNameTH" v-on:keyup="emitToParent2();validate();">
+                <p ref="portNameTHValidate" class="help is-danger"></p>
             </div>
         </div>
         <div class="inputName">When you start the Portfolio Page?</div>
@@ -35,7 +36,7 @@
                 </span>
             </div>
         </div>
-        <label class="label inputName">Have outsider?</label>
+        <!-- <label class="label inputName">Have outsider?</label>
         <div class="control">
             <label class="radio">
                 <input type="radio" name="answer" value="true" v-model="portChild.haveOutsider" v-on:change="emitToParent5">
@@ -45,7 +46,7 @@
                 <input type="radio" name="answer" value="false" v-model="portChild.haveOutsider" v-on:change="emitToParent5">
                 No
             </label>
-        </div>
+        </div> -->
         <footer class="card-footer field is-grouped is-grouped-centered backNext">
                 <!-- <button class="card-footer-item button backButton">
                     <p class="letterBackNext">Back</p> 
@@ -66,7 +67,6 @@ export default {
                 portPageNameTH: this.portParent.portPageNameTH,
                 startMonth: this.portParent.startMonth,
                 startYear: this.portParent.startYear,
-                haveOutsider: this.portParent.haveOutsider
             },
             months: [
                 {month:'Jan',id:1},
@@ -101,18 +101,31 @@ export default {
         emitToParent4(event) {
             this.$emit('childToParent4', this.portChild.startYear)
         },
-        emitToParent5(event) {
-            this.$emit('childToParent5', this.portChild.haveOutsider)
-        },
-        //validation
-        // validate() {
-        //     var letters = /^[A-Za-z]+$/;
-        //     if(this.portChild.portPageNameEN.match(letters)){
-        //         this.$refs.portNameEN.style.borderColor = "green"
-        //     }else{
-        //         this.$refs.portNameEN.style.borderColor = "red"
-        //     }
-        // }
+        // emitToParent5(event) {
+        //     this.$emit('childToParent5', this.portChild.haveOutsider)
+        // },
+        // validation
+        validate() {
+            var lettersEN = /^[A-Za-z]+$/;
+            var lettersTH = /^[ก-๐]+$/;
+            if(this.portChild.portPageNameEN.match(lettersEN)){
+                this.$refs.portNameEN.style.borderColor = "#88D738"
+                this.$refs.portNameEN.style.boxShadow = "0 0 3px #88D738"
+                this.$refs.portNameENValidate.innerHTML = ""
+            }else{
+                this.$refs.portNameEN.style.borderColor = "#EB5656"
+                this.$refs.portNameEN.style.boxShadow = "0 0 3px #EB5656"
+                this.$refs.portNameENValidate.innerHTML = "The name is required"
+            }if(this.portChild.portPageNameTH.match(lettersTH)){
+                this.$refs.portNameTH.style.borderColor = "#88D738"
+                this.$refs.portNameTH.style.boxShadow = "0 0 3px #88D738"
+                this.$refs.portNameTHValidate.innerHTML = ""
+            }else{
+                this.$refs.portNameTH.style.borderColor = "#EB5656"
+                this.$refs.portNameTH.style.boxShadow = "0 0 3px #EB5656"
+                this.$refs.portNameTHValidate.innerHTML = "The name is required"
+            }
+        }
     }
 }
 </script>
