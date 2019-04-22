@@ -2,13 +2,14 @@
     <div>
         <div class="columns header">
             <div class="column is-one-quarter stepName">My Team</div>
-            <div class="column addMember" v-on:mouseover="clickAddMember=!clickAddMember">+ Add more members...</div>
+            <!-- <div class="column addMember" v-on:mouseover="clickAddMember=!clickAddMember">+ Add more members...</div> -->
             <!-- Parent to Child : <br>
             {{membersChild.student}} <br>
             {{membersChild.outsider}} <br> -->
         </div>
+        
         <!-- add member -->
-        <div class="columns">
+        <!-- <div class="columns">
             <div class="column is-one-quarter stepName"></div>
             <div v-if="clickAddMember">
                 <div class="column is-one-fifth" style="z-index: 1;position:absolute">
@@ -23,11 +24,27 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- ------------- -->
         <div class="columns">
             <div class="column">
+                <label class="label inputName">Have outsider?</label>
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="answer" value="true" v-model="membersChild.haveOutsider" v-on:change="emitToParent8">
+                        Yes
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="answer" value="false" v-model="membersChild.haveOutsider" v-on:change="emitToParent8">
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
                 <div>Student</div><hr>
+                <div class="chooseMemberType" v-on:click="chooseStudent=true,clickAddMember=!clickAddMember">+ SIT Student</div>
                 <table class="table" v-if="membersChild.student.length>0">
                     <thead>
                         <tr>
@@ -45,8 +62,9 @@
                     </tbody>
                 </table>
             </div>
-            <div class="column">
+            <div class="column" v-if="membersChild.haveOutsider == 'true'">
                 <div>Outsider</div><hr>
+                <div class="chooseMemberType" v-on:click="chooseOutsider=true,clickAddMember=!clickAddMember">+ Outsider</div>
                 <table class="table" v-if="membersChild.outsider.length>0">
                     <thead>
                         <tr>
@@ -146,8 +164,7 @@ export default {
                 tmpLast:""
             }],
             membersChild: {
-                // student:[],
-                // outsider:[]
+                haveOutsider: this.membersParent.haveOutsider,
                 student: this.membersParent.student,
                 outsider: this.membersParent.outsider
             },
@@ -215,6 +232,9 @@ export default {
         },
         emitToParent9(event) {
             this.$emit('childToParent9', this.selectedStudent)
+        },
+        emitToParent5(event) {
+            this.$emit('childToParent5', this.membersChild.haveOutsider)
         }
     }
 }
