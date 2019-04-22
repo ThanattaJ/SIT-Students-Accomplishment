@@ -12,7 +12,7 @@
                         <li><a>All Project</a></li>
                         <li><a>Assignment Project</a></li>
                         <li><a>External Project</a></li>
-                        <li><a><router-link to="/CreatePortfolioPage">CreatePortfolioPage</router-link></a></li>
+                        <li><a><router-link to="/CreateExternalPortPage">CreatePortfolioPage</router-link></a></li>
                     </ul>
                 </aside>
             </div>

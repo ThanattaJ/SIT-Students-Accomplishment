@@ -7,6 +7,7 @@ import ShowProject from '@/components/Project/ShowProject'
 import Assignment from '@/components/Assignment'
 import CreateExternalPortPage from '@/components/NewPortfolioPage/CreateExternalPortPage'
 import File from '@/components/NewPortfolioPage/File'
+import ProjectDetail from '@/components/project/ProjectDetail'
 
 
 
@@ -29,6 +30,11 @@ export default new Router({
         path: '/Assignment',
         name: 'Assignment',
         component: Assignment
+      },
+      {
+        path: '/ShowProject',
+        name: 'ShowProject',
+        component: ShowProject
       }
        ]
     },
@@ -46,6 +52,11 @@ export default new Router({
       path: '/File',
       name: 'File',
       component: File
+    },
+    {
+      path: '/ProjectDetail',
+      name: 'ProjectDetail',
+      component: ProjectDetail
     }
 
   ]

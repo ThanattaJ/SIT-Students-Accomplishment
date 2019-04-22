@@ -240,6 +240,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import './../css/ProjectDetail.css';
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
@@ -286,12 +287,14 @@ export default {
         sliding: null
     }
   },
+    
     mounted() {
-         this.cachedUser_eg = JSON.parse(JSON.stringify(this.Detail.content_eg));
-         this.cachedUser_th = JSON.parse(JSON.stringify(this.Detail.content_th));
-         this.Tools_tool = JSON.parse(JSON.stringify(this.Tools.tool));
-         this.Tools_tech = JSON.parse(JSON.stringify(this.Tools.Technology));
-         this.Tools_github = JSON.parse(JSON.stringify(this.Tools.github));
+        axios.get('http://localhost:7000/projects/')
+         this.cachedUser_eg = Object.assign({}, this.Detail.content_eg);
+         this.cachedUser_th = Object.assign({}, this.Detail.content_th);
+         this.Tools_tool = Object.assign({}, this.Tools.tool);
+         this.Tools_tech = Object.assign({}, this.Tools.Technology);
+         this.Tools_github = Object.assign({}, this.Tools.github);
          console.log(this.cachedUser)
   },
     methods:{
