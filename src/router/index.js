@@ -7,7 +7,7 @@ import ShowProject from '@/components/Project/ShowProject'
 import Assignment from '@/components/Assignment'
 import CreateExternalPortPage from '@/components/NewPortfolioPage/CreateExternalPortPage'
 import File from '@/components/NewPortfolioPage/File'
-import ProjectDetail from '@/components/project/ProjectDetail'
+import ProjectDetail from '@/components/Project/ProjectDetail'
 
 
 
@@ -57,7 +57,6 @@ export default new Router({
       path: '/ProjectDetail',
       name: 'ProjectDetail',
       component: ProjectDetail
-    }
-
+    },
   ]
 })
