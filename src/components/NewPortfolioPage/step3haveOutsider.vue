@@ -1,50 +1,24 @@
 <template>
     <div>
-        <div class="columns header">
-            <div class="column is-one-quarter stepName">My Team</div>
-            <!-- <div class="column addMember" v-on:mouseover="clickAddMember=!clickAddMember">+ Add more members...</div> -->
-            <!-- Parent to Child : <br>
-            {{membersChild.student}} <br>
-            {{membersChild.outsider}} <br> -->
-        </div>
-        
-        <!-- add member -->
-        <!-- <div class="columns">
-            <div class="column is-one-quarter stepName"></div>
-            <div v-if="clickAddMember">
-                <div class="column is-one-fifth" style="z-index: 1;position:absolute">
-                    <div class="card borderSelectMember">
-                        <div class="card-content selectMember">
-                            <div class="content">
-                                <div class="chooseMemberType" v-on:click="chooseStudent=true,clickAddMember=!clickAddMember">SIT Student</div>
-                                <hr>
-                                <div class="chooseMemberType" v-on:click="chooseOutsider=true,clickAddMember=!clickAddMember">Outsider</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="stepName">My Team</div>
+            <div class="field">
+                <label class="label inputName">Have outsider?</label>
+                        <label class="radio">
+                            <input type="radio" name="answer" value="true" v-model="membersChild.haveOutsider" v-on:change="emitToParent8();step3Check();">
+                            Yes
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="answer" value="false" v-model="membersChild.haveOutsider" v-on:change="emitToParent8();step3Check();">
+                            No
+                        </label>
+                <p ref="haveoutsiderValidate" class="help is-danger"></p>
             </div>
-        </div> -->
         <!-- ------------- -->
         <div class="columns">
-            <div class="column">
-                <label class="label inputName">Have outsider?</label>
-                <div class="control">
-                    <label class="radio">
-                        <input type="radio" name="answer" value="true" v-model="membersChild.haveOutsider" v-on:change="emitToParent8">
-                        Yes
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="answer" value="false" v-model="membersChild.haveOutsider" v-on:change="emitToParent8">
-                        No
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column">
-                <div>Student</div><hr>
-                <div class="chooseMemberType" v-on:click="chooseStudent=true,clickAddMember=!clickAddMember">+ SIT Student</div>
+            <div class="column" v-if="membersChild.haveOutsider != null">
+                <!-- <div>Student</div><hr> -->
+                <div class="chooseMemberType" v-on:click="chooseStudent=true,clickAddMember=!clickAddMember">+ SIT Student ...</div><hr>
+                <p ref="studentValidate" class="help is-danger"></p>
                 <table class="table" v-if="membersChild.student.length>0">
                     <thead>
                         <tr>
@@ -53,18 +27,19 @@
                             <th>Name</th>
                         </tr>
                     </thead>
-                    <tbody v-for="(student,student_index) in membersChild.student" v-bind:key="student_index">
+                    <tbody v-for="(student,student_index) in studentName" v-bind:key="student_index">
                         <tr>
                             <th>{{student_index+1}}.</th>
                             <td>{{student.student_id}}</td>
-                            <td>Nattanat Wimaluangtrakul</td>
+                            <td>{{student.firstname}} {{student.lastname}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="column" v-if="membersChild.haveOutsider == 'true'">
-                <div>Outsider</div><hr>
-                <div class="chooseMemberType" v-on:click="chooseOutsider=true,clickAddMember=!clickAddMember">+ Outsider</div>
+                <!-- <div>Outsider</div><hr> -->
+                <div class="chooseMemberType" v-on:click="chooseOutsider=true,clickAddMember=!clickAddMember">+ Outsider ...</div><hr>
+                <p ref="outsiderValidate" class="help is-danger"></p>
                 <table class="table" v-if="membersChild.outsider.length>0">
                     <thead>
                         <tr>
@@ -89,21 +64,21 @@
                 <div class="modal-card">
                     <header class="modal-card-head">
                     <p class="modal-card-title">Add Student</p>
-                    <button class="delete" aria-label="close" @click="sameStudent" v-on:click="chooseStudent=!chooseStudent"></button>
+                    <button class="delete" ariaLabel="close" @click="sameStudent,chooseStudent=!chooseStudent"></button>
                     </header>
                     <section class="modal-card-body" style="height: 400px">
                         <div class="field">
                             <label class="label inputName">Student ID</label>
                             <multi-select 
                                 :options="studentData"
-                                :selected-options="selectedStudent"
+                                :selectedOptions="selectedStudent"
                                 placeholder="Select Student ID"
                                 @select="onSelect">
                             </multi-select>
                         </div>
                     </section>
                     <footer class="modal-card-foot studentFoot field is-grouped is-grouped-centered">
-                        <button class="button is-success" @click="addStudent();emitToParent8();emitToParent9();" v-on:click="chooseStudent=!chooseStudent">Add</button>
+                        <button class="button is-success" @click.prevent="addStudent();emitToParent8();emitToParent9();step3CheckMember();chooseStudent=!chooseStudent">Add</button>
                     </footer>
                 </div>
             </div>
@@ -116,7 +91,7 @@
                 <div class="modal-card">
                     <header class="modal-card-head">
                     <p class="modal-card-title">Add Outsider</p>
-                    <button class="delete" aria-label="close" v-on:click="chooseOutsider=!chooseOutsider"></button>
+                    <button class="delete" ariaLabel="close" v-on:click="setTmp();chooseOutsider=!chooseOutsider"></button>
                     </header>
                     <section class="modal-card-body">
                         <div class="columns"> 
@@ -124,7 +99,8 @@
                                 <div class="field">
                                     <label class="label inputName">firstname</label>
                                     <div class="control">
-                                        <input class="input inputData" type="text" placeholder="firstname" v-model="newOutsider.tmpFirst">
+                                        <input ref="tmpFirst" class="input inputData" type="text" placeholder="firstname" v-model="newOutsider.tmpFirst" v-on:keyup="outsiderFirstNameValidation()">
+                                        <p ref="tmpFirstValidate" class="help is-danger"></p>
                                     </div>
                                 </div>
                             </div>
@@ -132,13 +108,14 @@
                                 <div class="field">
                                     <label class="label inputName">lastname</label>
                                     <div class="control">
-                                        <input class="input inputData" type="text" placeholder="lastname" v-model="newOutsider.tmpLast">
+                                        <input ref="tmpLast" class="input inputData" type="text" placeholder="lastname" v-model="newOutsider.tmpLast" v-on:keyup="outsiderLastNameValidation()">
+                                        <p ref="tmpLastValidate" class="help is-danger"></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="addOutsiderButton">
-                            <button class="button is-success" @click="addOutsider()" v-on:click="chooseOutsider=!chooseOutsider">Add</button>
+                            <button class="button is-success" @click.prevent="addOutsider();step3CheckMember();">Add</button>
                         </div>
                     </section>
                 </div>
@@ -152,6 +129,7 @@ import './../../../node_modules/bulma/css/bulma.css';
 import './../css/form.css';
 import vueStep from 'vue-step';
 import { MultiSelect } from 'vue-search-select'
+import axios from 'axios';
 
 export default {
     components: {
@@ -159,10 +137,10 @@ export default {
     },
     data () {
         return {
-            newOutsider: [{
-                tmpFirst:"",
-                tmpLast:""
-            }],
+            newOutsider: {
+                tmpFirst: '',
+                tmpLast: ''
+            },
             membersChild: {
                 haveOutsider: this.membersParent.haveOutsider,
                 student: this.membersParent.student,
@@ -174,26 +152,23 @@ export default {
             chooseStudent: false,
             chooseOutsider: false,
 
-            studentData: [ //ข้อมูลนักศึกษาทั้งหมด ที่อยู่ในระบบ
-                { value: '1', text: '59130500024' },
-                { value: '2', text: '59130500025' },
-                { value: '3', text: '59130500036' },
-                { value: '4', text: '59130500051' },
-                { value: '5', text: '59130500100' },
-                { value: '6', text: '59130500105' },
-                { value: '7', text: '59130500109' },
-                { value: '8', text: '59130500110' },
-                { value: '9', text: '59130500111' },
-            ],
+            studentData: this.studentDataFromParent,
             selectedStudent: this.selectedStudentParent, //นักศึกษาที่ถูกเลือก เพื่อจะ add
-            selectedStudentNew: []
+            selectedStudentNew: [],
+            studentName: []
         }
     },
     props:{
         membersParent: Object,
-        selectedStudentParent: Array
+        selectedStudentParent: Array,
+        studentDataFromParent: Array
     },
     methods: {
+        async getStudent() {
+                let allStudent = await axios.get("http://localhost:7000/users/list_student/59", data)
+                let data = allStudent.data;
+        },
+
         onSelect (selectedStudent) {
             this.selectedStudent = selectedStudent
         },
@@ -201,25 +176,89 @@ export default {
                                                                 // พอกด add student แล้ว
             if(this.membersChild.student.length > 0){ 
                 this.membersChild.student = []                       // reset student member ก่อน
+                this.studentName = []
             }
             for(let i=0;i<this.selectedStudent.length;i++){
                 this.membersChild.student.push({                     // แล้วค่อยเพิ่มลงไปใหม่
                     student_id: this.selectedStudent[i].text
-                })  
+                })
+
+                this.studentName.push({
+                    firstname: this.selectedStudent[i].firstname,
+                    lastname: this.selectedStudent[i].lastname,
+                    student_id: this.selectedStudent[i].text
+                })
             }
             this.selectedStudentNew = this.selectedStudent // เก็บค่า selectedStudent ไว้ 
-
+            //sorting ตาม student_id
+            this.membersChild.student.sort((a,b) => (a.student_id > b.student_id) ? 1 : ((b.student_id > a.student_id) ? -1 : 0));
+            this.studentName.sort((a,b) => (a.student_id > b.student_id) ? 1 : ((b.student_id > a.student_id) ? -1 : 0));
         },
         sameStudent: function() { 
             this.selectedStudent = this.selectedStudentNew // ถ้าปิด modal add student แบบไม่ได้กด add พอกด add student อีกรอบ จะต้องแสดงแค่ค่าที่เลือกไปแล้ว
         },
-        addOutsider: function() {
-            this.membersChild.outsider.push({
-                firstname: this.newOutsider.tmpFirst,
-                lastname: this.newOutsider.tmpLast
-            }) 
+        setTmp(){
             this.newOutsider.tmpFirst = ""
             this.newOutsider.tmpLast = ""
+        },
+        addOutsider: function() {
+            var lettersEN = /^[A-Za-z ]+$/;
+            if(this.newOutsider.tmpFirst != "" && this.newOutsider.tmpLast != "" && 
+            this.newOutsider.tmpFirst.match(lettersEN) && this.newOutsider.tmpLast.match(lettersEN)){ //กรอก outsider มาทั้งชื่อและสกุล กด add ได้
+                this.chooseOutsider=false //ปิด modal ไป
+                this.membersChild.outsider.push({
+                    firstname: this.newOutsider.tmpFirst,
+                    lastname: this.newOutsider.tmpLast
+                }) 
+                this.newOutsider.tmpFirst = ""
+                this.newOutsider.tmpLast = ""
+            }else{ //ไม่กรอก outsider มาทั้งชื่อและสกุล กด add ไม่ได้
+                this.chooseOutsider=true //modal ไม่ปิด
+                if(this.newOutsider.tmpFirst == "" && this.newOutsider.tmpLast == ""){
+                    this.$refs.tmpFirstValidate.innerHTML = "Field is required"
+                    this.$refs.tmpLastValidate.innerHTML = "Field is required"
+                    this.$refs.tmpFirst.style.borderColor = "#EB5656"
+                    this.$refs.tmpFirst.style.boxShadow = "0 0 3px #EB5656"
+                    this.$refs.tmpLast.style.borderColor = "#EB5656"
+                    this.$refs.tmpLast.style.boxShadow = "0 0 3px #EB5656"
+                }
+            }
+        },
+        outsiderFirstNameValidation(){
+            var lettersEN = /^[A-Za-z ]+$/;
+            if(this.newOutsider.tmpFirst.length > 0){
+                if(this.newOutsider.tmpFirst.match(lettersEN)){
+                    this.$refs.tmpFirstValidate.innerHTML = ""
+                    this.$refs.tmpFirst.style.borderColor = "#88D738"
+                    this.$refs.tmpFirst.style.boxShadow = "0 0 3px #88D738"
+                }else{
+                    this.$refs.tmpFirstValidate.innerHTML = "Must be English Alphabet"
+                    this.$refs.tmpFirst.style.borderColor = "#EB5656"
+                    this.$refs.tmpFirst.style.boxShadow = "0 0 3px #EB5656"
+                }
+            }else{
+                this.$refs.tmpFirstValidate.innerHTML = "Field is required"
+                this.$refs.tmpFirst.style.borderColor = "#EB5656"
+                this.$refs.tmpFirst.style.boxShadow = "0 0 3px #EB5656"
+            }
+        },
+        outsiderLastNameValidation(){
+            var lettersEN = /^[A-Za-z ]+$/;
+            if(this.newOutsider.tmpLast.length > 0){
+                if(this.newOutsider.tmpLast.match(lettersEN)){
+                    this.$refs.tmpLastValidate.innerHTML = ""
+                    this.$refs.tmpLast.style.borderColor = "#88D738"
+                    this.$refs.tmpLast.style.boxShadow = "0 0 3px #88D738"
+                }else{
+                    this.$refs.tmpLastValidate.innerHTML = "Must be English Alphabet"
+                    this.$refs.tmpLast.style.borderColor = "#EB5656"
+                    this.$refs.tmpLast.style.boxShadow = "0 0 3px #EB5656"
+                }
+            }else{
+                this.$refs.tmpLastValidate.innerHTML = "Field is required"
+                this.$refs.tmpLast.style.borderColor = "#EB5656"
+                this.$refs.tmpLast.style.boxShadow = "0 0 3px #EB5656"
+            }
         },
         removeOutsider: function(outsider_index){
             this.membersChild.outsider.splice(outsider_index,1)
@@ -235,6 +274,38 @@ export default {
         },
         emitToParent5(event) {
             this.$emit('childToParent5', this.membersChild.haveOutsider)
+        },
+
+        //validation
+        step3Check() { //check ตอนกด next
+            if(this.membersChild.haveOutsider == null){
+                this.$refs.haveoutsiderValidate.innerHTML = "Please choose"
+            }else{
+                this.$refs.haveoutsiderValidate.innerHTML = ""
+            }
+        },
+        step3CheckMember(){
+             if(this.membersChild.haveOutsider == "true"){
+                if(this.membersChild.student.length == 0 && this.membersChild.outsider.length == 0){
+                    this.$refs.studentValidate.innerHTML = "Please add SIT Student member"
+                    this.$refs.outsiderValidate.innerHTML = "Please add Outsider member"
+                }else if(this.membersChild.student.length != 0 && this.membersChild.outsider.length == 0){
+                    this.$refs.studentValidate.innerHTML = ""
+                    this.$refs.outsiderValidate.innerHTML = "Please add Outsider member"
+                }else if(this.membersChild.outsider.length != 0 && this.membersChild.student.length == 0){
+                    this.$refs.studentValidate.innerHTML = "Please add SIT Student member"
+                    this.$refs.outsiderValidate.innerHTML = ""
+                }else{
+                    this.$refs.studentValidate.innerHTML = ""
+                    this.$refs.outsiderValidate.innerHTML = ""
+                }
+            }else if(this.membersChild.haveOutsider == "false"){
+                if(this.membersChild.student.length == 0 ){
+                    this.$refs.studentValidate.innerHTML = "Please add SIT Student member"
+                }else{
+                    this.$refs.studentValidate.innerHTML = ""
+                }
+            }
         }
     }
 }

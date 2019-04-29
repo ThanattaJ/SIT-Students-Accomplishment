@@ -6,14 +6,14 @@
             {{portParent.portPageNameEN}} <br> -->
             <label class="label inputName">Portfolio Page Name(EN)</label>
             <div class="control">
-                <input ref="portNameEN" class="input inputData" type="text" placeholder="Portfolio Page Name" v-model="portChild.portPageNameEN" v-on:keyup="emitToParent1(); validate();">
+                <input ref="portNameEN" class="input inputData" type="text" placeholder="Portfolio Page Name" v-model="portChild.portPageNameEN" v-on:keyup="validatePortPageNameEN();emitToParent1();">
                 <p ref="portNameENValidate" class="help is-danger"></p>
             </div>
         </div>
         <div class="field">
             <label class="label inputName">Portfolio Page Name(TH)</label>
             <div class="control">
-                <input ref="portNameTH" class="input inputData" type="text" placeholder="Portfolio Page Name" v-model="portChild.portPageNameTH" v-on:keyup="emitToParent2();validate();">
+                <input ref="portNameTH" class="input inputData" type="text" placeholder="Portfolio Page Name" v-model="portChild.portPageNameTH" v-on:keyup="validatePortPageNameTH();emitToParent2();">
                 <p ref="portNameTHValidate" class="help is-danger"></p>
             </div>
         </div>
@@ -21,7 +21,7 @@
         <div class="columns field"> 
             <div class="column is-one-quarter startMonth">
                 <span class="select">
-                    <select v-model="portChild.startMonth" v-on:change="emitToParent3" style="background-color: #ECECEC;">
+                    <select ref="startMonth" v-model="portChild.startMonth" v-on:change="emitToParent3" style="background-color: #ECECEC;">
                         <option selected disabled :value=null>Month</option>
                         <option v-for="(m,index) in months" v-bind:key="index" :value="m.id">{{m.month}}</option>
                     </select>
@@ -29,32 +29,14 @@
             </div>
             <div class="column">
                 <span class="select">
-                    <select v-model="portChild.startYear" v-on:change="emitToParent4" style="background-color: #ECECEC;">
+                    <select ref="startYear" v-model="portChild.startYear" v-on:change="validateStartYear();emitToParent4();" style="background-color: #ECECEC;">
                         <option selected disabled :value=null>Year</option>
-                        <option v-for="(y,index) in years" v-bind:key="index">{{y}}</option>
+                        <option v-for="(y,index) in years" v-bind:key="index" :value="y">{{y}}</option>
                     </select>
+                    <p ref="startYearValidate" class="help is-danger"></p>
                 </span>
             </div>
         </div>
-        <!-- <label class="label inputName">Have outsider?</label>
-        <div class="control">
-            <label class="radio">
-                <input type="radio" name="answer" value="true" v-model="portChild.haveOutsider" v-on:change="emitToParent5">
-                Yes
-            </label>
-            <label class="radio">
-                <input type="radio" name="answer" value="false" v-model="portChild.haveOutsider" v-on:change="emitToParent5">
-                No
-            </label>
-        </div> -->
-        <footer class="card-footer field is-grouped is-grouped-centered backNext">
-                <!-- <button class="card-footer-item button backButton">
-                    <p class="letterBackNext">Back</p> 
-                </button> -->
-                <!-- <button class="card-footer-item button nextButton" @click.prevent="next">
-                    <p class="letterBackNext">Next</p> 
-                </button> -->
-        </footer>
     </div>
 </template>
 
@@ -67,6 +49,12 @@ export default {
                 portPageNameTH: this.portParent.portPageNameTH,
                 startMonth: this.portParent.startMonth,
                 startYear: this.portParent.startYear,
+            },
+            validatePortChild:{
+                validatePortPageNameEN: this.validatePortParent.validatePortPageNameEN,
+                validatePortPageNameTH: this.validatePortParent.validatePortPageNameTH,
+                validateStartMonth: this.validatePortParent.validateStartMonth,
+                validateStartYear: this.validatePortParent.validateStartYear,
             },
             months: [
                 {month:'Jan',id:1},
@@ -86,7 +74,8 @@ export default {
         }
     },
     props:{
-        portParent: Object
+        portParent: Object,
+        validatePortParent: Object
     },
     methods: {
         emitToParent1(event) {
@@ -101,29 +90,77 @@ export default {
         emitToParent4(event) {
             this.$emit('childToParent4', this.portChild.startYear)
         },
-        // emitToParent5(event) {
-        //     this.$emit('childToParent5', this.portChild.haveOutsider)
-        // },
+
         // validation
-        validate() {
-            var lettersEN = /^[A-Za-z]+$/;
-            var lettersTH = /^[ก-๐]+$/;
+        emitPortToParentValidate(event) {
+            this.$emit('validationStep1', this.validatePortChild)
+        },
+        step1Check() { //check ตอนกด next
+            this.validatePortPageNameEN();
+            this.validatePortPageNameTH();
+            this.validateStartYear();
+            if(this.date != ""){
+                this.validatePortPageNameEN();
+            }
+        },
+        validatePortPageNameEN() {
+            this.emitPortToParentValidate();
+
+            var lettersEN = /^[A-Za-z ]+$/;
+            var portNameEN = this.$refs.portNameEN;
             if(this.portChild.portPageNameEN.match(lettersEN)){
-                this.$refs.portNameEN.style.borderColor = "#88D738"
-                this.$refs.portNameEN.style.boxShadow = "0 0 3px #88D738"
+                portNameEN.style.borderColor = "#88D738"
+                portNameEN.style.boxShadow = "0 0 3px #88D738"
                 this.$refs.portNameENValidate.innerHTML = ""
-            }else{
-                this.$refs.portNameEN.style.borderColor = "#EB5656"
-                this.$refs.portNameEN.style.boxShadow = "0 0 3px #EB5656"
-                this.$refs.portNameENValidate.innerHTML = "The name is required"
-            }if(this.portChild.portPageNameTH.match(lettersTH)){
-                this.$refs.portNameTH.style.borderColor = "#88D738"
-                this.$refs.portNameTH.style.boxShadow = "0 0 3px #88D738"
+                this.validatePortChild.validatePortPageNameEN =  true;
+            }else if(this.portChild.portPageNameEN == "" || this.portChild.portPageNameEN == null){
+                portNameEN.style.borderColor = "#EB5656"
+                portNameEN.style.boxShadow = "0 0 3px #EB5656"
+                this.$refs.portNameENValidate.innerHTML = "Field is required"
+                this.validatePortChild.validatePortPageNameEN =  false;
+            }
+            else{
+                portNameEN.style.borderColor = "#EB5656"
+                portNameEN.style.boxShadow = "0 0 3px #EB5656"
+                this.$refs.portNameENValidate.innerHTML = "Must be English Alphabet"
+                this.validatePortChild.validatePortPageNameEN =  false;
+            }
+        },
+        validatePortPageNameTH() {
+            this.emitPortToParentValidate();
+
+            var lettersTH = /^[ก-๐ ]+$/;
+            var portNameTH = this.$refs.portNameTH;
+            if(this.portChild.portPageNameTH.match(lettersTH)){
+                portNameTH.style.borderColor = "#88D738"
+                portNameTH.style.boxShadow = "0 0 3px #88D738"
                 this.$refs.portNameTHValidate.innerHTML = ""
+                this.validatePortChild.validatePortPageNameTH =  true;
+            }else if(this.portChild.portPageNameTH == "" || this.portChild.portPageNameTH == null){
+                portNameTH.style.borderColor = "#EB5656"
+                portNameTH.style.boxShadow = "0 0 3px #EB5656"
+                this.$refs.portNameTHValidate.innerHTML = "Field is required"
+                this.validatePortChild.validatePortPageNameTH =  false;
             }else{
-                this.$refs.portNameTH.style.borderColor = "#EB5656"
-                this.$refs.portNameTH.style.boxShadow = "0 0 3px #EB5656"
-                this.$refs.portNameTHValidate.innerHTML = "The name is required"
+                portNameTH.style.borderColor = "#EB5656"
+                portNameTH.style.boxShadow = "0 0 3px #EB5656"
+                this.$refs.portNameTHValidate.innerHTML = "Must be Thai Alphabet"
+                this.validatePortChild.validatePortPageNameTH =  false;
+            }
+        },
+        validateStartYear() {
+            this.emitPortToParentValidate();
+
+            if(this.portChild.startYear != null){
+                this.$refs.startYear.style.borderColor = "#88D738"
+                this.$refs.startYear.style.boxShadow = "0 0 3px #88D738"
+                this.$refs.startYearValidate.innerHTML = ""
+                this.validatePortChild.validateStartYear =  true;
+            }else{
+                this.$refs.startYear.style.borderColor = "#EB5656"
+                this.$refs.startYear.style.boxShadow = "0 0 3px #EB5656"
+                this.$refs.startYearValidate.innerHTML = "Field is required"
+                this.validatePortChild.validateStartYear =  false;
             }
         }
     }

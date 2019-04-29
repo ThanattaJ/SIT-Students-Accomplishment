@@ -1,9 +1,10 @@
 <template>
+
     <div id="body-bg">
         <div class="columns is-mobile">
             <div class="column is-one-fifth">
                 <div>
-                    <vue-step :now-step="nowStep" :step-list="stepList" :active-color="activeColor" :direction="direction"></vue-step>
+                    <vue-step :nowStep="nowStep" :stepList="stepList" :activeColor="activeColor" :direction="direction"></vue-step>
                 </div>
             </div>
             <div class="column">
@@ -19,6 +20,10 @@
                                         v-on:childToParent3="getStartMonthfromChild($event)"
                                         v-on:childToParent4="getStartYearfromChild($event)"
                                         :portParent="portParent"
+
+                                        v-on:validationStep1="getValidatePortfromChild($event)"
+                                        :validatePortParent="validatePortParent"
+                                        ref="childRefStep1"                                    
                                     />
                                 </div>
 <!-- step2 -->
@@ -27,6 +32,10 @@
                                         v-on:childToParent6="getPortPageDetailENfromChild($event)"
                                         v-on:childToParent7="getPortPageDetailTHfromChild($event)"
                                         :port_detail_Parent="port_detail_Parent"
+
+                                        v-on:validationStep2="getValidatePortDetailfromChild($event)"
+                                        :validatePortDetailParent="validatePortDetailParent"
+                                        ref="childRefStep2"                                    
                                     />
                                 </div>
 <!-- step3 -->
@@ -37,6 +46,9 @@
                                         v-on:childToParent9="getSelectedStudentfromChild($event)"
                                         :membersParent="membersParent"
                                         :selectedStudentParent="selectedStudentParent"
+                                        ref="childRefStep3"
+
+                                        :studentDataFromParent="studentDataFromParent"
                                     />
                                     <!-- <step3noOutsider v-if="portParent.haveOutsider=='false'"
                                         v-on:childToParent8="getMemberfromChild($event)"
@@ -51,49 +63,59 @@
                                         v-on:childToParent10="getAchievementNamefromChild($event)"
                                         v-on:childToParent11="getAchievementDetailfromChild($event)"
                                         v-on:childToParent12="getCompanyfromChild($event)"
-                                        v-on:childToParent13="getDateOfEventfromChild($event)"
-                                        v-on:childToParent14="getMonthOfEventfromChild($event)"
-                                        v-on:childToParent15="getYearOfEventfromChild($event)"
+                                        v-on:childToParentDate="getDate($event)"
                                         :achievementParent="achievementParent"
+                                        
+                                        v-on:validationStep4="getValidateAchievementfromChild($event)"
+                                        :validateAchievementParent="validateAchievementParent"
+                                        ref="childRefStep4"
                                     />
                                 </div>
 <!-- next, back -->
-                                <footer class="card-footer field is-grouped is-grouped-centered backNext">
-                                    <button class="card-footer-item button backButton" @click.prevent="prev">
-                                        <p class="letterBackNext">Back</p> 
-                                    </button>
-                                    <button class="card-footer-item button nextButton" @click.prevent="next">
-                                        <p class="letterBackNext">Next</p> 
-                                    </button>
-                                    <!-- <button class="card-footer-item button nextButton" @click.prevent="sendDataToDb">
-                                        <p class="letterBackNext">Test Submit</p> 
-                                    </button> -->
-                                </footer>
+                                
                             </form>
                             <!-- Child to Parent<br>
                             {{achievementParent.achievementName}} <br>
                             Parent : {{achievementParent.achievementDetail}} <br> -->
                         </div>
                     </div>
+                    <footer class="card-footer field is-grouped is-grouped-centered">
+                        <button class="card-footer-item button backButton" @click.prevent="prev">
+                            <p class="letterBackNext">Back</p> 
+                        </button>
+                        <button class="card-footer-item button nextButton" @click.prevent="next"
+                            v-if="nowStep === 1 || nowStep === 2 || nowStep === 3">
+                            <p class="letterBackNext">Next</p> 
+                        </button>
+                        <button class="card-footer-item button nextButton" @click.prevent="submit"
+                            v-if="nowStep === 4">
+                            <p class="letterBackNext">Submit</p> 
+                        </button>
+                    </footer>
                 </div>
             </div>
         </div>
-        Port name EN : {{portParent.portPageNameEN}} <br>
-        Port name TH : {{portParent.portPageNameTH}} <br>
-        Start : {{portParent.startMonth}} / {{portParent.startYear}} <br>
-        Have outsider : {{membersParent.haveOutsider}} <br>
-        <hr>
-        Port Detail EN : {{port_detail_Parent.portPageDetailEN}} <br>
-        Port Detail TH : {{port_detail_Parent.portPageDetailTH}} <br>
-        <hr>
-        Student Members : {{membersParent.student}} <br>
-        Outsider Members : {{membersParent.outsider}} <br>
-        <hr>
-        Achievement name : {{achievementParent.achievementName}} <br>
-        Achievement detail : {{achievementParent.achievementDetail}} <br>
-        Company : {{achievementParent.company}} <br>
-        Date of Event : {{achievementParent.dateOfEvent}} / {{achievementParent.monthOfEvent}} / {{achievementParent.yearOfEvent}} <br>
+        <div>
+            {{membersParent}} <br>
+            Port name EN : {{portParent.portPageNameEN}} <br>
+            Port name TH : {{portParent.portPageNameTH}} <br>
+            Start : {{portParent.startMonth}} / {{portParent.startYear}} <br>
+            <hr>
+            Port Detail EN : {{port_detail_Parent.portPageDetailEN}} <br>
+            Port Detail TH : {{port_detail_Parent.portPageDetailTH}} <br>
+            <hr>
+            Have outsider : {{membersParent.haveOutsider}} <br>
+            Student Members : {{membersParent.student}} <br>
+            Outsider Members : {{membersParent.outsider}} <br>
+            <hr>
+            Achievement name : {{achievementParent.achievementName}} <br>
+            Achievement detail : {{achievementParent.achievementDetail}} <br>
+            Company : {{achievementParent.company}} <br>
+            date : {{achievementParent.date}} <br>
+        </div>
+        
     </div>
+    
 </template>
 
 <script>
@@ -107,9 +129,27 @@ import step4 from './step4.vue';
 import axios from 'axios';
 
 export default {
+    async mounted() {
+        //connect API ดึงข้อมูลนศ
+        const { data } = await axios.get('http://localhost:7000/users/list_student/59')
+        var studentID = data.map((_item , index = 0) => _item.student_id);
+        var studentFname = data.map((_item , index = 0) => _item.firstname_en);
+        var studentLname = data.map((_item , index = 0) => _item.lastname_en);
+        for(let i=0;i<studentID.length;i++){
+            this.studentDataFromParent.push({
+                value: i+1,
+                text: studentID[i],
+                firstname: studentFname[i],
+                lastname: studentLname[i]
+            })
+        }
+        console.log(data)
+    },
     data() {
       return {
             // step list
+            studentDataFromParent: [],
+            name: '',
             nowStep: 1,
             stepList: [
                 'Create Portfolio Page',
@@ -129,8 +169,8 @@ export default {
             },
             //step2
             port_detail_Parent: {
-                portPageDetailEN: null,
-                portPageDetailTH: null
+                portPageDetailEN: "",
+                portPageDetailTH: ""
             },
             //step3
             membersParent: {
@@ -141,21 +181,93 @@ export default {
             selectedStudentParent: [],
             //step4
             achievementParent: {
-                achievementName: null,
-                achievementDetail: null,
-                company: null,
-                dateOfEvent: null,
-                monthOfEvent: null,
-                yearOfEvent: null
+                achievementName: "",
+                achievementDetail: "",
+                company: "",
+                date: ""
+            },
+
+            //validateData
+            validatePortParent:{
+                validatePortPageNameEN: false,
+                validatePortPageNameTH: false,
+                validateStartMonth: true,
+                validateStartYear: false
+            },
+            validatePortDetailParent: {
+                validatePortPageDetailEN: false,
+                validatePortPageDetailTH: false
+            },
+            validateAchievementParent: {
+                validateAchievementName: "noData",
+                validateAchievementDetail: "noData",
+                validateCompany: "noData"
             }
         }
     },
     methods:{
+        submit: function() {
+            this.$refs.childRefStep4.step4Check();
+            if((this.validateAchievementParent.validateAchievementName == "noData" || this.validateAchievementParent.validateAchievementName == "trueData" )&& this.validateAchievementParent.validateAchievementDetail == "noData" 
+                && this.validateAchievementParent.validateCompany == "noData" && this.achievementParent.date == ""){
+                this.sendDataToDb()
+            }else if(this.validateAchievementParent.validateAchievementName == "trueData" && this.validateAchievementParent.validateAchievementDetail == "trueData" && this.validateAchievementParent.validateCompany != "falseData"){
+                this.sendDataToDb()
+            }else if(this.validateAchievementParent.validateAchievementName == "trueData" && this.validateAchievementParent.validateAchievementDetail != "falseData" && this.validateAchievementParent.validateCompany == "trueData"){
+                this.sendDataToDb()
+            }else if(this.validateAchievementParent.validateAchievementName == "trueData" && this.achievementParent.date != ""){
+                this.sendDataToDb()
+            }
+        },
         prev: function() {
-            this.nowStep--;
+            if(this.nowStep != 1) {
+                this.nowStep--;
+            }
         },
         next: function() {
-            this.nowStep++;
+            if(this.nowStep == 1){
+                var validPort = this.validatePortParent
+                if(validPort.validatePortPageNameEN == true && validPort.validatePortPageNameTH == true && validPort.validateStartMonth == true && validPort.validateStartYear == true){
+                    this.nowStep++;
+                }else{
+                    this.$refs.childRefStep1.step1Check();
+                }
+            }
+            else if(this.nowStep == 2){
+                var validPortDetail = this.validatePortDetailParent
+                if(validPortDetail.validatePortPageDetailEN == true && validPortDetail.validatePortPageDetailTH == true){
+                    this.nowStep++;
+                }else if(validPortDetail.validatePortPageDetailEN == true && this.port_detail_Parent.portPageDetailTH == ""){
+                    this.nowStep++;
+                }else if(validPortDetail.validatePortPageDetailTH == true && this.port_detail_Parent.portPageDetailEN == ""){
+                    this.nowStep++;
+                }else{
+                    this.$refs.childRefStep2.step2Check();
+                }
+            }
+            else if(this.nowStep == 3){
+                if(this.membersParent.haveOutsider == null){
+                    this.$refs.childRefStep3.step3Check();
+                }else if(this.membersParent.haveOutsider == "true"){
+                    if(this.membersParent.student.length!=0 && this.membersParent.outsider.length!=0){
+                        this.nowStep++;
+                        if(this.membersParent.haveOutsider == "false"){
+                            this.membersParent.outsider = []
+                        }
+                    }else{
+                        this.$refs.childRefStep3.step3CheckMember();                        
+                    }
+                }else if(this.membersParent.haveOutsider == "false"){
+                    if(this.membersParent.student.length==0){
+                        this.$refs.childRefStep3.step3CheckMember();
+                    }else{
+                        this.nowStep++;
+                        if(this.membersParent.haveOutsider == "false"){
+                            this.membersParent.outsider = []
+                        }
+                    }
+                }
+            }
         },
         //step1
         getPortPageNameENfromChild(portPageNameEN){
@@ -194,6 +306,9 @@ export default {
         getCompanyfromChild(company){
             this.achievementParent.company = company
         },
+        getDate(date){
+            this.achievementParent.date = date
+        },
         getDateOfEventfromChild(dateOfEvent){
             this.achievementParent.dateOfEvent = dateOfEvent
         },
@@ -203,45 +318,48 @@ export default {
         getYearOfEventfromChild(yearOfEvent){
             this.achievementParent.yearOfEvent = yearOfEvent 
         },
+        // validation
+        getValidatePortfromChild(validatePort){
+            this.validatePortParent = validatePort
+        },
+        getValidatePortDetailfromChild(validatePortDetail){
+            this.validatePortDetailParent = validatePortDetail
+        },
+        getValidateAchievementfromChild(ValidateAchievement){
+            this.validateAchievementParent = ValidateAchievement
+        },
         async sendDataToDb() {
-            const data = 
+            var data;
+            data = 
                 {
                     "project_data": {
                         "project_name_th": this.portParent.portPageNameTH,
                         "project_name_en": this.portParent.portPageNameEN,
                         "project_type_name": "external",
-                        "project_detail_th": "ดีเทลลึ",
-                        "project_detail_en": null,
-                        "start_month": 2,
-                        "start_year_en": 2019,
-                        "haveOutsider": true
+                        "project_detail_th": this.port_detail_Parent.portPageDetailTH,
+                        "project_detail_en": this.port_detail_Parent.portPageDetailEN,
+                        "start_month": this.portParent.startMonth,
+                        "start_year_en": this.portParent.startYear,
+                        "haveOutsider": this.membersParent.haveOutsider
                     },
                     "member": {
-                        "students": [
-                            {
-                                "student_id":59130500001
-                            },
-                            {
-                                "student_id":59130500002
-                            }
-                        ],
-                        "outsiders": [ 
-                            {
-                                "firstname": "firstname1",
-                                "lastname": "lastname1"
-                            }
-                        ]
-                    },
-                    "achievement": {
-                    "achievement_name": "test",
-                    "achievement_detail": "test",
-                    "organize_by": "test",
-                    "date_of_event": "06-04-2019"
+                        "students": JSON.parse(JSON.stringify(this.membersParent.student)),
+                        "outsiders": JSON.parse(JSON.stringify(this.membersParent.outsider))
                     }
-                };
+                }
+            if(this.achievementParent.achievementName != ""){
+            console.log("have achievement")
+                
+                data["achievement"] = {
+                        "achievement_name": this.achievementParent.achievementName,
+                        "achievement_detail": this.achievementParent.achievementDetail,
+                        "organize_by": this.achievementParent.company,
+                        "date_of_event": this.achievementParent.date
+                    }
+            }
+            
             try {
-                await axios.post("http://localhost:7000/projects/external", data
-                )
+                await axios.post("http://localhost:7000/projects/external", data)
                 .then(res => {
                     console.log(res);
                 })
@@ -252,18 +370,6 @@ export default {
                 console.log('FAILURE!!'+err)
             }
         }
-        // //validation
-        // validate() {
-        //     if(this.nowStep = 1){
-        //         if(this.portParent.portPageNameEN == null){
-        //             alert("please fill port page eng")
-        //         }if(this.portParent.portPageNameTH == null){
-        //             alert("please fill port page thai")                    
-        //         }else{
-        //             this.next()
-        //         }
-        //     }
-        // }
     },
     components: {
         vueStep,step1,step2,step3haveOutsider,step3noOutsider,step4

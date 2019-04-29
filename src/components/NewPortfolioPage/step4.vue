@@ -7,13 +7,15 @@
             Child : {{achievementChild.achievementDetail}} <br> -->
             <label class="label inputName">Achievement name</label>
             <div class="control">
-                <input class="input inputData" type="text" placeholder="Achievement name" v-model="achievementChild.achievementName"  v-on:keyup="emitToParent10"/>
+                <input ref="achievementName" class="input inputData" type="text" placeholder="Achievement name" v-model="achievementChild.achievementName"  v-on:keyup="validateAchievementName();emitToParent10();"/>
+                <p ref="achievementNameValidate" class="help is-danger"></p>
             </div>
         </div>
         <div class="field">
             <label class="label inputName">Achievement Detail</label>
             <div class="control">
-                <textarea class="Normal textarea inputData" placeholder="Detail..." v-model="achievementChild.achievementDetail"  v-on:keyup="emitToParent11"></textarea>
+                <textarea ref="achievementDetail" class="Normal textarea inputData" placeholder="Detail..." v-model="achievementChild.achievementDetail"  v-on:keyup="validateAchievementDetail();emitToParent11();"></textarea>
+                <p ref="achievementDetailValidate" class="help is-danger"></p>
             </div>
         </div>
         <div class="columns"> 
@@ -21,42 +23,24 @@
                 <div class="field">
                     <label class="label inputName">Organize by</label>
                     <div class="control">
-                        <input class="input inputData" type="text" placeholder="Company name" v-model="achievementChild.company"  v-on:keyup="emitToParent12">
+                        <input ref="company" class="input inputData" type="text" placeholder="Company name" v-model="achievementChild.company"  v-on:keyup="validateCompany();emitToParent12();">
+                        <p ref="companyValidate" class="help is-danger"></p>
                     </div>
                 </div>
             </div>
+
             <div class="column">
                 <div class="field">
                     <label class="label inputName">Date of Event</label>
-                    <!-- <div class="control">
-                        <input class="input inputData" type="text" placeholder="Wimaluangtrakul">
-                    </div> -->
-                    <div class="columns field"> 
-            <div class="column">
-                <span class="select">
-                    <select style="background-color: #ECECEC;" v-model="achievementChild.dateOfEvent" v-on:change="emitToParent13">
-                        <option selected disabled :value=null>Date</option>
-                        <option v-for="(d,index) in dates" v-bind:key="index" :value="d">{{d}}</option>
-                    </select>
-                </span>
-            </div>
-            <div class="column">
-                <span class="select">
-                    <select style="background-color: #ECECEC;" v-model="achievementChild.monthOfEvent" v-on:change="emitToParent14">
-                        <option selected disabled :value=null>Month</option>
-                        <option v-for="(m,index) in months" v-bind:key="index" :value="m.id">{{m.month}}</option>
-                    </select>
-                </span>
-            </div>
-            <div class="column">
-                <span class="select">
-                    <select style="background-color: #ECECEC;" v-model="achievementChild.yearOfEvent" v-on:change="emitToParent15">
-                        <option selected disabled :value=null>Year</option>
-                        <option v-for="(y,index) in years" v-bind:key="index">{{y}}</option>
-                    </select>
-                </span>
-            </div>
-        </div>
+                    <button class="input inputData text-left" style="width:90%;">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-calendar-alt" style="color: #949494;"></i>
+                        </span>
+                        <flat-pickr ref="calendar" class="calendar inputData" placeholder="Select date" v-model="date" :config="config"></flat-pickr>
+                    </button>
+                    <span class="icon is-small is-right removeDate" @click="removeDate">
+                        <i class="fas fa-times" style="color: #949494;"></i>
+                    </span>
                 </div>
             </div>
         </div>
@@ -64,40 +48,46 @@
 </template>
 
 <script>
+import flatPickr from 'vue-flatpickr-component';
+  import 'flatpickr/dist/flatpickr.css';
+
+  import VueFlatpickr from 'vue-flatpickr'
 export default {
     name : 'Achievement',
+    components:{
+        flatPickr
+    },
     data () {
         return {
+            date: this.achievementParent.date,  //d-m-Y
+            config: {
+                wrap: true, // set wrap to true only when using 'input-group'
+                altFormat: 'M	j, Y',
+                altInput: true,
+                dateFormat: 'd-m-Y'   
+            },   
             achievementChild:{
                 achievementName: this.achievementParent.achievementName,
                 achievementDetail: this.achievementParent.achievementDetail,
-                company: this.achievementParent.company,
-                dateOfEvent: this.achievementParent.dateOfEvent,
-                monthOfEvent: this.achievementParent.monthOfEvent,
-                yearOfEvent: this.achievementParent.yearOfEvent
+                company: this.achievementParent.company
             },
-            dates: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
-            months: [
-                {month:'Jan',id:1},
-                {month:'Feb',id:2},
-                {month:'Mar',id:3},
-                {month:'Apr',id:4},
-                {month:'May',id:5},
-                {month:'Jun',id:6},
-                {month:'Jul',id:7},
-                {month:'Aug',id:8},
-                {month:'Sep',id:9},
-                {month:'Oct',id:10},
-                {month:'Nov',id:11},
-                {month:'Dec',id:12},
-            ],
-            years: [2016,2017,2018,2019]
+            validateAchievementChild:{
+                validateAchievementName: this.validateAchievementParent.validateAchievementName,
+                validateAchievementDetail: this.validateAchievementParent.validateAchievementDetail,
+                validateCompany: this.validateAchievementParent.validateCompany
+            }
         }
     },
     props:{
-        achievementParent: Object
+        achievementParent: Object,
+        validateAchievementParent: Object
     },
     methods: {
+        removeDate() {
+            this.date = '';
+            this.achievementParent.date = '';
+            this.validateAchievementName()
+        },
         emitToParent10(event) {
             this.$emit('childToParent10', this.achievementChild.achievementName)
         },
@@ -107,14 +97,105 @@ export default {
         emitToParent12(event) {
             this.$emit('childToParent12', this.achievementChild.company)
         },
-        emitToParent13(event) {
-            this.$emit('childToParent13', this.achievementChild.dateOfEvent)
+        emitDateToParent(event){
+            this.$emit('childToParentDate', this.date)
         },
-        emitToParent14(event) {
-            this.$emit('childToParent14', this.achievementChild.monthOfEvent)
+        //validate
+        emitAchievementToParentValidate(event) {
+            this.$emit('validationStep4', this.validateAchievementChild)
         },
-        emitToParent15(event) {
-            this.$emit('childToParent15', this.achievementChild.yearOfEvent)
+        step4Check(){
+            this.validateAchievementName()
+            this.validateAchievementDetail()
+            this.validateCompany()
+            this.emitDateToParent()
+        },
+
+        validateAchievementName(){
+            this.emitAchievementToParentValidate();
+
+            var lettersEN = /^[A-Za-z0-9 ]+$/;
+            var achievementName = this.$refs.achievementName;
+            if(this.achievementChild.achievementName != ""){ //ถ้ากรอก
+                if(this.achievementChild.achievementName.match(lettersEN)){ //ถ้ากรอก eng
+                    achievementName.style.borderColor = "#88D738"
+                    achievementName.style.boxShadow = "0 0 3px #88D738"
+                    this.$refs.achievementNameValidate.innerHTML = ""
+                    this.validateAchievementChild.validateAchievementName =  "trueData";
+                }else{ //ถ้าไม่กรอก eng
+                    achievementName.style.borderColor = "#EB5656"
+                    achievementName.style.boxShadow = "0 0 3px #EB5656"
+                    this.$refs.achievementNameValidate.innerHTML = "Must be English Alphabet and Number"
+                    this.validateAchievementChild.validateAchievementName =  "falseData";
+                }
+            }else{ //ถ้าไม่กรอก
+                if(this.achievementChild.achievementDetail != "" || this.achievementChild.company != "" || this.date != ""){ //ถ้ามีข้อมูลอื่น
+                    achievementName.style.borderColor = "#EB5656"
+                    achievementName.style.boxShadow = "0 0 3px #EB5656"
+                    this.$refs.achievementNameValidate.innerHTML = "Field is required"
+                    this.validateAchievementChild.validateAchievementName =  "mustHaveData";
+                }else{ //ถ้าไม่มีข้อมูลอื่น
+                    achievementName.style.borderColor = ""
+                    achievementName.style.boxShadow = ""
+                    this.$refs.achievementNameValidate.innerHTML = ""
+                    this.validateAchievementChild.validateAchievementName =  "noData";
+                }
+            }
+        },
+        validateAchievementDetail(){
+            this.emitAchievementToParentValidate();
+
+            var lettersEN = /^[A-Za-z0-9 ]+$/;
+            var achievementDetail = this.$refs.achievementDetail;
+            if(this.achievementChild.achievementDetail != ""){ //ถ้ากรอก
+                if(this.achievementChild.achievementDetail.match(lettersEN)){ //ถ้ากรอก eng
+                    achievementDetail.style.borderColor = "#88D738"
+                    achievementDetail.style.boxShadow = "0 0 3px #88D738"
+                    this.$refs.achievementDetailValidate.innerHTML = ""
+                    this.validateAchievementChild.validateAchievementDetail =  "trueData";
+                    this.validateAchievementName()
+                }else{ //ถ้าไม่กรอก eng
+                    achievementDetail.style.borderColor = "#EB5656"
+                    achievementDetail.style.boxShadow = "0 0 3px #EB5656"
+                    this.$refs.achievementDetailValidate.innerHTML = "Must be English Alphabet and Number"
+                    this.validateAchievementChild.validateAchievementDetail =  "falseData";
+                    this.validateAchievementName()
+                }
+            }else{ //ถ้าไม่กรอก
+                achievementDetail.style.borderColor = ""
+                achievementDetail.style.boxShadow = ""
+                this.$refs.achievementDetailValidate.innerHTML = ""
+                this.validateAchievementChild.validateAchievementDetail =  "noData";
+                this.validateAchievementName()
+            }
+        },
+        validateCompany(){
+            this.emitAchievementToParentValidate();
+
+            var lettersEN = /^[A-Za-z0-9 ]+$/;
+            var company = this.$refs.company;
+            if(this.achievementChild.company != ""){ //ถ้ากรอก
+                if(this.achievementChild.company.match(lettersEN)){ //ถ้ากรอก eng
+                    company.style.borderColor = "#88D738"
+                    company.style.boxShadow = "0 0 3px #88D738"
+                    this.$refs.companyValidate.innerHTML = ""
+                    this.validateAchievementChild.validateCompany =  "trueData";
+                    this.validateAchievementName()
+                }else{ //ถ้าไม่กรอก eng
+                    company.style.borderColor = "#EB5656"
+                    company.style.boxShadow = "0 0 3px #EB5656"
+                    this.$refs.companyValidate.innerHTML = "Must be English Alphabet and Number"
+                    this.validateAchievementChild.validateCompany =  "falseData";
+                    this.validateAchievementName()
+                }
+            }else{ //ถ้าไม่กรอก
+                company.style.borderColor = ""
+                company.style.boxShadow = ""
+                this.$refs.companyValidate.innerHTML = ""
+                this.validateAchievementChild.validateCompany =  "noData";
+                this.validateAchievementName()
+            }
+            
         }
     }
 }

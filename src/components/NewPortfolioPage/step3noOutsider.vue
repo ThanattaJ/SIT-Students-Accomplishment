@@ -33,21 +33,21 @@
                 <div class="modal-card">
                     <header class="modal-card-head">
                     <p class="modal-card-title">Add Student</p>
-                    <button class="delete" aria-label="close" @click="sameStudent" v-on:click="chooseStudent=!chooseStudent"></button>
+                    <button class="delete" ariaLabel="close" @click="sameStudent,chooseStudent=!chooseStudent"></button>
                     </header>
                     <section class="modal-card-body" style="height: 400px">
                         <div class="field">
                             <label class="label inputName">Student ID</label>
                             <multi-select 
                                 :options="studentData"
-                                :selected-options="selectedStudent"
+                                :selectedOptions="selectedStudent"
                                 placeholder="Select Student ID"
                                 @select="onSelect">
                             </multi-select>
                         </div>
                     </section>
                     <footer class="modal-card-foot studentFoot field is-grouped is-grouped-centered">
-                        <button class="button is-success" @click="addStudent();emitToParent8();emitToParent9();" v-on:click="chooseStudent=!chooseStudent">Add</button>
+                        <button class="button is-success" @click="addStudent();emitToParent8();emitToParent9();chooseStudent=!chooseStudent">Add</button>
                     </footer>
                 </div>
             </div>
