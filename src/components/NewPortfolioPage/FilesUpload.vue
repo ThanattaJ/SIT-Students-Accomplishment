@@ -1,121 +1,107 @@
 <template>
-<div>
-    
-    <form enctype="multi-part/form-data">
-    <div class="field">
-        <div class="file is-primary">
+    <form enctype="multipart/form-data">
+  <!-- ใช้ตอนดู port page -->
+      <!-- <div v-for="(upload,index) in uploaded" v-bind:key="index">
+        <a v-bind:href="upload.path_name">{{upload.doc_name}}</a>
+      </div> -->
+      <div class="filed">
+        <div class="columns">
+          <div class="column is-four-fifths">
+            <div class="file has-name is-fullwidth">
+              <label class="file-label">
                 <input 
-                    accept="application/pdf"
-                    multiple
-                    type="file"
-                    ref="files"
-                    @change="selectFiles"
-                    class="file-input"
-                />
-                <span @click="addFiles" class="file-cta">
-                    <span class="file-icon">
-                        <i class="fas fa-upload"></i>
-                    </span>
-                    <span class="file-label">
-                        Choose a file...
-                    </span>
+                    accept="application/pdf" 
+                    class="file-input" 
+                    type="file" 
+                    ref = "file" 
+                    @change="handleFileUpload">
+                <span class="file-cta">
+                  <span class="file-icon"><i class="fas fa-upload"></i></span>
+                  <span class="file-label">Choose a file…</span>
                 </span>
-        </div>
 
-        <div v-for="(file, key) in files" class="file-listing" v-bind:key="key">
-            <div class="columns">
-                <div class="column">
-                    {{ file.name }} 
-                </div>
-                <div class="column">
-                    <span class="delete" v-on:click="removeFile( key )"></span>
-                </div>
-            </div>
+                <span class="file-name has-icon-right">{{file['name']}}</span>
+
+              </label>
+              </div>
+          </div>
+          <div class="column is-one-fifth" style="margin-right: -100px;">
+            <span ref="submit" class="button is-warning" v-on:click="submitFile" style="height: 36px;width: 36px;margin-right: 10px;">
+              <i class="fas fa-upload" style="color:white;font-size:18px;"></i>
+            </span>
+            <span class="button is-danger" v-on:click="removeFile" style="height: 36px;width: 36px;">
+              <i class="fas fa-times" style="color:white;font-size:18px"></i>
+            </span>
+          </div>
         </div>
-        <button @click.prevent="submitFiles">Submit</button><br>
-        {{files.length}} 
-    </div>
+      </div>
+      <p ref="fileValidate" class="help is-danger"></p>
+      <p ref="over2docs" class="help is-danger" style="margin-bottom:10px"></p>
+      
     </form>
-</div>
 </template>
 
 <script>
 import axios from 'axios';
-export default {
-    data() {
-        return {
-            files: []
-        }
+  export default {
+    data(){
+      return {
+        file: "",
+        countFileUploaded: 0,
+        // uploaded: [] //ใช้ตอนดู port page
+      }
     },
+    //-------------------------------------------------------ใช้ตอนดู port page--------------------------------------------------
+    async mounted() {
+        //connect API ดึง document
+        // const { data } = await axios.get('http://localhost:7000/projects/1')
+        // const doc = data.document.map((_item , index = 0) => _item.path_name);
+        // for(let i=0;i<doc.length;i++){
+        //     this.uploaded.push({
+        //       doc_name: doc[i].substring(doc[i].lastIndexOf("/", doc[i].length-1)).substring(1),
+        //       path_name: doc[i]
+        //     })
+        // }
+        // console.log(this.uploaded)
+
+        const { data } = await axios.get('http://localhost:7000/projects/1')
+        const doc = data.document.map((_item , index = 0) => _item.path_name);
+        console.log(doc.length)
+    },
+    //--------------------------------------------------------------------------------------------------------------------------
     methods: {
-        addFiles(){
-            this.$refs.files.click();
-        },
-        removeFile( key ){
-            this.files.splice( key, 1 );
-            console.log(this.files)
-            
-        },
-        selectFiles(){
-            let uploadedFiles = this.$refs.files.files;
-            console.log(this.files)
-            
-            for( var i = 0; i < uploadedFiles.length; i++ ){
-                this.files.push( uploadedFiles[i] );
-            }
-        },
-        async submitFiles() {
-            const formData = new FormData();
-            for( var i = 0; i < this.files.length; i++ ){
-                let file = this.files[i];
-                if(file.size < 10000000 && this.files.length <= 2){
-                    formData.append('files[' + i + ']', file);
-                }else if(this.files.length > 2) {
-                    alert('You can upload just 2 files')
-                    return;
-                }
-                else{
-                    alert('Too large. Max size is 10 Mb')
-                    return;
-                }
-            }
+      handleFileUpload(){
+        this.file = this.$refs.file.files[0];
+        if(this.file.size > 10000000){
+            this.$refs.fileValidate.innerHTML = 'Too large. Max size is 10 Mb'
+        }
+      },
+      removeFile(){
+        this.file = "";
+      },
+      async submitFile(){
+        let formData = new FormData();
+        formData.append('file', this.file);
+        formData.append('project_id', "3");
+        if(this.countFileUploaded <= 2){
+          if(this.file.size > 10000000){
+            this.$refs.fileValidate.innerHTML = 'Too large. Max size is 10 Mb'
+          }else{
             try {
-                await axios.post('/uploadFile',formData) // ('/api', ที่จะส่งไป) URL we will be POSTing to
+                await axios.post('http://localhost:7000/files/document',formData)
                 .then(function(){ console.log('SUCCESS!!');})
+                this.countFileUploaded++;
+                console.log("countFileUploaded: " +countFileUploaded)
+                this.file = "";
             } catch(err) {
                 console.log('FAILURE!!'+err)
             }
+          }
+
+        }else{
+          this.$refs.over2docs.innerHTML = "Over 2 Docs"
         }
+      }
     }
-}
+  }
 </script>
-
-
-<style>
-input[type="file"]{
-    position: absolute;
-    top: -500px;
-}
-
-div.file-listing{
-    width: 600px;
-}
-
-.delete{
-    cursor: pointer;
-    float: right;
-}
-
-.delete:hover{
-    background-color: #EB5656;
-}
-
-.file-cta {
-    background-color: #EB5656 !important;
-}
-
-.file-cta:hover {
-    cursor: pointer;
-    background-color: #DE3434 !important;
-}
-</style>
