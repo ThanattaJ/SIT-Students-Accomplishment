@@ -10,7 +10,7 @@
               <div id="manu">
                 <ul>
                   <th><router-link to="/Home" style="margin-right: 30px;">Home</router-link></th>
-                  <th><router-link to="/" style="margin-right: 30px;">project</router-link></th>
+                  <th><router-link to="/ShowProject" style="margin-right: 30px;">project</router-link></th>
                   <th id="hover-manu">Profile</th>
                 </ul>
               </div>

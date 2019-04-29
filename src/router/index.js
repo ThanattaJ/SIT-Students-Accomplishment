@@ -8,6 +8,7 @@ import Assignment from '@/components/Assignment'
 import CreateExternalPortPage from '@/components/NewPortfolioPage/CreateExternalPortPage'
 import File from '@/components/NewPortfolioPage/File'
 import Video from '@/components/NewPortfolioPage/Video'
+import ProjectDetail from '@/components/Project/ProjectDetail'
 
 
 
@@ -30,6 +31,11 @@ export default new Router({
         path: '/Assignment',
         name: 'Assignment',
         component: Assignment
+      },
+      {
+        path: '/ShowProject',
+        name: 'ShowProject',
+        component: ShowProject
       }
        ]
     },
@@ -54,5 +60,11 @@ export default new Router({
       component: Video
     }
 
+    },
+    {
+      path: '/ProjectDetail',
+      name: 'ProjectDetail',
+      component: ProjectDetail
+    },
   ]
 })

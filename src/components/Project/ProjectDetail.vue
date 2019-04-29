@@ -4,11 +4,22 @@
           <p id="TitleName_eg">{{header.TitleName}}</p>
           <p id="TitleName_th">{{header.TitleName_TH}}</p>
       </div>
-      <div id="img-project">
-          <img src="./../../assets/LUNA.png">
+      <!-- -------------cover----------------- -->
+      <div class="section">
+          <div class="container">
+              <uploadimg/>
+          </div>
       </div>
-      <!-- ------------------------------ -->
-      <div class="control">
+      <div id="cover">
+            <div v-if="!image">
+                <img src="./../../assets/LUNA.png">
+            </div>
+            <div v-else>
+                <img :src="image" />
+                <button @click="removeImage">Remove</button>
+            </div>
+        </div>
+      <!-- <div class="control">
           <label class="radio">
               <input type="radio" name="showDetail" v-on:click="show">
                 Show
@@ -17,11 +28,50 @@
               <input type="radio" name="showDetail" v-on:click="notShow">
                 Not Show
           </label>
-      </div>
+      </div> -->
       <div id="EditProjects">
-            <button @click="EditProject = !EditProject" v-if="!EditProject">EditProject</button>
-            <button @click="save" v-else-if="EditProject">Save</button>
-            <button @click="cancel" v-if="EditProject">Cancel</button>
+        <div class="columns">
+            <div class="column">
+                <input type="file" @change="onFileChange" accept=".jpg, .png, .gif" v-if="EditProject">
+            </div>
+            <div class="column is-offset-5">  
+                <nav class="navbar" role="navigation" aria-label="dropdown navigation" v-if="EditProject">
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+                          Select Status
+                        </a>
+
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item" v-on:click="show">
+                                Show
+                            </a>
+                            <a class="navbar-item" v-on:click="notShow">
+                                not Show
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="column is-1">  
+                <figure class="image is-24x24">
+                    <img src="../.././assets/clap.png">
+                        24
+                </figure>
+            </div>
+            <div class="column is-1">
+                <figure class="image is-24x24">
+                    <img src="../.././assets/watch.png">
+                        30
+                </figure>
+            </div> 
+            </div>
+            <div class="columns">
+                <div class="column is-four-fifths">
+                    <button @click="EditProject = !EditProject" v-if="!EditProject">EditProject</button>
+                    <button @click="save" v-else-if="EditProject">Save Change</button>
+                    <button @click="cancel" v-if="EditProject">Cancel</button>
+                </div>
+            </div>    
       </div>
       <!-- ------------------------------ -->
       <div id="body-project" v-show="showDetail">
@@ -108,7 +158,7 @@
                             </b-carousel>
                 </div>
                 <div id="video">
-                    <iframe src="https://www.youtube.com/embed/UJF_eZpJn4o" width="100%" height="100%"></iframe>
+                    <!-- <iframe src="https://www.youtube.com/embed/98YUIBPJWMo" width="100%" height="100%"></iframe> -->
                 </div>
             </div>
             <div class="column">
@@ -217,6 +267,16 @@
                     <div class="card-content">
                         <div class="content">
                             Tag
+                            <!-- <template>
+                             <div class="container">
+                               <div class="large-12 medium-12 small-12 cell">
+                                 <label>File
+                                   <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                                 </label>
+                                   <button v-on:click="submitFile()">Submit</button>
+                               </div>
+                             </div>
+                            </template> -->
                         </div>
                     </div>
                 </div>
@@ -240,6 +300,7 @@
 </template>
 
 <script>
+import uploadimg from './uploadimg'
 import './../css/ProjectDetail.css';
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
@@ -251,11 +312,15 @@ Vue.component('b-carousel', bCarousel);
 Vue.component('b-carousel-slide', bCarouselSlide);
 export default {
   name: 'ProjectDetail',
+  components: {uploadimg},
   data () {
     return {
         header:{
             TitleName: 'SIT Students Accomplishment',
             TitleName_TH: 'ระบบสะสมผลงานนักศึกษา คณะเทคโนโลยีสารสนเทศ',
+        },
+        cover:{
+            images:'./../../assets/LUNA.png'
         },
         Detail:{
             content_th: 'พัฒนาระบบ โดยนักศึกษาทุกชั้นปีสามารถเก็บโครงงานของตนเองได้ ไม่จำกัดเฉพาะนักศึกษาปี 4 เท่านั้น บุคคลที่เข้ามาดูโครงงานสามารถดูประวัติ และผลงานของนักศึกษาแต่ละคนได้ หรืออาจารย์แต่ละท่านได้ และผู้ดูเเลระบบ สามารถเพิ่มวิชาเพื่อให้นักศึกษามาลงผลงานของรายวิชานั้นๆได้ส่วนอาจารย์ ผู้สอนสามารถสร้าง Assignment ให้นักศึกษาได้ ทั้งนี้เพื่อลดข้อจำกัด ในการใช้งานเฉพาะนักศึกษาชั้นปีที่ 4 รวมถึงเป็นการเก็บโครงงานของนักศึกษา ตั้งแต่เข้าศึกษาจนจบการศึกษา',
@@ -283,15 +348,17 @@ export default {
         showDetail:true,
         EditProject:false,
         slide: 0,
-        sliding: null
+        sliding: null,
+        image:''
     }
   },
+    
     mounted() {
-         this.cachedUser_eg = JSON.parse(JSON.stringify(this.Detail.content_eg));
-         this.cachedUser_th = JSON.parse(JSON.stringify(this.Detail.content_th));
-         this.Tools_tool = JSON.parse(JSON.stringify(this.Tools.tool));
-         this.Tools_tech = JSON.parse(JSON.stringify(this.Tools.Technology));
-         this.Tools_github = JSON.parse(JSON.stringify(this.Tools.github));
+         this.cachedUser_eg = Object.assign({}, this.Detail.content_eg);
+         this.cachedUser_th = Object.assign({}, this.Detail.content_th);
+         this.Tools_tool = Object.assign({}, this.Tools.tool);
+         this.Tools_tech = Object.assign({}, this.Tools.Technology);
+         this.Tools_github = Object.assign({}, this.Tools.github);
          console.log(this.cachedUser)
   },
     methods:{
@@ -335,7 +402,28 @@ export default {
         },
         onSlideEnd(slide) {
         this.sliding = false
-        }
+        },
+        // ------upload img----------
+        onFileChange(e) {
+                var files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                  return;
+                this.createImage(files[0]);
+        },
+                createImage(file) {
+                  var image = new Image();
+                  var reader = new FileReader();
+                  var vm = this;
+
+                reader.onload = (e) => {
+                  vm.image = e.target.result;
+                };
+                reader.readAsDataURL(file);
+                },
+                removeImage: function (e) {
+                  this.image = '';
+                },
+    // -----------------------------------------------
     }
 }
 </script>
