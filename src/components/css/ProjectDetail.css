@@ -20,7 +20,7 @@
 #body-project{
     margin: 4% 0 0 0;
 }
-.card{
+#Details,#Acheivement,#Authors,#tool,#Documents,#Tag,#References{
     margin: 5% 0 0 0; 
     border-radius: 5px;
 }
@@ -28,7 +28,7 @@
     margin: 5% 0 0 0;
     text-align: center;
 }
-.card-header-title{
+#cardHeader{
     background:#F9F9F9;
     color: #265080;
 }
