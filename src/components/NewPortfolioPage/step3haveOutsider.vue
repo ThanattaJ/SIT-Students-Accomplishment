@@ -86,7 +86,7 @@
 
 
 
-        <div class="columns">
+        <!-- <div class="columns">
             <div class="column" v-if="membersChild.haveOutsider != null">
                 <div class="chooseMemberType" v-on:click="chooseStudent=true,clickAddMember=!clickAddMember">+ SIT Student ...</div><hr>
                 <p ref="studentValidate" class="help is-danger"></p>
@@ -126,7 +126,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> -->
         <!-- modal add student -->
         <!-- <div v-if="chooseStudent">
             <div class="modal is-active">

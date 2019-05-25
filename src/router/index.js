@@ -16,6 +16,7 @@ Vue.use(Router)
 
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/Home',
@@ -60,7 +61,7 @@ export default new Router({
       component: Video
     },
     {
-      path: '/ProjectDetail',
+      path: '/ProjectDetail/:pId',
       name: 'ProjectDetail',
       component: ProjectDetail
     },

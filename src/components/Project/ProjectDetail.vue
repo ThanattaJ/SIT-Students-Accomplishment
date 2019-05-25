@@ -321,9 +321,9 @@ export default {
 
     
     async mounted() {
-
+        console.log(this.$route.params.pId)
         // get data
-        const { data } = await axios.get('http://34.73.213.209:7000/projects/1')
+        const { data } = await axios.get('http://34.73.213.209:7000/projects/' + this.$route.params.pId)
         console.log("data ",data)
         this.header.TitleName = data.project_detail.project_name_en;
         this.header.TitleName_TH = data.project_detail.project_name_th;
@@ -371,7 +371,7 @@ export default {
         this.document.length= data.document.length
         // console.log(data.document[0].path_name)
 
-        
+
         // console.log('data', data)
         for (let i = 0; i < data.picture.length ;i++){
             // this.img.push(data.picture[i])
