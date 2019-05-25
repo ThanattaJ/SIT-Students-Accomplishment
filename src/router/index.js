@@ -6,7 +6,7 @@ import Profile from '@/components/Profile'
 import ShowProject from '@/components/Project/ShowProject'
 import Assignment from '@/components/Assignment'
 import CreateExternalPortPage from '@/components/NewPortfolioPage/CreateExternalPortPage'
-import File from '@/components/NewPortfolioPage/File'
+import Document from '@/components/NewPortfolioPage/Document'
 import Video from '@/components/NewPortfolioPage/Video'
 import ProjectDetail from '@/components/Project/ProjectDetail'
 
@@ -50,9 +50,9 @@ export default new Router({
       component: CreateExternalPortPage
     },
     {
-      path: '/File',
-      name: 'File',
-      component: File
+      path: '/Document',
+      name: 'Document',
+      component: Document
     },
     {
       path: '/Video',

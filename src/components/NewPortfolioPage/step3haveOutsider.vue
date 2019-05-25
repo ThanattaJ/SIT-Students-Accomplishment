@@ -1,22 +1,93 @@
 <template>
     <div>
-            <div class="stepName">My Team</div>
-            <div class="field">
-                <label class="label inputName">Have outsider?</label>
-                        <label class="radio">
-                            <input type="radio" name="answer" value="true" v-model="membersChild.haveOutsider" v-on:change="emitToParent8();step3Check();">
-                            Yes
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="answer" value="false" v-model="membersChild.haveOutsider" v-on:change="emitToParent8();step3Check();">
-                            No
-                        </label>
-                <p ref="haveoutsiderValidate" class="help is-danger"></p>
-            </div>
+        <div class="stepName">Project Members <i class="la la-group"></i></div>
+        <!-- <div class="field">
+            <label class="label inputName">Have outsider?</label>
+                    <label class="radio">
+                        <input type="radio" name="answer" value="true" v-model="membersChild.haveOutsider" v-on:change="emitToParent8();step3Check();">
+                        Yes
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="answer" value="false" v-model="membersChild.haveOutsider" v-on:change="emitToParent8();step3Check();">
+                        No
+                    </label>
+            <p ref="haveoutsiderValidate" class="help is-danger"></p>
+        </div> -->
         <!-- ------------- -->
+        <div class="tabs is-centered is-boxed is-small">
+            <ul>
+                <li class="is-active">
+                <a>
+                    <span>Pictures</span>
+                </a>
+                </li>
+                <li>
+                <a>
+                    <span>Music</span>
+                </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="columns">
+            <div class="column">
+                <div class="field">
+                <label class="label inputName">Student</label>
+                <hr>
+                <multi-select 
+                    :options="studentData"
+                    :selectedOptions="selectedStudent"
+                    placeholder="Select Student ID"
+                    @select="onSelect">
+                    
+                </multi-select>
+                </div>
+                <table class="table" v-if="membersChild.student.length>0">
+                    <tbody v-for="(student,student_index) in studentName" v-bind:key="student_index">
+                        <tr>
+                            <th>{{student_index+1}}.</th>
+                            <td>{{student.student_id}}</td>
+                            <td>{{student.firstname}} {{student.lastname}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="column">
+                <div class="field">
+                    <label class="label inputName">Non-Student</label>
+                    <hr>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label inputName">firstname</label>
+                                <div class="control">
+                                    <input ref="tmpFirst" class="input inputData" type="text" placeholder="firstname" v-model="newOutsider.tmpFirst" v-on:keyup="outsiderFirstNameValidation()">
+                                    <p ref="tmpFirstValidate" class="help is-danger"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label inputName">lastname</label>
+                                <div class="control">
+                                    <input ref="tmpLast" class="input inputData" type="text" placeholder="lastname" v-model="newOutsider.tmpLast" v-on:keyup="outsiderLastNameValidation()">
+                                    <p ref="tmpLastValidate" class="help is-danger"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+
+
+
+
         <div class="columns">
             <div class="column" v-if="membersChild.haveOutsider != null">
-                <!-- <div>Student</div><hr> -->
                 <div class="chooseMemberType" v-on:click="chooseStudent=true,clickAddMember=!clickAddMember">+ SIT Student ...</div><hr>
                 <p ref="studentValidate" class="help is-danger"></p>
                 <table class="table" v-if="membersChild.student.length>0">
@@ -37,7 +108,6 @@
                 </table>
             </div>
             <div class="column" v-if="membersChild.haveOutsider == 'true'">
-                <!-- <div>Outsider</div><hr> -->
                 <div class="chooseMemberType" v-on:click="chooseOutsider=true,clickAddMember=!clickAddMember">+ Outsider ...</div><hr>
                 <p ref="outsiderValidate" class="help is-danger"></p>
                 <table class="table" v-if="membersChild.outsider.length>0">
@@ -58,7 +128,7 @@
             </div>
         </div>
         <!-- modal add student -->
-        <div v-if="chooseStudent">
+        <!-- <div v-if="chooseStudent">
             <div class="modal is-active">
                 <div class="modal-background"></div>
                 <div class="modal-card">
@@ -82,10 +152,10 @@
                     </footer>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- ------------- -->
         <!-- modal add outsider -->
-        <div v-if="chooseOutsider">
+        <!-- <div v-if="chooseOutsider">
             <div class="modal is-active">
                 <div class="modal-background"></div>
                 <div class="modal-card">
@@ -120,7 +190,7 @@
                     </section>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -165,12 +235,16 @@ export default {
     },
     methods: {
         async getStudent() {
-                let allStudent = await axios.get("http://localhost:7000/users/list_student/59", data)
+                let allStudent = await axios.get("http://34.73.213.209:7000/users/list_student/59", data)
                 let data = allStudent.data;
         },
 
         onSelect (selectedStudent) {
             this.selectedStudent = selectedStudent
+            this.addStudent();
+            this.emitToParent8();
+            this.emitToParent9();
+            this.step3CheckMember();
         },
         addStudent: function() {
                                                                 // พอกด add student แล้ว

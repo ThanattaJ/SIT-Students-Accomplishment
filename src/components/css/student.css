@@ -1,4 +1,22 @@
-
+.navProfile{
+  background-color: #F7F7F7;
+}
+.picture{
+  margin-right: -7%;
+  margin-left: -2%;
+}
+.title, .heading{
+  color: #265080;
+}
+svg{
+  width: 60%
+}
+#information{
+  margin-right: -100px
+}
+#bodyBg{
+  margin: 3% 10% 0 10% !important;
+}
 #profile-bg{
   height:150px;
   background-color: #F7F7F7;
@@ -7,28 +25,23 @@
   margin: 2% 0 0 0;
 }
 #profile{ 
-  background-color: #F7F7F7;
+  /* background-color: #F7F7F7; */
   height: 180px;
   width: 80%;
   margin: -10% 0 0 10%;
 }
 #img{
-  width: 100px;
-  margin: -5px 0 0 25%;
+  width: 105px !important;
+  margin: 0 -10% 0 25% !important;
 }
 #name{
   margin-top: -5px;
-  font-size: 20px;
+  font-size: 22px;
   color: #265080;
 }
 #info{
   color:#949494;
-  font-size: 10px;
-}
-#internship{
-  color:#949494;
-  margin-top: 20px;
-  font-size: 13px;
+  font-size: 14px;
 }
 #body{
   width: 80%;
@@ -65,3 +78,44 @@
 
 
 
+/* card */
+.card-image{
+  padding: 3px 3px 3px 3px;
+}
+.card{
+  border-radius: 2%;
+}
+img{
+  border-radius: 2%
+}
+.card-content {
+  padding: 8px;
+}
+.projectName{
+  font-size: 18px;
+  margin-bottom: -2px !important;
+  color: #265080
+}
+.projectDetail{
+  font-size: 14px;
+}
+.createPortPage{
+  width:100%;
+  height:100%;
+  border:1px dashed #E4E4E4;
+  text-align:center;
+  border-radius: 2%;
+  padding-top: 25%
+}
+.createPortPage:hover{
+  background-color: #F7F7F7;
+  cursor: pointer;
+}
+.la-plus:before{
+  color:#E4E4E4;
+  font-size: 50px;
+}
+.textCreate{
+  color:#949494;
+  /* font-size: 14px; */
+}

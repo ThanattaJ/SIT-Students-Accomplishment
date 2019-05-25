@@ -1,23 +1,23 @@
 <template>
     <div>
-        <div class="stepName">Create My Portfolio Page</div>
+        <div class="stepName">Create Project <i class="la la-edit"></i></div>
         <div class="field">
             <!-- Parent to Child : <br>
             {{portParent.portPageNameEN}} <br> -->
-            <label class="label inputName">Portfolio Page Name(EN)</label>
+            <label class="label inputName">Project Name(English)</label>
             <div class="control">
                 <input ref="portNameEN" class="input inputData" type="text" placeholder="Portfolio Page Name" v-model="portChild.portPageNameEN" v-on:keyup="validatePortPageNameEN();emitToParent1();">
                 <p ref="portNameENValidate" class="help is-danger"></p>
             </div>
         </div>
         <div class="field">
-            <label class="label inputName">Portfolio Page Name(TH)</label>
+            <label class="label inputName">ชื่อผลงาน(ภาษาไทย)</label>
             <div class="control">
                 <input ref="portNameTH" class="input inputData" type="text" placeholder="Portfolio Page Name" v-model="portChild.portPageNameTH" v-on:keyup="validatePortPageNameTH();emitToParent2();">
                 <p ref="portNameTHValidate" class="help is-danger"></p>
             </div>
         </div>
-        <div class="inputName">When you start the Portfolio Page?</div>
+        <div class="inputName">When did you start the project?</div>
         <div class="columns field"> 
             <div class="column is-one-quarter startMonth">
                 <span class="select">
@@ -37,6 +37,11 @@
                 </span>
             </div>
         </div>
+
+        ------ When did you finish the project? ------
+
+
+
     </div>
 </template>
 

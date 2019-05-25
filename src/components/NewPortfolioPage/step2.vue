@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="stepName">My Portfolio Page Detail</div>
+        <div class="stepName">Project Overview <i class="la la-file-text-o"></i></div>
         <div class="field">
             <label class="label inputName">Portfolio Page Detail(EN)</label>
             <div class="control">

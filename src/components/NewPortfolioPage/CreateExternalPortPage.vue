@@ -87,7 +87,7 @@
                             v-if="nowStep === 1 || nowStep === 2 || nowStep === 3">
                             <p class="letterBackNext">Next</p> 
                         </button>
-                        <button class="card-footer-item button nextButton" @click.prevent="submit"
+                        <button class="card-footer-item button nextButton" @click.prevent="askForSure"
                             v-if="nowStep === 4">
                             <p class="letterBackNext">Submit</p> 
                         </button>
@@ -127,11 +127,12 @@ import step3haveOutsider from './step3haveOutsider.vue';
 import step3noOutsider from './step3noOutsider.vue';
 import step4 from './step4.vue';
 import axios from 'axios';
+import Swal from 'sweetalert2'
 
 export default {
     async mounted() {
         //connect API ดึงข้อมูลนศ
-        const { data } = await axios.get('http://localhost:7000/users/list_student/59')
+        const { data } = await axios.get('http://34.73.213.209:7000/users/list_student/59')
         var studentID = data.map((_item , index = 0) => _item.student_id);
         var studentFname = data.map((_item , index = 0) => _item.firstname_en);
         var studentLname = data.map((_item , index = 0) => _item.lastname_en);
@@ -152,10 +153,10 @@ export default {
             name: '',
             nowStep: 1,
             stepList: [
-                'Create Portfolio Page',
-                'Project Datail',
-                'Team Members',
-                'Acheivement'
+                'Create Project',
+                'Project Overview',
+                'Project Members',
+                'Project Acheivement'
             ],
             activeColor:'#265080',
             direction: 'vertical',
@@ -206,6 +207,29 @@ export default {
         }
     },
     methods:{
+        askForSure() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to create a new Portfolio Page?",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '<span style="color:white">Yes</span>', //<a href="http://localhost:7001/#/projectdetail"></a>
+                cancelButtonText: 'No'
+            }).then((result) => {
+                this.submit()
+                if (result.value) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Click to view your new Portfolio Page.',
+                        type: 'success',
+                        showConfirmButton: false,
+                        timer: 2000  
+                    })
+                }
+            })
+        },
         submit: function() {
             this.$refs.childRefStep4.step4Check();
             if((this.validateAchievementParent.validateAchievementName == "noData" || this.validateAchievementParent.validateAchievementName == "trueData" )&& this.validateAchievementParent.validateAchievementDetail == "noData" 
@@ -224,8 +248,8 @@ export default {
                 this.nowStep--;
             }
         },
-        next: function() {
-            if(this.nowStep == 1){
+        next: function() {             
+        if(this.nowStep == 1){
                 var validPort = this.validatePortParent
                 if(validPort.validatePortPageNameEN == true && validPort.validatePortPageNameTH == true && validPort.validateStartMonth == true && validPort.validateStartYear == true){
                     this.nowStep++;
@@ -329,6 +353,12 @@ export default {
             this.validateAchievementParent = ValidateAchievement
         },
         async sendDataToDb() {
+            if(this.port_detail_Parent.portPageDetailTH == ""){
+                this.port_detail_Parent.portPageDetailTH = null
+            }
+            if(this.port_detail_Parent.portPageDetailEN == ""){
+                this.port_detail_Parent.portPageDetailEN = null
+            }
             var data;
             data = 
                 {
@@ -344,7 +374,7 @@ export default {
                     },
                     "member": {
                         "students": JSON.parse(JSON.stringify(this.membersParent.student)),
-                        "outsiders": JSON.parse(JSON.stringify(this.membersParent.outsider))
+                        // "outsiders": JSON.parse(JSON.stringify(this.membersParent.outsider))
                     }
                 }
             if(this.achievementParent.achievementName != ""){
@@ -356,8 +386,12 @@ export default {
                         "organize_by": this.achievementParent.company,
                         "date_of_event": this.achievementParent.date
                     }
+                console.log("AA : "+data["achievement"].achievement_name)
             }
-            
+            if(this.membersParent.outsider != []){
+                data["member"] = { "outsiders": JSON.parse(JSON.stringify(this.membersParent.outsider)) } 
+            }
+            console.log(typeof this.portParent.startMonth)
             try {
                 await axios.post("http://localhost:7000/projects/external", data)
                 .then(res => {

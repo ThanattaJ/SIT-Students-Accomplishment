@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import {store} from './components/store/store'
 import axios from 'axios';
+import Bars from 'vuebars'
 
+Vue.use(Bars)
 
 Vue.config.productionTip = false
 

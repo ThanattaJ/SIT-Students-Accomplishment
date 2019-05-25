@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="stepName">Achievement</div>
+        <div class="stepName">Project Achievement <i class="la la-certificate"></i></div>
         <div class="field">
             <!-- Parent to Child : <br>
             {{achievementChild.achievementName}} <br>

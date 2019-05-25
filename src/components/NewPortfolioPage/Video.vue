@@ -1,17 +1,16 @@
 <template>
-    <div class="section">
-        <div class="container">
-            <div class="control">
-                <input class="input inputData" type="text" placeholder="Share link" v-model="link" v-on:keyup="callVdo">
-            </div>
-            <div class="control">
-                <button class="button is-link" v-on:click="submitVdo">Submit</button>
-            </div>
-            <div class="container resp-container">
-                <iframe ref="vdoFrame" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
+    <div>
+        <div class="control">
+            <input style="width:100%" class="input inputData" type="text" placeholder="Share link" v-model="link" v-on:keyup="callVdo">
+        </div>
+        <br>
+        <div class="control">
+            <button style="width:77px" class="button is-link" v-on:click="submitVdo">Save</button>
         </div>
         
+        <div class="resp-container">
+            <iframe ref="vdoFrame" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
     </div>
 </template>
 
@@ -38,15 +37,13 @@ export default {
 <style>
 .resp-container {
     position: relative;
-    overflow: hidden;
-    padding-top: 56.25%;
+    /* overflow: hidden; */
+    padding-top: 56.2%;
 }
 iframe {
     position: absolute;
-    top: 2%;
-    left: 0;
-    width: 50%;
-    height: 50%;
-    border: 0;
+    top: 3%;
+    width: 100%;
+    height: 100%;
 }
 </style>

@@ -20,14 +20,15 @@
 #body-project{
     margin: 4% 0 0 0;
 }
-#Details,#Acheivement,#Authors,#tool,#Documents,#Tag,#References{
+#Details,#Acheivement,#Authors,#tool,#Documents,#Tag,#References,#video{
     margin: 5% 0 0 0; 
     border-radius: 5px;
 }
-#video{
+
+/* #video{
     margin: 5% 0 0 0;
     text-align: center;
-}
+} */
 #cardHeader{
     background:#F9F9F9;
     color: #265080;

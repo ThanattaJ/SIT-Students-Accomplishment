@@ -1,27 +1,48 @@
 <template>
   <div id="app">
-    <div id="head_bg"></div>
-    <div id="box-inside">
-      <nav class="navbar" role="navigation" aria-label="main navigation" id="nav-top" > 
-        <div class="navbar-brand">
-          <a class="navbar-start" >
-            <div id="logo">
-              <img src="./assets/Logo_Pro.png">
-              <div id="manu">
-                <ul>
-                  <th><router-link to="/Home" style="margin-right: 30px;">Home</router-link></th>
-                  <th><router-link to="/ShowProject" style="margin-right: 30px;">project</router-link></th>
-                  <th id="hover-manu">Profile</th>
-                </ul>
-              </div>
-            </div>
-          </a>
-          <a class="button" id="login" >
-            Login
-          </a>
-        </div>
-      </nav>
+    <nav class="navbar nav1" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="https://bulma.io">
+      <img src="./assets/logo.png">
+    </a>
+    <a class="navbar-item">
+        <i class="la la-home"></i>
+          Home
+      </a>
+      <a class="navbar-item">
+          <i class="la la-folder-o"></i>
+          Project
+      </a>
+      <a class="navbar-item">
+        <i class="la la-user"></i>
+          Profile
+      </a>
+  </div>
+   <div class="navbar-end">
+      <div class="navbar-item">
+        <i class="la la-sign-in"></i>
+        Login
+      </div>
     </div>
+</nav>
+<!-- <nav class="navbar nav2" role="navigation" aria-label="main navigation">
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item">
+        <i class="la la-home"></i>
+          Home
+      </a>
+      <a class="navbar-item">
+          <i class="la la-folder-o"></i>
+          Project
+      </a>
+      <a class="navbar-item">
+        <i class="la la-user"></i>
+          Profile
+      </a>
+    </div>
+  </div>
+</nav> -->
     <router-view/>
   </div>
 </template>
@@ -33,13 +54,41 @@ name :'app'
 </script>
 
 <style>
+.navbar{
+  /* height: 100px; */
+  background-color: #265080;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+.nav1{
+  height: 100px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.nav2{
+  max-height: 20px;
+  z-index:0; 
+  padding-top: 15px;  
+}
+.navbar-item{
+  color: white
+}
+
+.navbar-item img{
+  max-height: 100px ;
+}
+
+.la{
+  font-size: 22px;
+      margin-right: 3px;
+}
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  /* font-family: 'Avenir', Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-#logo{
-  width: 240px;
+/* #logo{
+  width: 100px;
 }
 #box-inside{
   width: 80%;
@@ -47,6 +96,7 @@ name :'app'
   margin-left: 10%;
 }
 #head_bg{
+  width: 100%;
   height: 100px;
   background-color:#265080;
 }
@@ -71,6 +121,6 @@ name :'app'
 }
 #hover-manu {
   border-bottom: 3px solid white;
-}
+} */
 
 </style>

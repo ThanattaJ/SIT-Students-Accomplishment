@@ -186,7 +186,7 @@
                     </header>
                     <div class="card-content">
                         <div class="content" >
-                             <!-- {{document}} --> 
+                             <Document/>
                         </div>
                     </div>
                 </div>
@@ -230,6 +230,8 @@ import uploadCover from './uploadCover'
 import './../css/ProjectDetail.css';
 import Vue from 'vue'
 import axios from 'axios';
+import Document from './../NewPortfolioPage/Document.vue'
+import Video from './../NewPortfolioPage/Video.vue'
 import VueCarousel from 'vue-carousel';
 import { Carousel, Slide } from 'vue-carousel';
 import Multiselect from 'vue-multiselect'
@@ -246,7 +248,8 @@ export default {
   components: {uploadimg,
                 'carousel': VueCarousel.Carousel,
                 'slide': VueCarousel.Slide,
-                uploadCover
+                uploadCover,
+                Document,Video
             },
   data () {
    return {
@@ -285,7 +288,7 @@ export default {
         References:{
             ref:'https://bootstrap-vue.js.org/docs/components/form-textarea/'
         },
-        // document:[],
+        document:[],
         outsider:[
             {
                 id: "1",
@@ -361,6 +364,14 @@ export default {
             this.outsider[i].mail = data.outsiders[i].email 
         }
         this.outsider.length =data.outsiders.length
+        // document
+        for (let i = 0; i < data.document.length ; i++){
+           this.document[i] = data.document[i].path_name 
+        }
+        this.document.length= data.document.length
+        // console.log(data.document[0].path_name)
+
+        
         // console.log('data', data)
         for (let i = 0; i < data.picture.length ;i++){
             // this.img.push(data.picture[i])
