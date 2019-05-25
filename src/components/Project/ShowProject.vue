@@ -44,10 +44,12 @@ export default {
             data() {
                 return{
                 Title: 'SIT Students Accomplishment',
-                Description: 'โหลๆเทสๆๆ'
+                Description: 'โหลๆเทสๆๆ',
                 }
+            },
+            methods: {
             }
-}
+        }
       
 </script>
 

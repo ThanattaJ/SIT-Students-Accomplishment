@@ -13,7 +13,7 @@
     font-size: 0.7em;
     color: #6F6F6F;
 }
-#cover{
+#imgCover{
     text-align: center;
     margin: 2% 0 0 0;
 }
@@ -54,9 +54,9 @@
 #tool{
     font-size: 0.85em;
 }
-#Acheivement{
+/* #Acheivement{
     font-size: 0.85em;
-}
+} */
 #carousel{
     margin: 5% 0 0 0;
 }
@@ -65,4 +65,44 @@
     margin: auto;
     display: block;
     margin-bottom: 10px;
+}
+#container {
+    padding: 0 60px;
+  }
+  
+  .VueCarousel-slide {
+    position: relative;
+    background: #42b983;
+    color: #fff;
+    font-family: Arial;
+    font-size: 24px;
+    text-align: center;
+    min-height: 100px;
+  }
+  
+  .label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #Edit{
+    background:#265080;
+    color: #F9F9F9 ;
+    height: 40px;
+    border: none; 
+  }
+  #save{
+    width: 120px;
+    margin-right: 2%;
+    height: 40px;
+    border: none;
+  }
+  #cancel{
+    width: 120px;
+    color: #F9F9F9 ; 
+    background:#FF0000;
+    height: 40px;
+    border: none;
   }

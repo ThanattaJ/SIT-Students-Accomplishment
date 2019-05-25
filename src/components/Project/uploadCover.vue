@@ -12,7 +12,7 @@
                         accept=".jpg, .png, .gif"
                     />
                     <span class="file-cta">
-                        <span class="file-label" id="button_choose">
+                        <span class="file-label" id="cover_choose">
                             Choose a file...
                         </span>
                     </span>
@@ -21,7 +21,7 @@
             </div>    
         </div>
         <div class="column" id="update">
-            <button class="button is-info" id="button_update">Update</button>
+            <button class="button is-info" id="cover_update">Update</button>
         </div>
     </div>
     </form>
@@ -29,11 +29,12 @@
 <script>
 import axios from 'axios';
 export default {
-    name: "uploadimg",
+    name: "uploadCover",
     data(){
         return{
             file:" ",
-            project_id: 1,
+            project_id: "1",
+            cover : "true",
             path_name:'',
             message: " ",
             error: false    
@@ -48,13 +49,12 @@ export default {
         async sendFile(){
             const formData = new FormData();
             formData.append('file', this.file);
-            formData.append('project_id',"1");
-            formData.append('isCover',"false");
+            formData.append('project_id',this.project_id);
+            formData.append('isCover',this.cover);
             try{
                 await axios.post('http://34.73.213.209:7000/files/image',formData)
-                .then(function(res){ console.log(res);})
+                .then(function(res){ console.log(res)})
                 this.message = "File has been uploaded";
-                this.file=" ";
                 this.error = false;
             }catch(err){
                 console.log('FAILURE!!'+err)
@@ -66,17 +66,18 @@ export default {
 }
 </script>
 <style>
-    #update{
-        margin-right: 60%;
-    }
-    #button_update{
+    #cover_update{
         height: 54px;
+        margin-left: -60%;
     }
-    #button_choose{
+    #cover_choose{
         height: 20px;
     }
     .file-name{
         border: none
+    }
+    .columns{
+        margin-top: 2%;
     }
 </style>
  
