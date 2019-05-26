@@ -5,25 +5,25 @@
             <!-- Parent to Child : <br>
             {{achievementChild.achievementName}} <br>
             Child : {{achievementChild.achievementDetail}} <br> -->
-            <label class="label inputName">Achievement name</label>
+            <label class="label inputName">Achievement Name</label>
             <div class="control">
-                <input ref="achievementName" class="input inputData" type="text" placeholder="Achievement name" v-model="achievementChild.achievementName"  v-on:keyup="validateAchievementName();emitToParent10();"/>
+                <input ref="achievementName" class="input inputData" type="text" placeholder="e.g. HackaTravel" v-model="achievementChild.achievementName"  v-on:keyup="validateAchievementName();emitToParent10();"/>
                 <p ref="achievementNameValidate" class="help is-danger"></p>
             </div>
         </div>
         <div class="field">
             <label class="label inputName">Achievement Detail</label>
             <div class="control">
-                <textarea ref="achievementDetail" class="Normal textarea inputData" placeholder="Detail..." v-model="achievementChild.achievementDetail"  v-on:keyup="validateAchievementDetail();emitToParent11();"></textarea>
+                <textarea ref="achievementDetail" class="Normal textarea inputData" placeholder="e.g. Create New Era of Tourism in Thailand เปลี่ยนไอเดีย เป็น ธุรกิจท่องเที่ยง" v-model="achievementChild.achievementDetail"  v-on:keyup="validateAchievementDetail();emitToParent11();"></textarea>
                 <p ref="achievementDetailValidate" class="help is-danger"></p>
             </div>
         </div>
         <div class="columns"> 
             <div class="column">
                 <div class="field">
-                    <label class="label inputName">Organize by</label>
+                    <label class="label inputName">Organize By</label>
                     <div class="control">
-                        <input ref="company" class="input inputData" type="text" placeholder="Company name" v-model="achievementChild.company"  v-on:keyup="validateCompany();emitToParent12();">
+                        <input ref="company" class="input inputData" type="text" placeholder="e.g. การท่องเที่ยงแห่งประเทศไทย(ททท.)" v-model="achievementChild.company"  v-on:keyup="validateCompany();emitToParent12();">
                         <p ref="companyValidate" class="help is-danger"></p>
                     </div>
                 </div>
@@ -32,14 +32,16 @@
             <div class="column">
                 <div class="field">
                     <label class="label inputName">Date of Event</label>
+
                     <button class="input inputData text-left" style="width:90%;">
                         <span class="icon is-small is-left">
-                            <i class="fas fa-calendar-alt" style="color: #949494;"></i>
+                            <i class="la la-calendar" style="color: #949494;"></i>
                         </span>
-                        <flat-pickr ref="calendar" class="calendar inputData" placeholder="Select date" v-model="date" :config="config"></flat-pickr>
+                        <flat-pickr @change="doSomethingOnChange" ref="calendar" class="calendar inputData" placeholder="Select date" v-model="date" :config="config"></flat-pickr>
                     </button>
+
                     <span class="icon is-small is-right removeDate" @click="removeDate">
-                        <i class="fas fa-times" style="color: #949494;"></i>
+                        <i class="la la-times-circle" style="color: #949494;"></i>
                     </span>
                 </div>
             </div>
@@ -62,7 +64,7 @@ export default {
             date: this.achievementParent.date,  //d-m-Y
             config: {
                 wrap: true, // set wrap to true only when using 'input-group'
-                altFormat: 'M	j, Y',
+                altFormat: 'M  j, Y',
                 altInput: true,
                 dateFormat: 'd-m-Y'   
             },   
@@ -83,6 +85,9 @@ export default {
         validateAchievementParent: Object
     },
     methods: {
+        // doSomethingOnChange(date){
+        //     this.date = date
+        // },
         removeDate() {
             this.date = '';
             this.achievementParent.date = '';
@@ -98,7 +103,7 @@ export default {
             this.$emit('childToParent12', this.achievementChild.company)
         },
         emitDateToParent(event){
-            this.$emit('childToParentDate', this.date)
+            this.$emit('childToParent13', this.date)
         },
         //validate
         emitAchievementToParentValidate(event) {
@@ -117,17 +122,21 @@ export default {
             var lettersEN = /^[A-Za-z0-9 ]+$/;
             var achievementName = this.$refs.achievementName;
             if(this.achievementChild.achievementName != ""){ //ถ้ากรอก
-                if(this.achievementChild.achievementName.match(lettersEN)){ //ถ้ากรอก eng
-                    achievementName.style.borderColor = "#88D738"
-                    achievementName.style.boxShadow = "0 0 3px #88D738"
-                    this.$refs.achievementNameValidate.innerHTML = ""
-                    this.validateAchievementChild.validateAchievementName =  "trueData";
-                }else{ //ถ้าไม่กรอก eng
-                    achievementName.style.borderColor = "#EB5656"
-                    achievementName.style.boxShadow = "0 0 3px #EB5656"
-                    this.$refs.achievementNameValidate.innerHTML = "Must be English Alphabet and Number"
-                    this.validateAchievementChild.validateAchievementName =  "falseData";
-                }
+                achievementName.style.borderColor = "#88D738"
+                achievementName.style.boxShadow = "0 0 3px #88D738"
+                this.$refs.achievementNameValidate.innerHTML = ""
+                this.validateAchievementChild.validateAchievementName =  "trueData";
+                // if(this.achievementChild.achievementName.match(lettersEN)){ //ถ้ากรอก eng
+                //     achievementName.style.borderColor = "#88D738"
+                //     achievementName.style.boxShadow = "0 0 3px #88D738"
+                //     this.$refs.achievementNameValidate.innerHTML = ""
+                //     this.validateAchievementChild.validateAchievementName =  "trueData";
+                // }else{ //ถ้าไม่กรอก eng
+                //     achievementName.style.borderColor = "#EB5656"
+                //     achievementName.style.boxShadow = "0 0 3px #EB5656"
+                //     this.$refs.achievementNameValidate.innerHTML = "Must be English Alphabet and Number"
+                //     this.validateAchievementChild.validateAchievementName =  "falseData";
+                // }
             }else{ //ถ้าไม่กรอก
                 if(this.achievementChild.achievementDetail != "" || this.achievementChild.company != "" || this.date != ""){ //ถ้ามีข้อมูลอื่น
                     achievementName.style.borderColor = "#EB5656"
@@ -147,20 +156,25 @@ export default {
 
             var lettersEN = /^[A-Za-z0-9 ]+$/;
             var achievementDetail = this.$refs.achievementDetail;
-            if(this.achievementChild.achievementDetail != ""){ //ถ้ากรอก
-                if(this.achievementChild.achievementDetail.match(lettersEN)){ //ถ้ากรอก eng
-                    achievementDetail.style.borderColor = "#88D738"
-                    achievementDetail.style.boxShadow = "0 0 3px #88D738"
-                    this.$refs.achievementDetailValidate.innerHTML = ""
-                    this.validateAchievementChild.validateAchievementDetail =  "trueData";
-                    this.validateAchievementName()
-                }else{ //ถ้าไม่กรอก eng
-                    achievementDetail.style.borderColor = "#EB5656"
-                    achievementDetail.style.boxShadow = "0 0 3px #EB5656"
-                    this.$refs.achievementDetailValidate.innerHTML = "Must be English Alphabet and Number"
-                    this.validateAchievementChild.validateAchievementDetail =  "falseData";
-                    this.validateAchievementName()
-                }
+            if(this.achievementChild.achievementDetail != "" || this.achievementChild.achievementDetail != null){ //ถ้ากรอก
+                achievementDetail.style.borderColor = "#88D738"
+                achievementDetail.style.boxShadow = "0 0 3px #88D738"
+                this.$refs.achievementDetailValidate.innerHTML = ""
+                this.validateAchievementChild.validateAchievementDetail =  "trueData";
+                this.validateAchievementName()
+                // if(this.achievementChild.achievementDetail.match(lettersEN)){ //ถ้ากรอก eng
+                //     achievementDetail.style.borderColor = "#88D738"
+                //     achievementDetail.style.boxShadow = "0 0 3px #88D738"
+                //     this.$refs.achievementDetailValidate.innerHTML = ""
+                //     this.validateAchievementChild.validateAchievementDetail =  "trueData";
+                //     this.validateAchievementName()
+                // }else{ //ถ้าไม่กรอก eng
+                //     achievementDetail.style.borderColor = "#EB5656"
+                //     achievementDetail.style.boxShadow = "0 0 3px #EB5656"
+                //     this.$refs.achievementDetailValidate.innerHTML = "Must be English Alphabet and Number"
+                //     this.validateAchievementChild.validateAchievementDetail =  "falseData";
+                //     this.validateAchievementName()
+                // }
             }else{ //ถ้าไม่กรอก
                 achievementDetail.style.borderColor = ""
                 achievementDetail.style.boxShadow = ""
@@ -174,20 +188,25 @@ export default {
 
             var lettersEN = /^[A-Za-z0-9 ]+$/;
             var company = this.$refs.company;
-            if(this.achievementChild.company != ""){ //ถ้ากรอก
-                if(this.achievementChild.company.match(lettersEN)){ //ถ้ากรอก eng
-                    company.style.borderColor = "#88D738"
-                    company.style.boxShadow = "0 0 3px #88D738"
-                    this.$refs.companyValidate.innerHTML = ""
-                    this.validateAchievementChild.validateCompany =  "trueData";
-                    this.validateAchievementName()
-                }else{ //ถ้าไม่กรอก eng
-                    company.style.borderColor = "#EB5656"
-                    company.style.boxShadow = "0 0 3px #EB5656"
-                    this.$refs.companyValidate.innerHTML = "Must be English Alphabet and Number"
-                    this.validateAchievementChild.validateCompany =  "falseData";
-                    this.validateAchievementName()
-                }
+            if(this.achievementChild.company != "" || this.achievementChild.company != null){ //ถ้ากรอก
+                company.style.borderColor = "#88D738"
+                company.style.boxShadow = "0 0 3px #88D738"
+                this.$refs.companyValidate.innerHTML = ""
+                this.validateAchievementChild.validateCompany =  "trueData";
+                this.validateAchievementName()
+                // if(this.achievementChild.company.match(lettersEN)){ //ถ้ากรอก eng
+                //     company.style.borderColor = "#88D738"
+                //     company.style.boxShadow = "0 0 3px #88D738"
+                //     this.$refs.companyValidate.innerHTML = ""
+                //     this.validateAchievementChild.validateCompany =  "trueData";
+                //     this.validateAchievementName()
+                // }else{ //ถ้าไม่กรอก eng
+                //     company.style.borderColor = "#EB5656"
+                //     company.style.boxShadow = "0 0 3px #EB5656"
+                //     this.$refs.companyValidate.innerHTML = "Must be English Alphabet and Number"
+                //     this.validateAchievementChild.validateCompany =  "falseData";
+                //     this.validateAchievementName()
+                // }
             }else{ //ถ้าไม่กรอก
                 company.style.borderColor = ""
                 company.style.boxShadow = ""

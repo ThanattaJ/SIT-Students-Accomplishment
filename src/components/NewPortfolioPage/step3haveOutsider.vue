@@ -14,26 +14,103 @@
             <p ref="haveoutsiderValidate" class="help is-danger"></p>
         </div> -->
         <!-- ------------- -->
-        <div class="tabs is-centered is-boxed is-small">
+        <nav class="tabs is-fullwidth is-centered is-boxed is-small">
+            <ul>
+                <li class="tab is-active" id="Students" v-on:click="openTab('Student')">
+                    <a style="    font-size: 14px;">SIT Student</a>
+                </li>
+                <li class="tab" id="Non-Students" v-on:click="openTab('Non-Student')">
+                    <a style="    font-size: 14px;">Non-SIT Student</a>
+                </li>
+            </ul>
+        </nav>
+
+<!-- <div class="container section"> -->
+    <div id="Student" class="content-tab" >
+        <div class="field">
+            <multi-select 
+                :options="studentData"
+                :selectedOptions="selectedStudent"
+                placeholder="Select Student ID"
+                @select="onSelect">
+            </multi-select>
+        </div>
+        <table class="table is-fullwidth is-scrollable" v-if="membersChild.student.length>0">
+            <tbody height="44%">
+                <tr v-for="(student,student_index) in studentName" v-bind:key="student_index">
+                    <td>{{student_index+1}}.</td>
+                    <td>{{student.student_id}}</td>
+                    <td>{{student.firstname}} {{student.lastname}}</td>
+                </tr>
+            </tbody>
+        </table>
+      
+    </div>
+    <div id="Non-Student" class="content-tab" style="display:none">
+        <div class="columns" style="margin-bottom: -10px;">
+            <div class="column is-5">
+                <div class="field">
+                    <label class="label inputName">Firstname</label>
+                    <div class="control">
+                        <input ref="tmpFirst" class="input inputData" type="text" placeholder="์e.g. Nattanat" v-model="newOutsider.tmpFirst" v-on:keyup="outsiderFirstNameValidation()">
+                        <p ref="tmpFirstValidate" class="help is-danger"></p>
+                    </div>
+                </div>
+            </div><div class="column"></div>
+            <div class="column is-5">
+                <div class="field">
+                    <label class="label inputName">Lastname</label>
+                    <div class="control">
+                        <input ref="tmpLast" class="input inputData" type="text" placeholder="e.g. Wimaluangtrakul" v-model="newOutsider.tmpLast" v-on:keyup="outsiderLastNameValidation()">
+                        <p ref="tmpLastValidate" class="help is-danger"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="field">
+                    <label class="label inputName" style="color:white;">.</label>
+                    <p class="control">
+                        <a class="button" @click.prevent="addOutsider();step3CheckMember();">
+                        Add
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <table class="table is-fullwidth is-scrollable" v-if="membersChild.outsider.length>0">
+                <tbody height="40%">
+                    <tr v-for="(outsider,outsider_index) in membersChild.outsider" v-bind:key="outsider_index">
+                        <td>{{outsider_index+1}}.</td>
+                        <td>{{outsider.firstname}} {{outsider.lastname}} </td>
+                        <td ><span @click="removeOutsider(outsider_index)" style="cursor:pointer" class="delete"></span> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<!-- </div> -->
+
+    
+        <!-- <div class="tabs is-centered is-boxed is-small">
             <ul>
                 <li class="is-active">
                 <a>
-                    <span>Pictures</span>
+                    <span>Student</span>
                 </a>
                 </li>
                 <li>
                 <a>
-                    <span>Music</span>
+                    <span>Non-Student</span>
                 </a>
                 </li>
             </ul>
-        </div>
+        </div> -->
 
         <div class="columns">
-            <div class="column">
+            <!-- <div class="column">
                 <div class="field">
-                <label class="label inputName">Student</label>
-                <hr>
                 <multi-select 
                     :options="studentData"
                     :selectedOptions="selectedStudent"
@@ -51,12 +128,10 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </div> -->
 
-            <div class="column">
+            <!-- <div class="column">
                 <div class="field">
-                    <label class="label inputName">Non-Student</label>
-                    <hr>
                     <div class="columns">
                         <div class="column">
                             <div class="field">
@@ -78,14 +153,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
-        
-        
-
-
-
-
+    
         <!-- <div class="columns">
             <div class="column" v-if="membersChild.haveOutsider != null">
                 <div class="chooseMemberType" v-on:click="chooseStudent=true,clickAddMember=!clickAddMember">+ SIT Student ...</div><hr>
@@ -224,21 +294,34 @@ export default {
 
             studentData: this.studentDataFromParent,
             selectedStudent: this.selectedStudentParent, //นักศึกษาที่ถูกเลือก เพื่อจะ add
-            selectedStudentNew: [],
-            studentName: []
+            // selectedStudentNew: [],
+            studentName: this.nameSelectedStudentParent
         }
     },
     props:{
         membersParent: Object,
         selectedStudentParent: Array,
-        studentDataFromParent: Array
+        studentDataFromParent: Array,
+        nameSelectedStudentParent: Array
     },
     methods: {
-        async getStudent() {
-                let allStudent = await axios.get("http://34.73.213.209:7000/users/list_student/59", data)
-                let data = allStudent.data;
+        // async getStudent() {
+        //     let allStudent = await axios.get("http://34.73.213.209:7000/users/list_student/59", data)
+        //     let data = allStudent.data;
+        // },
+        openTab(tabName) {
+            var i, x, tablinks;
+            x = document.getElementsByClassName("content-tab");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tab");
+            for (i = 0; i < x.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" is-active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName+"s").className += " is-active";
         },
-
         onSelect (selectedStudent) {
             this.selectedStudent = selectedStudent
             this.addStudent();
@@ -247,7 +330,6 @@ export default {
             this.step3CheckMember();
         },
         addStudent: function() {
-                                                                // พอกด add student แล้ว
             if(this.membersChild.student.length > 0){ 
                 this.membersChild.student = []                       // reset student member ก่อน
                 this.studentName = []
@@ -263,22 +345,23 @@ export default {
                     student_id: this.selectedStudent[i].text
                 })
             }
-            this.selectedStudentNew = this.selectedStudent // เก็บค่า selectedStudent ไว้ 
+            // this.selectedStudentNew = this.selectedStudent // เก็บค่า selectedStudent ไว้ 
             //sorting ตาม student_id
             this.membersChild.student.sort((a,b) => (a.student_id > b.student_id) ? 1 : ((b.student_id > a.student_id) ? -1 : 0));
             this.studentName.sort((a,b) => (a.student_id > b.student_id) ? 1 : ((b.student_id > a.student_id) ? -1 : 0));
         },
-        sameStudent: function() { 
-            this.selectedStudent = this.selectedStudentNew // ถ้าปิด modal add student แบบไม่ได้กด add พอกด add student อีกรอบ จะต้องแสดงแค่ค่าที่เลือกไปแล้ว
-        },
+        // sameStudent: function() { 
+        //     this.selectedStudent = this.selectedStudentNew // ถ้าปิด modal add student แบบไม่ได้กด add พอกด add student อีกรอบ จะต้องแสดงแค่ค่าที่เลือกไปแล้ว
+        // },
         setTmp(){
             this.newOutsider.tmpFirst = ""
             this.newOutsider.tmpLast = ""
         },
         addOutsider: function() {
             var lettersEN = /^[A-Za-z ]+$/;
-            if(this.newOutsider.tmpFirst != "" && this.newOutsider.tmpLast != "" && 
-            this.newOutsider.tmpFirst.match(lettersEN) && this.newOutsider.tmpLast.match(lettersEN)){ //กรอก outsider มาทั้งชื่อและสกุล กด add ได้
+            if(this.newOutsider.tmpFirst != "" && this.newOutsider.tmpLast != "" ){
+            // && 
+            // this.newOutsider.tmpFirst.match(lettersEN) && this.newOutsider.tmpLast.match(lettersEN)){ //กรอก outsider มาทั้งชื่อและสกุล กด add ได้
                 this.chooseOutsider=false //ปิด modal ไป
                 this.membersChild.outsider.push({
                     firstname: this.newOutsider.tmpFirst,
@@ -299,40 +382,40 @@ export default {
             }
         },
         outsiderFirstNameValidation(){
-            var lettersEN = /^[A-Za-z ]+$/;
-            if(this.newOutsider.tmpFirst.length > 0){
-                if(this.newOutsider.tmpFirst.match(lettersEN)){
-                    this.$refs.tmpFirstValidate.innerHTML = ""
-                    this.$refs.tmpFirst.style.borderColor = "#88D738"
-                    this.$refs.tmpFirst.style.boxShadow = "0 0 3px #88D738"
-                }else{
-                    this.$refs.tmpFirstValidate.innerHTML = "Must be English Alphabet"
-                    this.$refs.tmpFirst.style.borderColor = "#EB5656"
-                    this.$refs.tmpFirst.style.boxShadow = "0 0 3px #EB5656"
-                }
-            }else{
-                this.$refs.tmpFirstValidate.innerHTML = "Field is required"
-                this.$refs.tmpFirst.style.borderColor = "#EB5656"
-                this.$refs.tmpFirst.style.boxShadow = "0 0 3px #EB5656"
-            }
+            // var lettersEN = /^[A-Za-z ]+$/;
+            // if(this.newOutsider.tmpFirst.length > 0){
+            //     if(this.newOutsider.tmpFirst.match(lettersEN)){
+            //         this.$refs.tmpFirstValidate.innerHTML = ""
+            //         this.$refs.tmpFirst.style.borderColor = "#88D738"
+            //         this.$refs.tmpFirst.style.boxShadow = "0 0 3px #88D738"
+            //     }else{
+            //         this.$refs.tmpFirstValidate.innerHTML = "Must be English Alphabet"
+            //         this.$refs.tmpFirst.style.borderColor = "#EB5656"
+            //         this.$refs.tmpFirst.style.boxShadow = "0 0 3px #EB5656"
+            //     }
+            // }else{
+            //     this.$refs.tmpFirstValidate.innerHTML = "Field is required"
+            //     this.$refs.tmpFirst.style.borderColor = "#EB5656"
+            //     this.$refs.tmpFirst.style.boxShadow = "0 0 3px #EB5656"
+            // }
         },
         outsiderLastNameValidation(){
-            var lettersEN = /^[A-Za-z ]+$/;
-            if(this.newOutsider.tmpLast.length > 0){
-                if(this.newOutsider.tmpLast.match(lettersEN)){
-                    this.$refs.tmpLastValidate.innerHTML = ""
-                    this.$refs.tmpLast.style.borderColor = "#88D738"
-                    this.$refs.tmpLast.style.boxShadow = "0 0 3px #88D738"
-                }else{
-                    this.$refs.tmpLastValidate.innerHTML = "Must be English Alphabet"
-                    this.$refs.tmpLast.style.borderColor = "#EB5656"
-                    this.$refs.tmpLast.style.boxShadow = "0 0 3px #EB5656"
-                }
-            }else{
-                this.$refs.tmpLastValidate.innerHTML = "Field is required"
-                this.$refs.tmpLast.style.borderColor = "#EB5656"
-                this.$refs.tmpLast.style.boxShadow = "0 0 3px #EB5656"
-            }
+            // var lettersEN = /^[A-Za-z ]+$/;
+            // if(this.newOutsider.tmpLast.length > 0){
+            //     if(this.newOutsider.tmpLast.match(lettersEN)){
+            //         this.$refs.tmpLastValidate.innerHTML = ""
+            //         this.$refs.tmpLast.style.borderColor = "#88D738"
+            //         this.$refs.tmpLast.style.boxShadow = "0 0 3px #88D738"
+            //     }else{
+            //         this.$refs.tmpLastValidate.innerHTML = "Must be English Alphabet"
+            //         this.$refs.tmpLast.style.borderColor = "#EB5656"
+            //         this.$refs.tmpLast.style.boxShadow = "0 0 3px #EB5656"
+            //     }
+            // }else{
+            //     this.$refs.tmpLastValidate.innerHTML = "Field is required"
+            //     this.$refs.tmpLast.style.borderColor = "#EB5656"
+            //     this.$refs.tmpLast.style.boxShadow = "0 0 3px #EB5656"
+            // }
         },
         removeOutsider: function(outsider_index){
             this.membersChild.outsider.splice(outsider_index,1)
@@ -345,6 +428,7 @@ export default {
         },
         emitToParent9(event) {
             this.$emit('childToParent9', this.selectedStudent)
+            this.$emit('childToParent20', this.studentName)
         },
         emitToParent5(event) {
             this.$emit('childToParent5', this.membersChild.haveOutsider)

@@ -2,20 +2,20 @@
     <div>
         <div class="stepName">Project Overview <i class="la la-file-text-o"></i></div>
         <div class="field">
-            <label class="label inputName">Portfolio Page Detail(EN)</label>
+            <label class="label inputName">Project Detail (English)</label>
             <div class="control">
-                <textarea ref="portDetailEN" class="Normal textarea inputData portDetail" placeholder="Detail..." v-model="port_detail_Child.portPageDetailEN" v-on:keyup="validatePortPageDetailEN();emitToParent6();" maxlength="200"></textarea>
+                <textarea ref="portDetailEN" class="Normal textarea inputData portDetail" placeholder="e.g. Virtual Reality is applied to the KMUTT Library for VR study and development to help explore different views." v-model="port_detail_Child.portPageDetailEN" v-on:keyup="validatePortPageDetailEN();emitToParent6();" maxlength="200"></textarea>
                 <p ref="portDetailENValidate" class="help is-danger"></p>
                 <div class="field is-grouped is-grouped-right">{{count}}/200</div>
             </div>
         </div>
         <div class="field">
-            <label class="label inputName">Portfolio Page Detail(TH)</label>
+            <label class="label inputName">รายละเอียดโปรเจค (ภาษาไทย)</label>
             <div class="control">
-                <textarea ref="portDetailTH" class="Normal textarea inputData portDetail" placeholder="Detail..." v-model="port_detail_Child.portPageDetailTH" v-on:keyup="validatePortPageDetailTH();emitToParent7();"></textarea>
+                <textarea ref="portDetailTH" class="Normal textarea inputData portDetail" placeholder="เช่น ระบบจําลองภาพเสมือนหอสมุดโดยนําเทคโนโลยี Virtual Reality มาใช้ทํางานร่วมกับหอสมุดของมหาวิทยาลัยเพื่อศึกษาพัฒนาระบบจำลองภาพเสมือนหอสมุดให้มีความน่าสนใจมากยิ่งขึ้น" v-model="port_detail_Child.portPageDetailTH" v-on:keyup="validatePortPageDetailTH();emitToParent7();"></textarea>
                 <p ref="portDetailTHValidate" class="help is-danger"></p>
                 <br>
-                <div>* Please write at least 1 language</div>
+                <div><span class="require">* </span><span style="font-size:14px;color:#EB5656;">Please write at least 1 language</span></div>
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@ export default {
         validatePortPageDetailEN() {
             this.emitPortDetailToParentValidate();
 
-            var lettersEN = /^[A-Za-z ]+$/;
+            var lettersEN = /^[A-Za-z1-9.,:() ]+$/;
             var portDetailEN = this.$refs.portDetailEN;
             var portDetailTH = this.$refs.portDetailTH;
             if(this.port_detail_Child.portPageDetailEN != ""){ //ถ้ากรอก
@@ -94,7 +94,7 @@ export default {
         validatePortPageDetailTH() {
             this.emitPortDetailToParentValidate();
 
-            var lettersTH = /^[ก-๐ ]+$/;
+            var lettersTH = /^[ก-๐1-9() ]+$/;
             var portDetailTH = this.$refs.portDetailTH;
             var portDetailEN = this.$refs.portDetailEN;
             if(this.port_detail_Child.portPageDetailTH != ""){ //ถ้ากรอก

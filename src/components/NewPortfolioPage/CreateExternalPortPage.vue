@@ -46,8 +46,10 @@
                   <step3haveOutsider
                     v-on:childToParent8="getMemberfromChild($event)"
                     v-on:childToParent9="getSelectedStudentfromChild($event)"
+                    v-on:childToParent20="getNameSelectedStudentfromChild($event)"
                     :membersParent="membersParent"
                     :selectedStudentParent="selectedStudentParent"
+                    :nameSelectedStudentParent="nameSelectedStudentParent"
                     ref="childRefStep3"
                     :studentDataFromParent="studentDataFromParent"
                   />
@@ -64,7 +66,7 @@
                     v-on:childToParent10="getAchievementNamefromChild($event)"
                     v-on:childToParent11="getAchievementDetailfromChild($event)"
                     v-on:childToParent12="getCompanyfromChild($event)"
-                    v-on:childToParentDate="getDate($event)"
+                    v-on:childToParent13="getDate($event)"
                     :achievementParent="achievementParent"
                     v-on:validationStep4="getValidateAchievementfromChild($event)"
                     :validateAchievementParent="validateAchievementParent"
@@ -200,12 +202,13 @@ export default {
         outsider: []
       },
       selectedStudentParent: [],
+      nameSelectedStudentParent: [],
       //step4
       achievementParent: {
         achievementName: "",
-        achievementDetail: "",
-        company: "",
-        date: ""
+        achievementDetail: null,
+        company: null,
+        date: null
       },
 
       //validateData
@@ -254,18 +257,38 @@ export default {
       });
     },
     submit: function() {
-      this.sendDataToDb();
-      // this.$refs.childRefStep4.step4Check();
-      // if((this.validateAchievementParent.validateAchievementName == "noData" || this.validateAchievementParent.validateAchievementName == "trueData" )&& this.validateAchievementParent.validateAchievementDetail == "noData"
-      //     && this.validateAchievementParent.validateCompany == "noData" && this.achievementParent.date == ""){
-      //     this.sendDataToDb()
-      // }else if(this.validateAchievementParent.validateAchievementName == "trueData" && this.validateAchievementParent.validateAchievementDetail == "trueData" && this.validateAchievementParent.validateCompany != "falseData"){
-      //     this.sendDataToDb()
-      // }else if(this.validateAchievementParent.validateAchievementName == "trueData" && this.validateAchievementParent.validateAchievementDetail != "falseData" && this.validateAchievementParent.validateCompany == "trueData"){
-      //     this.sendDataToDb()
-      // }else if(this.validateAchievementParent.validateAchievementName == "trueData" && this.achievementParent.date != ""){
-      //     this.sendDataToDb()
-      // }
+      //   this.sendDataToDb();
+      console.log("before submit")
+      this.$refs.childRefStep4.step4Check();
+      if (
+        (this.validateAchievementParent.validateAchievementName == "noData" ||
+          this.validateAchievementParent.validateAchievementName ==
+            "trueData") &&
+        this.validateAchievementParent.validateAchievementDetail == "noData" &&
+        this.validateAchievementParent.validateCompany == "noData" &&
+        this.achievementParent.date == ""
+      ) {
+        this.sendDataToDb();
+      } else if (
+        this.validateAchievementParent.validateAchievementName == "trueData" &&
+        this.validateAchievementParent.validateAchievementDetail ==
+          "trueData" &&
+        this.validateAchievementParent.validateCompany != "falseData"
+      ) {
+        this.sendDataToDb();
+      } else if (
+        this.validateAchievementParent.validateAchievementName == "trueData" &&
+        this.validateAchievementParent.validateAchievementDetail !=
+          "falseData" &&
+        this.validateAchievementParent.validateCompany == "trueData"
+      ) {
+        this.sendDataToDb();
+      } else if (
+        this.validateAchievementParent.validateAchievementName == "trueData" &&
+        this.achievementParent.date != ""
+      ) {
+        this.sendDataToDb();
+      }
     },
     prev: function() {
       if (this.nowStep != 1) {
@@ -273,50 +296,63 @@ export default {
       }
     },
     next: function() {
-      this.nowStep++;
-      // if(this.nowStep == 1){
-      //         var validPort = this.validatePortParent
-      //         if(validPort.validatePortPageNameEN == true && validPort.validatePortPageNameTH == true && validPort.validateStartMonth == true && validPort.validateStartYear == true){
-      //             this.nowStep++;
-      //         }else{
-      //             this.$refs.childRefStep1.step1Check();
-      //         }
-      //     }
-      //     else if(this.nowStep == 2){
-      //         var validPortDetail = this.validatePortDetailParent
-      //         if(validPortDetail.validatePortPageDetailEN == true && validPortDetail.validatePortPageDetailTH == true){
-      //             this.nowStep++;
-      //         }else if(validPortDetail.validatePortPageDetailEN == true && this.port_detail_Parent.portPageDetailTH == ""){
-      //             this.nowStep++;
-      //         }else if(validPortDetail.validatePortPageDetailTH == true && this.port_detail_Parent.portPageDetailEN == ""){
-      //             this.nowStep++;
-      //         }else{
-      //             this.$refs.childRefStep2.step2Check();
-      //         }
-      //     }
-      //     else if(this.nowStep == 3){
-      //         if(this.membersParent.haveOutsider == null){
-      //             this.$refs.childRefStep3.step3Check();
-      //         }else if(this.membersParent.haveOutsider == "true"){
-      //             if(this.membersParent.student.length!=0 && this.membersParent.outsider.length!=0){
-      //                 this.nowStep++;
-      //                 if(this.membersParent.haveOutsider == "false"){
-      //                     this.membersParent.outsider = []
-      //                 }
-      //             }else{
-      //                 this.$refs.childRefStep3.step3CheckMember();
-      //             }
-      //         }else if(this.membersParent.haveOutsider == "false"){
-      //             if(this.membersParent.student.length==0){
-      //                 this.$refs.childRefStep3.step3CheckMember();
-      //             }else{
-      //                 this.nowStep++;
-      //                 if(this.membersParent.haveOutsider == "false"){
-      //                     this.membersParent.outsider = []
-      //                 }
-      //             }
-      //         }
-      //     }
+      //   this.nowStep++;
+      if (this.nowStep == 1) {
+        var validPort = this.validatePortParent;
+        if (
+          validPort.validatePortPageNameEN == true &&
+          validPort.validatePortPageNameTH == true &&
+          validPort.validateStartMonth == true &&
+          validPort.validateStartYear == true
+        ) {
+          this.nowStep++;
+        } else {
+          this.$refs.childRefStep1.step1Check();
+        }
+      } else if (this.nowStep == 2) {
+        var validPortDetail = this.validatePortDetailParent;
+        if (
+          validPortDetail.validatePortPageDetailEN == true &&
+          validPortDetail.validatePortPageDetailTH == true
+        ) {
+          this.nowStep++;
+        } else if (
+          validPortDetail.validatePortPageDetailEN == true &&
+          this.port_detail_Parent.portPageDetailTH == ""
+        ) {
+          this.nowStep++;
+        } else if (
+          validPortDetail.validatePortPageDetailTH == true &&
+          this.port_detail_Parent.portPageDetailEN == ""
+        ) {
+          this.nowStep++;
+        } else {
+          this.$refs.childRefStep2.step2Check();
+        }
+      } else if (this.nowStep == 3) {
+        this.nowStep++;
+        //   if(this.membersParent.haveOutsider == null){
+        //       this.$refs.childRefStep3.step3Check();
+        //   }else if(this.membersParent.haveOutsider == "true"){
+        //       if(this.membersParent.student.length!=0 && this.membersParent.outsider.length!=0){
+        //           this.nowStep++;
+        //           if(this.membersParent.haveOutsider == "false"){
+        //               this.membersParent.outsider = []
+        //           }
+        //       }else{
+        //           this.$refs.childRefStep3.step3CheckMember();
+        //       }
+        //   }else if(this.membersParent.haveOutsider == "false"){
+        //       if(this.membersParent.student.length==0){
+        //           this.$refs.childRefStep3.step3CheckMember();
+        //       }else{
+        //           this.nowStep++;
+        //           if(this.membersParent.haveOutsider == "false"){
+        //               this.membersParent.outsider = []
+        //           }
+        //       }
+        //   }
+      }
     },
     //step1
     getPortPageNameENfromChild(portPageNameEN) {
@@ -344,6 +380,9 @@ export default {
     },
     getSelectedStudentfromChild(selectedStudent) {
       this.selectedStudentParent = selectedStudent;
+    },
+    getNameSelectedStudentfromChild(nameSelectedStudent) {
+      this.nameSelectedStudentParent = nameSelectedStudent;
     },
     //step4
     getAchievementNamefromChild(achievementName) {
@@ -387,9 +426,9 @@ export default {
       if (this.portParent.startMonth == null) {
         this.portParent.startMonth = 0;
       }
-      if(this.membersParent.outsider.length > 0){
-          this.membersParent.outsider = true
-          console.log("have outsider")
+      if (this.membersParent.outsider.length > 0) {
+        this.membersParent.outsider = true;
+        console.log("have outsider");
       }
       var data;
       data = {
@@ -404,10 +443,6 @@ export default {
           haveOutsider: this.membersParent.haveOutsider
         },
         member: {
-          // "students": [
-          //     { "student_id": "59130500001" },
-          //     { "student_id": "59130500002" }
-          // ]
           students: JSON.parse(JSON.stringify(this.membersParent.student))
           // "outsiders": JSON.parse(JSON.stringify(this.membersParent.outsider))
         }
@@ -421,6 +456,7 @@ export default {
           organize_by: this.achievementParent.company,
           date_of_event: this.achievementParent.date
         };
+        console.log("check null : " +data.achievement.organize_by)
         console.log("AA : " + data["achievement"].achievement_name);
       }
       // if(this.membersParent.outsider.length > 0){
@@ -428,11 +464,13 @@ export default {
       // }
       console.log(typeof this.portParent.startMonth);
       try {
-        // await axios.post("http://34.73.213.209:7000/projects/external", data)
         await axios
           .post("http://34.73.213.209:7000/projects/external", data)
           .then(res => {
-            this.$router.push({ path: `/ProjectDetail/${res.data.project_id}` });
+            console.log(res);
+            this.$router.push({
+              path: `/ProjectDetail/${res.data.project_id}`
+            });
           })
           .catch(res => {
             console.log(res);
@@ -441,8 +479,8 @@ export default {
         console.log("FAILURE!!" + err);
       }
     },
-    setProjectId(project_id){
-        projectId = project_id;
+    setProjectId(project_id) {
+      projectId = project_id;
     }
   },
   components: {

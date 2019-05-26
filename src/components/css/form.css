@@ -7,21 +7,22 @@
 }
 
 .stepName{
-    font-size:20px;
-    color: #545454;
-    margin-bottom: 3%;
+    font-size:23px;
+    color: #265080;
+    margin-bottom: 13px;
 }
 
 .inputName{
-    font-size:18px;
-    font-weight: 100;
+    font-size:16px;
+    font-weight: 500;
     color: #949494;
-    margin-bottom: 1px !important;
+    padding-top: 4px !important;
+    margin-bottom: 4px !important;
 }
 
 .inputData{
-    background: #ECECEC;
-    color: #265080;
+    /* background: #ECECEC; */
+    color: #545454;
 }
 
 .card-equal-height{
@@ -76,6 +77,10 @@
     padding: 10px;
 }
 
+.selectText{
+    color: #545454 !important;
+}
+
 hr{
     margin: 3px
 }
@@ -108,7 +113,7 @@ hr{
 }
 
 .field{
-    margin-bottom: 17px !important
+    margin-bottom: 15px !important
 }
 
 .startMonth{
@@ -179,3 +184,55 @@ hr{
     cursor: pointer;
 }
 
+/* .tabs{
+    margin-top: -40px;
+} */
+.tabs{
+    margin-top: 15px;
+    margin-bottom: -1px!important;
+}
+.tab-content {
+    border: 1px solid #DBDBDB;
+    padding: 30px;
+}
+ 
+.tab-pane{
+    display: none;
+}
+
+.is-active{
+    display: initial
+}
+
+.tabs li.is-active a {
+    color: #265080;
+    font-weight: 600;
+}
+
+.content ul {
+    margin-left: 0px !important;
+    margin-top: 0px !important;
+}
+
+.multiple{
+    margin-top: 10px;
+}
+
+.table 
+    tbody{
+        overflow-y: scroll;
+        /* width: auto; */
+        position: absolute;
+        color: #545454 !important;
+    }
+      
+.table td,.table th{
+    font-weight: normal;
+    color: #545454 !important;
+    border: 0px !important;
+}
+
+.require{
+    color: #EB5656;
+    font-size: 18px;
+}

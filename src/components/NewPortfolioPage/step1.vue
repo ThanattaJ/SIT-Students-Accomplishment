@@ -1,19 +1,25 @@
 <template>
     <div>
+        <!-- <section class="grid">
+
+  <div class="datepicker__container">
+    <label for="datepicker" class="">---select the date---</label>
+    <input type='text' class="js-datepicker" id='datepicker' placeholder="Select date" @click="dateClick"/>
+  </div>
+  
+</section> -->
         <div class="stepName">Create Project <i class="la la-edit"></i></div>
         <div class="field">
-            <!-- Parent to Child : <br>
-            {{portParent.portPageNameEN}} <br> -->
-            <label class="label inputName">Project Name(English)</label>
+            <label class="label inputName">Project Name (English) <span class="require">*</span></label>
             <div class="control">
-                <input ref="portNameEN" class="input inputData" type="text" placeholder="Portfolio Page Name" v-model="portChild.portPageNameEN" v-on:keyup="validatePortPageNameEN();emitToParent1();">
+                <input ref="portNameEN" class="input inputData" type="text" placeholder="e.g. Library VR" v-model="portChild.portPageNameEN" v-on:keyup="validatePortPageNameEN();emitToParent1();">
                 <p ref="portNameENValidate" class="help is-danger"></p>
             </div>
         </div>
         <div class="field">
-            <label class="label inputName">ชื่อผลงาน(ภาษาไทย)</label>
+            <label class="label inputName">ชื่อผลงาน (ภาษาไทย) <span class="require">*</span></label>
             <div class="control">
-                <input ref="portNameTH" class="input inputData" type="text" placeholder="Portfolio Page Name" v-model="portChild.portPageNameTH" v-on:keyup="validatePortPageNameTH();emitToParent2();">
+                <input ref="portNameTH" class="input inputData" type="text" placeholder="เช่น ระบบจําลองภาพเสมือนหอสมุด" v-model="portChild.portPageNameTH" v-on:keyup="validatePortPageNameTH();emitToParent2();">
                 <p ref="portNameTHValidate" class="help is-danger"></p>
             </div>
         </div>
@@ -21,7 +27,7 @@
         <div class="columns field"> 
             <div class="column is-one-quarter startMonth">
                 <span class="select">
-                    <select ref="startMonth" v-model="portChild.startMonth" v-on:change="emitToParent3" style="background-color: #ECECEC;">
+                    <select class="selectText" ref="startMonth" v-model="portChild.startMonth" v-on:change="emitToParent3" >
                         <option selected disabled :value=null>Month</option>
                         <option v-for="(m,index) in months" v-bind:key="index" :value="m.id">{{m.month}}</option>
                     </select>
@@ -29,19 +35,15 @@
             </div>
             <div class="column">
                 <span class="select">
-                    <select ref="startYear" v-model="portChild.startYear" v-on:change="validateStartYear();emitToParent4();" style="background-color: #ECECEC;">
+                    <select class="selectText" ref="startYear" v-model="portChild.startYear" v-on:change="validateStartYear();emitToParent4();">
                         <option selected disabled :value=null>Year</option>
                         <option v-for="(y,index) in years" v-bind:key="index" :value="y">{{y}}</option>
                     </select>
-                    <p ref="startYearValidate" class="help is-danger"></p>
+                    <p style="width: 100px;" ref="startYearValidate" class="help is-danger"></p>
                 </span>
             </div>
         </div>
-
-        ------ When did you finish the project? ------
-
-
-
+        <!-- ------ When did you finish the project? ------ -->
     </div>
 </template>
 
@@ -78,11 +80,43 @@ export default {
             years: [2016,2017,2018,2019]
         }
     },
+    
     props:{
         portParent: Object,
         validatePortParent: Object
     },
     methods: {
+
+
+// $(function() {
+//     dateClick() {
+//   const $datepicker = $('.js-datepicker');
+//   // var disabledDates = [0, 6];
+  
+//   let datepicker = $datepicker.datepicker({
+//     autoClose: true,
+//     classes: 'datepicker__calendar',
+//     position: 'bottom right',
+//     offset: 22,
+//     onRenderCell: function (date, cellType) {
+//       if (cellType == 'day') {
+//         let day = date.getDay();
+//         // let isDisabled = disabledDates.indexOf(day) != -1;
+//         // return {
+//         //   disabled: isDisabled
+//         // }
+//       }
+//     },
+//     onSelect: function(formattedDate, date, inst) {
+//       if(date) {
+//         alert(date);
+//       }
+//     }
+//   }).data('datepicker');
+  
+// },
+
+
         emitToParent1(event) {
             this.$emit('childToParent1', this.portChild.portPageNameEN)
         },
@@ -111,7 +145,7 @@ export default {
         validatePortPageNameEN() {
             this.emitPortToParentValidate();
 
-            var lettersEN = /^[A-Za-z ]+$/;
+            var lettersEN = /^[A-Za-z1-9.,:() ]+$/;
             var portNameEN = this.$refs.portNameEN;
             if(this.portChild.portPageNameEN.match(lettersEN)){
                 portNameEN.style.borderColor = "#88D738"
@@ -134,7 +168,7 @@ export default {
         validatePortPageNameTH() {
             this.emitPortToParentValidate();
 
-            var lettersTH = /^[ก-๐ ]+$/;
+            var lettersTH = /^[ก-๐1-9() ]+$/;
             var portNameTH = this.$refs.portNameTH;
             if(this.portChild.portPageNameTH.match(lettersTH)){
                 portNameTH.style.borderColor = "#88D738"
