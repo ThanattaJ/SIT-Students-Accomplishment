@@ -64,7 +64,7 @@ import axios from 'axios';
         // }
         // console.log(this.uploaded)
 
-        const { data } = await axios.get('http://localhost:7000/projects/1')
+        const { data } = await axios.get('https://calm-shelf-19378.herokuapp.com/projects/1')
         const doc = data.document.map((_item , index = 0) => _item.path_name);
         console.log(doc.length)
     },
@@ -88,7 +88,7 @@ import axios from 'axios';
             this.$refs.fileValidate.innerHTML = 'Too large. Max size is 10 Mb'
           }else{
             try {
-                await axios.post('http://localhost:7000/files/document',formData)
+                await axios.post('https://calm-shelf-19378.herokuapp.com/files/document',formData)
                 .then(function(){ console.log('SUCCESS!!');})
                 this.countFileUploaded++;
                 console.log("countFileUploaded: " +countFileUploaded)

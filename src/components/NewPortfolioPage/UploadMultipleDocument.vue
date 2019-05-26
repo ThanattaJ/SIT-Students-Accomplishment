@@ -80,7 +80,7 @@ export default {
                 }
             }
             try {
-                await axios.post('http://localhost:7000/files/document',formData) // ('/api', ที่จะส่งไป) URL we will be POSTing to
+                await axios.post('https://calm-shelf-19378.herokuapp.com/files/document',formData) // ('/api', ที่จะส่งไป) URL we will be POSTing to
                 .then(function(){ console.log('SUCCESS!!');})
             } catch(err) {
                 console.log('FAILURE!!'+err)
