@@ -121,7 +121,7 @@ export default {
 
             var lettersEN = /^[A-Za-z0-9 ]+$/;
             var achievementName = this.$refs.achievementName;
-            if(this.achievementChild.achievementName != ""){ //ถ้ากรอก
+            if(this.achievementChild.achievementName.length > 0){ //ถ้ากรอก
                 achievementName.style.borderColor = "#88D738"
                 achievementName.style.boxShadow = "0 0 3px #88D738"
                 this.$refs.achievementNameValidate.innerHTML = ""
@@ -138,12 +138,13 @@ export default {
                 //     this.validateAchievementChild.validateAchievementName =  "falseData";
                 // }
             }else{ //ถ้าไม่กรอก
-                if(this.achievementChild.achievementDetail != "" || this.achievementChild.company != "" || this.date != ""){ //ถ้ามีข้อมูลอื่น
+                if(this.achievementChild.achievementDetail != null || this.achievementChild.company != null || this.date != null){ //ถ้ามีข้อมูลอื่น
                     achievementName.style.borderColor = "#EB5656"
                     achievementName.style.boxShadow = "0 0 3px #EB5656"
                     this.$refs.achievementNameValidate.innerHTML = "Field is required"
                     this.validateAchievementChild.validateAchievementName =  "mustHaveData";
-                }else{ //ถ้าไม่มีข้อมูลอื่น
+                }
+                else{ //ถ้าไม่มีข้อมูลอื่น
                     achievementName.style.borderColor = ""
                     achievementName.style.boxShadow = ""
                     this.$refs.achievementNameValidate.innerHTML = ""
@@ -156,7 +157,7 @@ export default {
 
             var lettersEN = /^[A-Za-z0-9 ]+$/;
             var achievementDetail = this.$refs.achievementDetail;
-            if(this.achievementChild.achievementDetail != "" || this.achievementChild.achievementDetail != null){ //ถ้ากรอก
+            if(this.achievementChild.achievementDetail != null){ //ถ้ากรอก
                 achievementDetail.style.borderColor = "#88D738"
                 achievementDetail.style.boxShadow = "0 0 3px #88D738"
                 this.$refs.achievementDetailValidate.innerHTML = ""
@@ -188,7 +189,7 @@ export default {
 
             var lettersEN = /^[A-Za-z0-9 ]+$/;
             var company = this.$refs.company;
-            if(this.achievementChild.company != "" || this.achievementChild.company != null){ //ถ้ากรอก
+            if(this.achievementChild.company != null){ //ถ้ากรอก
                 company.style.borderColor = "#88D738"
                 company.style.boxShadow = "0 0 3px #88D738"
                 this.$refs.companyValidate.innerHTML = ""

@@ -178,7 +178,7 @@ export default {
         "Create Project",
         "Project Overview",
         "Project Members",
-        "Project Acheivement"
+        "Project Achievement"
       ],
       activeColor: "#265080",
       direction: "vertical",
@@ -258,15 +258,16 @@ export default {
     },
     submit: function() {
       //   this.sendDataToDb();
-      console.log("before submit")
+      
       this.$refs.childRefStep4.step4Check();
+      console.log("before submit")
       if (
         (this.validateAchievementParent.validateAchievementName == "noData" ||
           this.validateAchievementParent.validateAchievementName ==
             "trueData") &&
         this.validateAchievementParent.validateAchievementDetail == "noData" &&
         this.validateAchievementParent.validateCompany == "noData" &&
-        this.achievementParent.date == ""
+        this.achievementParent.date == null
       ) {
         this.sendDataToDb();
       } else if (
@@ -285,7 +286,7 @@ export default {
         this.sendDataToDb();
       } else if (
         this.validateAchievementParent.validateAchievementName == "trueData" &&
-        this.achievementParent.date != ""
+        this.achievementParent.date != null
       ) {
         this.sendDataToDb();
       }
