@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="field">
-            <label class="label inputName">รายละเอียดโปรเจค (ภาษาไทย)</label>
+            <label class="label inputName">รายละเอียดผลงาน (ภาษาไทย)</label>
             <div class="control">
                 <textarea ref="portDetailTH" class="Normal textarea inputData portDetail" placeholder="เช่น ระบบจําลองภาพเสมือนหอสมุดโดยนําเทคโนโลยี Virtual Reality มาใช้ทํางานร่วมกับหอสมุดของมหาวิทยาลัยเพื่อศึกษาพัฒนาระบบจำลองภาพเสมือนหอสมุดให้มีความน่าสนใจมากยิ่งขึ้น" v-model="port_detail_Child.portPageDetailTH" v-on:keyup="validatePortPageDetailTH();emitToParent7();"></textarea>
                 <p ref="portDetailTHValidate" class="help is-danger"></p>
