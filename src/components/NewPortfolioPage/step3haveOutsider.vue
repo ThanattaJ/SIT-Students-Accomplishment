@@ -50,7 +50,7 @@
         <div class="columns" style="margin-bottom: -10px;">
             <div class="column is-5">
                 <div class="field">
-                    <label class="label inputName">Firstname</label>
+                    <label class="label inputName">First Name</label>
                     <div class="control">
                         <input ref="tmpFirst" class="input inputData" type="text" placeholder="์e.g. Nattanat" v-model="newOutsider.tmpFirst" v-on:keyup="outsiderFirstNameValidation()">
                         <p ref="tmpFirstValidate" class="help is-danger"></p>
@@ -59,7 +59,7 @@
             </div><div class="column"></div>
             <div class="column is-5">
                 <div class="field">
-                    <label class="label inputName">Lastname</label>
+                    <label class="label inputName">Last Name</label>
                     <div class="control">
                         <input ref="tmpLast" class="input inputData" type="text" placeholder="e.g. Wimaluangtrakul" v-model="newOutsider.tmpLast" v-on:keyup="outsiderLastNameValidation()">
                         <p ref="tmpLastValidate" class="help is-danger"></p>
