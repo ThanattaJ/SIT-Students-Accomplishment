@@ -49,7 +49,7 @@ export default {
         async sendFile(){
             const formData = new FormData();
             formData.append('file', this.file);
-            formData.append('project_id',this.project_id);
+            formData.append('project_id',this.$route.params.pId);
             formData.append('isCover',this.cover);
             try{
                 await axios.post('http://34.73.213.209:7000/files/image',formData)
@@ -68,7 +68,7 @@ export default {
 <style>
     #cover_update{
         height: 54px;
-        margin-left: -60%;
+        margin-left: 10%;
     }
     #cover_choose{
         height: 20px;

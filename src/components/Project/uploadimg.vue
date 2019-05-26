@@ -48,7 +48,7 @@ export default {
         async sendFile(){
             const formData = new FormData();
             formData.append('file', this.file);
-            formData.append('project_id',"1");
+            formData.append('project_id',this.$route.params.pId);
             formData.append('isCover',"false");
             try{
                 await axios.post('http://34.73.213.209:7000/files/image',formData)
