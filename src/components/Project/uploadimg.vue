@@ -13,7 +13,7 @@
                     />
                     <span class="file-cta">
                         <span class="file-label" id="button_choose">
-                            Choose a file...
+                            Upload Image
                         </span>
                     </span>
                     <span v-if="file" class="file-name">{{file.name}}</span>
@@ -53,13 +53,13 @@ export default {
             try{
                 await axios.post('https://calm-shelf-19378.herokuapp.com/files/image',formData)
                 .then(function(res){ console.log(res);})
-                this.message = "File has been uploaded";
-                this.file=" ";
-                this.error = false;
+                    this.message = "File has been uploaded";
+                    this.file=" ";
+                    this.error = false;
             }catch(err){
                 console.log('FAILURE!!'+err)
-                this.message = "Something went wrong";
-                this.error = true;
+                    this.message = "Something went wrong";
+                    this.error = true;
             }
         }
     }

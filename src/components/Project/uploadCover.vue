@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="sendFile" enctype="multipart/form-data">
-    <div class="columns">
+    <div class="columns" id="cover">
         <div class="column">
             <div class="file is-boxed is-primary">
                 <label class="file-label" >
@@ -13,7 +13,7 @@
                     />
                     <span class="file-cta">
                         <span class="file-label" id="cover_choose">
-                            Choose a file...
+                            Upload Cover
                         </span>
                     </span>
                     <span v-if="file" class="file-name">{{file.name}}</span>
@@ -78,6 +78,10 @@ export default {
     }
     .columns{
         margin-top: 2%;
+    }
+    #cover{
+        margin-left: -20%;
+        margin-top: -2%;
     }
 </style>
  

@@ -78,28 +78,27 @@
                         </div>
                         <!-- ------------------------------ -->
                     </div>
-                    <div class="card" id="Acheivement">
+                    <div class="card" id="Acheivement" >
                         <header class="card-header">
                             <p class="card-header-title" id="cardHeader">
                                 Acheivement
                             </p>
                         </header>
-                        <div class="card-content">
+                        <div class="card-content" v-for=" i in Acheivement" v-bind:key="i.name ">
                             <div class="content"  id="Acheivement">
-                                Name: {{Acheivement[0].name}}
+                                Name: {{i.name}}
                             </div>
                             <div class="content"  id="Acheivement">
-                                Details: {{Acheivement[0].detail}}
+                                Details: {{i.detail}}
                             </div>
                             <div class="content" id="Acheivement" >
-                                Company: {{Acheivement[0].company}}
+                                Company: {{i.company}}
                             </div>
                             <div class="content"  id="Acheivement">
-                                Date of Event: {{this.Acheivement[0].date_of_event}}
+                                Date of Event: {{i.date_of_event}}
                             </div>
                         </div>
                     </div>
-                        
                     <!-- ------------------- -->
                     <div  id="carousel">
                         <div id="container is-fluid">
@@ -118,9 +117,9 @@
                         </div>
                     </div>
                              <!-- -------------------- -->
-                    <div id="video">
+                    <!-- <div id="video">
                         <iframe src="https://www.youtube.com/embed/98YUIBPJWMo" width="100%" height="100%"></iframe>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="column">
                     <div class="card" id="Authors">
@@ -152,7 +151,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="columns" v-for=" out in outsider" v-bind:key="out.firstname">
+                            <!-- <div class="columns" v-for=" (out,id) in outsider" v-bind:key="id">
                                 <div class="column">
                                     <div class="content">
                                         <div id="student_name">{{out.firstname}}   {{out.lastname}}</div>
@@ -306,7 +305,8 @@ export default {
              }] ,
         project_id: '',
         pictures: [],
-        countPic: 0,
+        countPic: [],
+        indexPic: 0,
         tag:[
                 { name :'Hello'}
             ],
@@ -328,9 +328,9 @@ export default {
             this.Tools.tool = data.project_detail.tool_techniq_detail;
             this.References.ref =data.project_detail.references;
             this.project_id = data.project_detail.id
-    
+
+
         for(let i = 0; i < data.achievement.length; i++){
-            this.index++
             this.Acheivement.push(data.achievement[i])
             this.Acheivement[i].name = data.achievement[i].achievement_name
             this.Acheivement[i].detail=data.achievement[i].achievement_detail
@@ -358,7 +358,7 @@ export default {
         // outsiders
         
         // for (let i = 0; i < data.outsiders.length ; i++){                 
-        //     // console.log(data.outsiders[i])
+        //     console.log('outsiders : ',data.outsiders[i])
         //     this.outsider.push(data.outsiders[i])
         //     this.outsider[i].id = data.outsiders[i].id 
         //     this.outsider[i].firstname = data.outsiders[i].firstname
@@ -387,13 +387,12 @@ export default {
                 // console.log("count",this.countPic)
             }else if(name != "cover" ){
                 this.countPic++
+                this.indexPic.push({indexPic: this.countPic++})
                 this.pictures.push({ path: newPath })  
                 // this.pictures.push(data.picture[i])
                 // this.pictures.path = newPath
-                console.log("count : ",this.countPic-1)
             }
-           
-           
+             console.log("count : ",this.countPic-1)
         }
         // console.log('picture',this.pictures[1].path)
        
@@ -503,7 +502,7 @@ export default {
             console.log('picture',this.pictures[this.countPic-1].path)
         try{
             axios.delete('https://calm-shelf-19378.herokuapp.com/files/image' ,{
-               data : {"path_name" : this.pictures[this.countPic-1].path}
+            //    data : {"path_name" : this.pictures[this.countPic-1].path}
             }) 
             .then(response =>this.pictures.splice(this.pictures[this.countPic-1].path))
             // this.pictures[this.countPic].path = data.picture.path_name
