@@ -110,13 +110,13 @@ export default {
                 }else{
                     portDetailTH.style.borderColor = "#EB5656"
                     portDetailTH.style.boxShadow = "0 0 3px #EB5656"
-                    this.$refs.portDetailTHValidate.innerHTML = "Must be Thai Alphabet"
+                    this.$refs.portDetailTHValidate.innerHTML = "กรุณาระบุเป็นภาษาไทย"
                     this.validatePortDetailChild.validatePortPageDetailTH =  false;
                 }
             }else{ //ถ้าไม่กรอก
                 portDetailTH.style.borderColor = "#EB5656"
                 portDetailTH.style.boxShadow = "0 0 3px #EB5656"
-                this.$refs.portDetailTHValidate.innerHTML = "Field is required"
+                this.$refs.portDetailTHValidate.innerHTML = "โปรดระบุรายละเอียดผลงาน"
                 this.validatePortDetailChild.validatePortPageDetailTH =  false;
             }
         }

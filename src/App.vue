@@ -75,7 +75,7 @@ name :'app'
 }
 
 .navbar-item img{
-  max-height: 100px !important;
+  max-height: 70px !important;
 }
 
 .la{

@@ -178,12 +178,12 @@ export default {
             }else if(this.portChild.portPageNameTH == "" || this.portChild.portPageNameTH == null){
                 portNameTH.style.borderColor = "#EB5656"
                 portNameTH.style.boxShadow = "0 0 3px #EB5656"
-                this.$refs.portNameTHValidate.innerHTML = "Field is required"
+                this.$refs.portNameTHValidate.innerHTML = "โปรดระบุชื่อผลงาน"
                 this.validatePortChild.validatePortPageNameTH =  false;
             }else{
                 portNameTH.style.borderColor = "#EB5656"
                 portNameTH.style.boxShadow = "0 0 3px #EB5656"
-                this.$refs.portNameTHValidate.innerHTML = "Must be Thai Alphabet"
+                this.$refs.portNameTHValidate.innerHTML = "กรุณาระบุเป็นภาษาไทย"
                 this.validatePortChild.validatePortPageNameTH =  false;
             }
         },

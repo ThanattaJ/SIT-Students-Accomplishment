@@ -102,7 +102,11 @@
         </div>
       </div>
     </div>
+
     <div>
+      {{membersParent}}
+    </div>
+    <!-- <div>
       {{membersParent}}
       <br>
       Port name EN : {{portParent.portPageNameEN}}
@@ -132,7 +136,7 @@
       <br>
       date : {{achievementParent.date}}
       <br>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -427,10 +431,6 @@ export default {
       if (this.portParent.startMonth == null) {
         this.portParent.startMonth = 0;
       }
-      if (this.membersParent.outsider.length > 0) {
-        this.membersParent.outsider = true;
-        console.log("have outsider");
-      }
       var data;
       data = {
         project_data: {
@@ -445,28 +445,27 @@ export default {
         },
         member: {
           students: JSON.parse(JSON.stringify(this.membersParent.student))
-          // "outsiders": JSON.parse(JSON.stringify(this.membersParent.outsider))
         }
       };
       if (this.achievementParent.achievementName != "") {
         console.log("have achievement");
-
         data["achievement"] = {
           achievement_name: this.achievementParent.achievementName,
           achievement_detail: this.achievementParent.achievementDetail,
           organize_by: this.achievementParent.company,
           date_of_event: this.achievementParent.date
         };
-        console.log("check null : " +data.achievement.organize_by)
-        console.log("AA : " + data["achievement"].achievement_name);
       }
-      if(this.membersParent.outsider.length > 0){
-          data["member"] = { "outsiders": JSON.parse(JSON.stringify(this.membersParent.outsider)) }
+      if (this.membersParent.outsider.length > 0) {
+        this.membersParent.haveOutsider = true;
+        console.log("มีคนนอก : " + this.membersParent.haveOutsider)
+        data.member.outsiders = JSON.parse(JSON.stringify(this.membersParent.outsider))
+        console.log("OUTSIDER: "+ this.membersParent.outsider)
       }
-      console.log(typeof this.portParent.startMonth);
       try {
         await axios
-          .post("https://calm-shelf-19378.herokuapp.com/projects/external", data)
+          .post("http://localhost:7000/projects/external", data)
+          // .post("https://calm-shelf-19378.herokuapp.com/projects/external", data)
           .then(res => {
             console.log(res);
             this.$router.push({
