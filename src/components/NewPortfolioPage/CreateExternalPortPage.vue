@@ -464,8 +464,8 @@ export default {
       }
       try {
         await axios
-          .post("http://localhost:7000/projects/external", data)
-          // .post("https://calm-shelf-19378.herokuapp.com/projects/external", data)
+          // .post("http://localhost:7000/projects/external", data)
+          .post("https://calm-shelf-19378.herokuapp.com/projects/external", data)
           .then(res => {
             console.log(res);
             this.$router.push({
