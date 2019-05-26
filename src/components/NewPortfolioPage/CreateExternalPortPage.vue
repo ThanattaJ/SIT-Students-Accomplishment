@@ -153,7 +153,7 @@ export default {
   async mounted() {
     //connect API ดึงข้อมูลนศ
     const { data } = await axios.get(
-      "http://34.73.213.209:7000/users/list_student/59"
+      "https://calm-shelf-19378.herokuapp.com/users/list_student/59"
     );
     var studentID = data.map((_item, index = 0) => _item.student_id);
     var studentFname = data.map((_item, index = 0) => _item.firstname_en);
@@ -459,13 +459,13 @@ export default {
         console.log("check null : " +data.achievement.organize_by)
         console.log("AA : " + data["achievement"].achievement_name);
       }
-      // if(this.membersParent.outsider.length > 0){
-      //     data["member"] = { "outsiders": JSON.parse(JSON.stringify(this.membersParent.outsider)) }
-      // }
+      if(this.membersParent.outsider.length > 0){
+          data["member"] = { "outsiders": JSON.parse(JSON.stringify(this.membersParent.outsider)) }
+      }
       console.log(typeof this.portParent.startMonth);
       try {
         await axios
-          .post("http://34.73.213.209:7000/projects/external", data)
+          .post("https://calm-shelf-19378.herokuapp.com/projects/external", data)
           .then(res => {
             console.log(res);
             this.$router.push({

@@ -319,7 +319,7 @@ export default {
     async mounted() {
         console.log(this.$route.params.pId)
         // get data
-        const { data } = await axios.get('http://34.73.213.209:7000/projects/' + this.$route.params.pId)
+        const { data } = await axios.get('https://calm-shelf-19378.herokuapp.com/projects/' + this.$route.params.pId)
         console.log("data ",data)
             this.header.TitleName = data.project_detail.project_name_en;
             this.header.TitleName_TH = data.project_detail.project_name_th;
@@ -414,7 +414,7 @@ export default {
         // },
         save() {
            try{
-                axios.patch('http://34.73.213.209:7000/projects/',{
+                axios.patch('https://calm-shelf-19378.herokuapp.com/projects/',{
                     "project_detail": {
                         "id": this.project_id,
                         "project_name_th": this.header.TitleName_TH,
@@ -502,7 +502,7 @@ export default {
         deletePicture (){
             console.log('picture',this.pictures[this.countPic-1].path)
         try{
-            axios.delete('http://34.73.213.209:7000/files/image' ,{
+            axios.delete('https://calm-shelf-19378.herokuapp.com/files/image' ,{
                data : {"path_name" : this.pictures[this.countPic-1].path}
             }) 
             .then(response =>this.pictures.splice(this.pictures[this.countPic-1].path))

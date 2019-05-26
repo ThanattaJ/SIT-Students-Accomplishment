@@ -52,7 +52,7 @@ export default {
             formData.append('project_id',this.$route.params.pId);
             formData.append('isCover',this.cover);
             try{
-                await axios.post('http://34.73.213.209:7000/files/image',formData)
+                await axios.post('https://calm-shelf-19378.herokuapp.com/files/image',formData)
                 .then(function(res){ console.log(res)})
                 this.message = "File has been uploaded";
                 this.error = false;
