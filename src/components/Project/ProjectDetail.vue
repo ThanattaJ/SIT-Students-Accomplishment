@@ -108,7 +108,7 @@
                                     <a class="delete" v-if="EditProject" @click="deletePicture(countPic)"></a>
                                         <div class="image is-128x128">
                                             <img :src= "picture.path" >
-                                               <!-- {{id+1}} -->
+                                               {{id}}
                                         </div>  
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="columns" v-for=" out in outsider" v-bind:key="out.mail">
+                            <!-- <div class="columns" v-for=" out in outsider" v-bind:key="out.firstname">
                                 <div class="column">
                                     <div class="content">
                                         <div id="student_name">{{out.firstname}}   {{out.lastname}}</div>
@@ -165,7 +165,7 @@
                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="card" id="tool">
@@ -357,15 +357,15 @@ export default {
            
         // outsiders
         
-        for (let i = 0; i < data.outsiders.length ; i++){                 
-            // console.log(data.outsiders[i])
-            this.outsider.push(data.outsiders[i])
-            this.outsider[i].id = data.outsiders[i].id 
-            this.outsider[i].firstname = data.outsiders[i].firstname
-            this.outsider[i].lastname = data.outsiders[i].lastname
-            this.outsider[i].mail = data.outsiders[i].email 
-        }
-            this.outsider.length =data.outsiders.length
+        // for (let i = 0; i < data.outsiders.length ; i++){                 
+        //     // console.log(data.outsiders[i])
+        //     this.outsider.push(data.outsiders[i])
+        //     this.outsider[i].id = data.outsiders[i].id 
+        //     this.outsider[i].firstname = data.outsiders[i].firstname
+        //     this.outsider[i].lastname = data.outsiders[i].lastname
+        //     this.outsider[i].mail = data.outsiders[i].email 
+        // }
+        //     this.outsider.length =data.outsiders.length
         // document
         for (let i = 0; i < data.document.length ; i++){
             this.document[i] = data.document[i].path_name 
@@ -384,21 +384,23 @@ export default {
             if(name === "cover"){
                 this.cover.push(data.picture[i])
                 this.cover.path = `${data.picture[i].path_name}`
-                // console.log(this.cover.path)
+                // console.log("count",this.countPic)
             }else if(name != "cover" ){
-                this.pictures.push({ path: newPath })
                 this.countPic++
+                this.pictures.push({ path: newPath })  
                 // this.pictures.push(data.picture[i])
                 // this.pictures.path = newPath
-                // console.log(this.countPic)
+                console.log("count : ",this.countPic-1)
             }
+           
+           
         }
         // console.log('picture',this.pictures[1].path)
        
         // เก็บข้อมูลไว้ก่อน
-            this.cachedUser_eg = Object.assign({}, this.Detail.content_eg);
-            this.cachedUser_th = Object.assign({}, this.Detail.content_th);
-            this.Tools_tool = Object.assign({}, this.Tools.tool);
+            this.cachedUser_eg =  this.Detail.content_eg;
+            this.cachedUser_th = this.Detail.content_th;
+            this.Tools_tool =  this.Tools.tool;
         //  console.log(this.cachedUser)
         
     },
@@ -482,18 +484,14 @@ export default {
             }
         },
         cancel() {
-            this.EditProject = Object.assign({}, this.cachedUser_eg);
-            this.EditProject = Object.assign({}, this.cachedUser_th);
+            this.Detail.content_eg = this.cachedUser_eg;
+            this.Detail.content_th  =  this.cachedUser_th;
             this.EditProject = Object.assign({}, this.Tools_tool);
             // this.Detail.content_eg = this.cachedUser_eg;
             // this.Detail.content_th = this.cachedUser_th;
-            this.cachedUser_eg = Object.assign({}, this.user);
-            this.cachedUser_eg=this.Detail.content_eg;
-            this.cachedUser_th = Object.assign({}, this.user);
-            this.cachedUser_th=this.Detail.content_th;
             this.Tools.tool=this.Tools_tool;
             this.EditProject = false;
-            console.log("test",this.cachedUser_eg)
+            // console.log("test",this.cachedUser_eg)
         },
         onSlideStart(slide) {
             this.sliding = true
@@ -502,12 +500,12 @@ export default {
             this.sliding = false
         },
         deletePicture (){
-            console.log('picture',this.pictures[this.countPic].path)
+            console.log('picture',this.pictures[this.countPic-1].path)
         try{
             axios.delete('http://34.73.213.209:7000/files/image' ,{
-               data : {"path_name" : this.pictures[this.countPic].path}
+               data : {"path_name" : this.pictures[this.countPic-1].path}
             }) 
-            .then(response =>this.pictures.splice(this.pictures[this.countPic].path))
+            .then(response =>this.pictures.splice(this.pictures[this.countPic-1].path))
             // this.pictures[this.countPic].path = data.picture.path_name
         }catch(err){
                 console.log('FAILURE!!'+err)
@@ -515,12 +513,12 @@ export default {
                 this.error = true;
             }
         },
-        getTag(){ 
-            return axios.get('http://34.73.213.209:7000/tags/:character')
-            .then(response => (this.info = response.data.bpi))
-            .catch(error => console.log(error))
-            // console.log(res)
-        }
+        // getTag(){ 
+        //     return axios.get('http://34.73.213.209:7000/tags/:character')
+        //     .then(response => (this.info = response.data.bpi))
+        //     .catch(error => console.log(error))
+        //     // console.log(res)
+        // }
     }
 }
 </script> 
