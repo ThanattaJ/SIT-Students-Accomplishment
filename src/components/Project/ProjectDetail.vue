@@ -384,7 +384,6 @@ export default {
             if(name === "cover"){
                 this.cover.push(data.picture[i])
                 this.cover.path = `${data.picture[i].path_name}`
-                
                 // console.log(this.cover.path)
             }else if(name != "cover" ){
                 this.pictures.push({ path: newPath })
@@ -483,14 +482,18 @@ export default {
             }
         },
         cancel() {
-            // this.EditProject = Object.assign({}, this.cachedUser_eg);
-            // this.EditProject = Object.assign({}, this.cachedUser_th);
-            // this.EditProject = Object.assign({}, this.Tools_tool);
-            this.Detail.content_eg= this.cachedUser_eg;
-            this.Detail.content_th= this.cachedUser_th;
+            this.EditProject = Object.assign({}, this.cachedUser_eg);
+            this.EditProject = Object.assign({}, this.cachedUser_th);
+            this.EditProject = Object.assign({}, this.Tools_tool);
+            // this.Detail.content_eg = this.cachedUser_eg;
+            // this.Detail.content_th = this.cachedUser_th;
+            this.cachedUser_eg = Object.assign({}, this.user);
+            this.cachedUser_eg=this.Detail.content_eg;
+            this.cachedUser_th = Object.assign({}, this.user);
+            this.cachedUser_th=this.Detail.content_th;
             this.Tools.tool=this.Tools_tool;
             this.EditProject = false;
-            // console.log(this.cachedUser)
+            console.log("test",this.cachedUser_eg)
         },
         onSlideStart(slide) {
             this.sliding = true
@@ -498,20 +501,20 @@ export default {
         onSlideEnd(slide) {
             this.sliding = false
         },
-        // deletePicture (){
-        //     console.log('picture',this.pictures[this.countPic].path)
-        // try{
-        //     axios.delete('http://34.73.213.209:7000/files/image' ,{
-        //        data : {"path_name" : this.pictures[this.countPic].path}
-        //     }) 
-        //     .then(response =>this.pictures.splice(this.pictures[this.countPic].path))
-        //     // this.pictures[this.countPic].path = data.picture.path_name
-        // }catch(err){
-        //         console.log('FAILURE!!'+err)
-        //         this.message = "Something went wrong";
-        //         this.error = true;
-        //     }
-        // },
+        deletePicture (){
+            console.log('picture',this.pictures[this.countPic].path)
+        try{
+            axios.delete('http://34.73.213.209:7000/files/image' ,{
+               data : {"path_name" : this.pictures[this.countPic].path}
+            }) 
+            .then(response =>this.pictures.splice(this.pictures[this.countPic].path))
+            // this.pictures[this.countPic].path = data.picture.path_name
+        }catch(err){
+                console.log('FAILURE!!'+err)
+                this.message = "Something went wrong";
+                this.error = true;
+            }
+        },
         getTag(){ 
             return axios.get('http://34.73.213.209:7000/tags/:character')
             .then(response => (this.info = response.data.bpi))
