@@ -37,7 +37,7 @@
                         <span class="icon is-small is-left">
                             <i class="la la-calendar" style="color: #949494;"></i>
                         </span>
-                        <flat-pickr @change="doSomethingOnChange" ref="calendar" class="calendar inputData" placeholder="Select date" v-model="date" :config="config"></flat-pickr>
+                        <flat-pickr ref="calendar" class="calendar inputData" placeholder="Select date" v-model="date" :config="config"></flat-pickr>
                     </button>
 
                     <span class="icon is-small is-right removeDate" @click="removeDate">
