@@ -56,7 +56,7 @@ name :'app'
 <style>
 .navbar{
   /* height: 100px; */
-  background-color: #265080;
+  background-color: #265080 !important;
   padding-left: 10%;
   padding-right: 10%;
 }
@@ -75,7 +75,7 @@ name :'app'
 }
 
 .navbar-item img{
-  max-height: 100px ;
+  max-height: 100px !important;
 }
 
 .la{
