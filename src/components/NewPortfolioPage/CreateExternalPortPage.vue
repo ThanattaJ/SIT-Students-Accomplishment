@@ -457,14 +457,11 @@ export default {
         };
       }
       if (this.membersParent.outsider.length > 0) {
-        this.membersParent.haveOutsider = true;
-        console.log("มีคนนอก : " + this.membersParent.haveOutsider)
+        data.project_data.haveOutsider = true;
         data.member.outsiders = JSON.parse(JSON.stringify(this.membersParent.outsider))
-        console.log("OUTSIDER: "+ this.membersParent.outsider)
       }
       try {
         await axios
-          // .post("http://localhost:7000/projects/external", data)
           .post("https://calm-shelf-19378.herokuapp.com/projects/external", data)
           .then(res => {
             console.log(res);
