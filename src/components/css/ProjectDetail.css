@@ -107,3 +107,10 @@
     height: 40px;
     border: none;
   }
+  #tool_box{
+    background-color: white;
+    border: none;
+  }
+  #firstname{
+    height: 10px;
+  }
