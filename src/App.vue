@@ -71,7 +71,7 @@ name :'app'
   padding-top: 15px;  
 }
 .navbar-item{
-  color: white
+  color: white !important;
 }
 
 .navbar-item img{
