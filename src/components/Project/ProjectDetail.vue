@@ -320,7 +320,7 @@ export default {
         console.log(this.$route.params.pId)
         // get data
         const { data } = await axios.get('https://calm-shelf-19378.herokuapp.com/projects/' + this.$route.params.pId)
-        console.log("data ",data)
+        // console.log("data ",data)
             this.header.TitleName = data.project_detail.project_name_en;
             this.header.TitleName_TH = data.project_detail.project_name_th;
             this.Detail.content_eg = data.project_detail.project_detail_en;
@@ -387,12 +387,12 @@ export default {
                 // console.log("count",this.countPic)
             }else if(name != "cover" ){
                 this.countPic++
-                this.indexPic.push({indexPic: this.countPic++})
+                // this.indexPic.push({indexPic: this.countPic++})
                 this.pictures.push({ path: newPath })  
                 // this.pictures.push(data.picture[i])
                 // this.pictures.path = newPath
             }
-             console.log("count : ",this.countPic-1)
+            //  console.log("count : ",this.countPic-1)
         }
         // console.log('picture',this.pictures[1].path)
        
@@ -499,7 +499,7 @@ export default {
             this.sliding = false
         },
         deletePicture (){
-            console.log('picture',this.pictures[this.countPic-1].path)
+            // console.log('picture',this.pictures[this.countPic-1].path)
         try{
             axios.delete('https://calm-shelf-19378.herokuapp.com/files/image' ,{
             //    data : {"path_name" : this.pictures[this.countPic-1].path}

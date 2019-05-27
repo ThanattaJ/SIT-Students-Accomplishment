@@ -103,9 +103,9 @@
       </div>
     </div>
 
-    <div>
+    <!-- <div>
       {{membersParent}}
-    </div>
+    </div> -->
     <!-- <div>
       {{membersParent}}
       <br>
