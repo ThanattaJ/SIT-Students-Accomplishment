@@ -1,5 +1,8 @@
 <template>
   <div id="body-bg">
+    <div>
+  <stepProgress :steps="mySteps" :currentStep="currentStep" iconClass="la la-check"></stepProgress>
+</div>
     <div class="columns is-mobile">
       <div class="column is-one-fifth">
         <div>
@@ -151,6 +154,11 @@ import step4 from "./step4.vue";
 import axios from "axios";
 import Swal from "sweetalert2";
 
+
+import StepProgress from 'vue-step-progress';
+import 'vue-step-progress/dist/main.css';
+
+
 var projectId;
 
 export default {
@@ -174,6 +182,8 @@ export default {
   },
   data() {
     return {
+      mySteps:['Create Project', 'Project Overview', 'Project Members', 'Project Achievement'],
+      currentStep:2,
       // step list
       studentDataFromParent: [],
       name: "",
@@ -486,7 +496,8 @@ export default {
     step2,
     step3haveOutsider,
     step3noOutsider,
-    step4
+    step4,
+    StepProgress
   }
 };
 </script>

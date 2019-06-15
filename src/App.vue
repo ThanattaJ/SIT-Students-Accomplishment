@@ -1,55 +1,69 @@
 <template>
   <div id="app">
     <nav class="navbar nav1" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
-      <img src="./assets/logo.png">
-    </a>
-    <a class="navbar-item">
-        <i class="la la-home"></i>
-          Home
-      </a>
-      <a class="navbar-item">
-          <i class="la la-folder-o"></i>
-          Project
-      </a>
-      <a class="navbar-item">
-        <i class="la la-user"></i>
-          Profile
-      </a>
-  </div>
-   <div class="navbar-end">
-      <div class="navbar-item">
-        <i class="la la-sign-in"></i>
-        Login
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://bulma.io">
+          <img src="./assets/logo.png">
+        </a>
+
+        <a ref="showMenu" role="button" class="navbar-burger burger" @click="showMenu" style="color:white" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+
       </div>
-    </div>
-</nav>
-<!-- <nav class="navbar nav2" role="navigation" aria-label="main navigation">
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
-      <a class="navbar-item">
-        <i class="la la-home"></i>
-          Home
-      </a>
-      <a class="navbar-item">
-          <i class="la la-folder-o"></i>
-          Project
-      </a>
-      <a class="navbar-item">
-        <i class="la la-user"></i>
-          Profile
-      </a>
-    </div>
-  </div>
-</nav> -->
+      <div ref="menu" id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item menuName">
+            <i class="la la-home"></i>
+              Home
+          </a>
+
+          <a class="navbar-item menuName">
+            <i class="la la-folder-o"></i>
+              Project
+          </a>
+
+          <a class="navbar-item menuName">
+            <i class="la la-user"></i>
+              Profile
+          </a>
+        </div>
+
+        <div class="navbar-end">
+          <a class="navbar-item">
+            <i class="la la-sign-in"></i>
+            Login
+          </a>
+        </div>
+      </div>
+    </nav>
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-name :'app'
+    name :'app',
+    data(){
+      return{
+        clickBurger: true
+      }
+    },
+    methods:{
+      showMenu(){
+        this.clickBurger = !this.clickBurger
+        if(this.clickBurger != true){
+          this.$refs.showMenu.className="navbar-burger burger is-active"
+          this.$refs.menu.className="navbar-menu is-active"
+        }else{
+          this.$refs.showMenu.className="navbar-burger burger"
+          this.$refs.menu.className="navbar-menu"
+        }
+        
+      }
+    }
 }
 </script>
 
@@ -74,6 +88,24 @@ name :'app'
   color: white !important;
 }
 
+@media screen and (max-width: 1085px){
+  .navbar-item{
+    color: #265080 !important;
+  }
+  .navbar-menu {
+    border-radius: 15px;
+  }
+}
+
+a.navbar-item:hover{
+  background-color: #ffffff00;
+}
+
+a.menuName:hover{
+  background-color: #ffffff00;
+  border-bottom: 2px solid white;
+}
+
 .navbar-item img{
   max-height: 70px !important;
 }
@@ -87,40 +119,4 @@ name :'app'
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-/* #logo{
-  width: 100px;
-}
-#box-inside{
-  width: 80%;
-  position: relative;
-  margin-left: 10%;
-}
-#head_bg{
-  width: 100%;
-  height: 100px;
-  background-color:#265080;
-}
-#nav-top{
-  height: 100px;
-  background-color:#265080;
-  margin-top: -107px;
-}
-#login{
-  position:absolute;
-  right: 20px;
-  color: aliceblue;
-  font-size: 80%;
-  background: none;
-  margin-top: -8%;
-}
-#manu{
-  margin-left: 20%;
-  margin-top: -18px;
-  font-size: 13px;
-  color: white;
-}
-#hover-manu {
-  border-bottom: 3px solid white;
-} */
-
 </style>

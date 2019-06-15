@@ -236,3 +236,44 @@ hr{
     color: #EB5656;
     font-size: 18px;
 }
+
+/* step */
+.step-progress__step-label {
+    color: #ddd !important;
+}
+
+.step-progress__step:after{
+    border: 5px solid #ddd !important;
+}
+
+.step-progress__wrapper-before {
+    background-color: #ddd !important;
+}
+
+.step-progress__wrapper-after {
+    background-color: #265080 !important;
+}
+
+.step-progress__step--valid:after {
+    background-color: #265080 !important;
+    border: 5px solid #265080 !important;
+}
+
+.step-progress__step--active:after {
+    border: 5px solid #265080 !important;
+}
+
+.step-progress__step--active span {
+    color: #265080 !important;
+}
+
+.step-progress__step span {
+    color: #ddd !important;
+}
+.step-progress__step--valid .step-progress__step-label {
+    color: #265080 !important;
+}
+
+.step-progress__step--active .step-progress__step-label, .step-progress__step--active span {
+    color: #265080 !important;
+}

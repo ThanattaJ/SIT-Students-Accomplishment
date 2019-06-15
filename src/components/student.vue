@@ -1,26 +1,5 @@
 <template>
     <div id="list-project of student">
-       <!-- <div id="body-bg">
-        <div class="body" id="body">
-          <div class="columns is-gapless.is-centered" id="head-table">
-            <div class="button column" id="th">
-                <router-link to="/Profile" >Profile</router-link> 
-            </div>
-            <div class="button column" id="tb" >
-                <router-link to="/ShowProject" >Project</router-link> 
-            </div>
-            <div class="button column" id="tb" >
-                <router-link to="/Assignment" >Assignment</router-link> 
-            </div>
-            <div class="button column" id="tb" >
-              Fingerprint
-            </div>
-            <div class="button column" id="te" >
-              Generate Resume
-            </div>
-          </div>
-        </div>
-        </div> -->
        <div id="bodyBg"> 
         <div class="tabs is-toggle is-fullwidth">
           <ul>
@@ -57,7 +36,7 @@
               <br>
               <p id="info">{{internship}}</p>
             </div>
-            <div class="column" style="border-left: 1px solid #E5E5E5">
+            <div class="column borderLeft">
               <nav class="level">
                 <div class="level-item has-text-centered">
                   <div>
@@ -99,7 +78,17 @@
               </p>
             </div>
           </div>
-          <div class="column is-1" style="border-left: 1px solid #E5E5E5">
+          <div class="column is-1 borderLeft">
+          </div>
+          <div class="column">
+            <router-link to="/CreateExternalPortPage">
+              <div class="createPortPage">
+                <i class="la la-plus"></i>
+                <div class="textCreate">Create Project</div>
+              </div>
+            </router-link>
+          </div>
+          <div class="column is-1">
           </div>
           <div class="column">
             <div class="card">
@@ -116,16 +105,7 @@
               </div>
             </div>
           </div>
-          <div class="column is-1">
-          </div>
-          <div class="column">
-            <router-link to="/CreateExternalPortPage">
-              <div class="createPortPage">
-                <i class="la la-plus"></i>
-                <div class="textCreate">Create Project</div>
-              </div>
-            </router-link>
-          </div>
+          
         </div>
       </div>
 
@@ -148,17 +128,36 @@
         </div> -->
 
      </div>
-
 </template>
 
 <style>
 .active{
   background-color: #265080;
-
 }
 .act{
   color: white;
-
+}
+.borderLeft{
+  border-left: 1px solid #E5E5E5;
+}
+@media screen and (max-width: 500px){
+  .navProfile{
+    text-align: center !important;
+  }
+  #img{
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .borderLeft{
+    border-left: 0px solid rgba(255, 255, 255, 0);
+  }
+  .is-1{
+    padding: 0px;
+  }
+  .field{
+    margin-bottom: 0px !important;
+  }
 }
 </style>
 

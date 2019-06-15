@@ -14,6 +14,14 @@ svg{
 #information{
   margin-right: -100px
 }
+
+@media screen and (max-width: 800px){
+  #information{
+    margin-right: 0px
+  }
+}
+
+
 #bodyBg{
   margin: 3% 10% 0 10% !important;
 }
@@ -105,7 +113,8 @@ img{
   border:1px dashed #E4E4E4;
   text-align:center;
   border-radius: 2%;
-  padding-top: 25%
+  padding-top: 25%;
+  padding-bottom: 25%
 }
 .createPortPage:hover{
   background-color: #F7F7F7;
@@ -118,4 +127,10 @@ img{
 .textCreate{
   color:#949494;
   /* font-size: 14px; */
+}
+
+
+
+.navbar-item {
+  color: white !important;
 }
