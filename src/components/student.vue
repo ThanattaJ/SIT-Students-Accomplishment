@@ -131,34 +131,7 @@
 </template>
 
 <style>
-.active{
-  background-color: #265080;
-}
-.act{
-  color: white;
-}
-.borderLeft{
-  border-left: 1px solid #E5E5E5;
-}
-@media screen and (max-width: 500px){
-  .navProfile{
-    text-align: center !important;
-  }
-  #img{
-    display: block !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-  .borderLeft{
-    border-left: 0px solid rgba(255, 255, 255, 0);
-  }
-  .is-1{
-    padding: 0px;
-  }
-  .field{
-    margin-bottom: 0px !important;
-  }
-}
+
 </style>
 
 <script>

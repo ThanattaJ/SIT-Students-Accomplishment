@@ -85,7 +85,7 @@ export default {
   padding-top: 15px;  
 }
 .navbar-item{
-  color: white !important;
+  color: white;
 }
 
 @media screen and (max-width: 1085px){
