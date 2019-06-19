@@ -1,9 +1,9 @@
 #body-bg{
-    margin: 5.5% 10% 0 10%;
+    margin: 2% 10% 0 10%;
 }
 
 .form{
-    padding: 4% 6% 0% 6%;
+    padding: 3% 6% 0% 6%;
 }
 
 .stepName{
@@ -239,28 +239,38 @@ hr{
 
 /* step */
 .step-progress__step-label {
+    font-size: 16px !important;
     color: #ddd !important;
+    top: calc(100% + 17px) !important;
 }
 
 .step-progress__step:after{
-    border: 5px solid #ddd !important;
+    border: 4px solid #ddd !important;
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.step-progress__wrapper {
+    width: 80% !important;
 }
 
 .step-progress__wrapper-before {
+    height: 5px !important;
     background-color: #ddd !important;
 }
 
 .step-progress__wrapper-after {
+    height: 8px !important;
     background-color: #265080 !important;
 }
 
 .step-progress__step--valid:after {
     background-color: #265080 !important;
-    border: 5px solid #265080 !important;
+    border: 4px solid #265080 !important;
 }
 
 .step-progress__step--active:after {
-    border: 5px solid #265080 !important;
+    border: 4px solid #265080 !important;
 }
 
 .step-progress__step--active span {
@@ -269,6 +279,8 @@ hr{
 
 .step-progress__step span {
     color: #ddd !important;
+    font-weight: 500 !important;
+    font-size: 28px !important;
 }
 .step-progress__step--valid .step-progress__step-label {
     color: #265080 !important;
@@ -277,3 +289,43 @@ hr{
 .step-progress__step--active .step-progress__step-label, .step-progress__step--active span {
     color: #265080 !important;
 }
+
+@media screen and (max-width: 768px){
+    .step-progress__step-label{
+        font-size: 14px !important;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .step-progress__step:after{
+        border: 3px solid #ddd !important;
+        width: 40px !important;
+        height: 40px !important;
+    }
+    .step-progress__step--active:after {
+        border: 3px solid #265080 !important;
+        width: 40px !important;
+        height: 40px !important;
+    }
+    .step-progress__step--valid:after {
+        background-color: #265080 !important;
+        border: 3px solid #265080 !important;
+    }
+    .step-progress__step span {
+        color: #ddd !important;
+        font-weight: 500 !important;
+        font-size: 25px !important;
+    }
+    .step-progress__wrapper-before, .step-progress__wrapper-after {
+        height: 4px !important;
+    }
+    .step-progress__step-label{
+        z-index: -3 !important;
+        font-size: 0px !important;
+        top: calc(100% + 15px) !important;
+    }
+    .stepCard{
+        margin-top: -60px !important;
+    }
+}
+

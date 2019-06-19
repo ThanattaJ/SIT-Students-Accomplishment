@@ -1,10 +1,10 @@
 <template>
   <div id="body-bg">
-    <div>
-  <stepProgress :steps="mySteps" :currentStep="currentStep" iconClass="la la-check"></stepProgress>
-</div>
-    <div class="columns is-mobile">
-      <div class="column is-one-fifth">
+    <div style="margin-top: -15px;">
+      <stepProgress :steps="mySteps" :currentStep="currentStep" iconClass="la la-check"></stepProgress>
+    </div>
+    <div class="columns">
+      <!-- <div class="column is-one-fifth">
         <div>
           <vue-step
             :nowStep="nowStep"
@@ -13,14 +13,14 @@
             :direction="direction"
           ></vue-step>
         </div>
-      </div>
-      <div class="column">
+      </div> -->
+      <div class="column stepCard">
         <div class="card card-equal-height">
           <div class="card-content form">
             <div class="content">
               <form>
                 <!-- step1 -->
-                <div v-if="nowStep === 1">
+                <div v-if="currentStep === 0">
                   <step1
                     v-on:childToParent1="getPortPageNameENfromChild($event)"
                     v-on:childToParent2="getPortPageNameTHfromChild($event)"
@@ -33,7 +33,7 @@
                   />
                 </div>
                 <!-- step2 -->
-                <div v-if="nowStep === 2">
+                <div v-if="currentStep === 1">
                   <step2
                     v-on:childToParent6="getPortPageDetailENfromChild($event)"
                     v-on:childToParent7="getPortPageDetailTHfromChild($event)"
@@ -44,7 +44,7 @@
                   />
                 </div>
                 <!-- step3 -->
-                <div v-if="nowStep === 3">
+                <div v-if="currentStep === 2">
                   <!-- v-if="portParent.haveOutsider=='true'" -->
                   <step3haveOutsider
                     v-on:childToParent8="getMemberfromChild($event)"
@@ -64,7 +64,7 @@
                   />-->
                 </div>
                 <!-- step1 -->
-                <div v-if="nowStep === 4">
+                <div v-if="currentStep === 3">
                   <step4
                     v-on:childToParent10="getAchievementNamefromChild($event)"
                     v-on:childToParent11="getAchievementDetailfromChild($event)"
@@ -90,14 +90,14 @@
             <button
               class="card-footer-item button nextButton"
               @click.prevent="next"
-              v-if="nowStep === 1 || nowStep === 2 || nowStep === 3"
+              v-if="currentStep === 0 || currentStep === 1 || currentStep === 2"
             >
               <p class="letterBackNext">Next</p>
             </button>
             <button
               class="card-footer-item button nextButton"
               @click.prevent="askForSure"
-              v-if="nowStep === 4"
+              v-if="currentStep === 3"
             >
               <p class="letterBackNext">Submit</p>
             </button>
@@ -183,19 +183,19 @@ export default {
   data() {
     return {
       mySteps:['Create Project', 'Project Overview', 'Project Members', 'Project Achievement'],
-      currentStep:2,
+      currentStep:0,
       // step list
       studentDataFromParent: [],
       name: "",
-      nowStep: 1,
-      stepList: [
-        "Create Project",
-        "Project Overview",
-        "Project Members",
-        "Project Achievement"
-      ],
-      activeColor: "#265080",
-      direction: "vertical",
+      // nowStep: 1,
+      // stepList: [
+      //   "Create Project",
+      //   "Project Overview",
+      //   "Project Members",
+      //   "Project Achievement"
+      // ],
+      // activeColor: "#265080",
+      // direction: "vertical",
 
       //step1
       portParent: {
@@ -306,13 +306,13 @@ export default {
       }
     },
     prev: function() {
-      if (this.nowStep != 1) {
-        this.nowStep--;
+      if (this.currentStep != 0) {
+        this.currentStep--;
       }
     },
     next: function() {
-      //   this.nowStep++;
-      if (this.nowStep == 1) {
+      //   this.currentStep++;
+      if (this.currentStep == 0) {
         var validPort = this.validatePortParent;
         if (
           validPort.validatePortPageNameEN == true &&
@@ -320,37 +320,37 @@ export default {
           validPort.validateStartMonth == true &&
           validPort.validateStartYear == true
         ) {
-          this.nowStep++;
+          this.currentStep++;
         } else {
           this.$refs.childRefStep1.step1Check();
         }
-      } else if (this.nowStep == 2) {
+      } else if (this.currentStep == 1) {
         var validPortDetail = this.validatePortDetailParent;
         if (
           validPortDetail.validatePortPageDetailEN == true &&
           validPortDetail.validatePortPageDetailTH == true
         ) {
-          this.nowStep++;
+          this.currentStep++;
         } else if (
           validPortDetail.validatePortPageDetailEN == true &&
           this.port_detail_Parent.portPageDetailTH == ""
         ) {
-          this.nowStep++;
+          this.currentStep++;
         } else if (
           validPortDetail.validatePortPageDetailTH == true &&
           this.port_detail_Parent.portPageDetailEN == ""
         ) {
-          this.nowStep++;
+          this.currentStep++;
         } else {
           this.$refs.childRefStep2.step2Check();
         }
-      } else if (this.nowStep == 3) {
-        this.nowStep++;
+      } else if (this.currentStep == 2) {
+        this.currentStep++;
         //   if(this.membersParent.haveOutsider == null){
         //       this.$refs.childRefStep3.step3Check();
         //   }else if(this.membersParent.haveOutsider == "true"){
         //       if(this.membersParent.student.length!=0 && this.membersParent.outsider.length!=0){
-        //           this.nowStep++;
+        //           this.currentStep++;
         //           if(this.membersParent.haveOutsider == "false"){
         //               this.membersParent.outsider = []
         //           }
@@ -361,7 +361,7 @@ export default {
         //       if(this.membersParent.student.length==0){
         //           this.$refs.childRefStep3.step3CheckMember();
         //       }else{
-        //           this.nowStep++;
+        //           this.currentStep++;
         //           if(this.membersParent.haveOutsider == "false"){
         //               this.membersParent.outsider = []
         //           }

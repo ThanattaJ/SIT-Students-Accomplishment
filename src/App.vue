@@ -75,42 +75,35 @@ export default {
   padding-right: 10%;
 }
 .nav1{
-  height: 100px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  height: 100px !important;
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
 }
 .nav2{
-  max-height: 20px;
-  z-index:0; 
-  padding-top: 15px;  
+  max-height: 20px !important;
+  z-index:0 !important; 
+  padding-top: 15px !important;  
 }
 .navbar-item{
-  color: white;
+  color: white !important;
 }
-/* @media screen and (min-width: 1085px){
-  .navbar-item{
-    color: white !important;
-  }
-  .navbar-menu {
-    border-radius: 15px;
-  }
-} */
+
 @media screen and (max-width: 1085px){
   .navbar-item{
     color: #265080 !important;
   }
   .navbar-menu {
-    border-radius: 15px;
+    border-radius: 15px !important;
   }
 }
 
 a.navbar-item:hover{
-  background-color: #ffffff00;
+  background-color: #ffffff00 !important;
 }
 
 a.menuName:hover{
-  background-color: #ffffff00;
-  border-bottom: 2px solid white;
+  background-color: #ffffff00 !important;
+  border-bottom: 2px solid white !important;
 }
 
 .navbar-item img{
@@ -118,8 +111,8 @@ a.menuName:hover{
 }
 
 .la{
-  font-size: 22px;
-      margin-right: 3px;
+  font-size: 22px !important;
+  margin-right: 3px !important;
 }
 #app {
   /* font-family: 'Avenir', Helvetica, Arial, sans-serif; */

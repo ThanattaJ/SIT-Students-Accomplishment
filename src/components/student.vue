@@ -97,7 +97,7 @@
                   <img src="./../assets/poster.jpg" alt="Placeholder image">
                 </figure>
               </div>
-              <div class="card-content">
+              <div class="card-content projectInfo">
                 <div class="content">
                   <p class="projectName">SIT Students Accomplishment</p>
                   <p class="projectDetail">SIT Students Accomplishment detail detail detail</p>

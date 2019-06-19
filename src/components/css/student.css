@@ -1,23 +1,23 @@
 .navProfile{
-  background-color: #F7F7F7;
+  background-color: #F7F7F7 !important;
 }
 .picture{
-  margin-right: -7%;
-  margin-left: -2%;
+  margin-right: -7% !important;
+  margin-left: -2% !important;
 }
 .title, .heading{
-  color: #265080;
+  color: #265080 !important;
 }
 svg{
-  width: 60%
+  width: 60% !important
 }
 #information{
-  margin-right: -100px
+  margin-right: -100px !important
 }
 
 @media screen and (max-width: 800px){
   #information{
-    margin-right: 0px
+    margin-right: 0px !important
   }
 }
 
@@ -26,61 +26,61 @@ svg{
   margin: 3% 10% 0 10% !important;
 }
 #profile-bg{
-  height:150px;
-  background-color: #F7F7F7;
-  position:relative;
-  z-index: -1;
-  margin: 2% 0 0 0;
+  height:150px !important;
+  background-color: #F7F7F7 !important;
+  position:relative !important;
+  z-index: -1 !important;
+  margin: 2% 0 0 0 !important;
 }
 #profile{ 
   /* background-color: #F7F7F7; */
-  height: 180px;
-  width: 80%;
-  margin: -10% 0 0 10%;
+  height: 180px !important;
+  width: 80% !important;
+  margin: -10% 0 0 10% !important;
 }
 #img{
   width: 105px !important;
   margin: 0 -10% 0 25% !important;
 }
 #name{
-  margin-top: -5px;
-  font-size: 22px;
-  color: #265080;
+  margin-top: -5px !important;
+  font-size: 22px !important;
+  color: #265080 !important;
 }
 #info{
-  color:#949494;
-  font-size: 14px;
+  color:#949494 !important;
+  font-size: 14px !important;
 }
 #body{
-  width: 80%;
-  margin: -5% 0 0 10%;
+  width: 80% !important;
+  margin: -5% 0 0 10% !important;
 }
 #head-table{
-  width: 120%;
-  border-radius: 5px;
-  height: 35px;  
-  margin: 10% 0 0 -10%;
+  width: 120% !important;
+  border-radius: 5px !important;
+  height: 35px !important;  
+  margin: 10% 0 0 -10% !important;
 }
 #th{
-  border: 0.5px solid #ECECEC; 
-  height:100%; 
-  background:#F7F7F7;
-  border-radius: 0px;
-  font-size: 13px;
+  border: 0.5px solid #ECECEC !important; 
+  height:100% !important; 
+  background:#F7F7F7 !important;
+  border-radius: 0px !important;
+  font-size: 13px !important;
 }
 #tb{
-  border: 0.7px solid #ECECEC;
-  height:100%; 
-  background:#F7F7F7;
-  border-radius: 0px;
-  font-size: 13px;
+  border: 0.7px solid #ECECEC !important;
+  height:100% !important; 
+  background:#F7F7F7 !important;
+  border-radius: 0px !important;
+  font-size: 13px !important;
 }
 #te{
-  border: 0.7px solid #ECECEC;
-  height:100%; 
-  background:#F7F7F7;
-  border-radius: 0px;
-  font-size: 13px;
+  border: 0.7px solid #ECECEC !important;
+  height:100% !important; 
+  background:#F7F7F7 !important;
+  border-radius: 0px !important;
+  font-size: 13px !important;
 
 }
 
@@ -88,60 +88,56 @@ svg{
 
 /* card */
 .card-image{
-  padding: 3px 3px 3px 3px;
+  padding: 3px 3px 3px 3px !important;
 }
 .card{
-  border-radius: 2%;
+  border-radius: 2% !important;
 }
 img{
-  border-radius: 2%
+  border-radius: 2% !important
 }
-.card-content {
-  padding: 8px;
+.projectInfo{
+  padding: 8px !important;
 }
 .projectName{
-  font-size: 18px;
+  font-size: 18px !important;
   margin-bottom: -2px !important;
-  color: #265080
+  color: #265080 !important
 }
 .projectDetail{
-  font-size: 14px;
+  font-size: 14px !important;
 }
 .createPortPage{
-  width:100%;
-  height:100%;
-  border:1px dashed #E4E4E4;
-  text-align:center;
-  border-radius: 2%;
-  padding-top: 25%;
-  padding-bottom: 25%
+  width:100% !important;
+  height:100% !important;
+  border:1px dashed #E4E4E4 !important;
+  text-align:center !important;
+  border-radius: 2% !important;
+  padding-top: 25% !important;
+  padding-bottom: 25% !important;
 }
 .createPortPage:hover{
-  background-color: #F7F7F7;
-  cursor: pointer;
+  background-color: #F7F7F7 !important;
+  cursor: pointer !important;
 }
 .la-plus:before{
-  color:#E4E4E4;
-  font-size: 50px;
+  color:#E4E4E4 !important;
+  font-size: 50px !important;
 }
 .textCreate{
   color:#949494;
-  /* font-size: 14px; */
 }
 
 
 /* responsive */
-/* .navbar-item {
-  color: white !important;
-} */
 .active{
-  background-color: #265080;
+  background-color: #265080 !important;
 }
 .act{
-  color: white;
+  color: white !important;
 }
 .borderLeft{
-  border-left: 1px solid #E5E5E5;
+  border-left: 1px solid #E5E5E5 !important;
 }
 @media screen and (max-width: 500px){
   .navProfile{
@@ -153,10 +149,10 @@ img{
     margin-right: auto !important;
   }
   .borderLeft{
-    border-left: 0px solid rgba(255, 255, 255, 0);
+    border-left: 0px solid rgba(255, 255, 255, 0) !important;
   }
   .is-1{
-    padding: 0px;
+    padding: 0px !important;
   }
   .field{
     margin-bottom: 0px !important;
