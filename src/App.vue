@@ -84,8 +84,17 @@ export default {
   z-index:0; 
   padding-top: 15px;  
 }
-
-
+.navbar-item{
+  color: white;
+}
+/* @media screen and (min-width: 1085px){
+  .navbar-item{
+    color: white !important;
+  }
+  .navbar-menu {
+    border-radius: 15px;
+  }
+} */
 @media screen and (max-width: 1085px){
   .navbar-item{
     color: #265080 !important;
@@ -93,10 +102,6 @@ export default {
   .navbar-menu {
     border-radius: 15px;
   }
-}
-
-.navbar-item{
-  color: white;
 }
 
 a.navbar-item:hover{
