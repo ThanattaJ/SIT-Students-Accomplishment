@@ -1,6 +1,6 @@
 <template>
   <div id="body-bg">
-    <div style="margin-top: -15px;">
+    <div style="margin-top: -25px;">
       <stepProgress :steps="mySteps" :currentStep="currentStep" iconClass="la la-check"></stepProgress>
     </div>
     <div class="columns">

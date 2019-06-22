@@ -1,7 +1,18 @@
 <template>
     <div id="list-project of student">
+
+
        <div id="bodyBg"> 
-        <div class="tabs is-toggle is-fullwidth">
+         <div class="buttons has-addons is-centered is-fullwidth">
+          <span class="button menuBar">Profile</span>
+          <span class="button menuBar is-info is-selected">Project</span>
+          <span class="button menuBar">Assignment</span>
+          <span class="button menuBar">Fingerprint</span>
+          <span class="button menuBar">Generate Resume</span>
+        </div>
+
+
+        <!-- <div class="tabs is-toggle is-fullwidth">
           <ul>
             <li>
               <a ref="bgColorMenu1"><span ref="textColorMenu1">Profile</span></a>
@@ -19,7 +30,7 @@
               <a ref="bgColorMenu5"><span ref="textColorMenu5">Generate Resume</span></a>
             </li>
           </ul>
-        </div>
+        </div> -->
       </div>
       <!-- <div id="profile-bg"></div> -->
       <div class="navProfile">
@@ -126,7 +137,7 @@
           </div>
         <router-view/>
         </div> -->
-
+        <div class="button" @click="pdfmyurl">export pdf</div>
      </div>
 </template>
 
@@ -148,11 +159,32 @@ export default {
         internship: 'Internship: @G-Able'
       }
     },
-    // methods: {
-    //   clickMenu(menu) {
-    //       this.$refs.bgColorMenu2.style.backgroundColor = "#265080";
-    //       this.$refs.textColorMenu2.style.color= "white";    
-    //   }
-    // }
+    methods: {
+      pdfmyurl (url, savepdf) {
+       var self = this;
+       
+       self.save = savepdf;
+       self.req = new XMLHttpRequest();
+ 
+       // you can add other parameters here - otherwise the defaults from the members area are used
+       var data = "url=" + encodeURIComponent(url);
+  
+       self.req.onload = function(event) {
+            self.reader = new FileReader();
+              
+            self.reader.addEventListener("loadend", function() {
+                  window.open(self.reader.result, "_blank");
+                  return self.reader.result;
+            });
+              
+            self.reader.readAsDataURL(self.req.response);
+       };
+  
+       self.req.open("POST", "https://pdfmyurl.com/api", true);
+       self.req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+       self.req.responseType = "blob";
+       self.req.send(data);
+}
+    }
 }
 </script>

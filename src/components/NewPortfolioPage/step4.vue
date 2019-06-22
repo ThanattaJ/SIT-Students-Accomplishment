@@ -14,7 +14,7 @@
         <div class="field">
             <label class="label inputName">Achievement Detail</label>
             <div class="control">
-                <textarea ref="achievementDetail" class="Normal textarea inputData" placeholder="e.g. Create New Era of Tourism in Thailand เปลี่ยนไอเดีย เป็น ธุรกิจท่องเที่ยง" v-model="achievementChild.achievementDetail"  v-on:keyup="validateAchievementDetail();emitToParent11();"></textarea>
+                <textarea ref="achievementDetail" class="Normal textarea inputData" placeholder="e.g. Create New Era of Tourism in Thailand เปลี่ยนไอเดีย เป็น ธุรกิจท่องเที่ยว" v-model="achievementChild.achievementDetail"  v-on:keyup="validateAchievementDetail();emitToParent11();"></textarea>
                 <p ref="achievementDetailValidate" class="help is-danger"></p>
             </div>
         </div>
@@ -23,7 +23,7 @@
                 <div class="field">
                     <label class="label inputName">Organize By</label>
                     <div class="control">
-                        <input ref="company" class="input inputData" type="text" placeholder="e.g. การท่องเที่ยงแห่งประเทศไทย(ททท.)" v-model="achievementChild.company"  v-on:keyup="validateCompany();emitToParent12();">
+                        <input ref="company" class="input inputData" type="text" placeholder="e.g. การท่องเที่ยวแห่งประเทศไทย(ททท.)" v-model="achievementChild.company"  v-on:keyup="validateCompany();emitToParent12();">
                         <p ref="companyValidate" class="help is-danger"></p>
                     </div>
                 </div>
@@ -45,6 +45,9 @@
                     </span>
                 </div>
             </div>
+        </div>
+        <div class="buttons has-addons is-right">
+            <span class="button addAchievement">+ Add more...</span>
         </div>
     </div>
 </template>
