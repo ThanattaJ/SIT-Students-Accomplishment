@@ -6,26 +6,16 @@
       </div>
       <!-- -------------cover----------------- -->
       <div class="section" id="imgCover">
-          <img :src ="this.cover.path" />
+        <div v-if="this.cover.path">
+            <img :src ="this.cover.path"/>
+        </div>
+        <div v-else>
+            <img src="../.././assets/no-image-icon-23485.png">
+        </div>   
       </div>
     <div id="EditProjects">
         <div class="columns">
             <div class="column is-offset-5">  
-                <!-- <nav class="navbar" role="navigation" aria-label="dropdown navigation" v-if="EditProject">
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                          Select Status
-                        </a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" v-on:click="show">
-                                Show
-                            </a>
-                            <a class="navbar-item" v-on:click="notShow">
-                                not Show
-                            </a>
-                        </div>
-                    </div>
-                </nav> -->
             </div> 
             <uploadCover v-if="EditProject"/> 
             <div class="column is-1">  
@@ -50,64 +40,129 @@
             </div>    
         </div>
       <!-- ------------------------------ -->
-      <div id="body-project" v-show="showDetail">
+      <div id="body-project">
             <div class="columns ">
                 <div class="column is-6">
-                    <div class="card" id="Details">
-                        <header class="card-header">
-                            <p class="card-header-title" id="cardHeader">
-                                Details
-                            </p>
-                        </header>
-                        <!-- ------------------------------ -->
-                        <div class="card-content" >
-                            <div class="content"  id="content">
-                                <textarea class="textarea has-fixed-size" 
-                                v-model="Detail.content_eg" id="content" 
-                                :disabled="!EditProject"
-                                rows="5"
-                                max-rows="6"></textarea>
+                    <div v-if="this.Abstract.content_Abstract">
+                         <div class="card" id="Abstract">
+                             <header class="card-header">
+                                 <p class="card-header-title" id="cardHeader">
+                                     Abstract
+                                 </p>
+                             </header>
+                             <!-- ------------------------------ -->
+                             <div class="card-content" >
+                                  <div class="content" id="contentAbstract">
+                                      <textarea class="textarea has-fixed-size" 
+                                      v-model="Abstract.content_Abstract" id="contentAbstract" 
+                                      :disabled="!EditProject"
+                                      rows="5"
+                                      max-rows="6"></textarea>
+                                     <!-- <vue-editor v-model="Abstract.content_Abstract" 
+                                     :editorToolbar="customToolbar"></vue-editor> -->
+                                     <!-- <div v-html="Abstract.content_Abstract"></div> -->
+                                 </div>
                              </div>
-                             <div class="content" id="content">
-                                 <textarea class="textarea has-fixed-size" 
-                                 v-model="Detail.content_th" id="content" 
-                                 :disabled="!EditProject"
-                                 rows="5"
-                                 max-rows="6"></textarea>
-                            </div>
-                        </div>
-                        <!-- ------------------------------ -->
+                         </div>
                     </div>
-                    <div class="card" id="Acheivement" >
-                        <header class="card-header">
-                            <p class="card-header-title" id="cardHeader">
-                                Acheivement
-                            </p>
-                        </header>
-                        <div class="card-content" v-for=" i in Acheivement" v-bind:key="i.name ">
-                            <div class="content"  id="Acheivement">
-                                Name: {{i.name}}
-                            </div>
-                            <div class="content"  id="Acheivement">
-                                Details: {{i.detail}}
-                            </div>
-                            <div class="content" id="Acheivement" >
-                                Company: {{i.company}}
-                            </div>
-                            <div class="content"  id="Acheivement">
-                                Date of Event: {{i.date_of_event}}
+                    <div v-else-if="EditProject">
+                        <div class="card" id="Details">
+                            <header class="card-header">
+                                <p class="card-header-title" id="cardHeader">
+                                    Abstract
+                                </p>
+                            </header>
+                            <!-- ------------------------------ -->
+                            <div class="card-content" >
+                                <div class="content"  id="abstracts">
+                                    <textarea class="textarea has-fixed-size" 
+                                    v-model="Abstract.content_Abstract" id="contentDetails" 
+                                    :disabled="!EditProject"
+                                    rows="5"
+                                    max-rows="6"></textarea>
+                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div v-if="(this.Detail.content_eg)">
+                        <div class="card" id="Details">
+                            <header class="card-header">
+                                <p class="card-header-title" id="cardHeader">
+                                    Details
+                                </p>
+                            </header>
+                            <!-- ------------------------------ -->
+                            <div class="card-content" >
+                                <div class="content"  id="content">
+                                    <textarea class="textarea has-fixed-size" 
+                                    v-model="Detail.content_eg" id="contentDetails" 
+                                    :disabled="!EditProject"
+                                    rows="5"
+                                    max-rows="6"></textarea>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="EditProject">
+                        <div class="card" id="Details">
+                            <header class="card-header">
+                                <p class="card-header-title" id="cardHeader">
+                                    Details
+                                </p>
+                            </header>
+                            <!-- ------------------------------ -->
+                            <div class="card-content" >
+                                <div class="content"  id="content">
+                                    <textarea class="textarea has-fixed-size" 
+                                    v-model="Detail.content_eg" id="contentDetails" 
+                                    :disabled="!EditProject"
+                                    rows="5"
+                                    max-rows="6"></textarea>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- ------------------------------ -->
+                <!-- loop -->
+                    <div class="card" id="achievements" 
+                        style="$card-header-padding: 20px">
+                            <header class="card-header">
+                                <p class="card-header-title" id="cardHeader">
+                                    Acheivement
+                                </p>
+                            </header>
+                            <div id="achieve">
+                                <div  id="Acheivement"  v-for=" i in Acheivement" v-bind:key="i.name">
+                                    <div class="card">
+                                        <header class="card-header">
+                                            <div class="card-header-title"  id="Acheivement">
+                                                Name: {{i.name}}
+                                            </div>
+                                        </header>
+                                            <div class="card-content">
+                                                <div class="content"  id="Acheivement">
+                                                    Details: {{i.detail}}
+                                                </div>
+                                                <div class="content" id="Acheivement" >
+                                                    Company: {{i.company}}
+                                                </div>
+                                                <div class="content"  id="Acheivement">
+                                                    Date of Event: {{i.date_of_event}}
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                     <!-- ------------------- -->
                     <div  id="carousel">
                         <div id="container is-fluid">
                             <div class="columns is-multiline"  >
-                                <div class="column is-one" v-for="(picture,id) in pictures"  v-bind:key="id">
-                                    <a class="delete" v-if="EditProject" @click="deletePicture(countPic)"></a>
+                                <div class="column is-one" v-for="(picture,index) in pictures"  v-bind:key="index">
+                                    <a class="delete" v-if="EditProject" @click="deletePicture(index)"></a>
                                         <div class="image is-128x128">
-                                            <img :src= "picture.path" >
-                                               {{id}}
+                                            <img :src="picture.path">
+                                               {{index}}
                                         </div>  
                                 </div>
                             </div>
@@ -116,11 +171,8 @@
                             </div>
                         </div>
                     </div>
-                             <!-- -------------------- -->
-                    <!-- <div id="video">
-                        <iframe src="https://www.youtube.com/embed/98YUIBPJWMo" width="100%" height="100%"></iframe>
-                    </div> -->
                 </div>
+                 <!-- ---------------------------- -->
                 <div class="column">
                     <div class="card" id="Authors">
                             <header class="card-header"> 
@@ -132,56 +184,78 @@
                             <div class="columns" v-for="(student,index) in Authours" v-bind:key="index">
                                 <div class="column">
                                     <div class="content">
-                                        <p id="student_name">{{student.firstname}}  {{student.lastname}}</p>
-                                         <!-- <textarea class="textarea has-fixed-size" 
-                                          v-model="student.firstname" id="firstname" 
-                                          :disabled="!EditProject"
-                                          rows="1">
-                                          <textarea class="textarea has-fixed-size" 
-                                          v-model="student.lastname" id="lastname" 
-                                          :disabled="!EditProject"
-                                          rows="1"> -->
-                                <!-- </textarea> -->
+                                         <input class="input is-small" type="text" 
+                                             v-model="student.firstname" id="firstname" 
+                                             :disabled="!EditProject" style='width: 35%'>
+                                         <input class="input is-small" type="text" 
+                                             v-model="student.lastname" id="lastname"  
+                                             :disabled="!EditProject" style='width:60%' >
                                     </div>
                                 </div>
-                                <div class="column">
+                                <div class="column" >
                                     <div class="content">
                                         <div id="student_id"> ID : {{student.Student_id}}</div>
                                         <div id="mail">{{student.mail}}</div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="columns" v-for=" (out,id) in outsider" v-bind:key="id">
+                            <div class="columns" v-for=" (out,index) in outsider" v-bind:key="`${index}-${out.id}`" id="outsider">
                                 <div class="column">
                                     <div class="content">
-                                        <div id="student_name">{{out.firstname}}   {{out.lastname}}</div>
+                                        <input class="input is-small" type="text" 
+                                             v-model="out.firstname" id="firstname" 
+                                             :disabled="!EditProject" style='width: 35%'>
+                                         <input class="input is-small" type="text" 
+                                             v-model="out.lastname" id="lastname" 
+                                             :disabled="!EditProject" style='width:60%' >
                                     </div>
                                 </div>
                                 <div class="column">
                                     <div class="content">
-                                       <div id="mail">
-                                           {{out.mail}}
-                                       </div>
+                                        <div id="student_id"> ID : {{out.id}}</div>
+                                        <div id="mail">{{out.email}}</div>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
-                    <div class="card" id="tool">
-                        <header class="card-header">
-                            <p class="card-header-title" id="cardHeader">
-                                Development Tools & Techniques
-                            </p>
-                        </header>
-                        <div class="card-content">
-                            <div class="content" id="tool" > 
-                                Tool 
-                                <textarea class="textarea has-fixed-size" 
-                                          v-model="Tools.tool" id="tool_box" 
-                                          :disabled="!EditProject"
-                                          rows="5"
-                                          max-rows="6">
-                                </textarea>
+                    <div v-if="(this.Tools.tool)">
+                        <div class="card" id="tool">
+                            <header class="card-header">
+                                <p class="card-header-title" id="cardHeader">
+                                    Development Tools & Techniques
+                                </p>
+                            </header>
+                            <div class="card-content">
+                                <div class="content" id="tool" > 
+                                    Tool 
+                                    <textarea class="textarea has-fixed-size" 
+                                              v-model="Tools.tool" id="tool_box" 
+                                              :disabled="!EditProject"
+                                              rows="5"
+                                              max-rows="6">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="EditProject">
+                        <div class="card" id="tool">
+                            <header class="card-header">
+                                <p class="card-header-title" id="cardHeader">
+                                    Development Tools & Techniques
+                                </p>
+                            </header>
+                            <div class="card-content">
+                                <div class="content" id="tool" > 
+                                    Tool 
+                                    <textarea class="textarea has-fixed-size" 
+                                              v-model="Tools.tool" id="tool_box" 
+                                              :disabled="!EditProject"
+                                              rows="5"
+                                              max-rows="6">
+                                    </textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -238,34 +312,33 @@ import Vue from 'vue'
 import axios from 'axios';
 import Document from './../NewPortfolioPage/Document.vue'
 import Video from './../NewPortfolioPage/Video.vue'
-import VueCarousel from 'vue-carousel';
-import { Carousel, Slide } from 'vue-carousel';
-import Multiselect from 'vue-multiselect'
 export default {
   namePro: 'ProjectDetail',
   components: {
                 uploadimg,
                 uploadCover,
                 Document,
-                Video
+                Video,
             },
   data () {
    return {
         header:{
-            TitleName: ' SIT ',
-            TitleName_TH: 'ระบบสะสมผลงานนักศึกษา คณะเทคโนโลยีสารสนเทศ',
-        },
+                TitleName: ' SIT ',
+                TitleName_TH: 'ระบบสะสมผลงานนักศึกษา คณะเทคโนโลยีสารสนเทศ',
+            },
+        Abstract:{
+                content_Abstract: "Abstract"
+            },
         Detail:{
-                content_th: "test",
-                content_eg: "test"
+                content_eg: " "
             },
         Authours:[
             {   
-                Student_id : '59130500109',
-                firstname : 'Sophon',
-                lastname : 'Jampasornklin',
-                mail: 'sophonjampasornklin@gmail.com'
-            },{}
+                Student_id : '',
+                firstname : '',
+                lastname : '',
+                mail: ''
+            },
         ],
        Tools:{
                 tool:'-',
@@ -285,60 +358,64 @@ export default {
             },
         document:[],
         outsider:[
-            {
-                id: "1",
-                firstname: " ",
-                lastname: " ",
-                mail: "s@mail.com",
-             },
+            {},
         ],
         showDetail:true,
         EditProject:false,
-        img:[
-            {
-                name: " "
-             },
-             {}  
-            ],
-        cover: [{
-                path : "../.././assets/image.png "
+        img:[{}],
+        cover:[{
+                path : null,
              }] ,
         project_id: '',
         pictures: [],
-        countPic: [],
-        indexPic: 0,
         tag:[
-                { name :'Hello'}
+                { name : 'Hello'}
             ],
-        index: 0,
         seen: true,
     }
   },
 
     
     async mounted() {
-        console.log(this.$route.params.pId)
+        var sizeArea = document.getElementsByTagName('textarea');
+            for (var i = 0; i < sizeArea.length; i++) {
+              sizeArea[i].setAttribute('style', 'height:' + (sizeArea[i].scrollHeight) + 'px;overflow-y:hidden;');
+              sizeArea[i].addEventListener("input", OnInput, false);
+              console.log("sizeArea.length  = "+sizeArea.length)
+            }
+        // ------- textarea -----------    
+        function OnInput() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+    }
+        // console.log("เทสๆ " + this.$route.params.pId)
+        // console.log("data :  "+ dataproject_detail)
         // get data
-        const { data } = await axios.get('https://calm-shelf-19378.herokuapp.com/projects/' + this.$route.params.pId)
-        // console.log("data ",data)
+        const { data } = await axios.get('http://localhost:7000/projects/' + this.$route.params.pId)
             this.header.TitleName = data.project_detail.project_name_en;
             this.header.TitleName_TH = data.project_detail.project_name_th;
-            this.Detail.content_eg = data.project_detail.project_detail_en;
-            this.Detail.content_th = data.project_detail.project_detail_th;
+            this.Detail.content_eg = data.project_detail.project_detail;  
+            this.Abstract.content_Abstract = data.project_detail.project_abstract
             this.Tools.tool = data.project_detail.tool_techniq_detail;
             this.References.ref =data.project_detail.references;
             this.project_id = data.project_detail.id
 
-
-        for(let i = 0; i < data.achievement.length; i++){
-            this.Acheivement.push(data.achievement[i])
-            this.Acheivement[i].name = data.achievement[i].achievement_name
-            this.Acheivement[i].detail=data.achievement[i].achievement_detail
-            this.Acheivement[i].company=data.achievement[i].organize_by
-            this.Acheivement[i].date_of_event=data.achievement[i].date_of_event
-            console.log("Acheivement : ",this.Acheivement.length)
+            // console.log("details : " +data.project_detail.project_detail_en)
+        // get Acheivement ออกมาไม่ได้
+        
+        for(let i = 0; i < data.achievements.length; i++){
+            this.Acheivement.push(data.achievements[i])
+            this.Acheivement[i].name = data.achievements[i].achievement_name
+            this.Acheivement[i].detail=data.achievements[i].achievement_detail
+            this.Acheivement[i].company=data.achievements[i].organize_by
+            this.Acheivement[i].date_of_event=data.achievements[i].date_of_event
         }
-            this.Acheivement.length = data.achievement.length
+            this.Acheivement.length = data.achievements.length
+
+            
+            // console.log("Acheivement : "+ this.Acheivement[0].name)
+            // console.log("detail : "+ this.Acheivement[0].detail)
+            // console.log("Date : "+ this.Acheivement[0].date_of_event )
 
             
        
@@ -353,73 +430,72 @@ export default {
             
         }
             this.Authours.length = data.students.length
-            // console.log(this.Authours[this.index].Student_id )
-           
+   
         // outsiders
         
-        // for (let i = 0; i < data.outsiders.length ; i++){                 
-        //     console.log('outsiders : ',data.outsiders[i])
-        //     this.outsider.push(data.outsiders[i])
-        //     this.outsider[i].id = data.outsiders[i].id 
-        //     this.outsider[i].firstname = data.outsiders[i].firstname
-        //     this.outsider[i].lastname = data.outsiders[i].lastname
-        //     this.outsider[i].mail = data.outsiders[i].email 
-        // }
-        //     this.outsider.length =data.outsiders.length
+        for (let i = 0; i < data.outsiders.length ; i++){                 
+            console.log('outsiders : ',data.outsiders[i])
+            this.outsider.push(data.outsiders[i])
+            this.outsider[i].id = data.outsiders[i].id 
+            this.outsider[i].firstname = data.outsiders[i].firstname
+            this.outsider[i].lastname = data.outsiders[i].lastname
+            this.outsider[i].mail = data.outsiders[i].email 
+        }
+            this.outsider.length =data.outsiders.length
+
         // document
         for (let i = 0; i < data.document.length ; i++){
             this.document[i] = data.document[i].path_name 
         }
             this.document.length= data.document.length
-        // console.log(data.document[0].path_name)
-
-
-        // console.log('data', data)
+        
+        // fetch data
         for (let i = 0; i < data.picture.length ;i++){
+            console.log("รูป " + data.picture.length)
             // this.img.push(data.picture[i])
             this.img[i] = data.picture[i].path_name
                 var path = this.img[i]
                 var name = path.substring(path.lastIndexOf("_", path.length-1)).substring(1)   
-                var newPath = path.replace(/ /g, '%20')
+                var newPath = path.replace()
             if(name === "cover"){
                 this.cover.push(data.picture[i])
                 this.cover.path = `${data.picture[i].path_name}`
-                // console.log("count",this.countPic)
-            }else if(name != "cover" ){
+            }else if(name != "cover"){
                 this.countPic++
                 // this.indexPic.push({indexPic: this.countPic++})
+                console.log("โหลๆเทส : "+ this.pictures)
                 this.pictures.push({ path: newPath })  
                 // this.pictures.push(data.picture[i])
                 // this.pictures.path = newPath
             }
             //  console.log("count : ",this.countPic-1)
+        }  
+
+
+        if(data.picture[0]){
+            console.log("[0] have data")
+            console.log("cover : "+this.cover.path)
+        }else{
+            console.log("[0] is emtry")
+            return  
         }
-        // console.log('picture',this.pictures[1].path)
-       
         // เก็บข้อมูลไว้ก่อน
             this.cachedUser_eg =  this.Detail.content_eg;
-            this.cachedUser_th = this.Detail.content_th;
+            this.cachedUser_th = this.Abstract.content_Abstract;
             this.Tools_tool =  this.Tools.tool;
         //  console.log(this.cachedUser)
         
     },
     methods:{
-        // funtion show ต้องกลับมาเเก้ต้องรู้ roll ของ user เเล้ว
-        // show () {
-        //     this.showDetail = true;
-        // },
-        // notShow(){
-        //     this.showDetail = false;
-        // },
         save() {
            try{
-                axios.patch('https://calm-shelf-19378.herokuapp.com/projects/',{
+                axios.patch('http://localhost:7000/projects/',{
                     "project_detail": {
                         "id": this.project_id,
                         "project_name_th": this.header.TitleName_TH,
                         "project_name_en": this.header.TitleName,
-                        "project_detail_th": this.Detail.content_th,
-                        "project_detail_en": this.Detail.content_eg,
+                        "project_abstract": this.Abstract.content_Abstract,
+                        "project_detail": this.Detail.content_eg,
                         "haveOutsider": true,
                         "isShow": false,
                         "tool_techniq_detail": this.Tools.tool,
@@ -439,8 +515,9 @@ export default {
                           "email": this.Authours.mail
                         },
                     ],
-                    "achievement": [
+                    "achievements": [
                         {
+                            "project_id": '',
                             "achievement_name": this.Acheivement.name,
                             "achievement_detail":  this.Acheivement.detail,
                             "organize_by": this.Acheivement.company,
@@ -448,12 +525,8 @@ export default {
                         }
                     ],
                     "tags": [],
-                    "document": [
-                            {"path_name": "https://storage.googleapis.com/senior-project-c9108.appspot.com/Documents/1/1558781744273_E-business by GIB IT#22.pdf"}
-                    ],
-                    "picture": [
-                            {"path_name": "https://storage.googleapis.com/senior-project-c9108.appspot.com/Images/1/cover"},
-                    ],
+                    "document": [],
+                    "picture": [],
                     "video": {
                             "path_name": null
                     },
@@ -471,7 +544,7 @@ export default {
                     this.cachedUser_eg = Object.assign({}, this.user);
                     this.cachedUser_eg=this.Detail.content_eg;
                     this.cachedUser_th = Object.assign({}, this.user);
-                    this.cachedUser_th=this.Detail.content_th;
+                    this.cachedUser_th=this.Abstract.content_Abstract;
                     this.Tools_tool = Object.assign({}, this.user);
                     this.Tools_tool=this.Tools.tool;
                     this.EditProject = false;
@@ -484,27 +557,28 @@ export default {
         },
         cancel() {
             this.Detail.content_eg = this.cachedUser_eg;
-            this.Detail.content_th  =  this.cachedUser_th;
+            this.Abstract.content_Abstract  =  this.cachedUser_th;
             this.EditProject = Object.assign({}, this.Tools_tool);
-            // this.Detail.content_eg = this.cachedUser_eg;
-            // this.Detail.content_th = this.cachedUser_th;
             this.Tools.tool=this.Tools_tool;
             this.EditProject = false;
             // console.log("test",this.cachedUser_eg)
         },
-        onSlideStart(slide) {
-            this.sliding = true
-        },
-        onSlideEnd(slide) {
-            this.sliding = false
-        },
-        deletePicture (){
-            // console.log('picture',this.pictures[this.countPic-1].path)
-        try{
-            axios.delete('https://calm-shelf-19378.herokuapp.com/files/image' ,{
-            //    data : {"path_name" : this.pictures[this.countPic-1].path}
-            }) 
-            .then(response =>this.pictures.splice(this.pictures[this.countPic-1].path))
+        // onSlideStart(slide) {
+        //     this.sliding = true
+        // },
+        // onSlideEnd(slide) {
+        //     this.sliding = false
+        // },
+        deletePicture(index){
+            console.log("delete  : " + this.pictures[index].path)
+
+        try{           
+            axios.delete('http://localhost:7000/files/image',{
+                data : { "path_name" : this.pictures[index].path }
+            })
+            //    
+            .then(response => this.pictures.splice(index,1))
+            // this.pictures[index].path = data.picture.path_name
             // this.pictures[this.countPic].path = data.picture.path_name
         }catch(err){
                 console.log('FAILURE!!'+err)
@@ -512,13 +586,8 @@ export default {
                 this.error = true;
             }
         },
-        // getTag(){ 
-        //     return axios.get('http://34.73.213.209:7000/tags/:character')
-        //     .then(response => (this.info = response.data.bpi))
-        //     .catch(error => console.log(error))
-        //     // console.log(res)
-        // }
     }
 }
 </script> 
+
 
