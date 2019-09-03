@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav class="navbar nav1" role="navigation" aria-label="main navigation">
+    <nav class="navbar nav1 sticky" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="https://bulma.io">
           <img src="./assets/logo.png">
@@ -114,9 +114,8 @@ a.menuName:hover{
   font-size: 22px !important;
   margin-right: 3px !important;
 }
-#app {
-  /* font-family: 'Avenir', Helvetica, Arial, sans-serif; */
+/* #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
 </style>

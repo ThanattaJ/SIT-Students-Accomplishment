@@ -1,14 +1,12 @@
 <template>
     <div id="list-project of student">
-
-
        <div id="bodyBg"> 
          <div class="buttons has-addons is-centered is-fullwidth">
-          <span class="button menuBar">Profile</span>
+          <!-- <span class="button menuBar">Profile</span> -->
           <span class="button menuBar is-info is-selected">Project</span>
           <span class="button menuBar">Assignment</span>
           <span class="button menuBar">Fingerprint</span>
-          <span class="button menuBar">Generate Resume</span>
+          <span class="button menuBar"><router-link to="GenerateResume">Generate Resume</router-link></span>
         </div>
 
 
@@ -137,21 +135,21 @@
           </div>
         <router-view/>
         </div> -->
-        <div class="button" @click="pdfmyurl">export pdf</div>
      </div>
 </template>
 
-<style>
-
-</style>
+<script src="print.js"></script>
 
 <script>
 import './../../node_modules/bulma/css/bulma.css';
-import './css/student.css'
+import './css/studentProjectTab.css';
+import print from 'print-js'
+
 export default {
   // name:"#information",
     data(){
       return{
+        message: '',
         name: 'Sophon Jampasornklin',
         info: 'Bachelor of Science Programme in Information Technology',
         year: '3rd year SIT Student',
@@ -160,31 +158,7 @@ export default {
       }
     },
     methods: {
-      pdfmyurl (url, savepdf) {
-       var self = this;
-       
-       self.save = savepdf;
-       self.req = new XMLHttpRequest();
- 
-       // you can add other parameters here - otherwise the defaults from the members area are used
-       var data = "url=" + encodeURIComponent(url);
-  
-       self.req.onload = function(event) {
-            self.reader = new FileReader();
-              
-            self.reader.addEventListener("loadend", function() {
-                  window.open(self.reader.result, "_blank");
-                  return self.reader.result;
-            });
-              
-            self.reader.readAsDataURL(self.req.response);
-       };
-  
-       self.req.open("POST", "https://pdfmyurl.com/api", true);
-       self.req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-       self.req.responseType = "blob";
-       self.req.send(data);
-}
+      
     }
 }
 </script>

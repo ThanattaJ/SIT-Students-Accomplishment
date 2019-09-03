@@ -1,0 +1,347 @@
+.titleText{
+    color: #6F6F6F;
+    font-weight: bolder;
+    font-size: 18px
+}
+.la-angle-left{
+    float: left;
+    color: #6F6F6F;
+}
+.la-angle-left:hover{
+    color: #3E3E42;
+    cursor: pointer;
+}
+.uploadImg{
+    float:right;
+    color:red !important;
+}
+.uploadImg:hover{
+    cursor: pointer;
+}
+.resumeForm{
+    background-color: #F7F7F7;
+    padding: 25px 25px 25px 35px;
+}
+.resumeGen{
+    background-color: #3E3E42;
+}
+.genText{
+    height: 50px;
+    text-align: center;
+}
+.stricky {
+    position: fixed;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+}
+
+article {
+    height: 100%;
+  }
+section {
+    height: 100%;
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column;
+}
+.topic{
+    width: 100%;
+    cursor: pointer;
+    font-size: 14px;
+    color: #A2A2A2;
+}
+.smallTopic{
+    width: 100%;
+    font-size: 12px;
+    color: #A2A2A2;
+}
+.la-plus:before {
+    font-size: 18px !important;
+    color: #A2A2A2 !important;
+}
+.plusIcon{
+    float: right !important;
+}
+
+input[type=text] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #DBDBDB;
+    width: 100%;
+    color: #265080 !important;
+    font-size: 14px;
+    margin-top: 5px;
+}
+input[type=text]:focus {
+    outline: none;
+}
+
+select {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid #DBDBDB !important;
+    color: #265080 !important;
+    font-size: 14px;
+    border-radius: 0px !important;
+    width: 268px !important;
+    padding-left: 0px !important;
+}
+
+select:focus{
+    box-shadow: none !important;
+}
+
+.select{
+    margin-bottom: 18px;
+}
+
+.select:not(.is-multiple):not(.is-loading)::after{
+    border-color: #000000 !important;
+    border-width: 1px !important;
+    font-size: 10px;
+}
+
+.saveBtn{
+    background-color: #88D738 !important;
+}
+.cancelBtn{
+    background-color: #EB5656 !important;
+    margin-left: 6px;
+}
+.saveBtn,.cancelBtn{
+    font-size: 10px !important;
+    border-radius: 100px !important;
+    color: white !important;
+    height: 17.5px !important;
+    width: 37.09px !important;
+    border: none !important;
+}
+.cancelBtn{
+    width: 47.09px !important;
+}
+.saveCancelBtn{
+    margin-top: 8px;
+    overflow: hidden;
+    height: 0;
+}
+span.placeholder{
+    color: #A2A2A2;
+}
+.expandable {
+    overflow: hidden;
+    height: 0;
+} 
+
+.mainTopic{
+    width: 100%;
+    font-size: 11px;
+    color: rgb(131, 131, 131);
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 12px;
+}
+
+.savepdf{
+    border-radius: 100px !important;
+    color: white !important;
+    background-color: #88D738 !important;
+    height: 30px !important;
+    font-size: 14px;
+    border: none !important;
+}
+
+.la-ellipsis-v:before{
+    margin-left: -15px!important;
+    margin-right: -7px!important;
+}
+.selectnw{
+    background-color: white;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.nwLogo{
+    padding-top: 10px;
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    font-size: 12px;
+    /* width: 80px; */
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 3px 10px;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+  
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltip:hover{
+    cursor: pointer;
+}
+
+.la-twitter:hover{
+    color: #47ABE7 !important;
+}
+.la-facebook:hover{
+    color: #4267b2 !important;
+}
+
+.la-instagram:hover{
+    color: #FF007A !important;
+}
+.la-linkedin:hover{
+    color: #0077B5 !important;
+}
+.la-github:hover{
+    color: #24292D !important;    
+}
+.la-pinterest:hover{
+    color: #E60122 !important;    
+}
+.la-vimeo:hover{
+    color: #1CB7EA !important;    
+}
+.la-tumblr:hover{
+    color: #000000 !important;
+}
+.la-flickr:hover{
+    color: #0063DB !important;
+}
+.la-link:hover{
+    color: #DB6318 !important;
+}
+.afterChooseNw{
+    background-color: white;
+    padding: 0px 12px 7px 12px;
+}
+.pre{
+    font-size: 12px;
+}
+.hamburger:before {
+    margin-left: -6px !important;
+    /* margin-right: 0px!important; */
+    color: #A2A2A2;
+}
+.listWebsite{
+    margin-top: 10px;
+    cursor: pointer;
+}
+.la-trash:hover{
+    color: #6F6F6F !important;
+}
+
+.username{
+    padding-top: 3px;
+}
+.hamburgerWebsite{
+    color: #A2A2A2;
+}
+.listWebsite:hover  .hamburgerWebsite{
+    color: #4A4A4A
+}
+.education{
+    background-color: white;
+    padding: 20px 20px 10px 20px;
+    display: block !important;
+    border-radius: 4px;
+}
+
+.fieldName{
+    font-size: 12px;
+    overflow: hidden;
+    height: 0;
+}
+
+.md-field{
+    margin: 0px 0 10px !important;
+}
+
+.md-field label {
+    font-size: 14px !important;
+}
+
+.md-field.md-focused label, .md-field.md-has-value label {
+    font-size: 12px !important;
+}
+
+.md-input{
+    font-size: 14px !important;
+    margin-top: 0px !important;
+}
+
+.md-field.md-theme-default label{
+    color: #6F6F6F !important
+}
+
+.md-field.md-theme-default.md-has-value .md-input{
+    -webkit-text-fill-color: #265080 !important;
+}
+
+.md-field.md-theme-default:after {
+    background-color: #DBDBDB !important
+}
+
+.md-field:after, .md-field:before {
+    bottom: 3px !important
+}
+
+.md-field.md-theme-default:before {
+    background-color: #6F6F6F !important;
+    height: 1px !important;
+}
+
+.showEducation {
+    width: 100%; 
+    word-break: break-all;
+}
+
+.educationList{
+    position: relative
+}
+
+.educationIcon{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 30%;
+    margin: auto;
+    margin-left: 8px;
+    color: #A2A2A2;
+}
+
+.allEducation{
+    border-radius: 4px;
+    background-color:white;
+    margin-top:10px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.allEducation:hover{
+    cursor: pointer;
+}
+
+.allEducation:hover .educationIcon{
+    color: #4A4A4A;
+}
+
+.schoolname{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.program , .eduYear{
+    font-size: 12px;
+}
+
+.eduYear{
+    color: #A2A2A2;
+}

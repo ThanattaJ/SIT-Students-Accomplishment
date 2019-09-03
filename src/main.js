@@ -6,8 +6,14 @@ import router from './router'
 import {store} from './components/store/store'
 import axios from 'axios';
 import Bars from 'vuebars'
-
 Vue.use(Bars)
+
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
+
+Vue.use(VueMaterial)
+
 
 Vue.config.productionTip = false
 

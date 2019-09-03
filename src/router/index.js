@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import student from '@/components/student'
-import Profile from '@/components/Profile'
+import GenerateResume from '@/components/GenerateResume'
 import ShowProject from '@/components/Project/ShowProject'
 import Assignment from '@/components/Assignment'
 import CreateExternalPortPage from '@/components/NewPortfolioPage/CreateExternalPortPage'
@@ -41,9 +41,9 @@ export default new Router({
        ]
     },
     {
-      path: '/Profile',
-      name: 'Profile',
-      component: Profile
+      path: '/GenerateResume',
+      name: 'GenerateResume',
+      component: GenerateResume
     },
     {
       path: '/CreateExternalPortPage',
