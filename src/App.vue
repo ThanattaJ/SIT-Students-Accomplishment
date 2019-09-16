@@ -112,7 +112,7 @@ a.menuName:hover{
 
 .la{
   font-size: 22px !important;
-  margin-right: 3px !important;
+  /* margin-right: 3px !important; */
 }
 /* #app {
   -webkit-font-smoothing: antialiased;

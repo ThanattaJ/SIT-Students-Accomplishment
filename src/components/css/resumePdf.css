@@ -1,0 +1,82 @@
+#printJS-form{
+    color:black;
+    background-color:white;
+    width:595px;
+    height:842px;
+    font-family:'Asap';
+}
+
+.A4Padding{
+    padding:20px
+}
+
+.leftSide{
+    border-right: 2px dashed aliceblue;
+    height: 780px;
+}
+
+.rightSide{
+    border-bottom: 2px dashed aliceblue;
+    margin-bottom: 6%;
+    padding-bottom:10%
+}
+
+.name{
+    text-align:center;
+    margin-bottom: 20px;
+}
+
+.topic_resume{
+    color:black;
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom: 10px;
+}
+
+.contact_topic{
+    margin-bottom: 20px;
+}
+
+.contact{
+    font-size:14px;
+    font-weight:bold
+}
+
+.contact_icon{
+    width:22px;
+    margin-right: 5px;
+}
+
+.contact_detail{
+    margin-left: 27px;
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+
+.eduYear_resumePdf{
+    padding-right: 0;
+    font-size: 12px;
+}
+
+.eduDetail{
+    margin-left:-20px;
+    padding-left: 0;
+    padding-right: 0
+}
+
+.breakWord{
+    word-break: break-all;
+}
+
+.webList_resume{
+    margin-bottom: 8px;
+}
+
+.languageTag{
+    background-color:#F8C441;
+    border-radius: 3px;
+    padding: 2px;
+    color:white;
+    font-size:13px;
+    font-weight: bold;
+}

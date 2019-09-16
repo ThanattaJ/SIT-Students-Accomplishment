@@ -136,10 +136,11 @@ span.placeholder{
 .mainTopic{
     width: 100%;
     font-size: 11px;
-    color: rgb(131, 131, 131);
+    /* color: rgb(131, 131, 131); */
     font-weight: bold;
-    margin-top: 15px;
-    margin-bottom: 12px;
+    margin-top: 30px;
+    /* margin-top: 15px; */
+    /* margin-bottom: 12px; */
 }
 
 .savepdf{
@@ -234,8 +235,13 @@ span.placeholder{
     margin-top: 10px;
     cursor: pointer;
 }
+
+.la-trash{
+    color:#A2A2A2
+}
 .la-trash:hover{
     color: #6F6F6F !important;
+    cursor: pointer;
 }
 
 .username{
@@ -247,7 +253,7 @@ span.placeholder{
 .listWebsite:hover  .hamburgerWebsite{
     color: #4A4A4A
 }
-.education{
+.education , .skill , .language{
     background-color: white;
     padding: 20px 20px 10px 20px;
     display: block !important;
@@ -261,7 +267,7 @@ span.placeholder{
 }
 
 .md-field{
-    margin: 0px 0 10px !important;
+    margin: 0px 0 0px !important;
 }
 
 .md-field label {
@@ -272,7 +278,7 @@ span.placeholder{
     font-size: 12px !important;
 }
 
-.md-input{
+.md-input, .md-textarea{
     font-size: 14px !important;
     margin-top: 0px !important;
 }
@@ -281,7 +287,7 @@ span.placeholder{
     color: #6F6F6F !important
 }
 
-.md-field.md-theme-default.md-has-value .md-input{
+.md-field.md-theme-default.md-has-value .md-input , .md-field.md-theme-default.md-has-value .md-textarea{
     -webkit-text-fill-color: #265080 !important;
 }
 
@@ -298,16 +304,16 @@ span.placeholder{
     height: 1px !important;
 }
 
-.showEducation {
+.showEducation , .showSkill , .showLanguage {
     width: 100%; 
     word-break: break-all;
 }
 
-.educationList{
+.educationList , .skillList , .languageList{
     position: relative
 }
 
-.educationIcon{
+.educationIcon , .skillIcon , .languageIcon{
     position: absolute;
     top: 0;
     bottom: 0;
@@ -317,7 +323,7 @@ span.placeholder{
     color: #A2A2A2;
 }
 
-.allEducation{
+.allEducation , .allSkill , .allLanguage{
     border-radius: 4px;
     background-color:white;
     margin-top:10px;
@@ -325,11 +331,11 @@ span.placeholder{
     margin-right: 0;
 }
 
-.allEducation:hover{
+.allEducation:hover , .allSkill:hover , .allLanguage:hover{
     cursor: pointer;
 }
 
-.allEducation:hover .educationIcon{
+.allEducation:hover .educationIcon , .allSkill:hover .skillIcon , .allLanguage:hover .languageIcon{
     color: #4A4A4A;
 }
 
@@ -338,10 +344,43 @@ span.placeholder{
     font-size: 16px;
 }
 
+.levelEdu{
+    font-size: 14px;
+}
+
 .program , .eduYear{
     font-size: 12px;
 }
 
 .eduYear{
     color: #A2A2A2;
+}
+
+.addEduBtn:hover , .addSkillBtn:hover , .addLanguageBtn:hover{
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.editing{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.mystyle{
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+
+/* experience */
+.checkboxExpe{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+
+#a{
+    color:red
 }
