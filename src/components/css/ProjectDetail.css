@@ -133,9 +133,19 @@
   }
   #achieve{ 
       margin: 20px;
-      font-size: 0.7em;
   }
   #achievements.card{
       margin-top: 20px;
+  }
+  #achieve {
+    width: 70%;
+    display: inline-block;
+    vertical-align: top;    
+  }
+  #addAchievements{
+    margin-left: 90%;
+    width: 50px;
+    padding: 2%;
+    
   }
   

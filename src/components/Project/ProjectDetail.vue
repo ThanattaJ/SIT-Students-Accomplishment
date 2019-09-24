@@ -133,25 +133,22 @@
                             </header>
                             <div id="achieve">
                                 <div  id="Acheivement"  v-for=" i in Acheivement" v-bind:key="i.name">
-                                    <div class="card">
-                                        <header class="card-header">
-                                            <div class="card-header-title"  id="Acheivement">
-                                                Name: {{i.name}}
-                                            </div>
-                                        </header>
-                                            <div class="card-content">
-                                                <div class="content"  id="Acheivement">
-                                                    Details: {{i.detail}}
-                                                </div>
-                                                <div class="content" id="Acheivement" >
-                                                    Company: {{i.company}}
-                                                </div>
-                                                <div class="content"  id="Acheivement">
-                                                    Date of Event: {{i.date_of_event}}
-                                                </div>
-                                            </div>
-                                    </div>
+                                      <md-card>
+                                        <md-card-header>
+                                            <md-card-header-text>
+                                               Name: {{i.name}}
+                                           </md-card-header-text>
+                                        </md-card-header>
+                                        <md-card-content>
+                                            Details: {{i.detail}} <br>
+                                            Company: {{i.company}}<br>
+                                            Date of Event: {{i.date_of_event}}
+                                        </md-card-content>
+                                      </md-card>
                                 </div>
+                            </div>
+                            <div id="addAchievements" >
+                                 <img src="../../assets/plus-3.png" v-if="EditProject" >
                             </div>
                     </div>
                     <!-- ------------------- -->

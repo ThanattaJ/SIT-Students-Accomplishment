@@ -15,7 +15,7 @@
                 <tbody>
                     <tr v-for="(person,index) in persons" v-bind:key="index">
                         <td id="index">{{index+1}}</td>
-                        <td id="subjects" @click="showDetail()">
+                        <td id="subjects" @click="showDetail(index)">
                             {{person.course}} | {{person.name}}
                         </td>
                         <td id="Action">
@@ -120,25 +120,20 @@
             </footer>
             </div>
         </div>
-        <!-- <div id="modal-details" v-bind:class="{'is-active':detailActive}">
-            <md-card md-with-hover>
-              <md-ripple>
-                <md-card-header>
-                  <div class="md-title">Card with hover effect</div>
-                  <div class="md-subhead">It also have a ripple</div>
-                </md-card-header>
-
-                <md-card-content>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non.
-                </md-card-content>
-
-                <md-card-actions>
-                  <md-button>Action</md-button>
-                  <md-button>Action</md-button>
-                </md-card-actions>
-              </md-ripple>
-            </md-card>
-        </div> -->
+        <div id="detailActive">
+          <md-dialog :md-active.sync="detailActive">
+          <md-card-header>
+              <div class="md-title">{{persons[this.detailIndex].name}}</div>
+              <div class="md-subhead">{{persons[this.detailIndex].course}}</div>
+          </md-card-header>
+          <md-card-content>
+            {{persons[this.detailIndex].detail}}
+          </md-card-content>
+          <md-dialog-actions>
+              <md-button class="md-primary" @click="detailActive = false">Close</md-button>
+          </md-dialog-actions>
+           </md-dialog>
+        </div>
        
     </div>
 </template>
@@ -171,12 +166,13 @@ export default {
                 detailActive:false,
                 info:null,
                 addActive:false,
-                delIndex:null
+                delIndex:null,
+                detailIndex:null
             }
          },
 async mounted() {
 
-
+  
     const { data } = await axios.get('http://localhost:7000/course');
     for(let i  = 0;  i < data.length; i++){
       this.persons.push(data[i])
@@ -188,6 +184,7 @@ async mounted() {
       console.log("details : "+  this.persons[i].course_id )
     }   
       this.persons.length = data.length
+
 },
 methods: {
     //function to add data to table
@@ -305,8 +302,13 @@ methods: {
         this.isActive = false;
         this.addActive=false;
     },
-    showDetail: function(){
+    showDetail: function(index){
         this.detailActive = true
+        this.detailIndex = index
+        console.log(index+"detailIndex" + this.detailIndex)
+
+        //detailIndex = index someone
+
     }
   }
 };
