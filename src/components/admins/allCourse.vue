@@ -121,13 +121,13 @@
             </div>
         </div>
         <div id="detailActive">
-          <md-dialog :md-active.sync="detailActive">
+          <md-dialog :md-active.sync="detailActive" v-if="persons[detailIndex]">
           <md-card-header>
-              <div class="md-title">{{persons[this.detailIndex].name}}</div>
-              <div class="md-subhead">{{persons[this.detailIndex].course}}</div>
+              <div class="md-title">{{persons[detailIndex].name}}</div>
+              <div class="md-subhead">{{persons[detailIndex].course}}</div>
           </md-card-header>
           <md-card-content>
-            {{persons[this.detailIndex].detail}}
+            {{persons[detailIndex].detail}}
           </md-card-content>
           <md-dialog-actions>
               <md-button class="md-primary" @click="detailActive = false">Close</md-button>
