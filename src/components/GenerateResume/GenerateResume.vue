@@ -185,7 +185,7 @@ export default {
     computed: {
         ...mapGetters(['GET_SHOWPAGE', 'GET_RESUME_DATA', 'GET_FIRSTNAME', 'GET_LASTNAME', 'GET_NICKNAME', 'GET_BIOGRAPHY',
             'GET_STREET', 'GET_SUBDISTRICT', 'GET_DISTRICT', 'GET_PROVINCE', 'GET_ZIPCODE',
-            'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY',
+            'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY'
             // 'GET_WEBSITE', 'GET_EDUCATION_DATA', 'GET_EXPERIENCE_DATA', 'GET_SKILL', 'GET_LANGUAGE'
         ])
     },

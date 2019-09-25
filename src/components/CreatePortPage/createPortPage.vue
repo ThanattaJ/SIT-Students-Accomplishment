@@ -1,0 +1,189 @@
+<template>
+<div id="body-bg">
+    <div style="margin-top: -25px;">
+        <stepProgress :steps="mySteps" :currentStep="currentStep" iconClass="la la-check"></stepProgress>
+    </div>
+    <div class="columns">
+        <div class="column stepCard">
+            <div class="card card-equal-height">
+                <div class="card-content form">
+                    <div class="content">
+                        <form>
+                            <div v-if="currentStep === 0">
+                                <!-- step1 -->
+                                <ValidationObserver tag="form" ref="obs1" v-slot="{ invalid }">
+                                    <step1Form />
+                                </ValidationObserver>
+                            </div>
+                            <div v-if="currentStep === 1">
+                                <!-- step2 -->
+                                <step2Form />
+                                <p class="help is-danger" v-if="invalidStep2">* Please write at least 1 field</p>
+
+                            </div>
+                            <div v-if="currentStep === 2">
+                                <!-- step3 -->
+                                <step3Form />
+                            </div>
+                            <div v-if="currentStep === 3">
+                                <!-- step4 -->
+                                <step4Form />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <footer class="card-footer field is-grouped is-grouped-centered">
+                    <button class="card-footer-item button backButton" @click.prevent="prev" v-if="currentStep > 0">
+                        <p class="letterBackNext">Back</p>
+                    </button>
+                    <button class="card-footer-item button nextButton" @click.prevent="next" v-if="currentStep != 3">
+                        <p class="letterBackNext">Next</p>
+                    </button>
+                    <button class="card-footer-item button nextButton" @click.prevent="CREATE_PROJECT" v-if="currentStep == 3">
+                        <p class="letterBackNext">Submit</p>
+                    </button>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>
+</template>
+
+<script>
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
+
+import axios from "axios";
+import StepProgress from 'vue-step-progress';
+import 'vue-step-progress/dist/main.css';
+import "./../css/form.css";
+import step1Form from "./step1Form.vue";
+import step2Form from "./step2Form.vue";
+import step3Form from "./step3Form.vue";
+import step4Form from "./step4Form.vue";
+import {
+    ValidationObserver,
+    ValidationProvider
+} from "vee-validate";
+
+export default {
+    data() {
+        return {
+            mySteps: ['Create Project', 'Project Overview', 'Project Members', 'Project Achievement'],
+            currentStep: 0,
+
+            invalidStep2: false
+        };
+    },
+
+    mounted() {
+        this.LOAD_ALL_STUDENT()
+    },
+
+    computed: {
+        ...mapGetters({
+            allStudent: 'GET_ALL_STUDENT',
+            project_detail: 'GET_PROJECT_DETAIL',
+            project_abstract: 'GET_PROJECT_ABSTRACT',
+
+            project_data: 'GET_PROJECT_DATA',
+            member_student: 'GET_SELECTED_STUDENT_MEMBER',
+            member_outsider: 'GET_OUTSIDER',
+            achievement: 'GET_ACHIEVEMENT'
+        })
+    },
+
+    methods: {
+        ...mapActions(['LOAD_ALL_STUDENT', 'CREATE_PROJECT', 'SET_HAVE_OUTSIDER']),
+        prev: function () {
+            if (this.currentStep != 0) {
+                this.currentStep--;
+            }
+        },
+        async next() {
+            if (this.currentStep == 0) {
+                var value = await this.$refs.obs1.validate();
+                console.log(value)
+                if (value) {
+                // if (true) {
+                    this.currentStep++;
+                }
+            } else if (this.currentStep == 1) {
+                if (this.project_detail.length > 0 || this.project_abstract.length > 0) {
+                    this.currentStep++;
+                    this.invalidStep2 = false
+                } else {
+                    this.invalidStep2 = true
+                }
+            } else if (this.currentStep == 2) {
+                this.currentStep++;
+            }
+        },
+        async CREATE_PROJECT() {
+            var studentID_member = []
+            for (var n = 0; n < this.member_student.length; n++) {
+                studentID_member.push({
+                    student_id: this.member_student[n].text
+                })
+            }
+
+            if (this.member_outsider.length > 0) {
+                this.SET_HAVE_OUTSIDER()
+            }
+
+            var data;
+            data = {
+                project_data: this.project_data,
+                member: {
+                    students: studentID_member,
+                    outsiders: this.member_outsider
+                }
+            };
+
+            if (this.achievement.length > 0) {
+                console.log("have achievement");
+                data["achievement"] = this.achievement
+                for (var n = 0; n < this.achievement.length; n++) {
+                    var date = this.achievement[n].date_of_event
+                    data.achievement[n].date_of_event = date.substring(8, 10) + "-" + date.substring(5, 7) + "-" + date.substring(0, 4)
+                }
+            }
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2ODcxNzYxNzI0NH0.Vn_kGau8dG9DBQIqm7_NOQVTKfK4ZjlfUKGmrZK0NzU'
+                }
+            }
+            try {
+                await axios
+                    .post("http://localhost:7000/projects/external", data, config)
+                    .then(res => {
+                        console.log(res);
+                        this.$router.push({
+                            path: `/ProjectDetail/${res.data.project_id}`
+                        });
+                        console.log("success!");
+                    })
+                    .catch(res => {
+                        console.log(res);
+                    });
+            } catch (err) {
+                console.log("FAILURE!!" + err);
+            }
+        }
+    },
+
+    components: {
+        StepProgress,
+        step1Form,
+        step2Form,
+        step3Form,
+        step4Form,
+        ValidationObserver,
+        ValidationProvider
+    }
+};
+</script>

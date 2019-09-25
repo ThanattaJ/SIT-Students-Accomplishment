@@ -4,6 +4,7 @@ export const resumeStore = {
     state: {
         showPage: 1,
         website: [],
+        selectedExpe: [],
         skill: [],
         resumeData: {
             profile: {
@@ -15,9 +16,17 @@ export const resumeStore = {
             commit('SET_PAGE', page)
         },
         LOAD_RESUME_DATA: async function ({ commit }) {
+            const config = {
+                headers : {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2ODcxNzYxNzI0NH0.Vn_kGau8dG9DBQIqm7_NOQVTKfK4ZjlfUKGmrZK0NzU'
+                }
+            }
             const {data} = await axios.get(
-                "http://localhost:7000/users/generate-resume/59130500001"
+                "http://localhost:7000/users/generate-resume/59130500001", config
+                // "http://localhost:7000/users/default", config
             );
+            console.log(data)
             commit('SET_RESUME_DATA', data)
         },
         UPDATE_FIELD: function ({commit}, { callSetter, value }) {
@@ -134,9 +143,14 @@ export const resumeStore = {
         GET_EXPERIENCE_DATA: function (state) {
             return state.resumeData.projects
         },
+        GET_EXPERIENCE_SELECTED: function (state) {
+            return state.selectedExpe
+        },
+        //SKILL
         GET_SKILL: function (state) {
             return state.skill
         },
+        //LANGUAGE
         GET_LANGUAGE: function (state) {
             return state.resumeData.language
         }

@@ -70,9 +70,9 @@
                     </div>
                 </div>
                 <!-- EXPERIENCE -->
-                <div v-if="GET_EDUCATION_DATA.length > 0">
+                <div v-if="GET_EXPERIENCE_SELECTED.length > 0">
                 <p class="topic_resume">EXPERIENCE</p>
-                    <div class="columns" v-for="(exp,index) in GET_EXPERIENCE_DATA" v-bind:key="'exp'+index">
+                    <div class="columns" v-for="(exp,index) in GET_EXPERIENCE_SELECTED" v-bind:key="'exp'+index">
                         <div class="column is-3 eduYear_resumePdf">{{exp.start_year_en}}</div>
                         <div class="column eduDetail">
                             <p><b>{{exp.project_name_en}}</b></p>
@@ -108,7 +108,7 @@ export default {
             'GET_NICKNAME', 'GET_BIOGRAPHY',
             'GET_STREET', 'GET_SUBDISTRICT', 'GET_DISTRICT', 'GET_PROVINCE', 'GET_ZIPCODE',
             'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY',
-            'GET_WEBSITE', 'GET_EDUCATION_DATA', 'GET_EXPERIENCE_DATA', 'GET_SKILL', 'GET_LANGUAGE'
+            'GET_WEBSITE', 'GET_EDUCATION_DATA', 'GET_EXPERIENCE_DATA', 'GET_EXPERIENCE_SELECTED','GET_SKILL', 'GET_LANGUAGE'
         ])
     },
     mounted() {

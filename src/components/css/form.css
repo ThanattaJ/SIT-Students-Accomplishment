@@ -6,6 +6,11 @@
     padding: 3% 6% 0% 6%;
 }
 
+.field-input[data-v-7d90c7dc] {
+    height: 32px !important;
+    min-height: 29px !important;
+
+}
 .stepName{
     font-size:23px;
     color: #265080;

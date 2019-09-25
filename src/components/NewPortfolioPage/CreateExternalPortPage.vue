@@ -4,16 +4,6 @@
       <stepProgress :steps="mySteps" :currentStep="currentStep" iconClass="la la-check"></stepProgress>
     </div>
     <div class="columns">
-      <!-- <div class="column is-one-fifth">
-        <div>
-          <vue-step
-            :nowStep="nowStep"
-            :stepList="stepList"
-            :activeColor="activeColor"
-            :direction="direction"
-          ></vue-step>
-        </div>
-      </div> -->
       <div class="column stepCard">
         <div class="card card-equal-height">
           <div class="card-content form">
@@ -187,16 +177,6 @@ export default {
       // step list
       studentDataFromParent: [],
       name: "",
-      // nowStep: 1,
-      // stepList: [
-      //   "Create Project",
-      //   "Project Overview",
-      //   "Project Members",
-      //   "Project Achievement"
-      // ],
-      // activeColor: "#265080",
-      // direction: "vertical",
-
       //step1
       portParent: {
         portPageNameEN: "",

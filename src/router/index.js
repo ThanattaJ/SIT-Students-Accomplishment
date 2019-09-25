@@ -5,6 +5,7 @@ import student from '@/components/student'
 import GenerateResume from '@/components/GenerateResume/GenerateResume'
 import ShowProject from '@/components/Project/ShowProject'
 import Assignment from '@/components/Assignment'
+import createPortPage from '@/components/CreatePortPage/createPortPage'
 import CreateExternalPortPage from '@/components/NewPortfolioPage/CreateExternalPortPage'
 import Document from '@/components/NewPortfolioPage/Document'
 import Video from '@/components/NewPortfolioPage/Video'
@@ -49,6 +50,11 @@ export default new Router({
       path: '/CreateExternalPortPage',
       name: 'CreateExternalPortPage',
       component: CreateExternalPortPage
+    },
+    {
+      path: '/createPortPage',
+      name: 'createPortPage',
+      component: createPortPage
     },
     {
       path: '/Document',

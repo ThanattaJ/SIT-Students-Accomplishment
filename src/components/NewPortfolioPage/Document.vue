@@ -2,15 +2,15 @@
     <div class="">
         <!-- <div class="container"> -->
             <form enctype="multipart/form-data">
-                <table class="table" v-if="uploaded.length!=0">
+                <table class="table" v-if="uploaded.length!=0" style="height:60px">
                     <tbody v-for="(upload,index) in uploaded" v-bind:key="index">
                         <tr>
                             <td style="padding-left: 0;"><a v-bind:href="upload.path_name">{{upload.doc_name}}</a></td>
-                            <td><button v-if="clickUpload==true" @click="removeUploadedDocument(index)" class="delete"></button></td>
+                            <td><button v-if="clickUpload==true" @click.prevent="removeUploadedDocument(index)" class="delete"></button></td>
                         </tr>
                     </tbody>
                 </table>
-      <!-- {{countFileUploaded}} -->
+      {{countFileUploaded}}
                 <div class="uploadDocument" v-if="clickUpload">
                         <div class="filed" v-if="countFileUploaded<2">
                             <div class="columns">
@@ -35,10 +35,10 @@
                                 </div>
                                 <div class="column is-one-fifth" style="margin-right: -100px;">
                                     <span ref="submit" class="button is-warning" v-on:click="submitFile" style="height: 36px;width: 36px;margin-right: 10px;">
-                                        <i class="fas fa-upload" style="color:white;font-size:18px;"></i>
+                                        <i class="la la-upload" style="color:white;font-size:18px;"></i>
                                     </span>
                                     <span class="button is-danger" v-on:click="removeFile" style="height: 36px;width: 36px;">
-                                        <i class="fas fa-times" style="color:white;font-size:18px"></i>
+                                        <i class="la la-trash" style="color:white;font-size:18px;"></i>
                                     </span>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                         <br>
                 </div>   
                 <div class="control">
-                    <button style="width: 77px;" class="button is-link" @click="clickUpload=!clickUpload">
+                    <button style="width: 77px;" class="button is-link" @click.prevent="clickUpload=!clickUpload">
                         <span v-if="clickUpload==false">Upload</span>
                         <span v-if="clickUpload==true">Save</span>
                     </button>
@@ -75,7 +75,7 @@ import axios from 'axios';
     async mounted() {
         console.log("ดึงจาก db ครั้งที่ 1")
 
-        const { data } = await axios.get('https://calm-shelf-19378.herokuapp.com/projects/1')
+        const { data } = await axios.get('http://localhost:7000/projects/1')
         const doc = data.document.map((_item , index = 0) => _item.path_name);
         for(let i=0;i<doc.length;i++){
             var docName = doc[i].substring(doc[i].lastIndexOf("/", doc[i].length-1)).substring(1)
@@ -103,7 +103,7 @@ import axios from 'axios';
         },
         async removeUploadedDocument(index){
             try {
-                await axios.delete('https://calm-shelf-19378.herokuapp.com/files/document', {
+                await axios.delete('http://localhost:7000/files/document', {
                 data: {"path_name": this.uploaded[index].path_name}
             } )
                 .then(function(){ console.log('SUCCESS!!');})
@@ -117,7 +117,7 @@ import axios from 'axios';
                 console.log(i + " : " + this.uploaded[i].path_name)
             }
 
-            const { data } = await axios.get('https://calm-shelf-19378.herokuapp.com/projects/1')
+            const { data } = await axios.get('http://localhost:7000/projects/1')
             const doc = data.document.map((_item , index = 0) => _item.path_name);
             this.countFileUploaded = doc.length; 
         },
@@ -141,11 +141,12 @@ import axios from 'axios';
                     }else{
                         try {
                             console.log("เอาลง db")
-                            await axios.post('https://calm-shelf-19378.herokuapp.com/files/document',formData)
+                            await axios.post('http://localhost:7000/files/document',formData)
                             .then(function(){ console.log('SUCCESS!!');})
                             this.file = "";
                             
-                            const { data } = await axios.get('https://calm-shelf-19378.herokuapp.com/projects/1')
+                            const { data } = await axios.get('http://localhost:7000/projects/1')
+                            // const { data } = await axios.get('http://localhost:7000/files/document')
                             const doc = data.document.map((_item , index = 0) => _item.path_name);
                             this.countFileUploaded = doc.length; 
                             

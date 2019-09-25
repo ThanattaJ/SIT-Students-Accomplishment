@@ -6,6 +6,8 @@ import router from './router'
 import {store} from './components/store/store'
 import axios from 'axios';
 import Bars from 'vuebars'
+import "./vee-validate";
+
 Vue.use(Bars)
 
 import VueMaterial from 'vue-material'

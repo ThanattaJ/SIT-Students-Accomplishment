@@ -10,6 +10,7 @@ import { projectStore } from './projectStore'
 import { resumeStore } from './resumeStore'
 import { courseStore } from './courseStore'
 import { assignmentStore } from './assignmentStore'
+import { createPortPageStore } from './createPortPageStore'
 
 
 export const store = new Vuex.Store({
@@ -21,6 +22,7 @@ export const store = new Vuex.Store({
         projectStore,
         resumeStore,
         courseStore,
-        assignmentStore
+        assignmentStore,
+        createPortPageStore
     }
 })
