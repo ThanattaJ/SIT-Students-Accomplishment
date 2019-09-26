@@ -77,11 +77,18 @@ export default {
             formData.append('file', this.file);
             formData.append('project_id',this.$route.params.pId);
             formData.append('isCover',"false");
+            const config = {
+                headers : {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2ODcxNzYxNzI0NH0.Vn_kGau8dG9DBQIqm7_NOQVTKfK4ZjlfUKGmrZK0NzU'
+                }
+            }
             // "false"
             try{
-                await axios.post('http://localhost:7000/files/image',formData)
+                await axios.post('http://localhost:7000/files/imageMulti',formData, config)
                 .then(function(res){ console.log(res);})
                     this.message = "File has been uploaded";
+                    
                     this.file=" ";
                     this.error = false;
             }catch(err){
@@ -100,7 +107,7 @@ export default {
             this.isActive = false;
         },
         onSubmit(e) {
-            const file = this.$refs.file.files[0];
+            const file = this.$refs.file.files[0]
             if (!file) {
               e.preventDefault();
               alert('No file chosen');

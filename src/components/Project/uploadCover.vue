@@ -87,7 +87,6 @@ export default {
             formData.append('file', this.file);
             formData.append('project_id',this.$route.params.pId);
             formData.append('isCover',true);
-          
             try{
                 await axios.post('http://localhost:7000/files/image',formData)
                 .then(function(res){ console.log(res)})
@@ -127,7 +126,6 @@ export default {
             }
             alert('File OK');
         },
-    
     },
 }
 

@@ -10,10 +10,24 @@ import CreateExternalPortPage from '@/components/NewPortfolioPage/CreateExternal
 import Document from '@/components/NewPortfolioPage/Document'
 import Video from '@/components/NewPortfolioPage/Video'
 import ProjectDetail from '@/components/Project/ProjectDetail'
-
+import admin from '@/components/admins/admin'
+import allCourse from '@/components/admins/allCourse'
+import ManageEditRequest from '@/components/admins/ManageEditRequest'
+import lecturer from '@/components/admins/lecturer'
+import login_Modal from '@/components/login/login_Modal'
+import courseSemester from '@/components/admins/courseSemester'
 
 
 Vue.use(Router)
+
+
+const routerOptions = [
+  {
+    path: '/login_Modal',
+    component: 'login_Modal'
+  }
+]
+
 
 
 export default new Router({
@@ -71,5 +85,43 @@ export default new Router({
       name: 'ProjectDetail',
       component: ProjectDetail
     },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: admin,
+      children:[
+        {
+          path: '/allCourse',
+          name: 'allCourse',
+          component: allCourse
+        },
+        {
+          path: '/ManageEditRequest',
+          name: 'ManageEditRequest',
+          component: ManageEditRequest
+        },
+        {
+          path: '/lecturer',
+          name: 'lecturer',
+          component: lecturer
+        },
+        {
+          path: '/courseSemester',
+          name: 'courseSemester',
+          component: courseSemester
+        },
+        {
+          path: '/courseSemester/:semister',
+          name: 'courseSemester',
+          component: courseSemester
+        }
+
+      ]
+    },
+    {
+          path: '/login_Modal',
+          name: 'login_Modal',
+          component: login_Modal,
+    }
   ]
 })

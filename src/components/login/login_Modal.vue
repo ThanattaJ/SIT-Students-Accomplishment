@@ -1,5 +1,6 @@
 <template>
   <div id="login">
+    <form @submit.prevent="handleSubmit">
        <md-card md-with-hover id="flex-container" style="border-radius: 6px;">
           <div id="sign-up">
             <form>
@@ -11,8 +12,8 @@
                 <div class="grey-text">
                       <md-card-content>
                         <md-field>
-                            <label>Username</label>
-                            <md-textarea v-model="autogrow" md-autogrow></md-textarea>
+                          <label>User Name</label>
+                          <md-textarea v-model="user" md-autogrow></md-textarea>
                         </md-field>
                          <div class="md-layout-item">
                           <md-field>
@@ -26,12 +27,12 @@
                         </div>
                         <md-field>
                           <label>Password</label>
-                          <md-input v-model="password" type="password"></md-input>
+                          <md-input v-model="pass" type="password"></md-input>
                         </md-field>
                       </md-card-content>
                 </div>
                 <div class="text-center" id="btm">
-                    <a class="button" id="login-btm">Log in </a>
+                    <a class="button" id="login-btm" >Log in </a>
                 </div> 
             </form>
           </div>
@@ -39,16 +40,47 @@
             <img src="./../../assets/login.jpg" alt="img"/>
           </div>
        </md-card>
+    </form>
   </div>
 </template>
 <script>
-
+import { mapState, mapActions } from 'vuex'
   export default {
     name: 'Login',
-    components: {
-  
+    data (){
+      return{
+        user : '',
+        subfix: '',
+        pass: '',
+        submitted: false
+      }
     },
-  }
+    computed: {
+        ...mapState('account', ['status'])
+    },
+    watch: {
+      error (value) {
+        if (value) {
+          this.alert = true
+        }
+      },
+      alert (value) {
+        if (!value) {
+          this.$store.dispatch('setError', false)
+        }
+      }
+    },
+    methods: {
+       ...mapActions('account', ['login', 'logout']),
+       handleSubmit (e) {
+           this.submitted = true;
+           const { username, password } = this;
+           if (username && password) {
+               this.login({ username, password })
+           }
+       }
+    }
+  } 
 </script>
 <style>
     #login{

@@ -73,7 +73,7 @@ import axios from 'axios';
     },
     //-------------------------------------------------------ใช้ตอนดู port page--------------------------------------------------
     async mounted() {
-        console.log("ดึงจาก db ครั้งที่ 1")
+        // console.log("ดึงจาก db ครั้งที่ 1")
 
         const { data } = await axios.get('http://localhost:7000/projects/1')
         const doc = data.document.map((_item , index = 0) => _item.path_name);
@@ -146,7 +146,10 @@ import axios from 'axios';
                             this.file = "";
                             
                             const { data } = await axios.get('http://localhost:7000/projects/1')
+<<<<<<< Updated upstream
                             // const { data } = await axios.get('http://localhost:7000/files/document')
+=======
+>>>>>>> Stashed changes
                             const doc = data.document.map((_item , index = 0) => _item.path_name);
                             this.countFileUploaded = doc.length; 
                             

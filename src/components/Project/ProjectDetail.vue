@@ -150,6 +150,7 @@
                             <div id="addAchievements" >
                                  <img src="../../assets/plus-3.png" v-if="EditProject" >
                             </div>
+
                     </div>
                     <!-- ------------------- -->
                     <div  id="carousel">
@@ -169,6 +170,7 @@
                         </div>
                     </div>
                 </div>
+               
                  <!-- ---------------------------- -->
                 <div class="column">
                     <div class="card" id="Authors">

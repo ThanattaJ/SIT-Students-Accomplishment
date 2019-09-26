@@ -11,6 +11,7 @@
                 <div class="content" id="detail">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Phasellus nec iaculis mauris. 
+                    
                 </div>
             </div>
         </div>

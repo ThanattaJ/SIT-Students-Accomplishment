@@ -5,7 +5,7 @@
               <li><a @click="allCourse()">All Course</a></li>
               <!-- class="is-active" -->
               <li><a @click="lecturer()">Lecturer</a></li>
-              <li><a>Course Semester</a></li>
+              <li><a @click="courseSemester()">Course Semester</a></li>
               <li><a @click="ManageEditRequest()">Manage Edit Request</a></li>
             </ul>
         </div>
@@ -51,6 +51,11 @@ export default {
         },
         lecturer(){
             this.$router.push({path: '/lecturer'})
+            this.seen = true
+        },
+        courseSemester(){
+            this.$router.push({path: '/courseSemester'})
+            this.seen = false
         }
     }
 }

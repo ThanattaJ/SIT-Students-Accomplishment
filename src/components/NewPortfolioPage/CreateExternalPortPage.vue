@@ -155,7 +155,7 @@ export default {
   async mounted() {
     //connect API ดึงข้อมูลนศ
     const { data } = await axios.get(
-      "https://calm-shelf-19378.herokuapp.com/users/list_student/59"
+      "http://localhost:7000/users/list_student/59"
     );
     var studentID = data.map((_item, index = 0) => _item.student_id);
     var studentFname = data.map((_item, index = 0) => _item.firstname_en);
@@ -452,7 +452,7 @@ export default {
       }
       try {
         await axios
-          .post("https://calm-shelf-19378.herokuapp.com/projects/external", data)
+          .post("http://13.229.250.254:7000/projects/external", data)
           .then(res => {
             console.log(res);
             this.$router.push({

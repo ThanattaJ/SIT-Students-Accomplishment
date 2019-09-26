@@ -6,7 +6,11 @@ import router from './router'
 import {store} from './components/store/store'
 import axios from 'axios';
 import Bars from 'vuebars'
+<<<<<<< Updated upstream
 import "./vee-validate";
+=======
+
+>>>>>>> Stashed changes
 
 Vue.use(Bars)
 
@@ -14,8 +18,8 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 
-Vue.use(VueMaterial)
 
+Vue.use(VueMaterial)
 
 Vue.config.productionTip = false
 

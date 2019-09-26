@@ -1,6 +1,17 @@
 <template>
-    <div id="allCourse">
-        <div class="container">
+    <div id="courseSemester">
+        <div id="manu">
+            <aside class="menu">
+                <p class="menu-label">
+                  General
+                </p>
+                <ul class="menu-list" v-for="(year,indexSem) in semesters" v-bind:key="indexSem">
+                  <li><a @click="getSemester(indexSem)">{{indexSem}}:{{year.semester}}:{{year.id}}</a></li>
+                </ul>
+            </aside>
+        </div>
+        <div id="body">
+        <div class="container" id="semester">
             <table class="table" v-show="persons.length">
                 <thead>
                     <tr id="thead">
@@ -8,6 +19,7 @@
                             <!-- {{column}} -->
                             <th id="index">#</th>
                             <th id="subjects">Course</th>
+                            <th id="Lecturer">Lecturer</th>
                             <th id="Action">Actions</th>
                         <!-- </th> -->
                     </tr>
@@ -16,7 +28,12 @@
                     <tr v-for="(person,index) in persons" v-bind:key="index">
                         <td id="index">{{index+1}}</td>
                         <td id="subjects" @click="showDetail(index)">
-                            {{person.course}} | {{person.name}}
+                            {{person.course}}
+                        </td>
+                        <td id="lecturer" v-for="(nameLec,lecturers) in person.lecturer" v-bind:key="lecturers" >
+                            <p>
+                                {{nameLec.name}}
+                            </p>
                         </td>
                         <td id="Action">
                           <a href="#modal" @click="edit(index)" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons">edit</i>
@@ -37,14 +54,11 @@
                   <md-card class="md-accent" md-with-hover v-for="(person,index) in bin" v-bind:key="index">
                     <md-ripple>
                       <md-card-header>
-                        <div class="md-title" > {{person.course}} | {{person.name}}</div>
+                        <div class="md-title" > {{person.course}}</div>
+                        <div class="md-subhead" v-for="(nameLec,lecturers) in person.lecturer" v-bind:key="lecturers" >Lecturer : {{nameLec.name}}</div>
                         <div class="md-subhead">index : {{delIndex+1}}</div>
+                        
                       </md-card-header>
-
-                      <md-card-content>
-                        {{person.detail}}
-                      </md-card-content>
-
                       <md-card-actions>
                         <md-button href="#!"  @click="restore(index)">restore</md-button>
                         <md-button href="#!" @click="deplete(index)">delete</md-button>
@@ -67,9 +81,9 @@
                                   <md-textarea v-model="editInput.course" 
                                    md-autogrow></md-textarea>
                               </md-field>
-                              <md-field>
-                                  <label>Course Name</label>
-                                  <md-textarea v-model="editInput.name" 
+                               <md-field>
+                                  <label>Lecturer</label>
+                                  <md-textarea v-model="editInput.lecturer" 
                                    md-autogrow></md-textarea>
                               </md-field>
                               <md-field>
@@ -99,10 +113,10 @@
                                   <label>Course Number</label>
                                   <md-textarea v-model="editInput.course" 
                                    md-autogrow></md-textarea>
-                              </md-field>
+                              </md-field>                     
                               <md-field>
-                                  <label>Course Name</label>
-                                  <md-textarea v-model="editInput.name" 
+                                  <label>Lecturer</label>
+                                  <md-textarea v-model="editInput.lecturer" 
                                    md-autogrow></md-textarea>
                               </md-field>
                               <md-field>
@@ -119,72 +133,70 @@
                 <md-button class="md-dense md-primary" href="#!" @click="close">Cancle</md-button>
             </footer>
             </div>
-        </div>
-        <div id="detailActive">
-          <md-dialog :md-active.sync="detailActive" v-if="persons[detailIndex]">
-          <md-card-header>
-              <div class="md-title">{{persons[detailIndex].name}}</div>
-              <div class="md-subhead">{{persons[detailIndex].course}}</div>
-          </md-card-header>
-          <md-card-content>
-            {{persons[detailIndex].detail}}
-          </md-card-content>
-          <md-dialog-actions>
-              <md-button class="md-primary" @click="detailActive = false">Close</md-button>
-          </md-dialog-actions>
-           </md-dialog>
-        </div>
-       
+        </div>       
+    </div>
     </div>
 </template>
 <script>
 import axios from 'axios';
 export default {
-  name : "allCourse",
+  name : "courseSemester",
   components: {
   },
   data(){
       return{
-                columns: ['#', 'Course', 'Actions '],
+                columns: ['#', 'Course','Lecturer','Actions '],
                 persons: [{
                   course:null,
-                  name : null ,
-                  detail:null,
+                  lecturer :[{
+                    name: ''
+                  }],
                   course_id: null 
-                  
+                }],
+                semesters:[{
+                    id: null,
+                    semester:''
                 }],
                 bin: [],
                 input: { },
                 editInput: {
                    course: "",
-                   name: "",
-                   detail:"",
+                   lecturer: [{}],
                    indexCouse:null,
                 },
                 isActive: false,
-                deleteActive:false,
-                detailActive:false,
-                info:null,
+                deleteActive:false,           
                 addActive:false,
-                delIndex:null,
-                detailIndex:null
+                delIndex:null,            
             }
          },
 async mounted() {
+        const { data } = await axios.get('http://localhost:7000/course/courseSemester');
+        
+        // v
+        for(let i  = 0;  i < data.course.length; i++){
+          this.persons.push(data.course[i])
+          JSON.stringify(this.persons[i])
+          this.persons[i].course = data.course[i].course
+          this.persons[i].course_id = data.course[i].course_id
+          for(let r = 0; r < data.course[i].lecturers.length; r++){
+              this.persons[i].lecturer.push(data.course[i].lecturers)
+              this.persons[i].lecturer[r].name = data.course[i].lecturers[r].lecturer_name
+              console.log("details : "+ this.persons[i].lecturer[r].name )
+          }
+          this.persons[i].lecturer.length =data.course[i].lecturers.length
 
-  
-    const { data } = await axios.get('http://localhost:7000/course');
-    for(let i  = 0;  i < data.length; i++){
-      this.persons.push(data[i])
-      JSON.stringify(this.persons[i])
-      this.persons[i].course = data[i].course_code
-      this.persons[i].name = data[i].course_name
-      this.persons[i].course_id = data[i].id
-      this.persons[i].detail = data[i].detail
-      // console.log("details : "+  this.persons[i].course_id )
-    }   
-      this.persons.length = data.length
+        }   
+          this.persons.length = data.course.length
 
+        for(let i = 0; i <data.semesters.length;i++){
+            this.semesters.push(data.semesters[i])
+            JSON.stringify(this.semesters[i])
+            this.semesters[i].semester  = data.semesters[i].semester
+            this.semesters[i].id = data.semesters[i].id
+        }
+        this.semesters.length = data.semesters.length
+        
 },
 methods: {
     //function to add data to table
@@ -196,9 +208,8 @@ methods: {
     },
     async add() {
       try{
-        axios.post('http://localhost:7000/course',{
-            code: this.editInput.course,
-            name: this.editInput.name,
+        axios.post('http://localhost:7000/course/courseSemester',{
+            course: this.editInput.course,
         }).then(function(res){ console.log(res);})
                this.message = " uploaded complete";
                this.file=" ";
@@ -214,8 +225,6 @@ methods: {
         // name: this.input.name,
         // detail: this.input.detail
         course: this.editInput.course,
-        name: this.editInput.name,
-        detail: this.editInput.detail
       });
      
       this.persons.sort(ordonner);
@@ -234,11 +243,11 @@ methods: {
     //function to send data to bin
     Delete: function(index) {
       this.bin.push(this.persons[index]);
-      // this.persons.splice(index, 1);
+      this.persons.splice(index, 1);
       this.bin.sort(ordonner);
       this.deleteActive = true
       this.delIndex = index
-      console.log(this.persons[index].course_id +" : index" + index)
+    //   console.log(this.persons[index].course_id +" : index" + index)
     },
     //function to restore data
     restore: function(index) {
@@ -254,8 +263,6 @@ methods: {
       try{
         axios.patch('http://localhost:7000/course?id=',{
                code : this.persons[index].course,
-               name : this.persons[index].name,
-               detail : this.persons[index].detail
         }).then(function(res){ console.log(res);})
                this.message = " uploaded complete";
                this.file=" ";
@@ -264,8 +271,6 @@ methods: {
         console.log(this.persons[index].name + "couse")
         this.persons.push({
           course: this.editInput.course,
-          name: this.editInput.name,
-          detail: this.editInput.detail
         });
          for (var key in this.editInput) {
           this.editInput[key] = '';
@@ -307,7 +312,32 @@ methods: {
         this.detailIndex = index
         // console.log(index+"detailIndex" + this.detailIndex)
         //detailIndex = index someone
-
+    },
+    async getSemester(index){
+        try{
+            const data  =  await axios.get('http://localhost:7000/course/courseSemester?semester_id='+this.semesters[index].id);
+            console.log("log : ",this.semesters[index].id)
+            console.log("data : "+ JSON.stringify(data))
+            for(let i  = 0;  i < data.course.length; i++){
+                console.log("OK : ", data.course.length)
+                this.persons.push(data.course[i])
+                JSON.stringify(this.persons[i])
+                this.persons[i].course = data.course[i].course
+                this.persons[i].course_id = data.course[i].course_id
+                for(let r = 0; r < data.course[i].lecturers.length; r++){
+                    this.persons[i].lecturer.push(data.course[i].lecturers)
+                    this.persons[i].lecturer[r].name = data.course[i].lecturers[r].lecturer_name
+                }
+                this.persons[i].lecturer.length =data.course[i].lecturers.length
+                console.log("semester : "+ this.persons[i].course)
+            }   
+              this.persons.length = data.course.length
+        }catch(err){
+            console.log('FAILURE!!'+err)
+            this.message = "Something went wrong";
+            this.error = true;  
+      }
+          
     }
   }
 };
@@ -315,15 +345,12 @@ methods: {
 //function to sort table data alphabetically
 var ordonner = function(a, b) {
   return (a.course > b.course);
-  return (a.name > b.name);
-  return (a.detail > b.detail)
-
 };
 
 
 </script>
 <style>
-#allCourse{
+#courseSemester{
     width: 80%;
     margin-top: 5%;
     margin-left: 30%;
@@ -350,5 +377,15 @@ var ordonner = function(a, b) {
 #add{
   font-size: 10px;
   color: grey;
+}
+#manu{
+    margin-left: -13%;
+    width: 5%;
+    border-right: 2px;
+    margin-top: -1%;
+}
+#semester{
+    margin-left: -17%;
+    margin-top: -18%;
 }
 </style>
