@@ -1,6 +1,5 @@
 <template>
 <div id="body-bg">
-    {{member_outsider}}
     <div style="margin-top: -25px;">
         <stepProgress :steps="mySteps" :currentStep="currentStep" iconClass="la la-check"></stepProgress>
     </div>

@@ -68,7 +68,7 @@
             <div class="borderLeft">
             </div>
             <div class="column">
-                <router-link to="/CreateExternalPortPage">
+                <router-link to="/createPortPage">
                     <div class="createPortPage">
                         <i class="la la-plus"></i>
                         <div class="textCreate">Create Project</div>

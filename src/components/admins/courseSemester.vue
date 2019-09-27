@@ -172,12 +172,9 @@ export default {
          },
 async mounted() {
         const { data } = await axios.get('http://localhost:7000/course/courseSemester');
-<<<<<<< Updated upstream
         
         // v
-=======
         console.log("data : " , data.course.length)
->>>>>>> Stashed changes
         for(let i  = 0;  i < data.course.length; i++){
           this.persons.push(data.course[i])
           JSON.stringify(this.persons[i])
@@ -186,11 +183,8 @@ async mounted() {
           for(let r = 0; r < data.course[i].lecturers.length; r++){
               this.persons[i].lecturer.push(data.course[i].lecturers)
               this.persons[i].lecturer[r].name = data.course[i].lecturers[r].lecturer_name
-<<<<<<< Updated upstream
               console.log("details : "+ this.persons[i].lecturer[r].name )
-=======
               // console.log("details : "+ this.persons[i].lecturer[r].name )
->>>>>>> Stashed changes
           }
           this.persons[i].lecturer.length =data.course[i].lecturers.length
 
@@ -219,11 +213,8 @@ methods: {
         axios.post('http://localhost:7000/course/courseSemester',{
             course: this.editInput.course,
         }).then(function(res){ console.log(res);})
-<<<<<<< Updated upstream
                this.message = " uploaded complete";
-=======
                console.log("Can Add CourseSemester")
->>>>>>> Stashed changes
                this.file=" ";
                this.error = false;
       }catch(err){
@@ -271,11 +262,7 @@ methods: {
     update(index){
       // this.persons.push(this.editInput);
         JSON.stringify(this.persons[index])
-<<<<<<< Updated upstream
         console.log('eiei: ' + index)
-=======
-        // console.log('eiei: ' + index)
->>>>>>> Stashed changes
       try{
         axios.patch('http://localhost:7000/course?id=',{
                code : this.persons[index].course,
@@ -284,11 +271,8 @@ methods: {
                this.file=" ";
                this.error = false;
         this.persons.splice(index, 1);
-<<<<<<< Updated upstream
         console.log(this.persons[index].name + "couse")
-=======
         // console.log(this.persons[index].name + "couse")
->>>>>>> Stashed changes
         this.persons.push({
           course: this.editInput.course,
         });
@@ -301,11 +285,8 @@ methods: {
         console.log('FAILURE!!'+err)
         this.message = "Something went wrong";
         this.error = true;
-<<<<<<< Updated upstream
         console.log(this.persons[index])
-=======
         // console.log(this.persons[index])
->>>>>>> Stashed changes
       }
     },
     //function to defintely delete data 
@@ -339,25 +320,17 @@ methods: {
     },
     async getSemester(index){
         try{
-<<<<<<< Updated upstream
             const data  =  await axios.get('http://localhost:7000/course/courseSemester?semester_id='+this.semesters[index].id);
             console.log("log : ",this.semesters[index].id)
             console.log("data : "+ JSON.stringify(data))
             for(let i  = 0;  i < data.course.length; i++){
                 console.log("OK : ", data.course.length)
-=======
-            const { data }  =  await axios.get('http://localhost:7000/course/courseSemester?semester_id='+this.semesters[index].id);
-            for(let i  = 0 ;  i < data.course.length ; i++){
->>>>>>> Stashed changes
                 this.persons.push(data.course[i])
                 JSON.stringify(this.persons[i])
                 this.persons[i].course = data.course[i].course
                 this.persons[i].course_id = data.course[i].course_id
                 for(let r = 0; r < data.course[i].lecturers.length; r++){
-<<<<<<< Updated upstream
-=======
                     // JSON.stringify(this.persons[i].course)
->>>>>>> Stashed changes
                     this.persons[i].lecturer.push(data.course[i].lecturers)
                     this.persons[i].lecturer[r].name = data.course[i].lecturers[r].lecturer_name
                 }
@@ -365,10 +338,7 @@ methods: {
                 console.log("semester : "+ this.persons[i].course)
             }   
               this.persons.length = data.course.length
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
         }catch(err){
             console.log('FAILURE!!'+err)
             this.message = "Something went wrong";
