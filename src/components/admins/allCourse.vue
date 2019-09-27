@@ -252,7 +252,8 @@ methods: {
         JSON.stringify(this.persons[index])
         console.log('eiei: ' + index)
       try{
-        axios.patch('http://localhost:7000/course?id=',{
+        //เอา  id ของโปรเจคมาใส่เพื่อ update 
+        axios.patch('http://localhost:7000/course?id='+this.persons[index].course_id,{
                code : this.persons[index].course,
                name : this.persons[index].name,
                detail : this.persons[index].detail

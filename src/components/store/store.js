@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-
 import { studentStore } from './studentStore'
 import { teacherStore } from './teacherStore'
 import { adminStore } from './adminStore'
@@ -11,6 +10,8 @@ import { resumeStore } from './resumeStore'
 import { courseStore } from './courseStore'
 import { assignmentStore } from './assignmentStore'
 import { createPortPageStore } from './createPortPageStore'
+import { loginStore } from './loginStore'
+import { alertLogin } from './alertLogin'
 
 
 export const store = new Vuex.Store({
@@ -23,6 +24,8 @@ export const store = new Vuex.Store({
         resumeStore,
         courseStore,
         assignmentStore,
-        createPortPageStore
+        createPortPageStore,
+        loginStore,
+        alertLogin
     }
 })

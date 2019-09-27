@@ -34,7 +34,8 @@
         <div class="navbar-end">
           <a class="navbar-item">
             <i class="la la-sign-in"></i>
-            Login
+            <span v-if="isLoggedIn"> | <a @click="logout">Logout</a></span>
+            <span v-else> | <router-link to="/login">Login</router-link></span>
           </a>
         </div>
       </div>
@@ -51,6 +52,11 @@ export default {
         clickBurger: true
       }
     },
+    computed: {
+        isLoggedIn: function() {
+          return this.$store.getters.userId;
+        }
+    },
     methods:{
       showMenu(){
         this.clickBurger = !this.clickBurger
@@ -61,8 +67,12 @@ export default {
           this.$refs.showMenu.className="navbar-burger burger"
           this.$refs.menu.className="navbar-menu"
         }
-        
-      }
+      },
+       logout: function() {
+          this.$store.dispatch("logout").then(() => {
+            this.$router.push("/login");
+          });
+        },
     }
 }
 </script>

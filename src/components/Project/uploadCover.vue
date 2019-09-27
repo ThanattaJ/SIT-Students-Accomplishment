@@ -90,7 +90,7 @@ export default {
             try{
                 await axios.post('http://localhost:7000/files/image',formData)
                 .then(function(res){ console.log(res)})
-                // this.file.name = this.cover.path;
+                this.file.name = this.cover.path;
                 this.message = "File has been uploaded";
                 this.error = false;
                 

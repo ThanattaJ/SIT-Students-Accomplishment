@@ -1,77 +1,106 @@
-import { userService } from '../_services';
-import { router } from '../_helpers';
+import axios from "axios";
+import router from '../../router/index'
 
-const user = JSON.parse(localStorage.getItem('user'));
-const state = user
-    ? { status: { loggedIn: true }, user }
-    : { status: {}, user: null };
-    
+export const loginStore = {
+  state: {
+    idToken: null,
+    userId: null,
+    userType: null,
+    userName: null,
+    userPass: null,
+    status: " "
+  },
+  mutations: {
+    LOGIN_USER: state => {},
+    authUser(state, userData) {
+      (state.idToken = userData.token),
+        (state.userId = userData.id),
+        (state.userName = userData.userName),
+        (state.userType = userData.type);
+      state.userPass = userData.userPass;
+    },
 
-const actions = {
-    login({ dispatch, commit }, { username, password }) {
-        commit('loginRequest', { username });
-    
-        userService.login(username, password)
-            .then(
-                user => {
-                    commit('loginSuccess', user);
-                    router.push('/');
-                },
-                error => {
-                    commit('loginFailure', error);
-                    dispatch('alert/error', error, { root: true });
-                }
-            );
+    clearAuthData(state) {
+      (state.idToken = null),
+        (state.userId = null),
+        (state.userName = null),
+        (state.userType = null),
+        (state.userPass = null);
     },
-    logout({ commit }) {
-        userService.logout();
-        commit('logout');
+    auth_success(state) {
+      state.userName = "student01";
+      state.userType = "st.sit.ac.th";
+      state.userPass = "Fxig08";
+      state.status = "success";
     },
-    success({ commit }, message) {
-        commit('success', message);
+    auth_error(state) {
+      state.status = "error";
     },
-    error({ commit }, message) {
-        commit('error', message);
-    },
-    clear({ commit }, message) {
-        commit('success', message);
+    setIdToken(state, token) {
+      state.idToken = token;
+      console.log("state token : " + state.idToken);
     }
-};
+  },
+  actions: {
+    login: async function({ commit }, { username, userType, pass }) {
+      console.log(
+        "เรียก login ใน store ได้แล้ว" +
+          username +
+          " : " +
+          userType +
+          " : " +
+          pass
+      );
+      var data = {
+        username: username,
+        userType: userType,
+        password: pass
+      };
+      try {
+        await axios
+          .post("http://localhost:7000/login", data)
+          .then(res => {
+            // console.log("login : ", res.data.length);
+            if(res.data.length > 0){
+                commit("setIdToken", res.data);
+                router.push('/Home')
+            }
+            // this.$router.push({
+            //     path: "/ProjectDetail/1"
+            // });
 
-const mutations = {
-    loginRequest(state, user) {
-        state.status = { loggingIn: true };
-        state.user = user;
-    },
-    loginSuccess(state, user) {
-        state.status = { loggedIn: true };
-        state.user = user;
-    },
-    loginFailure(state) {
-        state.status = {};
-        state.user = null;
-    },
-    logout(state) {
-        state.status = {};
-        state.user = null;
-    },
-    success(state, message) {
-        state.type = 'alert-success';
-        state.message = message;
-    },
-    error(state, message) {
-        state.type = 'alert-danger';
-        state.message = message;
-    },
-    clear(state) {
-        state.type = null;
-        state.message = null;
+            
+            
+            
+          })
+          .catch(err => {
+            console.error("error1 : " + err);
+          });
+      } catch (err) {
+        console.error("error2 : " + err);
+      }
     }
-};
+  },
+  logout({ commit }, { router }) {
+    commit("clearAuthData");
+    router.replace("/");
+  },
 
-export const login = {
-    namespaced: true,
-    state,
-    actions,
-    mutations
+  getters: {
+    userId(state) {
+      return state.userId;
+    },
+    userType(state) {
+      return state.userType;
+    },
+    userName(state) {
+      return state.userName;
+    },
+    userPass(state) {
+      return state.userPass;
+    },
+    returnToken: state => {
+      return state.idToken;
+    }
+  }
 };

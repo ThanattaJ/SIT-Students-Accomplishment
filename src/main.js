@@ -4,13 +4,17 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import {store} from './components/store/store'
-import axios from 'axios';
+import Axios from 'axios';
 import Bars from 'vuebars'
-<<<<<<< Updated upstream
-import "./vee-validate";
-=======
 
->>>>>>> Stashed changes
+
+
+
+import "./vee-validate";
+
+
+
+
 
 Vue.use(Bars)
 
@@ -22,6 +26,12 @@ import 'vue-material/dist/theme/default.css'
 Vue.use(VueMaterial)
 
 Vue.config.productionTip = false
+
+// Vue.prototype.$http = Axios;
+//       const token = localStorage.getItem('token');
+//       if (token) {
+//         Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+//       }
 
 /* eslint-disable no-new */
 new Vue({

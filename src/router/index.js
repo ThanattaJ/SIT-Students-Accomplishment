@@ -14,19 +14,11 @@ import admin from '@/components/admins/admin'
 import allCourse from '@/components/admins/allCourse'
 import ManageEditRequest from '@/components/admins/ManageEditRequest'
 import lecturer from '@/components/admins/lecturer'
-import login_Modal from '@/components/login/login_Modal'
+import login from '@/components/auth/login'
 import courseSemester from '@/components/admins/courseSemester'
 
 
 Vue.use(Router)
-
-
-const routerOptions = [
-  {
-    path: '/login_Modal',
-    component: 'login_Modal'
-  }
-]
 
 
 
@@ -36,7 +28,7 @@ export default new Router({
     {
       path: '/Home',
       name: 'Home',
-      component: Home
+      component: Home,
     },
     {
       path: '/',
@@ -119,9 +111,10 @@ export default new Router({
       ]
     },
     {
-          path: '/login_Modal',
-          name: 'login_Modal',
-          component: login_Modal,
+          path: '/login',
+          name: 'login',
+          component: login,
     }
   ]
 })
+

@@ -380,7 +380,7 @@ export default {
             for (var i = 0; i < sizeArea.length; i++) {
               sizeArea[i].setAttribute('style', 'height:' + (sizeArea[i].scrollHeight) + 'px;overflow-y:hidden;');
               sizeArea[i].addEventListener("input", OnInput, false);
-              console.log("sizeArea.length  = "+sizeArea.length)
+            //   console.log("sizeArea.length  = "+sizeArea.length)
             }
         // ------- textarea -----------    
         function OnInput() {
@@ -426,9 +426,11 @@ export default {
             this.Authours[i].lastname = data.students[i].lastname_en
             this.Authours[i].mail = data.students[i].email
             this.index = i 
+            console.log("firstname : ",this.Authours[i] )
             
         }
             this.Authours.length = data.students.length
+            console.log("length :"+data.students.length)
    
         // outsiders
         
@@ -471,13 +473,13 @@ export default {
         }  
 
 
-        if(data.picture[0]){
-            console.log("[0] have data")
-            console.log("cover : "+this.cover.path)
-        }else{
-            console.log("[0] is emtry")
-            return  
-        }
+        // if(data.picture[0]){
+        //     console.log("[0] have data")
+        //     console.log("cover : "+this.cover.path)
+        // }else{
+        //     console.log("[0] is emtry")
+        //     return  
+        // }
         // เก็บข้อมูลไว้ก่อน
             this.cachedUser_eg =  this.Detail.content_eg;
             this.cachedUser_th = this.Abstract.content_Abstract;
@@ -560,7 +562,6 @@ export default {
             this.EditProject = Object.assign({}, this.Tools_tool);
             this.Tools.tool=this.Tools_tool;
             this.EditProject = false;
-            // console.log("test",this.cachedUser_eg)
         },
         // onSlideStart(slide) {
         //     this.sliding = true
