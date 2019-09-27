@@ -106,7 +106,10 @@ import axios from 'axios';
                 await axios.delete('http://localhost:7000/files/document', {
                 data: {"path_name": this.uploaded[index].path_name}
             } )
-                .then(function(){ console.log('SUCCESS!!');})
+            
+                .then(function(){ 
+                    console.log('SUCCESS!!');
+                    })
             }catch(err) {
                 console.log('FAILURE!!'+err)
             }

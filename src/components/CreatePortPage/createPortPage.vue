@@ -1,5 +1,6 @@
 <template>
 <div id="body-bg">
+    {{member_outsider}}
     <div style="margin-top: -25px;">
         <stepProgress :steps="mySteps" :currentStep="currentStep" iconClass="la la-check"></stepProgress>
     </div>
@@ -133,42 +134,88 @@ export default {
                 this.SET_HAVE_OUTSIDER()
             }
 
+            if(this.project_abstract == ""){
+                this.project_data.project_abstract = null
+                console.log("this.project_abstract : "+this.project_data.project_abstract)
+            }
+            if(this.project_detail == ""){
+                this.project_data.project_detail = null
+                console.log("this.project_detail : "+this.project_data.project_detail)
+            }
             var data;
             data = {
                 project_data: this.project_data,
                 member: {
                     students: studentID_member,
-                    outsiders: this.member_outsider
+                    outsiders: JSON.parse(JSON.stringify(this.member_outsider))
                 }
             };
-
+            data.project_data.start_year_en = parseInt(data.project_data.start_year_en)
+            data.project_data.end_year_en = parseInt(data.project_data.end_year_en)
+            
             if (this.achievement.length > 0) {
                 console.log("have achievement");
-                data["achievement"] = this.achievement
+                data["achievements"] = this.achievement
                 for (var n = 0; n < this.achievement.length; n++) {
                     var date = this.achievement[n].date_of_event
-                    data.achievement[n].date_of_event = date.substring(8, 10) + "-" + date.substring(5, 7) + "-" + date.substring(0, 4)
+                    if(date != null){
+                        data.achievements[n].date_of_event = date.substring(8, 10) + "-" + date.substring(5, 7) + "-" + date.substring(0, 4)
+                        console.log("date : "+data.achievements[n].date_of_event)
+                    }
                 }
             }
+//            data =  {
+// 	project_data: {
+// 		project_name_th: "เทส",
+// 		project_name_en: "test",
+// 		project_type_name: "external",
+// 		project_detail: null,
+// 		project_abstract: "abstractttt",
+// 		start_month: 2,
+// 		start_year_en: 2019,
+// 		end_month: 5,
+// 		end_year_en: 2019,
+// 		haveOutsider: true
+// 	},
+// 	member: {
+// 		students: [],
+// 		outsiders: [ 
+// 			{
+// 				firstname: "firstname1",
+// 				lastname: "lastname1"
+// 			}
+// 		]
+// 	},
+// 	achievements: [
+// 		{
+// 		achievement_name: "test",
+// 		achievement_detail: "test",
+// 		organize_by: "test",
+// 		date_of_event: "06-04-2019"
+// 		}
+// 	]
+// }
+
 
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2ODcxNzYxNzI0NH0.Vn_kGau8dG9DBQIqm7_NOQVTKfK4ZjlfUKGmrZK0NzU'
+                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
                 }
             }
             try {
+                console.log("data : ",data)
                 await axios
                     .post("http://localhost:7000/projects/external", data, config)
-                    .then(res => {
-                        console.log(res);
+                    .then((res) => {
+                        console.log("res : ",res.data);
                         this.$router.push({
                             path: `/ProjectDetail/${res.data.project_id}`
                         });
                         console.log("success!");
                     })
-                    .catch(res => {
-                        console.log(res);
+                    .catch((err) => {
+                        console.error("aaaaaaaa : ",err);
                     });
             } catch (err) {
                 console.log("FAILURE!!" + err);

@@ -169,6 +169,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card" id="Details">
+                        <div class="card-content" >
+                            <div class="content"  id="content">
+                                 <Video/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                
                  <!-- ---------------------------- -->
@@ -266,7 +273,7 @@
                         </header>
                         <div class="card-content">
                             <div class="content" >
-                                 <Document/>
+                                 <uploadFilePond/>
                             </div>
                         </div>
                     </div>
@@ -304,6 +311,7 @@
 </template>
 <script>
 
+import uploadFilePond from './uploadFilePond'
 import uploadimg from './uploadimg'
 import uploadCover from './uploadCover'
 import './../css/ProjectDetail.css';
@@ -318,6 +326,7 @@ export default {
                 uploadCover,
                 Document,
                 Video,
+                uploadFilePond
             },
   data () {
    return {

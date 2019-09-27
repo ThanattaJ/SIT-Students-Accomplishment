@@ -22,12 +22,14 @@
                     <p class="contact"><img src="./../../assets/gmail.png" class="contact_icon" />E-MAIL</p>
                     <p class="contact_detail">{{GET_EMAIL}}</p>
 
+                    <!-- <div> -->
                     <div v-if="GET_WEBSITE.length > 0">
                         <p class="topic_resume">WEBSITE</p>
                         <p class="webList_resume" v-for="(web,index) in GET_WEBSITE" v-bind:key="'web'+index">
                             <img :src="getImgUrl(web.network)" class="contact_icon" />{{web.username}}
                         </p>
                     </div>
+                    <!-- <div> -->
                     <div v-if="GET_SKILL.length > 0">
                         <p class="topic_resume">SKILL</p>
                         <table>
@@ -39,7 +41,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <div v-if="GET_LANGUAGE.length > 0">
+                    <div>
+                    <!-- <div v-if="GET_LANGUAGE.length > 0"> -->
                         <p class="topic_resume">LANGUAGE</p>
                         <table>
                             <tbody>
@@ -59,7 +62,8 @@
                     <p>{{GET_BIOGRAPHY}}</p>
                 </div>
                 <!-- EDUCATION -->
-                <div class="rightSide" v-if="GET_EDUCATION_DATA.length > 0">
+                    <div>
+                <!-- <div class="rightSide" v-if="GET_EDUCATION_DATA.length > 0"> -->
                     <p class="topic_resume">EDUCATION</p>
                     <div class="columns" v-for="(edu,index) in GET_EDUCATION_DATA" v-bind:key="'edu'+index">
                         <div class="column is-4 eduYear_resumePdf">{{edu.start_year}} - {{edu.end_year}}</div>
@@ -99,7 +103,6 @@ import {
 export default {
     data() {
         return {
-           
         }
     },
     computed: {
@@ -112,7 +115,6 @@ export default {
         ])
     },
     mounted() {
-        // this.LOAD_RESUME_DATA()
     },
     methods: {
         getImgUrl(pic) {

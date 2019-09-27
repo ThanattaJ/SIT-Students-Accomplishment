@@ -4,18 +4,17 @@
         <div class="field">
             <label class="label inputName">Abstract(English/Thai)</label>
             <div class="control">
-                <textarea v-model="project_detail" @blur="handleUpdate('UPDATE_FIELD','SET_PROJECT_DETAIL')" ref="abstract" class="Normal textarea inputData portDetail" placeholder="e.g. Virtual Reality is applied to the KMUTT Library for VR study and development to help explore different views." maxlength="200"></textarea>
-                <p ref="abstractValidate" class="help is-danger"></p>
-                <div class="field is-grouped is-grouped-right">{{count}}/200</div>
+                <textarea v-model="project_abstract" @blur="handleUpdate('UPDATE_FIELD','SET_PROJECT_ABSTRACT')" ref="projectDetail" class="Normal textarea inputData portDetail" placeholder="เช่น ระบบจําลองภาพเสมือนหอสมุดโดยนําเทคโนโลยี Virtual Reality มาใช้ทํางานร่วมกับหอสมุดของมหาวิทยาลัยเพื่อศึกษาพัฒนาระบบจำลองภาพเสมือนหอสมุดให้มีความน่าสนใจมากยิ่งขึ้น"></textarea>
+                <p ref="projectDetailValidate" class="help is-danger"></p>
+                <br>
             </div>
         </div>
         <div class="field">
             <label class="label inputName">Project Detail(English/Thai)</label>
             <div class="control">
-                <textarea v-model="project_abstract" @blur="handleUpdate('UPDATE_FIELD','SET_PROJECT_ABSTRACT')" ref="projectDetail" class="Normal textarea inputData portDetail" placeholder="เช่น ระบบจําลองภาพเสมือนหอสมุดโดยนําเทคโนโลยี Virtual Reality มาใช้ทํางานร่วมกับหอสมุดของมหาวิทยาลัยเพื่อศึกษาพัฒนาระบบจำลองภาพเสมือนหอสมุดให้มีความน่าสนใจมากยิ่งขึ้น"></textarea>
-                <p ref="projectDetailValidate" class="help is-danger"></p>
-                <br>
-                <!-- <div><span class="require">* </span><span style="font-size:14px;color:#EB5656;">Please write at least 1 field</span></div> -->
+                <textarea v-model="project_detail" @blur="handleUpdate('UPDATE_FIELD','SET_PROJECT_DETAIL')" ref="abstract" class="Normal textarea inputData portDetail" placeholder="e.g. Virtual Reality is applied to the KMUTT Library for VR study and development to help explore different views." maxlength="200"></textarea>
+                <p ref="abstractValidate" class="help is-danger"></p>
+                <div class="field is-grouped is-grouped-right">{{count}}/200</div>
             </div>
         </div>
     </div>

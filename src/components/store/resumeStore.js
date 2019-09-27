@@ -1,5 +1,13 @@
 import axios from "axios";
 
+
+const config = {
+    headers : {
+        'Content-Type': 'application/json',
+        'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+    }
+}
+const URL = "http://localhost:7000/users/generate-resume/59130500001"
 export const resumeStore = {
     state: {
         showPage: 1,
@@ -16,21 +24,35 @@ export const resumeStore = {
             commit('SET_PAGE', page)
         },
         LOAD_RESUME_DATA: async function ({ commit }) {
-            const config = {
-                headers : {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2ODcxNzYxNzI0NH0.Vn_kGau8dG9DBQIqm7_NOQVTKfK4ZjlfUKGmrZK0NzU'
-                }
-            }
             const {data} = await axios.get(
-                "http://localhost:7000/users/generate-resume/59130500001", config
-                // "http://localhost:7000/users/default", config
+                URL, config
             );
             console.log(data)
             commit('SET_RESUME_DATA', data)
         },
         UPDATE_FIELD: function ({commit}, { callSetter, value }) {
             commit(callSetter, value)
+
+            try{
+                axios.patch(URL,{
+                    "profile": {
+                        "id": 2,
+                        "student_id": "59130500024",
+                        "firstname": "gibgibgib",
+                        "lastname": "ntn"
+                    },
+                    "address": {
+                        "description": "few",
+                        "district": "dis",
+                        "subdistrict": "sub",
+                        "province": "p",
+                        "postcode": "a"
+                    }
+                })
+                .then(function(res){ console.log("res : ",res);})
+            }catch(err){
+                    console.log('FAILURE!!'+err)
+            }
         },
         //WEBSITE
         SET_WEBSITE: function ({commit}, web) {

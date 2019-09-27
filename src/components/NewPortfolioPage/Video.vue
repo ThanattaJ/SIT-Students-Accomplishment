@@ -1,34 +1,43 @@
 <template>
-    <div>
-        <div class="control">
-            <input style="width:100%" class="input inputData" type="text" placeholder="Share link" v-model="link" v-on:keyup="callVdo">
+<div>
+    <div class="field has-addons">
+        <div class="control" style="width: 100%;">
+            <input id="myUrl" v-model="myUrl" class="input urlField" type="text" placeholder="Paste a youtube link">
         </div>
-        <br>
         <div class="control">
-            <button style="width:77px" class="button is-link" v-on:click="submitVdo">Save</button>
-        </div>
-        
-        <div class="resp-container">
-            <iframe ref="vdoFrame" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <a class="button is-info embed" @click="callIframe()">EMBED</a>
         </div>
     </div>
+    <div v-if="myUrl.length > 0" class="resp-container" id="myCode"></div>
+</div>
 </template>
 
 <script>
 export default {
-    data(){
+    data() {
         return {
-            link: ""
+            myUrl: "",
+            link: "",
+            showIframe: false,
+            src: "",
+            a: ""
         }
     },
     methods: {
-        callVdo(){
-            var oldPath = this.link
-            var newPath = oldPath.replace("https://youtu.be/","https://www.youtube.com/embed/")
-            this.$refs.vdoFrame.src = newPath
+        getId(url) {
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+
+            if (match && match[2].length == 11) {
+                return match[2];
+            } else {
+                return 'error';
+            }
         },
-        submitVdo() {
-            console.log("aa")
+        callIframe() {
+            var myId;
+            myId = this.getId(this.myUrl);
+            document.getElementById('myCode').innerHTML = '<iframe width="560" height="315" src="//www.youtube.com/embed/' + myId + '" frameborder="0" allowfullscreen></iframe>'
         }
     }
 }
@@ -40,10 +49,34 @@ export default {
     /* overflow: hidden; */
     padding-top: 56.2%;
 }
+
 iframe {
     position: absolute;
     top: 3%;
     width: 100%;
-    height: 100%;
+    height: 100% !important;
+}
+
+.urlField {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid #DBDBDB !important;
+    /* width: 100%;
+    color: #265080 !important; */
+    font-size: 16px !important;
+    margin-top: 0px !important;
+}
+
+.embed {
+    background-color: #265080 !important;
+    /* border-color: transparent !important; */
+}
+
+.md-theme-default a:not(.md-button) {
+    color: white !important
+}
+
+a:not(.md-button):hover {
+    text-decoration: none;
 }
 </style>
