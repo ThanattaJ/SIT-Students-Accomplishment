@@ -1,3 +1,6 @@
+.md-field > span {
+    width: 100% !important
+}
 .titleText{
     color: #6F6F6F;
     font-weight: bolder;

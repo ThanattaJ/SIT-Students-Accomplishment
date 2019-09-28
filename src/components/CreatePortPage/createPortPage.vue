@@ -91,7 +91,8 @@ export default {
             project_data: 'GET_PROJECT_DATA',
             member_student: 'GET_SELECTED_STUDENT_MEMBER',
             member_outsider: 'GET_OUTSIDER',
-            achievement: 'GET_ACHIEVEMENT'
+            achievement: 'GET_ACHIEVEMENT',
+            config: 'GET_CONFIG'
         })
     },
 
@@ -163,49 +164,17 @@ export default {
                     }
                 }
             }
-//            data =  {
-// 	project_data: {
-// 		project_name_th: "เทส",
-// 		project_name_en: "test",
-// 		project_type_name: "external",
-// 		project_detail: null,
-// 		project_abstract: "abstractttt",
-// 		start_month: 2,
-// 		start_year_en: 2019,
-// 		end_month: 5,
-// 		end_year_en: 2019,
-// 		haveOutsider: true
-// 	},
-// 	member: {
-// 		students: [],
-// 		outsiders: [ 
-// 			{
-// 				firstname: "firstname1",
-// 				lastname: "lastname1"
-// 			}
-// 		]
-// 	},
-// 	achievements: [
-// 		{
-// 		achievement_name: "test",
-// 		achievement_detail: "test",
-// 		organize_by: "test",
-// 		date_of_event: "06-04-2019"
-// 		}
-// 	]
-// }
 
-
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-                }
-            }
+            // const config = {
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+            //     }
+            // }
             try {
                 console.log("data : ",data)
                 await axios
-                    .post("http://localhost:7000/projects/external", data, config)
+                    .post("http://localhost:7000/projects/external", data, this.config)
                     .then((res) => {
                         console.log("res : ",res.data);
                         this.$router.push({

@@ -4,68 +4,112 @@
         <section class="column is-one-quarter resumeForm">
             <div v-if="GET_SHOWPAGE == 1">
                 <div style="text-align:center">
-                    <i class="la la-angle-left"></i>
-                    <!-- <router-link to="/"><i class="la la-angle-left"></i></router-link> -->
+                    <!-- <i class="la la-angle-left"></i> -->
+                    <router-link to="/"><i class="la la-angle-left"></i></router-link>
                     <span class="titleText">Generate Resume</span>
                     <img src="./../../assets/upload.png" class="uploadImg" alt="Smiley face" height="22" width="22">
                 </div>
                 <div style="color:#F7F7F7;height:22px">.</div>
-                <div>
-                    <!-- <md-field>
-                        <label>Fullname</label>
-                        <md-input id="" :value="GET_FULLNAME" @change="handleUpdate('UPDATE_FIELD','SET_FULLNAME')"></md-input>
-                    </md-field> -->
-                    <md-field>
-                        <label>Firstname</label>
-                        <md-input id="" :value="GET_FIRSTNAME" @change="handleUpdate('UPDATE_FIELD','SET_FIRSTNAME')"></md-input>
-                    </md-field>
-                    <md-field>
-                        <label>Lastname</label>
-                        <md-input id="" :value="GET_LASTNAME" @change="handleUpdate('UPDATE_FIELD','SET_LASTNAME')"></md-input>
-                    </md-field>
-                    <md-field>
-                        <label>Nickname</label>
-                        <md-input id="" :value="GET_NICKNAME" @change="handleUpdate('UPDATE_FIELD','SET_NICKNAME')"></md-input>
-                    </md-field>
-                    <md-field>
-                        <label>Biography</label>
-                        <md-textarea md-autogrow id="" :value="GET_BIOGRAPHY" @change="handleUpdate('UPDATE_FIELD','SET_BIOGRAPHY')"></md-textarea>
-                    </md-field>
-                    <div class="mainTopic">ADDRESS<i class="la la-home" style="font-size:15px !important; margin-left:5px"></i></div>
-                    <md-field>
-                        <label>Street</label>
-                        <md-input id="" :value="GET_STREET" @change="handleUpdate('UPDATE_FIELD','SET_STREET')"></md-input>
-                    </md-field>
-                    <md-field>
-                        <label>Subdistrict</label>
-                        <md-input id="" :value="GET_SUBDISTRICT" @change="handleUpdate('UPDATE_FIELD','SET_SUBDISTRICT')"></md-input>
-                    </md-field>
-                    <md-field>
-                        <label>District</label>
-                        <md-input id="" :value="GET_DISTRICT" @change="handleUpdate('UPDATE_FIELD','SET_DISTRICT')"></md-input>
-                    </md-field>
-                    <md-field>
-                        <label>Province</label>
-                        <md-input id="" :value="GET_PROVINCE" @change="handleUpdate('UPDATE_FIELD','SET_PROVINCE')"></md-input>
-                    </md-field>
-                    <md-field>
-                        <label>Zipcode</label>
-                        <md-input id="" :value="GET_ZIPCODE" @change="handleUpdate('UPDATE_FIELD','SET_ZIPCODE')"></md-input>
-                    </md-field>
-                    <div class="mainTopic">CONTACT INFO<i class="la la-whatsapp" style="font-size:15px !important; margin-left:5px"></i></div>
-                    <md-field>
-                        <label>Phone Number</label>
-                        <md-input id="" :value="GET_PHONENO" @change="handleUpdate('UPDATE_FIELD','SET_PHONENO')"></md-input>
-                    </md-field>
-                    <md-field>
-                        <label>Email</label>
-                        <md-input id="" :value="GET_EMAIL" @change="handleUpdate('UPDATE_FIELD','SET_EMAIL')"></md-input>
-                    </md-field>
-                    <md-field>
-                        <label>Date of Birth</label>
-                        <md-input id="" :value="GET_BIRTHDAY" @change="handleUpdate('UPDATE_FIELD','SET_BIRTHDAY')"></md-input>
-                    </md-field>
-                </div>
+                <ValidationObserver tag="form" ref="resumeData" v-slot="{ invalid }">
+                    <div>
+                        <md-field>
+                            <label>Firstname</label>
+                            <ValidationProvider name=" Firstname " rules="required">
+                                <div slot-scope="{ errors }">
+                                    <md-input id="" :value="GET_FIRSTNAME" @change="handleUpdate('UPDATE_FIELD','SET_FIRSTNAME')"></md-input>
+                                    <p class="help is-danger">{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
+                        </md-field>
+                        <md-field>
+                            <label>Lastname</label>
+                            <ValidationProvider name=" Lastname " rules="required">
+                                <div slot-scope="{ errors }">
+                                    <md-input id="" :value="GET_LASTNAME" @change="handleUpdate('UPDATE_FIELD','SET_LASTNAME')"></md-input>
+                                    <p class="help is-danger">{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
+                        </md-field>
+                        <md-field>
+                            <label>Nickname</label>
+                            <ValidationProvider name=" Nickname " rules="required">
+                                <div slot-scope="{ errors }">
+                                    <md-input id="" :value="GET_NICKNAME" @change="handleUpdate('UPDATE_FIELD','SET_NICKNAME')"></md-input>
+                                    <p class="help is-danger">{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
+                        </md-field>
+                        <!-- <md-field>
+                            <label>Firstname</label>
+                            <md-input id="" :value="GET_FIRSTNAME" @change="handleUpdate('UPDATE_FIELD','SET_FIRSTNAME')"></md-input>
+                        </md-field> -->
+                        <!-- <md-field>
+                            <label>Lastname</label>
+                            <md-input id="" :value="GET_LASTNAME" @change="handleUpdate('UPDATE_FIELD','SET_LASTNAME')"></md-input>
+                        </md-field> -->
+                        <!-- <md-field>
+                            <label>Nickname</label>
+                            <md-input id="" :value="GET_NICKNAME" @change="handleUpdate('UPDATE_FIELD','SET_NICKNAME')"></md-input>
+                        </md-field> -->
+                        <md-field>
+                            <label>Biography</label>
+                            <md-textarea md-autogrow id="" :value="GET_BIOGRAPHY" @change="handleUpdate('UPDATE_FIELD','SET_BIOGRAPHY')"></md-textarea>
+                        </md-field>
+                        <div class="mainTopic">ADDRESS<i class="la la-home" style="font-size:15px !important; margin-left:5px"></i></div>
+                        <md-field>
+                            <label>Street</label>
+                            <md-input id="" :value="GET_STREET" @change="handleUpdate('UPDATE_FIELD','SET_STREET')"></md-input>
+                        </md-field>
+                        <md-field>
+                            <label>Subdistrict</label>
+                            <md-input id="" :value="GET_SUBDISTRICT" @change="handleUpdate('UPDATE_FIELD','SET_SUBDISTRICT')"></md-input>
+                        </md-field>
+                        <md-field>
+                            <label>District</label>
+                            <md-input id="" :value="GET_DISTRICT" @change="handleUpdate('UPDATE_FIELD','SET_DISTRICT')"></md-input>
+                        </md-field>
+                        <md-field>
+                            <label>Province</label>
+                            <md-input id="" :value="GET_PROVINCE" @change="handleUpdate('UPDATE_FIELD','SET_PROVINCE')"></md-input>
+                        </md-field>
+                        <md-field>
+                            <label>Zipcode</label>
+                            <md-input id="" :value="GET_ZIPCODE" @change="handleUpdate('UPDATE_FIELD','SET_ZIPCODE')"></md-input>
+                        </md-field>
+                        <div class="mainTopic">CONTACT INFO<i class="la la-whatsapp" style="font-size:15px !important; margin-left:5px"></i></div>
+                        <md-field>
+                            <label>Phone Number</label>
+                            <md-input id="" :value="GET_PHONENO" @change="handleUpdate('UPDATE_FIELD','SET_PHONENO')"></md-input>
+                        </md-field>
+
+                        <md-field>
+                            <label>Email</label>
+                            <ValidationProvider name=" Email " rules="required">
+                                <div slot-scope="{ errors }">
+                                    <md-input id="" :value="GET_EMAIL" @change="handleUpdate('UPDATE_FIELD','SET_EMAIL')"></md-input>
+                                    <p class="help is-danger">{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
+                        </md-field>
+                        <!-- <md-field>
+                            <label>Email</label>
+                            <md-input id="" :value="GET_EMAIL" @change="handleUpdate('UPDATE_FIELD','SET_EMAIL')"></md-input>
+                        </md-field> -->
+                        <md-field>
+                            <label>Date of Birth</label>
+                            <md-input id="" :value="GET_BIRTHDAY" @change="handleUpdate('UPDATE_FIELD','SET_BIRTHDAY')"></md-input>
+                        </md-field>
+
+
+
+                        <!-- <div class="column">
+                            <div class="field">
+                                <label class="label inputName">Date of Event</label>
+                                <VueCtkDateTimePicker v-model="date_of_event" :formatted="formatted" :color="color" :only-date="onlydate" :label="label" :no-header="noHeader" :auto-close="autoClose" :no-button="noButton" :no-label="noLabel" />
+                            </div>
+                        </div> -->
+                    </div>
+                </ValidationObserver>
 
                 <div style="color:#F7F7F7;height:12px">.</div>
 
@@ -107,7 +151,7 @@
                     <span class="plusIcon"><i class="la la-plus"></i></span>
                 </div>
                 <div style="text-align:center;margin-top: 20px;">
-                    <a class="button is-rounded savepdf" onclick="printJS({
+                    <a class="button is-rounded savepdf" @click="saveDataToDb" onclick="printJS({
                         printable: 'printJS-form', 
                         type: 'html',
                         style: `@import url('https://fonts.googleapis.com/css?family=Asap');`,
@@ -167,11 +211,54 @@ import {
     mapGetters,
     mapActions
 } from 'vuex'
+import axios from 'axios'
+import {
+    ValidationObserver,
+    ValidationProvider
+} from "vee-validate";
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 
 export default {
     data() {
         return {
             page: '1',
+            toPrintJS: ''
+        }
+    },
+    props: {
+        formatted: {
+            type: String,
+            // default: 'DD-MM-YYYY'
+            default: 'll'
+        },
+        color: {
+            type: String,
+            default: '#265080'
+        },
+        onlydate: {
+            type: Boolean,
+            default: true
+        },
+        label: {
+            type: String,
+            default: 'Select date'
+        },
+        noHeader: {
+            type: Boolean,
+            default: true
+        },
+        autoClose: {
+            type: Boolean,
+            default: true
+        },
+        noButton: {
+            type: Boolean,
+            default: true
+        },
+        noLabel: {
+            type: Boolean,
+            default: true
         }
     },
     components: {
@@ -180,25 +267,108 @@ export default {
         addExperience,
         addSkill,
         addLanguage,
-        resumePdf
+        resumePdf,
+        ValidationObserver,
+        ValidationProvider,
+        VueCtkDateTimePicker
     },
     computed: {
         ...mapGetters(['GET_SHOWPAGE', 'GET_RESUME_DATA', 'GET_FIRSTNAME', 'GET_LASTNAME', 'GET_NICKNAME', 'GET_BIOGRAPHY',
             'GET_STREET', 'GET_SUBDISTRICT', 'GET_DISTRICT', 'GET_PROVINCE', 'GET_ZIPCODE',
             'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY'
-            // 'GET_WEBSITE', 'GET_EDUCATION_DATA', 'GET_EXPERIENCE_DATA', 'GET_SKILL', 'GET_LANGUAGE'
         ])
     },
     mounted() {
         this.LOAD_RESUME_DATA()
     },
     methods: {
+        printJS() {
+            console.log("กด gen")
+            this.toPrintJS = `printJS({
+                        printable: 'printJS-form', 
+                        type: 'html',
+                        style: @import url('https://fonts.googleapis.com/css?family=Asap');,
+                        font: 'Asap',
+                        targetStyles: ['*']
+                        })`
+            console.log("toPrintJS : " + this.toPrintJS)
+        },
         ...mapActions(['SET_PAGE', 'LOAD_RESUME_DATA', 'UPDATE_FIELD']),
         handleUpdate(actionName, setter) {
             this[actionName]({
                 callSetter: setter,
                 value: event.target.value
             })
+        },
+        async saveDataToDb() {
+            // var value = await this.$refs.resumeData.validate();
+            console.log("GET_RESUME_DATA : ", this.GET_RESUME_DATA.profile)
+            const resumeData = this.GET_RESUME_DATA.profile
+            if (resumeData.introduce_detail == "") {
+                resumeData.introduce_detail = null
+            }
+            if (resumeData.birthday == "") {
+                resumeData.birthday = null
+            }
+            if (resumeData.telephone_number == "") {
+                resumeData.telephone_number = null
+            }
+            if (resumeData.description == "") {
+                resumeData.description = null
+            }
+            if (resumeData.district == "") {
+                resumeData.district = null
+            }
+            if (resumeData.subdistrict == "") {
+                resumeData.subdistrict = null
+            }
+            if (resumeData.province == "") {
+                resumeData.province = null
+            }
+            if (resumeData.postcode == "") {
+                resumeData.postcode = null
+            }
+            const data = {
+                profile: {
+                    biology: resumeData.introduce_detail,
+                    firstname: resumeData.firstname,
+                    lastname: resumeData.lastname,
+                    email: resumeData.email,
+                    nickname: resumeData.nickname,
+                    birthday: resumeData.birthday,
+                    telephone_number: resumeData.telephone_number,
+                },
+                address: {
+                    description: resumeData.description,
+                    district: resumeData.district,
+                    subdistrict: resumeData.subdistrict,
+                    province: resumeData.province,
+                    postcode: resumeData.postcode
+                }
+            }
+
+            console.log("data to db : ", data)
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+                }
+            }
+            try {
+                await axios
+                    .patch("http://localhost:7000/users/generate-resume/" + "student01",
+                        data, config)
+                    .then((res) => {
+                        console.log("message : ", res.data.message);
+                        console.log("message : ", res);
+                        console.log("success!");
+                    })
+                    .catch((err) => {
+                        console.error("err : " + err);
+                    });
+            } catch (err) {
+                console.log("FAILURE!!" + err);
+            }
         }
     }
 }

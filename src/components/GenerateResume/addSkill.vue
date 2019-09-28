@@ -76,7 +76,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            skill: 'GET_SKILL'
+            skill: 'GET_SKILL',
+            config: 'GET_CONFIG'
         })
     },
     async mounted() {
@@ -104,17 +105,17 @@ export default {
         async addSkillToState() {
             this.SET_PAGE(1);
             console.log("all skill : ", this.skill)
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-                }
-            }
+            // const config = {
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+            //     }
+            // }
             try {
                 await axios
                     .patch("http://localhost:7000/users/skills", {
                 skills : this.skill
-                }, config)
+                }, this.config)
                     .then((res) => {
                         console.log("res : ", res);
                         console.log("success!");
