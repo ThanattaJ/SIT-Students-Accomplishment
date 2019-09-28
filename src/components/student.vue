@@ -4,12 +4,12 @@
         <div class="buttons has-addons is-centered is-fullwidth">
             <!-- <span class="button menuBar">Profile</span> -->
             <span class="button menuBar is-info is-selected">Project</span>
-            <span class="button menuBar">Assignment</span>
+            <span class="button menuBar" style="color:#265080 !important">Assignment</span>
             <span class="button menuBar">
-                <router-link to="createPortPage">Fingerprint</router-link>
+                <router-link to="createPortPage" style="color:#265080 !important">Fingerprint</router-link>
             </span>
             <span class="button menuBar">
-                <router-link to="GenerateResume">Generate Resume</router-link>
+                <router-link to="GenerateResume" style="color:#265080 !important">Generate Resume</router-link>
             </span>
         </div>
     </div>
