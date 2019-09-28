@@ -105,7 +105,7 @@
             <p class="showEducation eduYear">{{edu.start_year}} - {{edu.end_year}}</p>
         </div>
     </div>
-    {{levelId_all}}
+    <!-- {{levelId_all}} -->
     <!-- {{education}} -->
 </div>
 </template>
@@ -131,7 +131,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            education: 'GET_EDUCATION_DATA'
+            education: 'GET_EDUCATION_DATA',
+            config: 'GET_CONFIG'
         })
     },
     async mounted() {
@@ -160,17 +161,17 @@ export default {
         async addEduToState() {
             this.SET_PAGE(1);
             console.log("all edu : ", this.education)
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-                }
-            }
+            // const config = {
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+            //     }
+            // }
             try {
                 await axios
                     .patch("http://localhost:7000/users/educations", {
                 educations : this.education
-                }, config)
+                }, this.config)
                     .then((res) => {
                         console.log("res : ", res);
                         console.log("success!");

@@ -50,7 +50,7 @@
             <p class="showLanguage levelEdu">{{l.level_name}}</p>
         </div>
     </div>
-    {{language}}
+    <!-- {{language}} -->
 </div>
 </template>
 
@@ -74,6 +74,7 @@ export default {
     computed: {
         ...mapGetters({
             language: 'GET_LANGUAGE',
+            config: 'GET_CONFIG'
         })
     },
     async mounted() {
@@ -108,12 +109,12 @@ export default {
         },
         async addLanguageToState() {
             this.SET_PAGE(1);
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-                }
-            }
+            // const config = {
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+            //     }
+            // }
             const languageData = []
             for(var n = 0; n<this.language.length; n++){
                 languageData.push({
@@ -127,7 +128,7 @@ export default {
             console.log("All lang : ",data)
             try {
                 await axios
-                    .patch("http://localhost:7000/users/languages", data, config)
+                    .patch("http://localhost:7000/users/languages", data, this.config)
                     .then((res) => {
                         console.log("res : ", res);
                         console.log("success!");

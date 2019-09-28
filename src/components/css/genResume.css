@@ -1,60 +1,63 @@
+.md-field > span {
+    width: 100% !important
+}
 .titleText{
-    color: #6F6F6F;
-    font-weight: bolder;
-    font-size: 18px
+    color: #6F6F6F !important;
+    font-weight: bolder !important;
+    font-size: 18px !important
 }
 .la-angle-left{
-    float: left;
-    color: #6F6F6F;
+    float: left !important;
+    color: #6F6F6F !important;
 }
 .la-angle-left:hover{
-    color: #3E3E42;
-    cursor: pointer;
+    color: #3E3E42 !important;
+    cursor: pointer !important;
 }
 .uploadImg{
-    float:right;
+    float:right !important;
     color:red !important;
 }
 .uploadImg:hover{
-    cursor: pointer;
+    cursor: pointer !important;
 }
 .resumeForm{
-    background-color: #F7F7F7;
-    padding: 25px 25px 25px 35px;
+    background-color: #F7F7F7 !important;
+    padding: 25px 25px 25px 35px !important;
 }
 .resumeGen{
-    background-color: #3E3E42;
+    background-color: #3E3E42 !important;
 }
 .genText{
-    height: 50px;
-    text-align: center;
+    height: 50px !important;
+    text-align: center !important;
 }
 .stricky {
-    position: fixed;
-    overflow: auto;
-    width: 100%;
-    height: 100%;
+    position: fixed !important;
+    overflow: auto !important;
+    width: 100% !important;
+    height: 100% !important;
 }
 
 article {
-    height: 100%;
+    height: 100% !important;
   }
 section {
-    height: 100%;
-    display: flex;
-    overflow-y: auto;
-    flex-direction: column;
+    height: 100% !important;
+    display: flex !important;
+    overflow-y: auto !important;
+    flex-direction: column !important;
 }
 .topic{
-    width: 100%;
-    cursor: pointer;
-    font-size: 14px;
-    color: #A2A2A2;
+    width: 100% !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    color: #A2A2A2 !important;
 }
 .smallTopic{
-    width: 100%;
-    font-size: 12px;
-    color: #A2A2A2;
+    width: 100% !important;
+    font-size: 12px !important;
+    color: #A2A2A2 !important;
 }
 .la-plus:before {
     font-size: 18px !important;
@@ -65,16 +68,16 @@ section {
 }
 
 input[type=text] {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid #DBDBDB;
-    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    /* border-bottom: 1px solid #DBDBDB !important; */
+    width: 100% !important;
     color: #265080 !important;
-    font-size: 14px;
-    margin-top: 5px;
+    font-size: 14px !important;
+    margin-top: 5px !important;
 }
 input[type=text]:focus {
-    outline: none;
+    outline: none !important;
 }
 
 select {
@@ -82,7 +85,7 @@ select {
     border: none !important;
     border-bottom: 1px solid #DBDBDB !important;
     color: #265080 !important;
-    font-size: 14px;
+    font-size: 14px !important;
     border-radius: 0px !important;
     width: 268px !important;
     padding-left: 0px !important;
@@ -93,13 +96,13 @@ select:focus{
 }
 
 .select{
-    margin-bottom: 18px;
+    margin-bottom: 18px !important;
 }
 
 .select:not(.is-multiple):not(.is-loading)::after{
     border-color: #000000 !important;
     border-width: 1px !important;
-    font-size: 10px;
+    font-size: 10px !important;
 }
 
 .saveBtn{
@@ -107,7 +110,7 @@ select:focus{
 }
 .cancelBtn{
     background-color: #EB5656 !important;
-    margin-left: 6px;
+    margin-left: 6px !important;
 }
 .saveBtn,.cancelBtn{
     font-size: 10px !important;
@@ -121,24 +124,24 @@ select:focus{
     width: 47.09px !important;
 }
 .saveCancelBtn{
-    margin-top: 8px;
-    overflow: hidden;
-    height: 0;
+    margin-top: 8px !important;
+    overflow: hidden !important;
+    height: 0 !important;
 }
 span.placeholder{
-    color: #A2A2A2;
+    color: #A2A2A2 !important;
 }
 .expandable {
-    overflow: hidden;
-    height: 0;
+    overflow: hidden !important;
+    height: 0 !important;
 } 
 
 .mainTopic{
-    width: 100%;
-    font-size: 11px;
+    width: 100% !important;
+    font-size: 11px !important;
     /* color: rgb(131, 131, 131); */
-    font-weight: bold;
-    margin-top: 30px;
+    font-weight: bold !important;
+    margin-top: 30px !important;
     /* margin-top: 15px; */
     /* margin-bottom: 12px; */
 }
@@ -148,7 +151,7 @@ span.placeholder{
     color: white !important;
     background-color: #88D738 !important;
     height: 30px !important;
-    font-size: 14px;
+    font-size: 14px !important;
     border: none !important;
 }
 
@@ -157,35 +160,35 @@ span.placeholder{
     margin-right: -7px!important;
 }
 .selectnw{
-    background-color: white;
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    background-color: white !important;
+    text-align: center !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
 }
 .nwLogo{
-    padding-top: 10px;
+    padding-top: 10px !important;
 }
 .tooltip .tooltiptext {
-    visibility: hidden;
-    font-size: 12px;
+    visibility: hidden !important;
+    font-size: 12px !important;
     /* width: 80px; */
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 3px 10px;
+    background-color: black !important;
+    color: #fff !important;
+    text-align: center !important;
+    border-radius: 6px !important;
+    padding: 3px 10px !important;
   
     /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
+    position: absolute !important;
+    z-index: 1 !important;
 }
   
 .tooltip:hover .tooltiptext {
-    visibility: visible;
+    visibility: visible !important;
 }
 
 .tooltip:hover{
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .la-twitter:hover{
@@ -220,50 +223,50 @@ span.placeholder{
     color: #DB6318 !important;
 }
 .afterChooseNw{
-    background-color: white;
-    padding: 0px 12px 7px 12px;
+    background-color: white !important;
+    padding: 0px 12px 7px 12px !important;
 }
 .pre{
-    font-size: 12px;
+    font-size: 12px !important;
 }
 .hamburger:before {
     margin-left: -6px !important;
     /* margin-right: 0px!important; */
-    color: #A2A2A2;
+    color: #A2A2A2 !important;
 }
 .listWebsite{
-    margin-top: 10px;
-    cursor: pointer;
+    margin-top: 10px !important;
+    cursor: pointer !important;
 }
 
 .la-trash{
-    color:#A2A2A2
+    color:#A2A2A2 !important
 }
 .la-trash:hover{
     color: #6F6F6F !important;
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .username{
-    padding-top: 3px;
+    padding-top: 3px !important;
 }
 .hamburgerWebsite{
-    color: #A2A2A2;
+    color: #A2A2A2 !important;
 }
 .listWebsite:hover  .hamburgerWebsite{
-    color: #4A4A4A
+    color: #4A4A4A !important
 }
 .education , .skill , .language{
-    background-color: white;
-    padding: 20px 20px 10px 20px;
+    background-color: white !important;
+    padding: 20px 20px 10px 20px !important;
     display: block !important;
-    border-radius: 4px;
+    border-radius: 4px !important;
 }
 
 .fieldName{
-    font-size: 12px;
-    overflow: hidden;
-    height: 0;
+    font-size: 12px !important;
+    overflow: hidden !important;
+    height: 0 !important;
 }
 
 .md-field{
@@ -305,77 +308,77 @@ span.placeholder{
 }
 
 .showEducation , .showSkill , .showLanguage {
-    width: 100%; 
-    word-break: break-all;
+    width: 100% !important; 
+    word-break: break-all !important;
 }
 
 .educationList , .skillList , .languageList{
-    position: relative
+    position: relative !important
 }
 
 .educationIcon , .skillIcon , .languageIcon{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    height: 30%;
-    margin: auto;
-    margin-left: 8px;
-    color: #A2A2A2;
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 30% !important;
+    margin: auto !important;
+    margin-left: 8px !important;
+    color: #A2A2A2 !important;
 }
 
 .allEducation , .allSkill , .allLanguage{
-    border-radius: 4px;
-    background-color:white;
+    border-radius: 4px !important;
+    background-color:white !important;
     margin-top:10px;
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
 .allEducation:hover , .allSkill:hover , .allLanguage:hover{
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .allEducation:hover .educationIcon , .allSkill:hover .skillIcon , .allLanguage:hover .languageIcon{
-    color: #4A4A4A;
+    color: #4A4A4A !important;
 }
 
 .schoolname{
-    font-weight: bold;
-    font-size: 16px;
+    font-weight: bold !important;
+    font-size: 16px !important;
 }
 
 .levelEdu{
-    font-size: 14px;
+    font-size: 14px !important;
 }
 
 .program , .eduYear{
-    font-size: 12px;
+    font-size: 12px !important;
 }
 
 .eduYear{
-    color: #A2A2A2;
+    color: #A2A2A2 !important;
 }
 
 .addEduBtn:hover , .addSkillBtn:hover , .addLanguageBtn:hover{
-    cursor: pointer;
-    font-weight: bold;
+    cursor: pointer !important;
+    font-weight: bold !important;
 }
 
 .editing{
-    opacity: 1;
-    pointer-events: auto;
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
 .mystyle{
-    opacity: 0.6;
-    pointer-events: none;
+    opacity: 0.6 !important;
+    pointer-events: none !important;
 }
 
 
 /* experience */
 .checkboxExpe{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto;
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    margin: auto !important;
 }

@@ -2,10 +2,11 @@
 <div id="app">
     <nav class="navbar nav1 sticky" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="https://bulma.io">
-                <img src="./assets/logo.png">
-            </a>
-
+            <router-link to="/">
+                <a class="navbar-item" >
+                    <img src="./assets/logo.png">
+                </a>
+            </router-link>
             <a ref="showMenu" role="button" class="navbar-burger burger" @click="showMenu" style="color:white" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
