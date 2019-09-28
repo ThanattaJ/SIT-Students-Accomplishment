@@ -82,8 +82,8 @@ export default {
 .navbar {
     /* height: 100px; */
     background-color: #265080 !important;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 10% !important;
+    padding-right: 10% !important;
 }
 
 .nav1 {
@@ -143,7 +143,7 @@ a.menuName:hover {
 }
 
 a:not(.md-button):hover {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 /* #app {

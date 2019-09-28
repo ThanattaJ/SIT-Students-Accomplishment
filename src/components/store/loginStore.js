@@ -17,21 +17,27 @@ export const loginStore = {
     userName: null,
     userPass: null,
     status: " ",
-    headers : {
-      'Content-Type': 'application/json',
-      'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-  }
+    //   headers : {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+    // }
+    config: {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': ''
+      }
+    }
 
   },
   mutations: {
-    LOGIN_USER: state => {},
+    LOGIN_USER: state => { },
     authUser(state, user) {
       // (state.idToken = userData.token),
-        // (state.userId = userData.id),
-        (state.userName = user),
+      // (state.userId = userData.id),
+      (state.userName = user),
         // (state.userType = userData.type);
         console.log("username : " + state.userName)
-        // state.userPass = userData.userPass;
+      // state.userPass = userData.userPass;
     },
 
     clearAuthData(state) {
@@ -41,7 +47,7 @@ export const loginStore = {
         (state.userType = null),
         (state.userPass = null);
     },
-    auth_success(state,token,user) {
+    auth_success(state, token, user) {
       state.status = 'success'
       state.idToken = token
       state.username = user
@@ -51,22 +57,24 @@ export const loginStore = {
     },
     setIdToken(state, token) {
       state.idToken = token;
+      state.config.headers.Authorization = token
+      console.log("gib ทำ : " + state.config.headers.Authorization);
       console.log("state token : " + state.idToken);
     },
-    setConfig(state , config){
+    setConfig(state, config) {
       state.headers = config
-      console.log("config : ",config)
+      console.log("config : ", config)
     }
   },
   actions: {
-    login: async function({ commit }, { username, userType, pass }) {
+    login: async function ({ commit }, { username, userType, pass }) {
       console.log(
         "เรียก login ใน store ได้แล้ว" +
-          username +
-          " : " +
-          userType +
-          " : " +
-          pass
+        username +
+        " : " +
+        userType +
+        " : " +
+        pass
       );
       var data = {
         username: username,
@@ -75,27 +83,26 @@ export const loginStore = {
       };
       try {
         await axios
-          .post("http://localhost:7000/login", data )
+          .post("http://localhost:7000/login", data)
           .then(res => {
-            // console.log("login : ", res.data.length);
-            if(res.data.length > 0){
-                commit("setIdToken", res.data);
-                commit("authUser", username)
-                // const token = res.data.token
-                // const user = res.data.user
-                // localStorage.setItem('setIdToken', token)
-                // axios.defaults.headers.common['Authorization'] = token
-                commit('auth_success', username )
-              
-                router.push('/Home')
+            if (res.data.length > 0) {
+              commit("setIdToken", res.data);
+              commit("authUser", username)
+              // const token = res.data.token
+              // const user = res.data.user
+              // localStorage.setItem('setIdToken', token)
+              // axios.defaults.headers.common['Authorization'] = token
+              commit('auth_success', username)
+
+              router.push('/')
             }
             // this.$router.push({
             //     path: "/ProjectDetail/1"
             // });
 
-            
-            
-            
+
+
+
           })
           .catch(err => {
             console.error("error1 : " + err);
@@ -122,6 +129,10 @@ export const loginStore = {
     },
     returnToken: state => {
       return state.idToken;
+    },
+    GET_CONFIG: function (state) {
+      console.log("get config จากหน้า login" + state.config)
+        return state.config
     }
   }
 };

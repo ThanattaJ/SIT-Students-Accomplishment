@@ -275,11 +275,12 @@ export default {
     computed: {
         ...mapGetters(['GET_SHOWPAGE', 'GET_RESUME_DATA', 'GET_FIRSTNAME', 'GET_LASTNAME', 'GET_NICKNAME', 'GET_BIOGRAPHY',
             'GET_STREET', 'GET_SUBDISTRICT', 'GET_DISTRICT', 'GET_PROVINCE', 'GET_ZIPCODE',
-            'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY'
+            'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY', 'GET_CONFIG'
         ])
     },
     mounted() {
         this.LOAD_RESUME_DATA()
+        console.log("GET CONFIG จากหน้า Generate Resume >>> ",this.GET_CONFIG.headers.Authorization)
     },
     methods: {
         printJS() {
@@ -348,16 +349,16 @@ export default {
             }
 
             console.log("data to db : ", data)
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-                }
-            }
+            // const config = {
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+            //     }
+            // }
             try {
                 await axios
                     .patch("http://localhost:7000/users/generate-resume/" + "student01",
-                        data, config)
+                        data, this.GET_CONFIG)
                     .then((res) => {
                         console.log("message : ", res.data.message);
                         console.log("message : ", res);
