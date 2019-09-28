@@ -36,7 +36,7 @@
                             <tbody>
                                 <tr v-for="(skill,index) in GET_SKILL" v-bind:key="'skill'+index">
                                     <td><span class="languageTag">{{skill.skill_name}}</span></td>
-                                    <td style="padding-left: 15px;padding-bottom: 7px;">{{skill.proficiency_name}}</td>
+                                    <td style="padding-left: 15px;padding-bottom: 7px;">{{skill.level_name}}</td>
                                 </tr>
                             </tbody>
                         </table>

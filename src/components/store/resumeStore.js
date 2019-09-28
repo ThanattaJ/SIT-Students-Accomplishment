@@ -7,13 +7,13 @@ const config = {
         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
     }
 }
-const URL = "http://localhost:7000/users/generate-resume/59130500001"
+const URL = "http://localhost:7000/users/generate-resume/student01"
 export const resumeStore = {
     state: {
         showPage: 1,
         website: [],
         selectedExpe: [],
-        skill: [],
+        // skill: [],
         resumeData: {
             profile: {
             }
@@ -33,36 +33,39 @@ export const resumeStore = {
         UPDATE_FIELD: function ({commit}, { callSetter, value }) {
             commit(callSetter, value)
 
-            try{
-                axios.patch(URL,{
-                    "profile": {
-                        "id": 2,
-                        "student_id": "59130500024",
-                        "firstname": "gibgibgib",
-                        "lastname": "ntn"
-                    },
-                    "address": {
-                        "description": "few",
-                        "district": "dis",
-                        "subdistrict": "sub",
-                        "province": "p",
-                        "postcode": "a"
-                    }
-                })
-                .then(function(res){ console.log("res : ",res);})
-            }catch(err){
-                    console.log('FAILURE!!'+err)
-            }
+            // try{
+            //     axios.patch(URL,{
+            //         "profile": {
+            //             "id": 2,
+            //             "student_id": "59130500024",
+            //             "firstname": "gibgibgib",
+            //             "lastname": "ntn"
+            //         },
+            //         "address": {
+            //             "description": "few",
+            //             "district": "dis",
+            //             "subdistrict": "sub",
+            //             "province": "p",
+            //             "postcode": "a"
+            //         }
+            //     })
+            //     .then(function(res){ console.log("res : ",res);})
+            // }catch(err){
+            //         console.log('FAILURE!!'+err)
+            // }
         },
         //WEBSITE
         SET_WEBSITE: function ({commit}, web) {
             commit('SET_WEBSITE', web)
+        },
+        SET_SOCIAL: function ({commit}, social) {
+            commit('SET_SOCIAL', social)
         }
     },
     mutations: {
         SET_PAGE: function (state, page) {
             state.showPage = page
-            console.log(state.showPage)
+            // console.log(state.showPage)
         },
         SET_RESUME_DATA: function (state, resumeData) {
             state.resumeData = resumeData
@@ -105,6 +108,10 @@ export const resumeStore = {
         },
         SET_BIRTHDAY: function (state, birth) {
             state.resumeData.profile.birthday = birth
+        },
+        SET_SOCIAL: function (state, social) {
+            console.log("เข้า SET_SOCIAL")
+            state.resumeData.social = social
         }
     },
     getters: {
@@ -170,11 +177,15 @@ export const resumeStore = {
         },
         //SKILL
         GET_SKILL: function (state) {
-            return state.skill
+            return state.resumeData.skill
         },
         //LANGUAGE
         GET_LANGUAGE: function (state) {
             return state.resumeData.language
+        },
+        //SOCIAL
+        GET_SOCIAL: function (state) {
+            return state.resumeData.social
         }
     }
 }

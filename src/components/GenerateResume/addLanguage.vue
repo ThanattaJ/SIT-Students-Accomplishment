@@ -36,12 +36,12 @@
                 <option v-for="(level,index) in proficiency" v-bind:key="index" :value="[level.level_name,index+1]">{{level.level_name}}</option>
             </select>
         </div>
-        <a class="button is-small saveBtn" @click="saveChange(getIndex);showForm = !showForm" style="margin-top: 3px;">Save</a>
-        <a class="button is-small cancelBtn" @click="cancelChange(getIndex);showForm = !showForm" style="margin-top: 3px;">Cancel</a>
-        <i class="la la-trash" style="float:right" @click="removeLanguage(getIndex)"></i>
+        <a class="button is-small saveBtn" @click="saveChange(getIndex);showForm = false" style="margin-top: 3px;">Save</a>
+        <a class="button is-small cancelBtn" @click="cancelChange(getIndex);showForm = false" style="margin-top: 3px;">Cancel</a>
+        <i class="la la-trash" style="float:right" @click="removeLanguage(getIndex);showForm = false"></i>
     </div>
     <!-- show language -->
-    <div :id="'edit'+index" class="columns allLanguage" v-for="(l,index) in language" v-bind:key="index" @click="showDetail(index);showForm = !showForm;">
+    <div :id="'edit'+index" class="columns allLanguage" v-for="(l,index) in language" v-bind:key="index" @click="showDetail(index);showForm = true;">
         <div class="column is-1 languageList">
             <i class="la la-ellipsis-v languageIcon"></i>
         </div>
@@ -50,6 +50,7 @@
             <p class="showLanguage levelEdu">{{l.level_name}}</p>
         </div>
     </div>
+    {{language}}
 </div>
 </template>
 
@@ -76,6 +77,9 @@ export default {
         })
     },
     async mounted() {
+        // if(this.language == null){
+        //     this.language = []
+        // }
         const {
             data
         } = await axios.get(
@@ -102,8 +106,38 @@ export default {
         cannotClickAddSkillBtn() { //ทำให้กดปุ่มไม่ได้
             document.getElementById('addLanguageBtn').setAttribute("class", "addLanguageBtn mystyle")
         },
-        addLanguageToState() {
+        async addLanguageToState() {
             this.SET_PAGE(1);
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+                }
+            }
+            const languageData = []
+            for(var n = 0; n<this.language.length; n++){
+                languageData.push({
+                    language_id: this.language[n].languages_id,
+    		        level_id: this.language[n].languages_level_id
+                })
+            }
+            const data = {
+                languages: languageData
+            }
+            console.log("All lang : ",data)
+            try {
+                await axios
+                    .patch("http://localhost:7000/users/languages", data, config)
+                    .then((res) => {
+                        console.log("res : ", res);
+                        console.log("success!");
+                    })
+                    .catch((err) => {
+                        console.error("err : " + err);
+                    });
+            } catch (err) {
+                console.log("FAILURE!!" + err);
+            }
         },
         addLanguage() {
             var language_name = document.getElementById('language_name').value
@@ -150,6 +184,8 @@ export default {
         removeLanguage(index) {
             this.language.splice(index, 1)
             this.canClickAddSkillBtn()
+            this.canClick()
+            document.getElementById('edit' + index).style.display = 'flex'
         }
     }
 }

@@ -1,5 +1,6 @@
 <template>
 <div>
+    <!-- {{education_level}} -->
     <div class="genText">
         <i class="la la-angle-left" v-on:click="addEduToState"></i>
         <span class="titleText">Education</span>
@@ -10,7 +11,7 @@
         <div class="select">
             <select id="level_name" required>
                 <option selected disabled>Select a Degree ...</option>
-                <option v-for="(level,index) in education_level" v-bind:key="index" :value="level.level_name">{{level.level_name}}</option>
+                <option id="level" v-for="(level,index) in education_level" :key="index" :value="level.id">{{level.level_name}}</option>
             </select>
         </div>
         <div>
@@ -52,8 +53,8 @@
     <div class="education editing" v-if="showForm == true && education.length>0">
         <div class="select">
             <select :id="'level_name'+getIndex">
-                <option disabled selected :value="education[getIndex].level_name">{{education[getIndex].level_name}}</option>
-                <option v-for="(level,index) in education_level" v-bind:key="index" :value="level.level_name">{{level.level_name}}</option>
+                <option disabled selected :value="levelId_all[getIndex]">{{education[getIndex].level_name}}</option>
+                <option :id="'level'+getIndex" v-for="(level,index) in education_level" v-bind:key="index" :value="level.id">{{level.level_name}}</option>
             </select>
         </div>
         <div>
@@ -88,12 +89,12 @@
                 </label>
             </div>
         </div>
-        <a class="button is-small saveBtn" @click="saveChange(getIndex);showForm = !showForm" style="margin-top: 3px;">Save</a>
-        <a class="button is-small cancelBtn" @click="cancelChange(getIndex);showForm = !showForm" style="margin-top: 3px;">Cancel</a>
-        <i class="la la-trash" style="float:right" @click="removeEducation(getIndex)"></i>
+        <a class="button is-small saveBtn" @click="saveChange(getIndex);showForm = false" style="margin-top: 3px;">Save</a>
+        <a class="button is-small cancelBtn" @click="cancelChange(getIndex);showForm = false" style="margin-top: 3px;">Cancel</a>
+        <i class="la la-trash" style="float:right" @click="removeEducation(getIndex);showForm = false"></i>
     </div>
     <!-- show education -->
-    <div :id="'edit'+index" class="columns allEducation" v-for="(edu,index) in education" v-bind:key="index" @click="showDetail(index);showForm = !showForm;">
+    <div :id="'edit'+index" class="columns allEducation" v-for="(edu,index) in education" v-bind:key="index" @click="showDetail(index);showForm = true;">
         <div class="column is-1 educationList">
             <i class="la la-ellipsis-v educationIcon"></i>
         </div>
@@ -104,6 +105,8 @@
             <p class="showEducation eduYear">{{edu.start_year}} - {{edu.end_year}}</p>
         </div>
     </div>
+    {{levelId_all}}
+    <!-- {{education}} -->
 </div>
 </template>
 
@@ -122,7 +125,8 @@ export default {
             getIndex: 0,
             chooseCurrent: false,
             chooseCurrentFromEdit: false,
-            education_level: []
+            education_level: [],
+            levelId_all: []
         }
     },
     computed: {
@@ -137,6 +141,9 @@ export default {
             "http://localhost:7000/users/education-level"
         );
         this.education_level = data
+        for (var n = 0; n < this.education.length; n++) {
+            this.levelId_all.push(this.education[n].education_level_id)
+        }
     },
     methods: {
         ...mapActions(['SET_PAGE']),
@@ -150,24 +157,52 @@ export default {
                 document.getElementById('edit' + n).setAttribute("class", "columns allEducation mystyle")
             }
         },
-        addEduToState() {
+        async addEduToState() {
             this.SET_PAGE(1);
+            console.log("all edu : ", this.education)
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+                }
+            }
+            try {
+                await axios
+                    .patch("http://localhost:7000/users/educations", {
+                educations : this.education
+                }, config)
+                    .then((res) => {
+                        console.log("res : ", res);
+                        console.log("success!");
+                    })
+                    .catch((err) => {
+                        console.error("err : "+ err);
+                    });
+            } catch (err) {
+                console.log("FAILURE!!" + err);
+            }
         },
         addEducation() {
             var school_name = document.getElementById('school_name').value;
-            var level_name = document.getElementById('level_name').value;
+            var level_id = document.getElementById('level_name').value;
+            console.log("add to : " + level_id)
+            var level_name = this.education_level[level_id - 1].level_name
             var program = document.getElementById('program').value;
             var gpa = document.getElementById('gpa').value;
             var start_year = document.getElementById('start_year').value;
             var end_year = document.getElementById('end_year').value;
             this.education.push({
-                level_name: document.getElementById('level_name').value,
+                education_level_id: level_id,
+                level_name: level_name,
                 school_name: school_name,
                 program: program,
                 gpa: gpa,
                 start_year: start_year,
                 end_year: end_year
             })
+            var int = parseInt(level_id)
+            this.levelId_all.push(int)
+            console.log(typeof (int))
         },
         canClickAddEduBtn() { //ทำให้กดปุ่มได้
             document.getElementById('addEduBtn').setAttribute("class", "addEduBtn")
@@ -184,13 +219,17 @@ export default {
         },
         saveChange(index) {
             var school_name = document.getElementById('school_name' + index).value;
-            var level_name = document.getElementById('level_name'+ index).value;
+            var level_id = document.getElementById('level_name' + index).value;
+            // var level_id = this.levelId_all[index];
+            console.log("change to : " + level_id)
+            var level_name = this.education_level[level_id - 1].level_name
             var program = document.getElementById('program' + index).value;
             var gpa = document.getElementById('gpa' + index).value;
             var start_year = document.getElementById('start_year' + index).value;
             var end_year = document.getElementById('end_year' + index).value;
 
             var replaceEdu = {
+                education_level_id: level_id,
                 level_name: level_name,
                 school_name: school_name,
                 program: program,
@@ -199,6 +238,11 @@ export default {
                 end_year: end_year
             }
             this.education.splice(index, 1, replaceEdu)
+
+            var int = parseInt(level_id)
+            this.levelId_all.splice(index, 1, int)
+            console.log(typeof (int))
+
             this.cancelChange(index)
             this.canClickAddEduBtn()
         },
@@ -208,8 +252,12 @@ export default {
             document.getElementById('edit' + index).style.display = 'flex'
         },
         removeEducation(index) {
+            console.log("remove " + index)
             this.education.splice(index, 1)
+            this.canClick()
             this.canClickAddEduBtn()
+            document.getElementById('edit' + index).style.display = 'flex'
+            this.levelId_all.splice(index, 1)
         },
         selectCurrent(chooseCurrent) {
             if (chooseCurrent == false) {

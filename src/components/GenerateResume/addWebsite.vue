@@ -1,5 +1,8 @@
 <template>
 <div>
+    <!-- {{website}}
+    <p>=====</p>
+    {{social}} -->
     <div class="genText">
         <i class="la la-angle-left" v-on:click="addWebToState"></i>
         <span class="titleText">Website</span>
@@ -49,7 +52,8 @@ import {
 export default {
     data() {
         return {
-            // website: [],
+            allSocial: {},
+            website: [],
             chooseNw: false,
             networkName: 'network',
             colorNw: '',
@@ -109,15 +113,70 @@ export default {
     },
     computed: {
         ...mapGetters({
-            website: 'GET_WEBSITE'
+            // website: 'GET_WEBSITE',
+            social: 'GET_SOCIAL'
         })
     },
     mounted() {
+        var numOfSocails = Object.keys(this.social).length
+        console.log("web: ", this.website)
+        for (var n = 0; n < numOfSocails; n++) {
+            var nw = this.allNetwork[n].network
+            if (this.social[nw] != null) {
+                console.log("เข้า")
+                this.website.push({
+                    network: nw,
+                    color: this.allNetwork[n].color,
+                    username: this.social[nw]
+                })
+            }
+        }
     },
     methods: {
-        ...mapActions(['SET_PAGE', 'SET_WEBSITE']),
-        addWebToState() {
+        ...mapActions(['SET_PAGE', 'SET_WEBSITE', 'SET_SOCIAL']),
+        async addWebToState() {
             this.SET_PAGE(1);
+            console.log("this.website.length : " + this.website.length)
+            var allWebData = {
+                Twitter: null,
+                Facebook: null,
+                Instagram: null,
+                Linkedin: null,
+                Github: null,
+                Pinterest: null,
+                Vimeo: null,
+                Tumblr: null,
+                Flickr: null,
+                Link: null
+            }
+            console.log("socail : ", this.social)
+            for (var n = 0; n < this.website.length; n++) {
+                var nw = this.website[n].network
+                allWebData[nw] = this.website[n].username
+            }
+            console.log("all web : ", allWebData)
+            this.SET_SOCIAL(allWebData)
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+                }
+            }
+            try {
+                await axios
+                    .patch("http://localhost:7000/users/social", {
+                        social: allWebData
+                    }, config)
+                    .then((res) => {
+                        console.log("res : ", res);
+                        console.log("success!");
+                    })
+                    .catch((err) => {
+                        console.error("err : " + err);
+                    });
+            } catch (err) {
+                console.log("FAILURE!!" + err);
+            }
         },
         addNw(n) {
             var logo = document.getElementById('logo' + n).style;
