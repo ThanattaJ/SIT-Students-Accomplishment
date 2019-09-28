@@ -1,5 +1,13 @@
 import axios from "axios";
 import router from '../../router/index'
+// import { setConfig } from "vee-validate/dist/types/config";
+
+// const config = {
+//   headers : {
+//       'Content-Type': 'application/json',
+//       'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+//   }
+// }
 
 export const loginStore = {
   state: {
@@ -8,16 +16,22 @@ export const loginStore = {
     userType: null,
     userName: null,
     userPass: null,
-    status: " "
+    status: " ",
+    headers : {
+      'Content-Type': 'application/json',
+      'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+  }
+
   },
   mutations: {
     LOGIN_USER: state => {},
-    authUser(state, userData) {
-      (state.idToken = userData.token),
-        (state.userId = userData.id),
-        (state.userName = userData.userName),
-        (state.userType = userData.type);
-      state.userPass = userData.userPass;
+    authUser(state, user) {
+      // (state.idToken = userData.token),
+        // (state.userId = userData.id),
+        (state.userName = user),
+        // (state.userType = userData.type);
+        console.log("username : " + state.userName)
+        // state.userPass = userData.userPass;
     },
 
     clearAuthData(state) {
@@ -27,11 +41,10 @@ export const loginStore = {
         (state.userType = null),
         (state.userPass = null);
     },
-    auth_success(state) {
-      state.userName = "student01";
-      state.userType = "st.sit.ac.th";
-      state.userPass = "Fxig08";
-      state.status = "success";
+    auth_success(state,token,user) {
+      state.status = 'success'
+      state.idToken = token
+      state.username = user
     },
     auth_error(state) {
       state.status = "error";
@@ -39,6 +52,10 @@ export const loginStore = {
     setIdToken(state, token) {
       state.idToken = token;
       console.log("state token : " + state.idToken);
+    },
+    setConfig(state , config){
+      state.headers = config
+      console.log("config : ",config)
     }
   },
   actions: {
@@ -58,11 +75,18 @@ export const loginStore = {
       };
       try {
         await axios
-          .post("http://localhost:7000/login", data)
+          .post("http://localhost:7000/login", data )
           .then(res => {
             // console.log("login : ", res.data.length);
             if(res.data.length > 0){
                 commit("setIdToken", res.data);
+                commit("authUser", username)
+                // const token = res.data.token
+                // const user = res.data.user
+                // localStorage.setItem('setIdToken', token)
+                // axios.defaults.headers.common['Authorization'] = token
+                commit('auth_success', username )
+              
                 router.push('/Home')
             }
             // this.$router.push({
@@ -95,9 +119,6 @@ export const loginStore = {
     },
     userName(state) {
       return state.userName;
-    },
-    userPass(state) {
-      return state.userPass;
     },
     returnToken: state => {
       return state.idToken;
