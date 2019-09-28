@@ -105,7 +105,7 @@
             <p class="showEducation eduYear">{{edu.start_year}} - {{edu.end_year}}</p>
         </div>
     </div>
-    {{levelId_all}}
+    <!-- {{levelId_all}} -->
     <!-- {{education}} -->
 </div>
 </template>

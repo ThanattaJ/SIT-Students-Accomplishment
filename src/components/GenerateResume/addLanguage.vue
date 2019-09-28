@@ -50,7 +50,7 @@
             <p class="showLanguage levelEdu">{{l.level_name}}</p>
         </div>
     </div>
-    {{language}}
+    <!-- {{language}} -->
 </div>
 </template>
 
