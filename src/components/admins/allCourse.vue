@@ -173,7 +173,7 @@ export default {
 async mounted() {
 
   
-    const { data } = await axios.get('http://localhost:7000/course');
+    const { data } = await axios.get('https://www.sit-acc.nruf.in.th/course');
     console.log("allcourse : ",data)
     for(let i  = 0;  i < data.length; i++){
       this.persons.push(data[i])
@@ -197,7 +197,7 @@ methods: {
     },
     async add() {
       try{
-        axios.post('http://localhost:7000/course',{
+        axios.post('https://www.sit-acc.nruf.in.th/course',{
             code: this.editInput.course,
             name: this.editInput.name,
         }).then(function(res){ console.log(res);})
@@ -255,7 +255,7 @@ methods: {
         console.log('eiei: ' + index)
       try{
         //เอา  id ของโปรเจคมาใส่เพื่อ update 
-        axios.patch('http://localhost:7000/course?id='+this.persons[index].course_id,{
+        axios.patch('https://www.sit-acc.nruf.in.th/course?id='+this.persons[index].course_id,{
                code : this.editInput.course,
                name : this.editInput.name,
                detail : this.persons[index].detail
@@ -287,7 +287,7 @@ methods: {
     // this.delIndex = index
     console.log("delIndex : ",this.delIndex)
       try{
-        axios.delete('http://localhost:7000/course?id='+ this.persons[this.delIndex].course_id)
+        axios.delete('https://www.sit-acc.nruf.in.th/course?id='+ this.persons[this.delIndex].course_id)
               .then(function(res){ console.log(res);})
                this.message = " uploaded complete";
                this.file=" ";

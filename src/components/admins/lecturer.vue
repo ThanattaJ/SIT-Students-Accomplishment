@@ -53,7 +53,7 @@ export default {
             }
          },
 async mounted() {
-    const { data } = await axios.get('http://localhost:7000/users/list_lecturer');
+    const { data } = await axios.get('https://www.sit-acc.nruf.in.th/users/list_lecturer');
     // console.log("allcourse : ",data)
     for(let i = 0; i < data.length; i++){
       this.persons.push(data[i])
