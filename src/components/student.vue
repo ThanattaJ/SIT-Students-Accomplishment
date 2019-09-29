@@ -121,7 +121,7 @@
             </div>
         </div>
         <div class="columns is-multiline">
-            <div class="column">
+            <div class="column is-one-quarter">
                 <router-link to="/createPortPage">
                     <div class="createPortPage">
                         <i class="la la-plus"></i>
