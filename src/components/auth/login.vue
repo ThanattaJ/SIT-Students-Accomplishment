@@ -6,7 +6,7 @@
                 <form>
                     <md-card-header>
                         <md-card-header-text>
-                            <div class="md-title" id="title">Sign in {{username}} {{userType}} {{pass}}</div>
+                            <div class="md-title" id="title">Sign in</div>
                         </md-card-header-text>
                     </md-card-header>
                     <div class="grey-text">
@@ -31,7 +31,7 @@
                         </md-card-content>
                     </div>
                     <div class="text-center" id="btm">
-                        <a id="login" type="submit" @click="onLogin(username,userType,pass)">Log in </a>
+                        <a id="login" type="submit" @click="onLogin(username,userType,pass)" style="color:#265080 !important;">Log in </a>
                     </div>
                 </form>
             </div>

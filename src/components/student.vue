@@ -139,9 +139,8 @@
                         </div>
                         <div class="card-content projectInfo">
                             <div class="content">
-                                {{project.project_id}}
-                                <p class="projectName">{{project.project_name_en}}</p>
-                                <p class="projectDetail" style="height: 35px;overflow: hidden;">{{project.project_abstract}}</p>
+                                <p class="projectName" style="height: 22px;overflow: hidden;">{{project.project_name_en}}</p>
+                                <p class="projectDetail" style="height: 38px;overflow: hidden;">{{project.project_abstract}}</p>
                             </div>
                         </div>
                     </div>

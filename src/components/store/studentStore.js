@@ -1,13 +1,10 @@
 import axios from "axios";
-
-const config = {
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-    }
-}
-
-
+// const config = {
+//     headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
+//     }
+// }
 export const studentStore = {
     state: {
         studentData: {}
@@ -16,16 +13,12 @@ export const studentStore = {
         LOAD_STUDENT_DATA: async function ({ commit, rootState }) {
             // const URL = "http://localhost:7000/users/default"
             const URL = "https://www.sit-acc.nruf.in.th/users/default"
-            console.log("เข้า LOAD_PROJECT_OF_EACH_STUDENT")
+            console.log("เข้า LOAD_STUDENT_DATA")
             const { data } = await axios.get(
-                // URL, rootState.loginStore.config
-                URL, config
+                URL, rootState.loginStore.config
+                // URL, config
             );
             console.log("access : ", data)
-            // console.log("access : ", data.access)
-            // console.log("profile : ", data.profile)
-            // console.log("projects : ", data.projects)
-            // console.log("totalProject : ", data.totalProject)
             commit('SET_STUDENT_DATA', data)
         }
     },

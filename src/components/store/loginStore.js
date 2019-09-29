@@ -1,14 +1,6 @@
 import axios from "axios";
 import router from '../../router/index'
 // import { setConfig } from "vee-validate/dist/types/config";
-
-// const config = {
-//   headers : {
-//       'Content-Type': 'application/json',
-//       'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-//   }
-// }
-
 export const loginStore = {
   state: {
     idToken: null,
@@ -39,7 +31,6 @@ export const loginStore = {
         console.log("username : " + state.userName)
       // state.userPass = userData.userPass;
     },
-
     clearAuthData(state) {
       (state.idToken = null),
         (state.userId = null),
@@ -58,8 +49,8 @@ export const loginStore = {
     setIdToken(state, token) {
       state.idToken = token;
       state.config.headers.Authorization = token
-      console.log("gib ทำ : " + state.config.headers.Authorization);
-      console.log("state token : " + state.idToken);
+      console.log("refresh แล้ว token จาก localStorageเก็บลง state > ",state.config.headers.Authorization)
+
     },
     setConfig(state, config) {
       state.headers = config
@@ -68,14 +59,6 @@ export const loginStore = {
   },
   actions: {
     login: async function ({ commit }, { username, userType, pass }) {
-      // console.log(
-      //   "เรียก login ใน store ได้แล้ว" +
-      //   username +
-      //   " : " +
-      //   userType +
-      //   " : " +
-      //   pass
-      // );
       var data = {
         username: username,
         userType: userType,
@@ -86,11 +69,11 @@ export const loginStore = {
           // .post("http://localhost:7000/login", data)
           .post("https://www.sit-acc.nruf.in.th/login", data)
           .then(res => {
-        if (res.data.length > 0) {
-        commit("setIdToken", res.data);
+            if (res.data.length > 0) {
+              commit("setIdToken", res.data);
               commit("authUser", username)
               commit('auth_success', username)
-
+              localStorage.setItem('Authen_token', res.data);
               router.push('/')
             }
           })
@@ -100,11 +83,14 @@ export const loginStore = {
       } catch (err) {
         console.error("error2 : " + err);
       }
+    },
+    logout({ commit }, { router }) {
+      commit("clearAuthData");
+      router.replace("/");
+    },
+    setIdToken({ commit }, token) {
+      commit("setIdToken", token);
     }
-  },
-  logout({ commit }, { router }) {
-    commit("clearAuthData");
-    router.replace("/");
   },
 
   getters: {
@@ -122,7 +108,7 @@ export const loginStore = {
     },
     GET_CONFIG: function (state) {
       console.log("get config จากหน้า login" + state.config)
-        return state.config
+      return state.config
     }
   }
 };

@@ -35,8 +35,9 @@
             <div class="navbar-end">
                 <a class="navbar-item">
                     <i class="la la-sign-in"></i>
-                    <span v-if="isLoggedIn"> | <a @click="logout">Logout</a></span>
-                    <span v-else> | <router-link to="/login">Login</router-link></span>
+                    <!-- <span v-if="isLoggedIn"> | <a @click="logout">Logout</a></span> -->
+                    <span v-if="Authen_token!=null"> | <a @click="logout">Logout</a></span>
+                    <span v-if="Authen_token==null"> | <router-link to="/login">Login</router-link></span>
                 </a>
             </div>
         </div>
@@ -46,12 +47,26 @@
 </template>
 
 <script>
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
+
 export default {
     name: 'app',
     data() {
         return {
-            clickBurger: true
+            clickBurger: true,
+            Authen_token: null
         }
+    },
+    mounted() {
+        //เอาค่า Authen_token จาก localStorage เก็บลง state.config.headers.Authorization ใน loginStore
+        this.Authen_token = localStorage.getItem('Authen_token');
+        this.setIdToken(this.Authen_token)
+        // console.log("Authen_token >  ",this.Authen_token)
+        this.LOAD_STUDENT_DATA()
+        this.LOAD_RESUME_DATA()
     },
     computed: {
         isLoggedIn: function () {
@@ -59,6 +74,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(['setIdToken', 'GET_CONFIG', 'LOAD_STUDENT_DATA', 'LOAD_RESUME_DATA']),
         showMenu() {
             this.clickBurger = !this.clickBurger
             if (this.clickBurger != true) {
@@ -70,9 +86,13 @@ export default {
             }
         },
         logout: function () {
-            this.$store.dispatch("logout").then(() => {
-                this.$router.push("/login");
-            });
+            // this.$store.dispatch("logout").then(() => {
+            //     this.$router.push("/login");
+            // });
+            this.Authen_token = null
+            this.setIdToken(this.Authen_token)
+            localStorage.setItem('Authen_token', null);
+            this.$router.push("/login");
         },
     }
 }
