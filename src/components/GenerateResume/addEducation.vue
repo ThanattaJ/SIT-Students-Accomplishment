@@ -169,6 +169,7 @@ export default {
             //     }
             // }
             try {
+                console.log(" this.education : ", this.education)
                 await axios
                     // .patch("http://localhost:7000/users/educations", {
                     .patch("https://www.sit-acc.nruf.in.th/users/educations", {
@@ -176,7 +177,7 @@ export default {
                 }, this.config)
                     .then((res) => {
                         console.log("res : ", res);
-                        console.log("success!");
+                        console.log("Update Education Success!");
                     })
                     .catch((err) => {
                         console.error("err : "+ err);

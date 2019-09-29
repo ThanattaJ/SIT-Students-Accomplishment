@@ -136,6 +136,7 @@ export default {
                 skill_level_id: skill_level_id,
                 level_name: this.proficiency[skill_level_id].level_name
             })
+            console.log("skill : ",this.skill)
         },
         canClickAddSkillBtn() { //ทำให้กดปุ่มได้
             document.getElementById('addSkillBtn').setAttribute("class", "addSkillBtn")
