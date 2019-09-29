@@ -78,7 +78,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
 .navbar {
     /* height: 100px; */
     background-color: #265080 !important;

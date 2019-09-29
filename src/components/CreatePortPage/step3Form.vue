@@ -7,7 +7,7 @@
                 <a style="font-size: 14px;">SIT Student</a>
             </li>
             <li class="tab" id="Non-Students" v-on:click="openTab('Non-Student')">
-                <a style="font-size: 14px;">Non-SIT Student</a>
+                <a style="font-size: 14px;color: #265080 !important;">Non-SIT Student</a>
             </li>
         </ul>
     </nav>
@@ -59,7 +59,7 @@
                 <div class="field">
                     <label class="label inputName" style="color:white;">.</label>
                     <p class="control">
-                        <a class="button" @click.prevent="addOutsider();">
+                        <a class="button" @click.prevent="addOutsider();" style="color: #265080 !important;">
                             Add
                         </a>
                     </p>

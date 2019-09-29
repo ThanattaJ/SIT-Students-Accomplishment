@@ -7,8 +7,6 @@ export const createPortPageStore = {
         selectedStudentMember: [],
         outsider: [],
 
-        studentProfile: {},
-
         achievement: [],
 
         startProject: null,
@@ -39,13 +37,6 @@ export const createPortPageStore = {
                 "http://localhost:7000/users/list_student/59" // https://www.sit-acc.nruf.in.th/
             );
             commit('SET_ALL_STUDENT', data)
-
-        },
-        LOAD_STUDENT_PROFILE: async function ({ commit }) {
-            const { data } = await axios.get(
-                "http://localhost:7000/users/list_student/59130500001"
-            );
-            commit('SET_STUDENT_PROFILE', data)
         },
         // STEP3
         SET_SELECTED_STUDENT_MEMBER: function ({ commit }, student) {
@@ -79,9 +70,6 @@ export const createPortPageStore = {
                     lastname: studentLname[i]
                 });
             }
-        },
-        SET_STUDENT_PROFILE: function (state, studentProfile) {
-            state.studentProfile = studentProfile
         },
         SET_SELECTED_STUDENT_MEMBER: function (state, student) {
             state.selectedStudentMember = student
@@ -133,10 +121,8 @@ export const createPortPageStore = {
     },
     getters: {
         GET_ALL_STUDENT: function (state) {
+            console.log("allStudent : ",state.allStudent)
             return state.allStudent
-        },
-        GET_STUDENT_PROFILE: function (state) {
-            return state.studentProfile
         },
         GET_SELECTED_STUDENT_MEMBER: function (state) {
             return state.selectedStudentMember

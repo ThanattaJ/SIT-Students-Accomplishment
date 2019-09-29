@@ -92,7 +92,7 @@ export default {
             member_student: 'GET_SELECTED_STUDENT_MEMBER',
             member_outsider: 'GET_OUTSIDER',
             achievement: 'GET_ACHIEVEMENT',
-            config: 'GET_CONFIG'
+            config: 'GET_CONFIG',
         })
     },
 

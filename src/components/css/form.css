@@ -21,6 +21,10 @@
     background-color: transparent !important;
 }
 
+.closeDialog{
+    background-color: rgba(10, 10, 10, 0.2) !important;
+}
+
 .inputName{
     font-size:16px !important;
     font-weight: 500 !important;
@@ -173,7 +177,10 @@ hr{
     border-color: red !important;
     box-shadow: 0 0 3px red !important;
 } */
-.calendar{
+
+
+/* calendar นี้ ทำให้ calendar ตอน date of event ใน achievement หาย */
+/* .calendar{
     z-index: 1 !important;
     position: absolute !important;
     width: 100% !important;
@@ -183,7 +190,7 @@ hr{
     padding-left: 30px !important;
     margin-left: -9px !important;
     font-size: 15px;
-}
+} */
 
 .text-left {
     text-align: left !important;

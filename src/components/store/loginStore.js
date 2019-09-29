@@ -24,7 +24,7 @@ export const loginStore = {
     config: {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': ''
+        'Authorization': null
       }
     }
 
@@ -68,14 +68,14 @@ export const loginStore = {
   },
   actions: {
     login: async function ({ commit }, { username, userType, pass }) {
-      console.log(
-        "เรียก login ใน store ได้แล้ว" +
-        username +
-        " : " +
-        userType +
-        " : " +
-        pass
-      );
+      // console.log(
+      //   "เรียก login ใน store ได้แล้ว" +
+      //   username +
+      //   " : " +
+      //   userType +
+      //   " : " +
+      //   pass
+      // );
       var data = {
         username: username,
         userType: userType,
@@ -85,24 +85,13 @@ export const loginStore = {
         await axios
           .post("http://localhost:7000/login", data)
           .then(res => {
-            if (res.data.length > 0) {
-              commit("setIdToken", res.data);
+        if (res.data.length > 0) {
+        commit("setIdToken", res.data);
               commit("authUser", username)
-              // const token = res.data.token
-              // const user = res.data.user
-              // localStorage.setItem('setIdToken', token)
-              // axios.defaults.headers.common['Authorization'] = token
               commit('auth_success', username)
 
               router.push('/')
             }
-            // this.$router.push({
-            //     path: "/ProjectDetail/1"
-            // });
-
-
-
-
           })
           .catch(err => {
             console.error("error1 : " + err);
