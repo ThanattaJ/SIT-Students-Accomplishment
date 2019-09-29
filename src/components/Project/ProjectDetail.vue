@@ -14,7 +14,7 @@
       </div>
     </div>
     <div id="EditProjects">
-      <div class="columns">
+      <!-- <div class="columns">
         <div class="column is-offset-5"></div>
         <uploadCover v-if="EditProject"/>
         <div class="column is-1">
@@ -29,7 +29,7 @@
             30
           </figure>
         </div>
-      </div>
+      </div> -->
       <div class="columns">
         <div class="column is-four-fifths">
           <span
@@ -157,9 +157,9 @@
                 </md-card>
               </div>
             </div>
-            <div id="addAchievements">
+            <!-- <div id="addAchievements">
               <img src="../../assets/plus-3.png" v-if="EditProject">
-            </div>
+            </div> -->
           </div>
           <!-- ------------------- -->
           <div id="carousel">
@@ -406,10 +406,11 @@ export default {
           path: null
         }
       ],
-      project_id: "",
+      project_id: 1,
       pictures: [],
       tag: [{ name: "Hello" }],
-      seen: true
+      seen: true,
+      index: ''
     };
   },
 
@@ -445,7 +446,7 @@ export default {
     this.References.ref = data.project_detail.references;
     this.project_id = data.project_detail.id;
     this.setPID(this.project_id)
-    console.log("project Id",this.project_id)
+    
 
     // get Acheivement ออกมาไม่ได้
 
@@ -469,7 +470,7 @@ export default {
       this.Authours[i].lastname = data.students[i].lastname;
       this.Authours[i].mail = data.students[i].email;
       this.index = i;
-      // console.log("firstname : ", data.students[i] )
+      console.log("firstname : ", data.students[i] )
     }
     this.Authours.length = data.students.length;
     // console.log("length :"+data.students.length)
@@ -518,6 +519,8 @@ export default {
     this.cachedUser_th = this.Abstract.content_Abstract;
     this.Tools_tool = this.Tools.tool;
     //  console.log(this.cachedUser)
+    
+    console.log("this.project_id ",typeof this.project_id + "   "+ this.project_id   )
   },
   methods: {
       ...mapActions([
@@ -530,14 +533,14 @@ export default {
     save() {
       try {
         axios
-          .patch("https://www.sit-acc.nruf.in.th/projects/", {
+          .patch(`https://www.sit-acc.nruf.in.th/projects/`, {
               //.patch("http://localhost:7000/projects/"
             project_detail: {
-              id: this.project_id,
+              id: this.project_id ,
               project_name_th: this.header.TitleName_TH,
               project_name_en: this.header.TitleName,
-              project_abstract: this.Abstract.content_Abstract,
               project_detail: this.Detail.content_eg,
+              project_abstract: this.Abstract.content_Abstract,
               haveOutsider: true,
               isShow: false,
               tool_techniq_detail: this.Tools.tool,
@@ -547,19 +550,22 @@ export default {
               start_month: 2,
               start_year_th: 2562,
               start_year_en: 2019,
+              "end_month": 5,
+              "end_year_th": 2562,
+              "end_year_en": 2019,
               project_type_name: "External"
             },
             students: [
               {
-                student_id: this.Authours[this.index].Student_id,
-                firstname_en: this.Authours.firstname,
-                lastname_en: this.Authours.lastname,
+                student_id: this.Authours.Student_id,
+                firstname: this.Authours.firstname,
+                lastname: this.Authours.lastname,
                 email: this.Authours.mail
               }
             ],
             achievements: [
               {
-                project_id: "",
+                project_id: this.project_id ,
                 achievement_name: this.Acheivement.name,
                 achievement_detail: this.Acheivement.detail,
                 organize_by: this.Acheivement.company,
