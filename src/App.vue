@@ -30,6 +30,12 @@
                     <i class="la la-user"></i>
                     Profile
                 </a>
+                <a class="navbar-item menuName" >
+                    <i class="la la-user"></i>
+                        <router-link to="/allCourse">
+                            Admin
+                        </router-link>
+                </a>
             </div>
 
             <div class="navbar-end">
