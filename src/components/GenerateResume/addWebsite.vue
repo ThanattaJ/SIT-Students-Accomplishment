@@ -165,7 +165,8 @@ export default {
             // }
             try {
                 await axios
-                    .patch("http://localhost:7000/users/social", {
+                    // .patch("http://localhost:7000/users/social", {
+                    .patch("https://www.sit-acc.nruf.in.th/users/social", {
                         social: allWebData
                     }, this.config)
                     .then((res) => {

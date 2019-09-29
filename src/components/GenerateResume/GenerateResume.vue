@@ -357,7 +357,8 @@ export default {
             // }
             try {
                 await axios
-                    .patch("http://localhost:7000/users/generate-resume/" + "student01",
+                    // .patch("http://localhost:7000/users/generate-resume/" + "student01",
+                    .patch("https://www.sit-acc.nruf.in.th/users/generate-resume/" + "student01",
                         data, this.GET_CONFIG)
                     .then((res) => {
                         console.log("message : ", res.data.message);

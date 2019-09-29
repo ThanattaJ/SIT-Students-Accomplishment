@@ -85,7 +85,8 @@ export default {
         const {
             data
         } = await axios.get(
-            "http://localhost:7000/users/skill-level"
+            // "http://localhost:7000/users/skill-level"
+            "https://www.sit-acc.nruf.in.th/users/skill-level"
         );
         this.proficiency = data
         
@@ -113,7 +114,8 @@ export default {
             // }
             try {
                 await axios
-                    .patch("http://localhost:7000/users/skills", {
+                    // .patch("http://localhost:7000/users/skills", {
+                    .patch("https://www.sit-acc.nruf.in.th/users/skills", {
                 skills : this.skill
                 }, this.config)
                     .then((res) => {

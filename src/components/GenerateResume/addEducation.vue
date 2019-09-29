@@ -139,7 +139,8 @@ export default {
         const {
             data
         } = await axios.get(
-            "http://localhost:7000/users/education-level"
+            // "http://localhost:7000/users/education-level"
+            "https://www.sit-acc.nruf.in.th/users/education-level"
         );
         this.education_level = data
         for (var n = 0; n < this.education.length; n++) {
@@ -169,7 +170,8 @@ export default {
             // }
             try {
                 await axios
-                    .patch("http://localhost:7000/users/educations", {
+                    // .patch("http://localhost:7000/users/educations", {
+                    .patch("https://www.sit-acc.nruf.in.th/users/educations", {
                 educations : this.education
                 }, this.config)
                     .then((res) => {

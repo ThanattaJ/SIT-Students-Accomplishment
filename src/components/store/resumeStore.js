@@ -23,10 +23,11 @@ export const resumeStore = {
                 }
             }
             // const URL = "http://localhost:7000/users/generate-resume/"
-            const URL = "http://localhost:7000/users/generate-resume/student01"
+            const URL = "https://www.sit-acc.nruf.in.th/users/generate-resume/"
+            // const URL = "http://localhost:7000/users/generate-resume/student01"
             const { data } = await axios.get(
-                // URL+rootState.loginStore.userName , rootState.loginStore.config
-                URL, config
+                URL+rootState.loginStore.userName , rootState.loginStore.config
+                // URL, config
 
             );
             console.log(data)

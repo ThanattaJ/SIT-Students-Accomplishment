@@ -164,7 +164,6 @@ export default {
                     }
                 }
             }
-
             // const config = {
             //     headers: {
             //         'Content-Type': 'application/json',
@@ -174,7 +173,8 @@ export default {
             try {
                 console.log("data : ",data)
                 await axios
-                    .post("http://localhost:7000/projects/external", data, this.config)
+                    // .post("http://localhost:7000/projects/external", data, this.config)
+                    .post("https://www.sit-acc.nruf.in.th/projects/external", data, this.config)
                     .then((res) => {
                         console.log("res : ",res.data);
                         this.$router.push({

@@ -84,7 +84,8 @@ export default {
         const {
             data
         } = await axios.get(
-            "http://localhost:7000/users/languages"
+            // "http://localhost:7000/users/languages"
+            "https://www.sit-acc.nruf.in.th/users/languages"
         );
         this.language_list = data.language
         this.proficiency = data.level
@@ -128,7 +129,8 @@ export default {
             console.log("All lang : ",data)
             try {
                 await axios
-                    .patch("http://localhost:7000/users/languages", data, this.config)
+                    // .patch("http://localhost:7000/users/languages", data, this.config)
+                    .patch("https://www.sit-acc.nruf.in.th/users/languages", data, this.config)
                     .then((res) => {
                         console.log("res : ", res);
                         console.log("success!");

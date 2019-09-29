@@ -83,7 +83,8 @@ export const loginStore = {
       };
       try {
         await axios
-          .post("http://localhost:7000/login", data)
+          // .post("http://localhost:7000/login", data)
+          .post("https://www.sit-acc.nruf.in.th/login", data)
           .then(res => {
         if (res.data.length > 0) {
         commit("setIdToken", res.data);

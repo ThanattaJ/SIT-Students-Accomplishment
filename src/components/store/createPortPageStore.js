@@ -34,7 +34,8 @@ export const createPortPageStore = {
     actions: {
         LOAD_ALL_STUDENT: async function ({ commit }) { //ดึงนศทั้งหมด
             const { data } = await axios.get(
-                "http://localhost:7000/users/list_student/59" // https://www.sit-acc.nruf.in.th/
+                // "http://localhost:7000/users/list_student/59" 
+                "https://www.sit-acc.nruf.in.th/users/list_student/59" 
             );
             commit('SET_ALL_STUDENT', data)
         },

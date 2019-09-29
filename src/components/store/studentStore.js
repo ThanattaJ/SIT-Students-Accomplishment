@@ -14,7 +14,8 @@ export const studentStore = {
     },
     actions: {
         LOAD_STUDENT_DATA: async function ({ commit, rootState }) {
-            const URL = "http://localhost:7000/users/default"
+            // const URL = "http://localhost:7000/users/default"
+            const URL = "https://www.sit-acc.nruf.in.th/users/default"
             console.log("เข้า LOAD_PROJECT_OF_EACH_STUDENT")
             const { data } = await axios.get(
                 // URL, rootState.loginStore.config
