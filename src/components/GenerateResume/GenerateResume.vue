@@ -1,6 +1,6 @@
 <template>
 <div class="stricky">
-    <article class="columns">
+    <article class="columns" style="margin-left: 0 !important;margin-right: 0 !important;margin-top: -.75rem !important;">
         <section class="column is-one-quarter resumeForm">
             <div v-if="GET_SHOWPAGE == 1">
                 <div style="text-align:center">
