@@ -23,9 +23,9 @@
                           {{person.position}}
                         </td>
                         <td id="Action">
-                          <a href="#modal" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons">edit</i>
+                          <a href="#modal" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons" id="action_bar">edit</i>
                           </a>
-                          <a href="#!" class="btn waves-effect waves-light red darken-2" ><i class="material-icons">Delete</i>
+                          <a href="#!" class="btn waves-effect waves-light red darken-2" ><i class="material-icons" id="action_bar">Delete</i>
                           </a>
                         </td>
                     </tr>   
@@ -82,12 +82,9 @@ var ordonner = function(a, b) {
 </script>
 <style>
 #lecturer{
-    width: 80%;
-    margin-top: 5%;
+    width: 90%;
+    margin-top: 6.5%;
     margin-left: 30%;
-}
-#index{
-    width: 1px;
 }
 #thead{
     margin-right: 20px;
@@ -103,7 +100,7 @@ var ordonner = function(a, b) {
     width: 200px;
 }
 #Action{
-  width: 100px;
+  width: 100px
 }
 #foot-modal{
     justify-content: center;
@@ -111,5 +108,8 @@ var ordonner = function(a, b) {
 #add{
   font-size: 10px;
   color: grey;
+}
+#action_bar{
+  color: #265080 !important
 }
 </style>

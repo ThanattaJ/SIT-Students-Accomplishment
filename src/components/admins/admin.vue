@@ -2,9 +2,9 @@
     <div id="admin">
         <div class="tabs" id="header_admin">
             <ul>
-              <li><a @click="allCourse()">All Course</a></li>
+              <li><a @click="allCourse()" id="manu_bar">All Course</a></li>
               <!-- class="is-active" -->
-              <li><a @click="lecturer()">Lecturer</a></li>
+              <li><a @click="lecturer()" id="manu_bar">Lecturer</a></li>
               <!-- <li><a @click="courseSemester()">Course Semester</a></li>
               <li><a @click="ManageEditRequest()">Manage Edit Request</a></li> -->
             </ul>
@@ -13,12 +13,14 @@
         <div id="body_admin">
             <div id="manu_admin" v-if="seen">
                 <aside class="menu">
-                    <p class="menu-label">
+                    <!-- <p class="menu-label">
                       General
-                    </p>
+                    </p> -->
                     <ul class="menu-list">
-                      <li><a>Dashboard</a></li>
-                      <li><a>Customers</a></li>
+                        <li><a id="manu">All</a></li>
+                        <li><a id="manu">Information Technology</a></li>
+                        <li><a id="manu">Computer Science</a></li>
+                        <li><a id="manu">Digital Service Innovation</a></li>
                     </ul>
                 </aside>
             </div>
@@ -70,10 +72,16 @@ export default {
 #manu_admin{
     margin-top: -5%;
     margin-left: 20%;
-    width: 5%;
+    width: 10%;
     border-right: 2px;
-
-
+}
+#manu_bar{
+    color: #265080 !important
+}
+#manu{
+    color: #265080 !important;
+    font-size: 12px;
+     
 }
 
 </style>

@@ -19,9 +19,9 @@
                             {{person.course}} | {{person.name}}
                         </td>
                         <td id="Action">
-                          <a href="#modal" @click="edit(index)" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons">edit</i>
+                          <a href="#modal" @click="edit(index)" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons" id="action_bar">edit</i>
                           </a>
-                          <a href="#!" class="btn waves-effect waves-light red darken-2" @click="Delete(index)"><i class="material-icons">Delete</i>
+                          <a href="#!" class="btn waves-effect waves-light red darken-2" @click="Delete(index)"><i class="material-icons" id="action_bar">Delete</i>
                           </a>
                         </td>
                     </tr>
@@ -328,12 +328,9 @@ var ordonner = function(a, b) {
 </script>
 <style>
 #allCourse{
-    width: 80%;
+    width: 90%;
     margin-top: 5%;
     margin-left: 30%;
-}
-#index{
-    width: 1px;
 }
 #thead{
     margin-right: 20px;
@@ -354,5 +351,8 @@ var ordonner = function(a, b) {
 #add{
   font-size: 10px;
   color: grey;
+}
+#action_bar{
+  color: #265080 !important
 }
 </style>
