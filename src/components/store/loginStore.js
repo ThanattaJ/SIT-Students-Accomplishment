@@ -74,7 +74,7 @@ export const loginStore = {
               commit("authUser", username)
               commit('auth_success', username)
               localStorage.setItem('Authen_token', res.data);
-              router.push('/')
+              router.push('/student')
             }
           })
           .catch(err => {
@@ -86,7 +86,7 @@ export const loginStore = {
     },
     logout({ commit }, { router }) {
       commit("clearAuthData");
-      router.replace("/");
+      router.replace("/login");
     },
     setIdToken({ commit }, token) {
       commit("setIdToken", token);

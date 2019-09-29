@@ -33,6 +33,7 @@ export const createPortPageStore = {
     },
     actions: {
         LOAD_ALL_STUDENT: async function ({ commit }) { //ดึงนศทั้งหมด
+            console.log("ดึงนศทั้งหมด")
             const { data } = await axios.get(
                 // "http://localhost:7000/users/list_student/59" 
                 "https://www.sit-acc.nruf.in.th/users/list_student/59" 
@@ -60,6 +61,7 @@ export const createPortPageStore = {
     },
     mutations: {
         SET_ALL_STUDENT: function (state, allStudent) {
+            state.allStudent = []
             var studentID = allStudent.map((_item, index = 0) => _item.student_id);
             var studentFname = allStudent.map((_item, index = 0) => _item.firstname);
             var studentLname = allStudent.map((_item, index = 0) => _item.lastname);

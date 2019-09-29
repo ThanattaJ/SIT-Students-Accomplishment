@@ -2,7 +2,7 @@
 <div id="app">
     <nav class="navbar nav1 sticky" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <router-link to="/">
+            <router-link to="/student">
                 <a class="navbar-item" >
                     <img src="./assets/logo.png">
                 </a>
@@ -37,7 +37,7 @@
                     <i class="la la-sign-in"></i>
                     <!-- <span v-if="isLoggedIn"> | <a @click="logout">Logout</a></span> -->
                     <span v-if="Authen_token!=null"> | <a @click="logout">Logout</a></span>
-                    <span v-if="Authen_token==null"> | <router-link to="/login">Login</router-link></span>
+                    <span v-if="Authen_token==null"> | <router-link to="/">Login</router-link></span>
                 </a>
             </div>
         </div>
@@ -92,7 +92,7 @@ export default {
             this.Authen_token = null
             this.setIdToken(this.Authen_token)
             localStorage.setItem('Authen_token', null);
-            this.$router.push("/login");
+            this.$router.push("/");
         },
     }
 }

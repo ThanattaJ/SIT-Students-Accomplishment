@@ -31,7 +31,7 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/',
+      path: '/student',
       name: 'student',
       component: student,
       children:[
@@ -111,7 +111,7 @@ export default new Router({
       ]
     },
     {
-          path: '/login',
+          path: '/',
           name: 'login',
           component: login,
     }

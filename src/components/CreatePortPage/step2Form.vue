@@ -12,9 +12,9 @@
         <div class="field">
             <label class="label inputName">Project Detail(English/Thai)</label>
             <div class="control">
-                <textarea v-model="project_detail" @blur="handleUpdate('UPDATE_FIELD','SET_PROJECT_DETAIL')" ref="abstract" class="Normal textarea inputData portDetail" placeholder="e.g. Virtual Reality is applied to the KMUTT Library for VR study and development to help explore different views." maxlength="200"></textarea>
+                <textarea v-model="project_detail" @blur="handleUpdate('UPDATE_FIELD','SET_PROJECT_DETAIL')" ref="abstract" class="Normal textarea inputData portDetail" placeholder="e.g. Virtual Reality is applied to the KMUTT Library for VR study and development to help explore different views."></textarea>
                 <p ref="abstractValidate" class="help is-danger"></p>
-                <div class="field is-grouped is-grouped-right">{{count}}/200</div>
+                <!-- <div class="field is-grouped is-grouped-right">{{count}}/200</div> -->
             </div>
         </div>
     </div>
