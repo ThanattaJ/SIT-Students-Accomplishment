@@ -171,6 +171,7 @@ export default {
             this.skill.splice(index, 1)
             this.canClick()
             this.canClickAddSkillBtn()
+            document.getElementById('edit' + index).style.display = 'flex'
         }
     }
 }

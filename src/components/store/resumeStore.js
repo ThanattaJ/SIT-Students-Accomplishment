@@ -37,7 +37,7 @@ export const resumeStore = {
             commit(callSetter, value)
         },
         //WEBSITE
-        SET_WEBSITE: function ({ commit }, web) {
+        SEND_WEB_TOSTATE: function ({ commit }, web) {
             commit('SET_WEBSITE', web)
         },
         SET_SOCIAL: function ({ commit }, social) {
@@ -94,6 +94,10 @@ export const resumeStore = {
         SET_SOCIAL: function (state, social) {
             console.log("เข้า SET_SOCIAL")
             state.resumeData.social = social
+        },
+        SET_WEBSITE: function (state, web) {
+            console.log("เข้า SET_SOCIAL")
+            state.website = web
         }
     },
     getters: {
@@ -144,6 +148,7 @@ export const resumeStore = {
         },
         //WEBSITE
         GET_WEBSITE: function (state) {
+            console.log("website : ",state.website)
             return state.website
         },
         //EDUCATION
@@ -167,6 +172,7 @@ export const resumeStore = {
         },
         //SOCIAL
         GET_SOCIAL: function (state) {
+            console.log("social : ",state.resumeData.social)
             return state.resumeData.social
         }
     }
