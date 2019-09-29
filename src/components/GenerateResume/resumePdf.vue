@@ -30,7 +30,8 @@
                         </p>
                     </div>
                     <!-- <div> -->
-                    <div v-if="GET_SKILL.length > 0">
+                    <!-- <div v-if="GET_SKILL.length > 0"> -->
+                        <div>
                         <p class="topic_resume">SKILL</p>
                         <table>
                             <tbody>
@@ -62,8 +63,8 @@
                     <p>{{GET_BIOGRAPHY}}</p>
                 </div>
                 <!-- EDUCATION -->
-                    <!-- <div> -->
-                <div class="rightSide" v-if="GET_EDUCATION_DATA.length > 0">
+                    <div>
+                <!-- <div class="rightSide" v-if="GET_EDUCATION_DATA.length > 0"> -->
                     <p class="topic_resume">EDUCATION</p>
                     <div class="columns" v-for="(edu,index) in GET_EDUCATION_DATA" v-bind:key="'edu'+index">
                         <div class="column is-4 eduYear_resumePdf">{{edu.start_year}} - {{edu.end_year}}</div>
