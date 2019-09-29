@@ -49,6 +49,7 @@
 </template>
 <script>
 import axios from 'axios';
+import { mapActions } from 'vuex';
 export default {
     name: "uploadimg",
     data(){
@@ -65,6 +66,9 @@ export default {
         }
     },
     methods:{
+        ...mapActions([
+            'addImage'
+        ]),
         selectFile(e){
             this.file = this.$refs.file.files[0];
             this.error = false;
@@ -74,9 +78,9 @@ export default {
         },
         async sendFile(){
             const formData = new FormData();
-            formData.append('file', this.file);
+            formData.append('files', this.file);
             formData.append('project_id',this.$route.params.pId);
-            formData.append('isCover',"false");
+            // formData.append('isCover',"false");
             const config = {
                 headers : {
                     'Content-Type': 'application/json',
@@ -85,12 +89,14 @@ export default {
             }
             // "false"
             try{
-                await axios.post('http://localhost:7000/files/imageMulti',formData, config)
-                .then(function(res){ console.log(res);})
-                    this.message = "File has been uploaded";
+                const{ data } = await axios.post('http://localhost:7000/files/imageMul',formData, config)
                     
-                    this.file=" ";
+                    this.message = "File has been uploaded";
                     this.error = false;
+                    this.addImage({path: data.url[0].path_name})
+
+                    console.log("upload image : ",data.url[0].path_name)
+
             }catch(err){
                 console.log('FAILURE!!'+err)
                     this.message = "Something went wrong";

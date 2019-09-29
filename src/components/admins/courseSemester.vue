@@ -6,7 +6,7 @@
                   General
                 </p>
                 <ul class="menu-list" v-for="(year,indexSem) in semesters" v-bind:key="indexSem">
-                  <li><a @click="getSemester(indexSem)">{{indexSem}}:{{year.semester}}:{{year.id}}</a></li>
+                  <li><a @click="getSemester(indexSem)">{{year.academic_term}} {{year.academic_term_id}}</a></li>
                 </ul>
             </aside>
         </div>
@@ -27,8 +27,8 @@
                 <tbody>
                     <tr v-for="(person,index) in persons" v-bind:key="index">
                         <td id="index">{{index+1}}</td>
-                        <td id="subjects" @click="showDetail(index)">
-                            {{person.course}}
+                        <td id="subjects">
+                            {{person.course_id}} {{person.course}}
                         </td>
                         <td id="lecturer" v-for="(nameLec,lecturers) in person.lecturer" v-bind:key="lecturers" >
                             <p>
@@ -44,8 +44,9 @@
                     </tr>
                      <!-- add -->
                     <tr>
-                        <td><a href="#!" @click="modalAvtive()" class="btn btn-waves green darken-2"><i class="material-icons" id="add">+ Add Course ...</i></a></td>
-                    </tr>     
+                        <td><a href="#!" @click="getCourse()" class="btn btn-waves green darken-2"><i class="material-icons" id="add">+ Add Course ...</i></a></td>
+                    </tr>  
+                    <!-- //modalAvtive()    -->
                 </tbody>
             </table>
             <div class="modal" v-show="bin.length" v-bind:class="{'is-active':deleteActive}" id="alert">
@@ -86,11 +87,6 @@
                                   <md-textarea v-model="editInput.lecturer" 
                                    md-autogrow></md-textarea>
                               </md-field>
-                              <md-field>
-                                  <label>Course Detail</label>
-                                  <md-textarea v-model="editInput.detail" 
-                                   md-autogrow></md-textarea>
-                              </md-field>
                         </div>
                     </form>
                 </div>
@@ -101,6 +97,8 @@
             </footer>
             </div>
         </div>
+        
+        
          <div v-bind:class="{'is-active':addActive}" id="addModal" class="modal">
             <div class="modal-background"></div>
             <div class="modal-card">
@@ -108,23 +106,12 @@
                 <h4 class="center-align">Edit</h4>
                 <div class="row">
                     <form class="col s12">
-                        <div class="row">
-                               <md-field>
-                                  <label>Course Number</label>
-                                  <md-textarea v-model="editInput.course" 
-                                   md-autogrow></md-textarea>
-                              </md-field>                     
-                              <md-field>
-                                  <label>Lecturer</label>
-                                  <md-textarea v-model="editInput.lecturer" 
-                                   md-autogrow></md-textarea>
-                              </md-field>
-                              <md-field>
-                                  <label>Course Detail</label>
-                                  <md-textarea v-model="editInput.detail" 
-                                   md-autogrow></md-textarea>
-                              </md-field>
-                        </div>
+                        <select @change="switchView($event, $event.target.selectedIndex)">
+                           <option  v-for="(nCourse,index) in course" v-bind:key="index"> {{nCourse.course_id}} : {{nCourse.course}} </option>
+                         </select>
+                         <select @change="lecIndex($event, $event.target.selectedIndex)">
+                           <option  v-for="(nlec,index) in lecturers" v-bind:key="index"> {{nlec.fName}}  {{nlec.lName}} </option>
+                         </select>
                     </form>
                 </div>
             </div>
@@ -133,7 +120,7 @@
                 <md-button class="md-dense md-primary" href="#!" @click="close">Cancle</md-button>
             </footer>
             </div>
-        </div>       
+        </div>   
     </div>
     </div>
 </template>
@@ -146,16 +133,30 @@ export default {
   data(){
       return{
                 columns: ['#', 'Course','Lecturer','Actions '],
+                selectedCourse:null,
+                course:[{
+                    course:null,
+                    course_id:null,
+                    selectedCourse:null,
+                    id:null
+                }],
+      
                 persons: [{
                   course:null,
-                  lecturer :[{
-                    name: ''
-                  }],
-                  course_id: null 
+                  course_id: null,
+                  lecturer :[
+                    {name: ''}
+                  ],
+                  academic_term_id:null
                 }],
                 semesters:[{
-                    id: null,
-                    semester:''
+                    academic_term: null,
+                    academic_term_id:''
+                }],
+                lecturers:[{
+                    lecturer_id: null,
+                    fName:null,
+                    lName:null
                 }],
                 bin: [],
                 input: { },
@@ -167,54 +168,91 @@ export default {
                 isActive: false,
                 deleteActive:false,           
                 addActive:false,
-                delIndex:null,            
+                delIndex:null,   
+                addIndex: null, 
+                selectedIndex: 0,
+                selectedYear:0,
+                lec:0
             }
          },
 async mounted() {
-        const { data } = await axios.get('http://localhost:7000/course/courseSemester');
-        
-        // v
-        console.log("data : " , data.course.length)
+        const { data } = await axios.get('http://localhost:7000/course/courseSemester')
+        // console.log("term : ",data)
         for(let i  = 0;  i < data.course.length; i++){
-          this.persons.push(data.course[i])
-          JSON.stringify(this.persons[i])
-          this.persons[i].course = data.course[i].course
-          this.persons[i].course_id = data.course[i].course_id
-          for(let r = 0; r < data.course[i].lecturers.length; r++){
-              this.persons[i].lecturer.push(data.course[i].lecturers)
-              this.persons[i].lecturer[r].name = data.course[i].lecturers[r].lecturer_name
-              console.log("details : "+ this.persons[i].lecturer[r].name )
-              // console.log("details : "+ this.persons[i].lecturer[r].name )
-          }
-          this.persons[i].lecturer.length =data.course[i].lecturers.length
-
+            this.persons.push(data.course[i])
+            JSON.stringify(this.persons[i])
+            this.persons[i].course = data.course[i].course
+            // this.persons[i].course_id = data.course[i].course_id
+            console.log("data.course[i].length : ",data.course[i].lecturers.length)
+             if(data.course[i] > 0){
+                for(let r = 0; r < data.course[i].lecturers.length; r++){
+                      this.persons[i].lecturer.push(data.course[i].lecturers)
+                      this.persons[i].lecturer[r].name = data.course[i].lecturers[r].lecturer_name                  
+                }
+                    this.persons[i].lecturer.length =data.course[i].lecturers.length
+               }else{
+                 console.log("err : ")
+               }
         }   
-          this.persons.length = data.course.length
+            this.persons.length = data.course.length
 
-        for(let i = 0; i <data.semesters.length;i++){
-            this.semesters.push(data.semesters[i])
+        for(let i = 0; i < data.semester.length;i++){
+            this.semesters.push(data.semester[i])
             JSON.stringify(this.semesters[i])
-            this.semesters[i].semester  = data.semesters[i].semester
-            this.semesters[i].id = data.semesters[i].id
+            this.semesters[i].academic_term  = data.semester[i].academic_term
+            this.semesters[i].academic_term_id = data.semester[i].academic_term_id
+            // console.log("academic_term_id : " + this.semester[i].id)
         }
-        this.semesters.length = data.semesters.length
+        this.semesters.length = data.semester.length
         
 },
 methods: {
-    //function to add data to table
-    modalAvtive: function(index){
-      this.addActive = true
-      for (var key in this.editInput) {
-        this.editInput[key] = '';
-      }
+    switchView: function(event, selectedIndex) {
+      console.log(event, selectedIndex);      
+      this.selectedIndex = selectedIndex;
     },
-    async add() {
+    lecIndex: function(event, selectedIndex) {
+      console.log(event, selectedIndex);      
+      this.lec = selectedIndex;
+    },
+    async getCourse(){
+      this.addActive = true
+      // for (var key in this.editInput) {
+      // this.editInput[key] = '';
+      // }
+        const { data } = await axios.get('http://localhost:7000/course')
+        // console.log("data : ",data)
+        for(let i=0; i<data.length;i++){
+          this.course.push(data[i])
+          this.course[i].course = data[i].course_name
+          this.course[i].course_id =data[i].course_code
+          this.course[i].id = data[i].id
+        }
+          this.course.length = data.length
+
+        var lecturer
+        await axios.get('http://localhost:7000/users/list_lecturer').then(response => lecturer = response.data)
+        // console.log("lecturer : ",lecturer)
+        for(let i = 0; i < lecturer.length;i++){
+          this.lecturers.push(lecturer[i])
+          this.lecturers[i].fName = lecturer[i].firstname
+          this.lecturers[i].lName =lecturer[i].lastname
+          this.lecturers[i].lecturer_id = lecturer[i].lecturer_id
+          // console.log("lecturer : ", this.lecturers[i].lecturer_id)
+        }
+          this.lecturers.length = lecturer.length
+    },
+    async add(){
+      // console.log("index : ", this.lecturers[this.lec].lecturer_id  )
       try{
-        axios.post('http://localhost:7000/course/courseSemester',{
-            course: this.editInput.course,
+        await axios.post('http://localhost:7000/course/courseSemester',{
+            academic_term_id: this.selectedYear,
+            course_id:  this.course[this.selectedIndex].id  ,
+            lecturers:[{
+                lecturer_id: this.lecturers[this.lec].lecturer_id 
+            }]
         }).then(function(res){ console.log(res);})
-               this.message = " uploaded complete";
-               console.log("Can Add CourseSemester")
+              //  console.log( "course: ",this.course[this.selectedIndex].course)
                this.file=" ";
                this.error = false;
       }catch(err){
@@ -224,18 +262,13 @@ methods: {
       }
       this.addActive = false
       this.persons.push({
-        // course: this.input.course,
-        // name: this.input.name,
-        // detail: this.input.detail
-        course: this.editInput.course,
+          course_id: this.course[this.selectedIndex].course_id,
+          course: this.course[this.selectedIndex].course,
+
       });
-     
-      this.persons.sort(ordonner);
-      // this.$refs.course.focus();
-      // this.$refs.name.focus();
-      // this.$refs.detail.focus();
+      this.course.sort(ordonner);
     },
-    //function to handle data edition
+    // function to handle data edition
     edit: function(index) {
       this.editInput = this.persons[index];
       // console.log(this.editInput);
@@ -249,7 +282,7 @@ methods: {
       this.persons.splice(index, 1);
       this.bin.sort(ordonner);
       this.deleteActive = true
-      this.delIndex = index
+      // this.delIndex = index
     //   console.log(this.persons[index].course_id +" : index" + index)
     },
     //function to restore data
@@ -262,17 +295,20 @@ methods: {
     update(index){
       // this.persons.push(this.editInput);
         JSON.stringify(this.persons[index])
-        console.log('eiei: ' + index)
+        // console.log('eiei: ' + index)
       try{
-        axios.patch('http://localhost:7000/course?id=',{
-               code : this.persons[index].course,
+        axios.patch('http://localhost:7000/course/courseSemester',{
+            academic_term_id: this.selectedYear,
+            course_id:  this.course[this.selectedIndex].id  ,
+            lecturers:[{
+                lecturer_id: this.lecturers[this.lec].lecturer_id 
+            }]
         }).then(function(res){ console.log(res);})
                this.message = " uploaded complete";
                this.file=" ";
                this.error = false;
         this.persons.splice(index, 1);
         console.log(this.persons[index].name + "couse")
-        // console.log(this.persons[index].name + "couse")
         this.persons.push({
           course: this.editInput.course,
         });
@@ -286,59 +322,63 @@ methods: {
         this.message = "Something went wrong";
         this.error = true;
         console.log(this.persons[index])
-        // console.log(this.persons[index])
       }
     },
     //function to defintely delete data 
     deplete: function(delIndex) {
-     
+      console.log('delete :', delIndex)
       try{
-        axios.delete('http://localhost:7000/course?id='+ this.persons[delIndex].course_id)
-              .then(function(res){ console.log(res);})
-               this.message = " uploaded complete";
-               this.file=" ";
-               this.error = false;
-        // JSON.stringify(this.persons[delIndex])
-        this.bin.splice(delIndex, 1);
-        this.persons.splice(index, 1);
-        console.log("delete : "+  this.persons[delIndex].course_id)
+        axios.delete('http://localhost:7000/course/courseSemester',{
+
+            academic_term_id:  this.semesters[this.delIndex].academic_term_id,
+            course_id:  this.course[delIndex].id ,
+
+        }).then(function(res){ console.log(res);})
+        // this.persons.splice(index, 1);
       }catch(err){
-          console.log('FAILURE!!'+err)
-          this.message = "Something went wrong";
-          this.error = true;
+        console.log('FAILURE!!'+err)
+        this.message = "Something went wrong";
+        this.error = true;
+        console.log(this.persons[index])
       }
     },
     close: function() {
         this.isActive = false;
         this.addActive=false;
     },
-    showDetail: function(index){
-        this.detailActive = true
-        this.detailIndex = index
-        // console.log(index+"detailIndex" + this.detailIndex)
-        //detailIndex = index someone
-    },
-    async getSemester(index){
+    // showDetail: function(index){
+    //     this.detailActive = true
+    //     this.detailIndex = index
+    //     // console.log(index+"detailIndex" + this.detailIndex)
+    //     //detailIndex = index someone
+    // },
+    async getSemester(indexSem){
+       
+        this.delIndex = indexSem
+         console.log("ไอ้สัส",this.delIndex)
         try{
-            const data  =  await axios.get('http://localhost:7000/course/courseSemester?semester_id='+this.semesters[index].id);
-            console.log("log : ",this.semesters[index].id)
-            console.log("data : "+ JSON.stringify(data))
-            for(let i  = 0;  i < data.course.length; i++){
-                console.log("OK : ", data.course.length)
-                this.persons.push(data.course[i])
-                JSON.stringify(this.persons[i])
-                this.persons[i].course = data.course[i].course
-                this.persons[i].course_id = data.course[i].course_id
-                for(let r = 0; r < data.course[i].lecturers.length; r++){
-                    // JSON.stringify(this.persons[i].course)
-                    this.persons[i].lecturer.push(data.course[i].lecturers)
-                    this.persons[i].lecturer[r].name = data.course[i].lecturers[r].lecturer_name
-                }
-                this.persons[i].lecturer.length =data.course[i].lecturers.length
-                console.log("semester : "+ this.persons[i].course)
-            }   
+            const {data}  =  await axios.get('http://localhost:7000/course/courseSemester?semester_id='+this.semesters[indexSem].academic_term_id)
+            // this.addIndex = indexSem
+            for(let i  = 0 ; i < data.course.length; i++){
+              this.persons.push(data.course[i])
+              this.persons[i].academic_term_id = data.course[i].academic_term_id
+              // console.log("academic_term : ", this.semesters[i].academic_term_id )
+              this.selectedYear = this.persons[i].academic_term_id 
+              console.log("year : ",this.selectedYear)
+              if(data.course[i] === []){
+              // console.log("push data : ",this.persons[i])
+                  console.log("data is null ")
+                  this.persons[i].course = "is Empty"
+                        
+              }else{
+                  for(let r = 0; r< data.course[r].lecturers; r++){
+                  this.persons[i].course.push(data.course[i].lecturers)
+                // console.log("lex : ",this.persons[i].course[r])
+              } 
+                //is empty ไม่ออกวะ [] ที่ไม่มีค่าต้องไม่ออกดิวะ
+              }
+            }             
               this.persons.length = data.course.length
-
         }catch(err){
             console.log('FAILURE!!'+err)
             this.message = "Something went wrong";
@@ -361,9 +401,6 @@ var ordonner = function(a, b) {
     width: 80%;
     margin-top: 5%;
     margin-left: 30%;
-}
-#index{
-    width: 1px;
 }
 #thead{
     margin-right: 20px;

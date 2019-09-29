@@ -58,6 +58,7 @@
 </template>
 <script>
 import axios from 'axios';
+import { mapActions, mapGetters } from 'vuex';
 export default {
     name: "uploadCover",
     data(){
@@ -75,6 +76,9 @@ export default {
         }
     },
     methods:{
+        ...mapActions([
+            'setFile'
+        ]),
         selectFile(e) {
             this.file = this.$refs.file.files[0];
             this.error = false;
@@ -82,27 +86,34 @@ export default {
             const file = e.target.files[0];
             this.url = URL.createObjectURL(file);
         },
+// ----------------------------------------------
         async sendFile(){
             const formData = new FormData();
             formData.append('file', this.file);
             formData.append('project_id',this.$route.params.pId);
             formData.append('isCover',true);
+            // console.log("formdata : ",formData)
+    
+           
+            // this.isActive = false
+
             try{
-                await axios.post('http://localhost:7000/files/image',formData)
-                .then(function(res){ console.log(res)})
-                this.file.name = this.cover.path;
+                const { data } = await axios.post('https://www.sit-acc.nruf.in.th/files/image',formData)
+                
                 this.message = "File has been uploaded";
                 this.error = false;
+                console.log(data)
+                this.setFile(data.url)
+                // this.setFile(data.status)
                 
             }catch(err){
                 console.log('FAILURE!!'+err)
                 this.message = "Something went wrong";
                 this.error = true;
             }
-              // updateCover
-                // console.log(this.file.name)
-                // console.log(this.cover.path)
         },
+ // -----------------------------------
+
         updateCover(){
             console.log("updateCover")
         },

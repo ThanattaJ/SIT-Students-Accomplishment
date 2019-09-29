@@ -174,6 +174,7 @@ async mounted() {
 
   
     const { data } = await axios.get('http://localhost:7000/course');
+    console.log("allcourse : ",data)
     for(let i  = 0;  i < data.length; i++){
       this.persons.push(data[i])
       JSON.stringify(this.persons[i])
@@ -234,15 +235,16 @@ methods: {
     //function to send data to bin
     Delete: function(index) {
       this.bin.push(this.persons[index]);
+      this.delIndex = index
+      console.log("index : " + this.delIndex)
       // this.persons.splice(index, 1);
       this.bin.sort(ordonner);
       this.deleteActive = true
-      this.delIndex = index
-      console.log(this.persons[index].course_id +" : index" + index)
+      
     },
     //function to restore data
     restore: function(index) {
-      this.persons.push(this.bin[index]);
+      // this.persons.push(this.bin[index]);
       this.bin.splice(index, 1);
       this.bin.sort(ordonner);
     },
@@ -254,8 +256,8 @@ methods: {
       try{
         //เอา  id ของโปรเจคมาใส่เพื่อ update 
         axios.patch('http://localhost:7000/course?id='+this.persons[index].course_id,{
-               code : this.persons[index].course,
-               name : this.persons[index].name,
+               code : this.editInput.course,
+               name : this.editInput.name,
                detail : this.persons[index].detail
         }).then(function(res){ console.log(res);})
                this.message = " uploaded complete";
@@ -282,16 +284,17 @@ methods: {
     },
     //function to defintely delete data 
     deplete: function(delIndex) {
-     
+    // this.delIndex = index
+    console.log("delIndex : ",this.delIndex)
       try{
-        axios.delete('http://localhost:7000/course?id='+ this.persons[delIndex].course_id)
+        axios.delete('http://localhost:7000/course?id='+ this.persons[this.delIndex].course_id)
               .then(function(res){ console.log(res);})
                this.message = " uploaded complete";
                this.file=" ";
                this.error = false;
         // JSON.stringify(this.persons[delIndex])
         this.bin.splice(delIndex, 1);
-        this.persons.splice(index, 1);
+        this.persons.splice(delIndex, 1);
         console.log("delete : "+  this.persons[delIndex].course_id)
       }catch(err){
           console.log('FAILURE!!'+err)

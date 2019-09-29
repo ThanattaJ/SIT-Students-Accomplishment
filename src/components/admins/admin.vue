@@ -5,8 +5,8 @@
               <li><a @click="allCourse()">All Course</a></li>
               <!-- class="is-active" -->
               <li><a @click="lecturer()">Lecturer</a></li>
-              <li><a @click="courseSemester()">Course Semester</a></li>
-              <li><a @click="ManageEditRequest()">Manage Edit Request</a></li>
+              <!-- <li><a @click="courseSemester()">Course Semester</a></li>
+              <li><a @click="ManageEditRequest()">Manage Edit Request</a></li> -->
             </ul>
         </div>
         <router-view/>

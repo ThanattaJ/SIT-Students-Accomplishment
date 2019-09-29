@@ -36,6 +36,7 @@ import './filepond-plugin-image-preview.min.css';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+import { mapGetters } from 'vuex';
 // import {
 //     async
 // } from 'q';
@@ -45,6 +46,11 @@ const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImage
 
 export default {
     name: 'app',
+    computed:{
+        ...mapGetters([
+            'getPID'
+        ])
+    },
     data: function () {
         return {
             clickUpload: true,
@@ -105,7 +111,8 @@ export default {
     async mounted() {
         this.loadAllDocs()
         // const { data } = await axios.get('http://localhost:7000/projects/1')
-        const { data } = await axios.get('https://www.sit-acc.nruf.in.th/projects/1')
+        // console.log("getID : ",this.getPID)
+        const { data } = await axios.get(`https://www.sit-acc.nruf.in.th/projects/${this.$route.params.pId}`)
         const doc = data.document.map((_item, index = 0) => _item.path_name);
 
         for (let i = 0; i < doc.length; i++) {
@@ -132,7 +139,7 @@ export default {
         loadAllDocs: async function () {
             this.files = []
             // const { data } = await axios.get('http://localhost:7000/projects/1')
-            const { data } = await axios.get('https://www.sit-acc.nruf.in.th/projects/1')
+            const { data } = await axios.get(`https://www.sit-acc.nruf.in.th/projects/${this.$route.params.pId}`)
             const doc = data.document.map((_item, index = 0) => _item.path_name);
 
             for (let i = 0; i < doc.length; i++) {
