@@ -1,6 +1,6 @@
 <template>
 <div style="padding-left: 22.3%;padding-right: 22.3%;padding-top: 2%;padding-bottom: 8%;">
-
+<!-- {{GET_WEBSITE}} -->
     <form method="post" action="#" id="printJS-form">
         <div class="columns A4Padding breakWord">
             <div class="column is-4 leftSide">
@@ -23,7 +23,7 @@
                     <p class="contact_detail">{{GET_EMAIL}}</p>
 
                     <!-- <div> -->
-                    <div v-if="GET_WEBSITE.length > 0">
+                    <div>
                         <p class="topic_resume">WEBSITE</p>
                         <p class="webList_resume" v-for="(web,index) in GET_WEBSITE" v-bind:key="'web'+index">
                             <img :src="getImgUrl(web.network)" class="contact_icon" />{{web.username}}
@@ -103,6 +103,58 @@ import {
 export default {
     data() {
         return {
+            website: [],
+            allNetwork: [{
+                    id: 0,
+                    network: 'Twitter',
+                    color: '#47ABE7'
+                },
+                {
+                    id: 1,
+                    network: 'Facebook',
+                    color: '#4267b2'
+                },
+                {
+                    id: 2,
+                    network: 'Instagram',
+                    color: '#FF007A'
+                },
+                {
+                    id: 3,
+                    network: 'Linkedin',
+                    color: '#0077B5'
+                },
+                {
+                    id: 4,
+                    network: 'Github',
+                    color: '#24292D'
+                },
+                {
+                    id: 5,
+                    network: 'Pinterest',
+                    color: '#E60122'
+                },
+                {
+                    id: 6,
+                    network: 'Vimeo',
+                    color: '#1CB7EA'
+                },
+                {
+                    id: 7,
+                    network: 'Tumblr',
+                    color: '#000000'
+                },
+                {
+                    id: 8,
+                    network: 'Flickr',
+                    color: '#0063DB'
+                },
+                {
+                    id: 9,
+                    network: 'Link',
+                    color: '#DB6318'
+                },
+            ]
         }
     },
     computed: {
@@ -111,10 +163,23 @@ export default {
             'GET_NICKNAME', 'GET_BIOGRAPHY',
             'GET_STREET', 'GET_SUBDISTRICT', 'GET_DISTRICT', 'GET_PROVINCE', 'GET_ZIPCODE',
             'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY',
-            'GET_WEBSITE', 'GET_EDUCATION_DATA', 'GET_EXPERIENCE_DATA', 'GET_EXPERIENCE_SELECTED','GET_SKILL', 'GET_LANGUAGE'
+            'GET_SOCIAL', 'GET_EDUCATION_DATA', 'GET_EXPERIENCE_DATA', 'GET_EXPERIENCE_SELECTED','GET_SKILL', 'GET_LANGUAGE', 'GET_WEBSITE'
         ])
     },
     mounted() {
+        // var numOfSocails = Object.keys(this.GET_SOCIAL).length
+        // console.log("web: ", this.website)
+        // for (var n = 0; n < numOfSocails; n++) {
+        //     var nw = this.allNetwork[n].network
+        //     if (this.GET_SOCIAL[nw] != null) {
+        //         console.log("เข้า")
+        //         this.website.push({
+        //             network: nw,
+        //             color: this.allNetwork[n].color,
+        //             username: this.GET_SOCIAL[nw]
+        //         })
+        //     }
+        // }
     },
     methods: {
         getImgUrl(pic) {

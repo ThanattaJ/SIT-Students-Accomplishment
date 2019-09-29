@@ -4,7 +4,7 @@
     <p>=====</p>
     {{social}} -->
     <div class="genText">
-        <i class="la la-angle-left" v-on:click="addWebToState"></i>
+        <i class="la la-angle-left" v-on:click="SetSocailToState"></i>
         <span class="titleText">Website</span>
     </div>
     <div class="selectnw" style="display: block;">
@@ -19,7 +19,7 @@
         <span class="pre">{{networkName}}</span>
         <input id="username" type="text" placeholder="username">
         <div class="" id="addCancelBtn" style="margin-top: 8px;">
-            <a id="addBtn" class="button is-small saveBtn" @click="addWebsiteBtn()">Add</a>
+            <a id="addBtn" class="button is-small saveBtn" @click="addWebsiteBtn();">Add</a>
             <a id="cancelBtn1" class="button is-small cancelBtn" @click="cancelWebsiteBtn()">Cancel</a>
         </div>
     </div>
@@ -113,7 +113,6 @@ export default {
     },
     computed: {
         ...mapGetters({
-            // website: 'GET_WEBSITE',
             social: 'GET_SOCIAL',
             config: 'GET_CONFIG'
         })
@@ -132,10 +131,12 @@ export default {
                 })
             }
         }
+        this.SEND_WEB_TOSTATE(this.website)
+        console.log("call SEND_WEB_TOSTATE")
     },
     methods: {
-        ...mapActions(['SET_PAGE', 'SET_WEBSITE', 'SET_SOCIAL']),
-        async addWebToState() {
+        ...mapActions(['SET_PAGE', 'SET_SOCIAL', 'SEND_WEB_TOSTATE']),
+        async SetSocailToState() {
             this.SET_PAGE(1);
             console.log("this.website.length : " + this.website.length)
             var allWebData = {
@@ -157,12 +158,7 @@ export default {
             }
             console.log("all web : ", allWebData)
             this.SET_SOCIAL(allWebData)
-            // const config = {
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-            //     }
-            // }
+
             try {
                 await axios
                     // .patch("http://localhost:7000/users/social", {
