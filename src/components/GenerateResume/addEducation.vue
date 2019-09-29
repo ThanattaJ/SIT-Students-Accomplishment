@@ -161,7 +161,6 @@ export default {
         },
         async addEduToState() {
             this.SET_PAGE(1);
-            console.log("all edu : ", this.education)
             // const config = {
             //     headers: {
             //         'Content-Type': 'application/json',
@@ -173,6 +172,7 @@ export default {
                 await axios
                     // .patch("http://localhost:7000/users/educations", {
                     .patch("https://www.sit-acc.nruf.in.th/users/educations", {
+                // educations : []
                 educations : this.education
                 }, this.config)
                     .then((res) => {

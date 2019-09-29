@@ -303,8 +303,9 @@ export default {
         },
         async saveDataToDb() {
             // var value = await this.$refs.resumeData.validate();
-            console.log("GET_RESUME_DATA : ", this.GET_RESUME_DATA.profile)
+            // console.log("GET_RESUME_DATA : ", this.GET_RESUME_DATA.profile)
             const resumeData = this.GET_RESUME_DATA.profile
+                console.log("bio : "+ resumeData.introduce_detail)
             if (resumeData.introduce_detail == "") {
                 resumeData.introduce_detail = null
             }
