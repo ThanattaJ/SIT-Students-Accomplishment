@@ -15,19 +15,15 @@
 }
 #imgCover{
     text-align: center;
+    margin-top: -30px;
 }
 #body-project{
-    margin: 4% 0 0 0;
+    margin: -1% 0 0 0;
 }
 #Details,#Acheivement,#Authors,#tool,#Documents,#Tag,#References,#video{
     margin: 5% 0 0 0; 
     border-radius: 5px;
 }
-
-/* #video{
-    margin: 5% 0 0 0;
-    text-align: center;
-} */
 #cardHeader{
     background:#F9F9F9;
     color: #265080;
@@ -54,11 +50,8 @@
 #tool{
     font-size: 0.85em;
 }
-/* #Acheivement{
-    font-size: 0.85em;
-} */
 #carousel{
-    margin: 5% 0 0 0;
+    margin: 5% 2% 0 10%;
 }
 #img {
     width: 30%;
@@ -76,7 +69,7 @@
     border: none; 
   }
   #save{
-    width: 120px;
+    width: 150px !important;
     margin-right: 2%;
     height: 40px;
     border: none;
@@ -92,13 +85,9 @@
     background-color: white;
     border: none;
     font-size: 1.1em;
+    margin-top: 1px;
   }
-  #firstname,#lastname{
-    background-color: white;
-    border: none;
-    width: 45%;
-    font-size: 0.8em;
-  }
+
   #student_id,#mail{
       margin-left: 10%;
       font-size: 0.7em;
@@ -113,16 +102,16 @@
     background-color: white;
     border: none;
   }
-  #achieve{ 
-      margin: 20px;
-  }
   #achievements.card{
       margin-top: 20px;
   }
   #achieve {
-    width: 70%;
+    width: 80%;
     display: inline-block;
-    vertical-align: top;    
+    vertical-align: top; 
+    margin: 20px;  
+    margin-left: 50px; 
+    margin-top: -2px;
   }
   #addAchievements{
     margin-left: 90%;
@@ -130,10 +119,51 @@
     padding: 2%;
     
   }
-  #fname,#lanme{
-    font-size: 13px;
+  #fname{
+    font-size: 13px !important;
+    width: 35% !important;
+    background-color: white;
+    border: none;
+    color: #6F6F6F !important;
+    margin-top: -5px !important;
+  }
+  #lname{
+    font-size: 13px !important;
+    width: 50% !important;
+    background-color: white;
+    border: none;
+    color: #6F6F6F !important;
+    margin-top: -5px !important;
   }
   #deleteImg{
       color: gray !important;
   }
+  #Abstract{
+      margin-top: 20px;
+  }
+  #deleteTag{
+    color: #6F6F6F !important;
+    margin-top: 6px;
+  }
+  #uploadCover{
+      margin-left: 29.5%
+  }
+  #References{
+      height: auto !important;
+  }
+  #aName{
+      font-size: 14px;
+      color: #6F6F6F !important;
+  }
+  #acDetail{
+    font-size: 12px !important;
+    color: #6F6F6F !important;
+  }
+  #addAC{
+    font-size: 12px !important;
+    color: black !important;
+    margin-left: 20px;
+  }
+
+
   

@@ -7,16 +7,22 @@
     <!-- -------------cover----------------- -->
     <div class="section" id="imgCover">
       <div v-if="this.getFile">
-            <img :src="getFile">             
+            <img :src="getFile" height="1000" width="900">             
       </div>
       <div v-else>
         <img src="../.././assets/no-image-icon-23485.png">
       </div>
     </div>
     <div id="EditProjects">
+         <uploadCover v-if="EditProject" id="uploadCover"/>
+            <div class="content" id="tags">
+                <md-chip md-disabled>Tags   
+                    <button class="delete" id="deleteTag" v-if="EditProject">x</button>
+                </md-chip>
+            </div>
+            
       <!-- <div class="columns">
         <div class="column is-offset-5"></div>
-        <uploadCover v-if="EditProject"/>
         <div class="column is-1">
           <figure class="image is-24x24">
             <img src="../.././assets/clap.png">
@@ -48,11 +54,8 @@
         </div>
       </div>
     </div>
-    <!-- ------------------------------ -->
-    <div id="body-project">
-      <div class="columns">
-        <div class="column is-6">
-          <div v-if="this.Abstract.content_Abstract">
+    <div id="Abstract">
+        <div v-if="this.Abstract.content_Abstract">
             <div class="card" id="Abstract">
               <header class="card-header">
                 <p class="card-header-title" id="cardHeader">Abstract</p>
@@ -68,14 +71,11 @@
                     rows="5"
                     max-rows="6"
                   ></textarea>
-                  <!-- <vue-editor v-model="Abstract.content_Abstract" 
-                  :editorToolbar="customToolbar"></vue-editor>-->
-                  <!-- <div v-html="Abstract.content_Abstract"></div> -->
                 </div>
               </div>
             </div>
           </div>
-          <div v-else-if="EditProject">
+        <div v-else-if="EditProject">
             <div class="card" id="Details">
               <header class="card-header">
                 <p class="card-header-title" id="cardHeader">Abstract</p>
@@ -95,6 +95,51 @@
               </div>
             </div>
           </div>
+    </div>
+    <!-- ------------------------------ -->
+    <div id="body-project">
+      <div class="columns">
+        <div class="column is-6">
+          <!-- <div v-if="this.Abstract.content_Abstract">
+            <div class="card" id="Abstract">
+              <header class="card-header">
+                <p class="card-header-title" id="cardHeader">Abstract</p>
+              </header>
+           
+              <div class="card-content">
+                <div class="content" id="contentAbstract">
+                  <textarea
+                    class="textarea has-fixed-size"
+                    v-model="Abstract.content_Abstract"
+                    id="contentAbstract"
+                    :disabled="!EditProject"
+                    rows="5"
+                    max-rows="6"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <!-- <div v-else-if="EditProject">
+            <div class="card" id="Details">
+              <header class="card-header">
+                <p class="card-header-title" id="cardHeader">Abstract</p>
+              </header>
+           
+              <div class="card-content">
+                <div class="content" id="abstracts">
+                  <textarea
+                    class="textarea has-fixed-size"
+                    v-model="Abstract.content_Abstract"
+                    id="contentDetails"
+                    :disabled="!EditProject"
+                    rows="5"
+                    max-rows="6"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div> -->
           <div v-if="(this.Detail.content_eg)">
             <div class="card" id="Details">
               <header class="card-header">
@@ -137,7 +182,7 @@
           </div>
           <!-- ------------------------------ -->
           <!-- loop -->
-          <div class="card" id="achievements" style="$card-header-padding: 20px">
+          <div class="card" id="achievements" style="$card-header-padding: 20px" v-if="this.Acheivement.length > 0">
             <header class="card-header">
               <p class="card-header-title" id="cardHeader">Acheivement</p>
             </header>
@@ -145,21 +190,52 @@
               <div id="Acheivement" v-for=" i in Acheivement" v-bind:key="i.name">
                 <md-card>
                   <md-card-header>
-                    <md-card-header-text>Name: {{i.name}}</md-card-header-text>
+                    <md-card-header-text id="aName"> {{i.name}}</md-card-header-text>
                   </md-card-header>
-                  <md-card-content>
-                    Details: {{i.detail}}
+                  <md-card-content id="acDetail" 
+                    style=" font-size: 12px ;
+                            color : #6F6F6F !important;
+                            margin-left: 20px;">
+                    Details : 
                     <br>
-                    Company: {{i.company}}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.detail}}
                     <br>
-                    Date of Event: {{i.date_of_event}}
+                    <br>
+                    Company: &nbsp;&nbsp;&nbsp;{{i.company}}
+                    <br>
+                    Date of Event: &nbsp;&nbsp;&nbsp;{{i.date_of_event}}
                   </md-card-content>
                 </md-card>
               </div>
             </div>
-            <!-- <div id="addAchievements">
-              <img src="../../assets/plus-3.png" v-if="EditProject">
-            </div> -->
+          </div>
+           <div class="card" id="achievements" style="$card-header-padding: 20px" v-else-if="EditProject">
+            <header class="card-header">
+              <p class="card-header-title" id="cardHeader">Acheivement</p>
+            </header>
+            <div id="achieve">
+              <div id="Acheivement" v-for=" i in Acheivement" v-bind:key="i.name">
+                <md-card>
+                  <md-card-header>
+                    <md-card-header-text id="aName"> {{i.name}}</md-card-header-text>
+                  </md-card-header>
+                  <md-card-content id="acDetail" 
+                    style=" font-size: 12px ;
+                            color : #6F6F6F !important;
+                            margin-left: 20px;">
+                    Details : 
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.detail}}
+                    <br>
+                    <br>
+                    Company: &nbsp;&nbsp;&nbsp;{{i.company}}
+                    <br>
+                    Date of Event: &nbsp;&nbsp;&nbsp;{{i.date_of_event}}
+                  </md-card-content>
+                </md-card>
+              </div>
+            </div>
+             <button  id="addAC"> + </button>
           </div>
           <!-- ------------------- -->
           <div id="carousel">
@@ -169,7 +245,7 @@
                   <button  id="deleteImg" v-if="EditProject" @click="deletePicture(index)">x</button>
                   <div class="image is-128x128">
                     <img :src="picture.path">
-                    {{index}}
+                    <!-- {{index}} -->
                   </div>
                   
                 </div>
@@ -179,7 +255,14 @@
               </div>
             </div>
           </div>
-          <div class="card" id="Details">
+          <!-- <div class="card" id="Details" v-if="this.video.length > 0">
+            <div class="card-content">
+              <div class="content" id="content">
+                <Video/>
+              </div>
+            </div>
+          </div> -->
+          <div class="card" id="Details" >
             <div class="card-content">
               <div class="content" id="content">
                 <Video/>
@@ -198,20 +281,19 @@
               <div class="columns" v-for="(student,index) in Authours" v-bind:key="index">
                 <div class="column">
                   <div class="content">
-                    <input
-                      class="input is-small"
+                    <input class="input"
                       type="text"
                       v-model="student.firstname"
                       id="fname"
                       :disabled="!EditProject"
-                    >
-                    <input
-                      class="input is-small"
+                      style="font-size:1px;"
+                    />
+                    <input class="input"
                       type="text"
                       v-model="student.lastname"
                       id="lname"
                       :disabled="!EditProject"
-                    >
+                    />
                   </div>
                 </div>
                 <div class="column">
@@ -230,14 +312,14 @@
                 <div class="column">
                   <div class="content">
                     <input
-                      class="input is-small"
+                      class="input"
                       type="text"
                       v-model="out.firstname"
                       id="fname"
                       :disabled="!EditProject"
                     >
                     <input
-                      class="input is-small"
+                      class="input"
                       type="text"
                       v-model="out.lastname"
                       id="lname"
@@ -259,9 +341,7 @@
               <header class="card-header">
                 <p class="card-header-title" id="cardHeader">Development Tools & Techniques</p>
               </header>
-              <div class="card-content">
-                <div class="content" id="tool">
-                  Tool
+              <div class="card-content" id="content_tool">
                   <textarea
                     class="textarea has-fixed-size"
                     v-model="Tools.tool"
@@ -270,7 +350,6 @@
                     rows="5"
                     max-rows="6"
                   ></textarea>
-                </div>
               </div>
             </div>
           </div>
@@ -279,9 +358,7 @@
               <header class="card-header">
                 <p class="card-header-title" id="cardHeader">Development Tools & Techniques</p>
               </header>
-              <div class="card-content">
-                <div class="content" id="tool">
-                  Tool
+              <div class="card-content" id="content_tool">
                   <textarea
                     class="textarea has-fixed-size"
                     v-model="Tools.tool"
@@ -290,11 +367,11 @@
                     rows="5"
                     max-rows="6"
                   ></textarea>
-                </div>
+                
               </div>
             </div>
           </div>
-          <div class="card" id="Documents">
+          <div class="card" id="Documents"  v-if="this.document.name">
             <header class="card-header">
               <p class="card-header-title" id="cardHeader">Documents</p>
             </header>
@@ -304,26 +381,47 @@
               </div>
             </div>
           </div>
-          <div class="card" id="Tag">
+          <div class="card" id="Documents"  v-else-if="EditProject">
             <header class="card-header">
-              <p class="card-header-title" id="cardHeader">Tag</p>
+              <p class="card-header-title" id="cardHeader">Documents</p>
             </header>
             <div class="card-content">
               <div class="content">
-                <span class="tag is-warning is-medium">
-                  Hello
-                  <button class="delete" id="deleteImg" v-if="EditProject">x</button>
-                </span>
+                <uploadFilePond/>
               </div>
             </div>
           </div>
-          <div class="card" id="References">
+          <div class="card" id="References"  v-if="this.References.path_name" >
             <header class="card-header">
               <p class="card-header-title" id="cardHeader">References</p>
             </header>
             <div class="card-content">
               <div class="content">
-                <a href>{{References.ref}}</a>
+               <textarea
+                    class="textarea has-fixed-size"
+                    v-model="References.ref"
+                    id="tool_box"
+                    :disabled="!EditProject"
+                    rows="5"
+                    max-rows="6"
+                  ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="card" id="References"  v-else-if="EditProject" >
+            <header class="card-header">
+              <p class="card-header-title" id="cardHeader">References</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+               <textarea
+                    class="textarea has-fixed-size"
+                    v-model="References.ref"
+                    id="tool_box"
+                    :disabled="!EditProject"
+                    rows="5"
+                    max-rows="6"
+                  ></textarea>
               </div>
             </div>
           </div>
@@ -374,6 +472,7 @@ export default {
       },
       Authours: [
         {
+          project_id: 1,
           Student_id: "",
           firstname: "",
           lastname: "",
@@ -400,7 +499,13 @@ export default {
       outsider: [],
       showDetail: true,
       EditProject: false,
-      img: [{}],
+      tags:[],
+      video:[
+          {
+            path_name: ''
+          }
+      ],
+      img: [],
       cover: [
         {
           path: null
@@ -424,7 +529,7 @@ export default {
         "height:" + sizeArea[i].scrollHeight + "px;overflow-y:hidden;"
       );
       sizeArea[i].addEventListener("input", OnInput, false);
-      //   console.log("sizeArea.length  = "+sizeArea.length)
+
     }
     // ------- textarea -----------
     function OnInput() {
@@ -435,9 +540,9 @@ export default {
 
     // get data
     const { data } = await axios.get(
-      `https://www.sit-acc.nruf.in.th/projects/${this.$route.params.pId}`
+      `https://www.sit-acc.nruf.in.th/projects/${this.$route.params.pId}`,)
+    //   this.GET_CONFIG)
       // "http://localhost:7000/projects/" + this.$route.params.pId
-    );
     this.header.TitleName = data.project_detail.project_name_en;
     this.header.TitleName_TH = data.project_detail.project_name_th;
     this.Detail.content_eg = data.project_detail.project_detail;
@@ -451,13 +556,18 @@ export default {
     // get Acheivement ออกมาไม่ได้
 
     for (let i = 0; i < data.achievements.length; i++) {
-      this.Acheivement.push(data.achievements[i]);
-      this.Acheivement[i].name = data.achievements[i].achievement_name;
-      this.Acheivement[i].detail = data.achievements[i].achievement_detail;
-      this.Acheivement[i].company = data.achievements[i].organize_by;
-      this.Acheivement[i].date_of_event = data.achievements[i].date_of_event;
+    //   if(achievements.length>0){
+        this.Acheivement.push(data.achievements[i]);
+        // this.Acheivement[i].project_id = data.acheivement[i].project_id
+        this.Acheivement[i].name = data.achievements[i].achievement_name;
+        this.Acheivement[i].detail = data.achievements[i].achievement_detail;
+        this.Acheivement[i].company = data.achievements[i].organize_by;
+        this.Acheivement[i].date_of_event = data.achievements[i].date_of_event;
+    // console.log("Project Id : ",   this.Acheivement[i].project_id )
+    //   }
     }
     this.Acheivement.length = data.achievements.length;
+
 
     // console.log("Acheivement : "+ this.Acheivement[0].name)
     // console.log("detail : "+ this.Acheivement[0].detail)
@@ -470,7 +580,7 @@ export default {
       this.Authours[i].lastname = data.students[i].lastname;
       this.Authours[i].mail = data.students[i].email;
       this.index = i;
-      console.log("firstname : ", data.students[i] )
+    //   console.log("firstname : ", data.students[i] )
     }
     this.Authours.length = data.students.length;
     // console.log("length :"+data.students.length)
@@ -490,9 +600,24 @@ export default {
 
     // document
     for (let i = 0; i < data.document.length; i++) {
-      this.document[i] = data.document[i].path_name;
+        this.document.push(data.document[i])
+        this.document[i].name = data.document[i];
     }
     this.document.length = data.document.length;
+
+    //tag
+    for(let i =0; i< data.tags.length;i++){
+        this.tags.push(data.tags[i])
+        this.tags[i].name = data.tags[i]
+    }
+    this.tags.length = data.tags.length
+
+    //video
+    // for(let i =0; i< data.video.length;i++){
+    //     this.video.push(data.video[i])
+    //     this.video[i].path_name = data.video[i].path_name
+    // }
+    // this.video.length = this.data.video.length
 
     // fetch data
     for (let i = 0; i < data.picture.length; i++) {
@@ -520,7 +645,8 @@ export default {
     this.Tools_tool = this.Tools.tool;
     //  console.log(this.cachedUser)
     
-    console.log("this.project_id ",typeof this.project_id + "   "+ this.project_id   )
+    // console.log("this.project_id ",typeof this.project_id + "   "+ this.project_id   )
+    console.log("Students : ", this.project_id)
   },
   methods: {
       ...mapActions([
@@ -532,9 +658,9 @@ export default {
       ]),
     save() {
       try {
+            
         axios
           .patch(`https://www.sit-acc.nruf.in.th/projects/`, {
-              //.patch("http://localhost:7000/projects/"
             project_detail: {
               id: this.project_id ,
               project_name_th: this.header.TitleName_TH,
@@ -565,7 +691,7 @@ export default {
             ],
             achievements: [
               {
-                project_id: this.project_id ,
+                project_id: this.project_id,
                 achievement_name: this.Acheivement.name,
                 achievement_detail: this.Acheivement.detail,
                 organize_by: this.Acheivement.company,

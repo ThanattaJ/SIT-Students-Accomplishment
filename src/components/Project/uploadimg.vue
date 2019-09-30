@@ -16,6 +16,7 @@
                                     <div class="modal-background"></div>
                                         <div class="modal-content">
                                             <div class="box">
+                                                <button @click="close" class="modal-close" id="close"></button>
                                                 <div class="content has-text-centered">
                                                     <p class="control"/>
                                                     <h5>{{messageUpload}}</h5>
@@ -37,7 +38,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button @click="close" class="modal-close"></button>
                                 </div>
                         </div>
                     </span>
@@ -163,6 +163,10 @@ export default {
     }
     .modal{
         overflow: hidden;
+    }
+    #close{
+        margin-right: 370px;
+        margin-top: 50px
     }
 </style>
  
