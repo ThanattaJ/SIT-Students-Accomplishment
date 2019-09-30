@@ -285,14 +285,14 @@
                       type="text"
                       v-model="student.firstname"
                       id="fname"
-                      :disabled="!EditProject"
+                      disabled
                       style="font-size:1px;"
                     />
                     <input class="input"
                       type="text"
                       v-model="student.lastname"
                       id="lname"
-                      :disabled="!EditProject"
+                      disabled
                     />
                   </div>
                 </div>
@@ -316,14 +316,14 @@
                       type="text"
                       v-model="out.firstname"
                       id="fname"
-                      :disabled="!EditProject"
+                      disabled
                     >
                     <input
                       class="input"
                       type="text"
                       v-model="out.lastname"
                       id="lname"
-                      :disabled="!EditProject"
+                      disabled
                     >
                   </div>
                 </div>
@@ -540,8 +540,8 @@ export default {
 
     // get data
     const { data } = await axios.get(
-      `https://www.sit-acc.nruf.in.th/projects/${this.$route.params.pId}`,)
-    //   this.GET_CONFIG)
+      `https://www.sit-acc.nruf.in.th/projects/${this.$route.params.pId}`,
+      this.GET_CONFIG)
       // "http://localhost:7000/projects/" + this.$route.params.pId
     this.header.TitleName = data.project_detail.project_name_en;
     this.header.TitleName_TH = data.project_detail.project_name_th;
@@ -645,8 +645,8 @@ export default {
     this.Tools_tool = this.Tools.tool;
     //  console.log(this.cachedUser)
     
-    // console.log("this.project_id ",typeof this.project_id + "   "+ this.project_id   )
-    console.log("Students : ", this.project_id)
+    console.log("this.project_id ",typeof this.project_id + "   "+ this.project_id   )
+    // console.log("Students : ", this.project_id)
   },
   methods: {
       ...mapActions([
