@@ -1,22 +1,16 @@
 import axios from "axios";
-// const config = {
-//     headers: {
-//         'Content-Type': 'application/json',
-//         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-//     }
-// }
+
 export const studentStore = {
     state: {
         studentData: {}
     },
     actions: {
         LOAD_STUDENT_DATA: async function ({ commit, rootState }) {
-            // const URL = "http://localhost:7000/users/default"
-            const URL = "https://www.sit-acc.nruf.in.th/users/default"
+            const URL = "http://localhost:7000/users/default"
+            // const URL = "https://www.sit-acc.nruf.in.th/users/default"
             console.log("เข้า LOAD_STUDENT_DATA")
             const { data } = await axios.get(
                 URL, rootState.loginStore.config
-                // URL, config
             );
             console.log("access : ", data)
             commit('SET_STUDENT_DATA', data)
@@ -37,6 +31,9 @@ export const studentStore = {
         GET_STUDENT_PROJECT: function (state) {
             return state.studentData.projects
         },
+        GET_STUDENT_TAG: function (state) {
+            return state.studentData.allTag
+        }
     }
 }
 

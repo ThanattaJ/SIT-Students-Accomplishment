@@ -1,10 +1,7 @@
 .navProfile{
   background-color: #F7F7F7 !important;
 }
-.picture{
-  margin-right: -7% !important;
-  margin-left: -2% !important;
-}
+
 .title, .heading{
   color: #265080 !important;
 }
@@ -12,7 +9,8 @@ svg{
   width: 60% !important
 }
 #information{
-  margin-right: -100px !important
+  width: 47% !important;
+  /* margin-right: -100px !important */
 }
 
 @media screen and (max-width: 800px){
@@ -38,7 +36,7 @@ svg{
   width: 80% !important;
   margin: -10% 0 0 10% !important;
 }
-#img{
+#profilePic{
   width: 105px !important;
   margin: 0 -10% 0 25% !important;
 }
@@ -49,7 +47,7 @@ svg{
 }
 #info{
   color:#949494 !important;
-  font-size: 14px !important;
+  font-size: 15px !important;
 }
 #body{
   width: 80% !important;
@@ -113,7 +111,7 @@ img{
   border:1px dashed #E4E4E4 !important;
   text-align:center !important;
   border-radius: 2% !important;
-  padding-top: 25% !important;
+  padding-top: 32% !important;
   padding-bottom: 25% !important;
 }
 .createPortPage:hover{
@@ -126,6 +124,7 @@ img{
 }
 .textCreate{
   color:#949494;
+  font-size: 18px !important;
 }
 
 
@@ -143,7 +142,7 @@ img{
   .navProfile{
     text-align: center !important;
   }
-  #img{
+  #profilePic{
     display: block !important;
     margin-left: auto !important;
     margin-right: auto !important;
@@ -203,3 +202,33 @@ img{
 .is-selected{
   background-color: #265080 !important;
 }
+
+.profileImg{
+  cursor: pointer;
+}
+
+.text-block {
+  background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+  color: #f1f1f1;
+  position: absolute;
+  padding: 5px 5px;
+  top: 71%;
+  left: 27.5%
+}
+
+.picture{
+  margin-right: -7% !important;
+  margin-left: -2% !important;
+  /* position: relative;
+  margin: 0 auto; */
+}
+
+#name{
+  font-weight: bold;
+}
+
+.la-pencil:hover{
+  cursor: pointer !important;
+  color: #6F6F6F !important;
+}
+

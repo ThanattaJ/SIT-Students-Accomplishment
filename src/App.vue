@@ -3,7 +3,7 @@
     <nav class="navbar nav1 sticky" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <router-link to="/student">
-                <a class="navbar-item" >
+                <a class="navbar-item" style="margin-top: -10px;">
                     <img src="./assets/logo.png">
                 </a>
             </router-link>
@@ -113,9 +113,24 @@ export default {
 }
 
 .nav1 {
-    height: 100px !important;
+    height: 76px !important;
     padding-top: 15px !important;
     padding-bottom: 15px !important;
+    /* overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  width: 100%; */
+
+  /* position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 50px;
+  background-color: #00a087;
+  margin-bottom: 30px */
+
 }
 
 .nav2 {
@@ -156,7 +171,7 @@ a.menuName:hover {
 }
 
 .navbar-item img {
-    max-height: 70px !important;
+    max-height: 50px !important;
 }
 
 .la {
