@@ -1,769 +1,439 @@
 <template>
-  <div class="body" id="ProjectDetail-bg">
+<div class="body" id="ProjectDetail-bg">
     <div id="TitleName">
-      <p id="TitleName_eg">{{header.TitleName}}</p>
-      <p id="TitleName_th">{{header.TitleName_TH}}</p>
+        <p id="TitleName_eg">{{header.TitleName}}</p>
+        <p id="TitleName_th">{{header.TitleName_TH}}</p>
     </div>
     <!-- -------------cover----------------- -->
     <div class="section" id="imgCover">
-      <div v-if="this.getFile">
-            <img :src="getFile" height="1000" width="900">             
-      </div>
-      <div v-else>
-        <img src="../.././assets/no-image-icon-23485.png">
-      </div>
+        <div v-if="this.getFile">
+            <img :src="getFile" height="1000" width="900">
+        </div>
+        <div v-else>
+            <img src="../.././assets/no-image-icon-23485.png">
+        </div>
     </div>
     <div id="EditProjects">
-         <uploadCover v-if="EditProject" id="uploadCover"/>
-            <div class="content" id="tags">
-                <md-chip md-disabled>Tags   
-                    <button class="delete" id="deleteTag" v-if="EditProject">x</button>
-                </md-chip>
+        <uploadCover v-if="EditProject" id="uploadCover" />
+        <div>
+            <div id="create">
+                <div style="margin-left:90%; color: #949494 ; font-size: 12px;">Start at: {{this.start.month}}-{{this.start.year}}</div>
             </div>
-            
-      <!-- <div class="columns">
-        <div class="column is-offset-5"></div>
-        <div class="column is-1">
-          <figure class="image is-24x24">
-            <img src="../.././assets/clap.png">
-            24
-          </figure>
+            <div id="end">
+                <div style="margin-left:90%; color: #949494; font-size: 12px;">End at: {{this.end.month}}-{{this.end.year}}</div>
+            </div>
         </div>
-        <div class="column is-1">
-          <figure class="image is-24x24">
-            <img src="../.././assets/watch.png">
-            30
-          </figure>
+        <div class="content" id="tags">
+            <div v-if="EditProject">
+                <md-chips v-model="Tags" md-clickable md-placeholder="Add Tags..."></md-chips>
+            </div>
+            <div v-else>
+                <md-chips v-model="Tags" md-clickable md-static md-placeholder="Add Tags..."></md-chips>
+            </div>
         </div>
-      </div> -->
-      <div class="columns">
-        <div class="column is-four-fifths">
-          <span
-            class="button"
-            id="Edit"
-            @click="EditProject = !EditProject"
-            v-if="!EditProject"
-          >Edit Project</span>
-          <span
-            class="button is-success"
-            id="save"
-            @click="save"
-            v-else-if="EditProject"
-          >Save Change</span>
-          <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
-        </div>
-      </div>
-    </div>
-    <div id="Abstract">
-        <div v-if="this.Abstract.content_Abstract">
-            <div class="card" id="Abstract">
-              <header class="card-header">
-                <p class="card-header-title" id="cardHeader">Abstract</p>
-              </header>
-              <!-- ------------------------------ -->
-              <div class="card-content">
-                <div class="content" id="contentAbstract">
-                  <textarea
-                    class="textarea has-fixed-size"
-                    v-model="Abstract.content_Abstract"
-                    id="contentAbstract"
-                    :disabled="!EditProject"
-                    rows="5"
-                    max-rows="6"
-                  ></textarea>
-                </div>
-              </div>
+        <div class="columns">
+            <div class="column is-four-fifths">
+                <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
+                <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
+                <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
             </div>
-          </div>
-        <div v-else-if="EditProject">
-            <div class="card" id="Details">
-              <header class="card-header">
-                <p class="card-header-title" id="cardHeader">Abstract</p>
-              </header>
-              <!-- ------------------------------ -->
-              <div class="card-content">
-                <div class="content" id="abstracts">
-                  <textarea
-                    class="textarea has-fixed-size"
-                    v-model="Abstract.content_Abstract"
-                    id="contentDetails"
-                    :disabled="!EditProject"
-                    rows="5"
-                    max-rows="6"
-                  ></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-    </div>
-    <!-- ------------------------------ -->
-    <div id="body-project">
-      <div class="columns">
-        <div class="column is-6">
-          <!-- <div v-if="this.Abstract.content_Abstract">
-            <div class="card" id="Abstract">
-              <header class="card-header">
-                <p class="card-header-title" id="cardHeader">Abstract</p>
-              </header>
-           
-              <div class="card-content">
-                <div class="content" id="contentAbstract">
-                  <textarea
-                    class="textarea has-fixed-size"
-                    v-model="Abstract.content_Abstract"
-                    id="contentAbstract"
-                    :disabled="!EditProject"
-                    rows="5"
-                    max-rows="6"
-                  ></textarea>
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <!-- <div v-else-if="EditProject">
-            <div class="card" id="Details">
-              <header class="card-header">
-                <p class="card-header-title" id="cardHeader">Abstract</p>
-              </header>
-           
-              <div class="card-content">
-                <div class="content" id="abstracts">
-                  <textarea
-                    class="textarea has-fixed-size"
-                    v-model="Abstract.content_Abstract"
-                    id="contentDetails"
-                    :disabled="!EditProject"
-                    rows="5"
-                    max-rows="6"
-                  ></textarea>
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <div v-if="(this.Detail.content_eg)">
-            <div class="card" id="Details">
-              <header class="card-header">
-                <p class="card-header-title" id="cardHeader">Details</p>
-              </header>
-              <!-- ------------------------------ -->
-              <div class="card-content">
-                <div class="content" id="content">
-                  <textarea
-                    class="textarea has-fixed-size"
-                    v-model="Detail.content_eg"
-                    id="contentDetails"
-                    :disabled="!EditProject"
-                    rows="5"
-                    max-rows="6"
-                  ></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-else-if="EditProject">
-            <div class="card" id="Details">
-              <header class="card-header">
-                <p class="card-header-title" id="cardHeader">Details</p>
-              </header>
-              <!-- ------------------------------ -->
-              <div class="card-content">
-                <div class="content" id="content">
-                  <textarea
-                    class="textarea has-fixed-size"
-                    v-model="Detail.content_eg"
-                    id="contentDetails"
-                    :disabled="!EditProject"
-                    rows="5"
-                    max-rows="6"
-                  ></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- ------------------------------ -->
-          <!-- loop -->
-          <div class="card" id="achievements" style="$card-header-padding: 20px" v-if="this.Acheivement.length > 0">
-            <header class="card-header">
-              <p class="card-header-title" id="cardHeader">Acheivement</p>
-            </header>
-            <div id="achieve">
-              <div id="Acheivement" v-for=" i in Acheivement" v-bind:key="i.name">
-                <md-card>
-                  <md-card-header>
-                    <md-card-header-text id="aName"> {{i.name}}</md-card-header-text>
-                  </md-card-header>
-                  <md-card-content id="acDetail" 
-                    style=" font-size: 12px ;
-                            color : #6F6F6F !important;
-                            margin-left: 20px;">
-                    Details : 
-                    <br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.detail}}
-                    <br>
-                    <br>
-                    Company: &nbsp;&nbsp;&nbsp;{{i.company}}
-                    <br>
-                    Date of Event: &nbsp;&nbsp;&nbsp;{{i.date_of_event}}
-                  </md-card-content>
-                </md-card>
-              </div>
-            </div>
-          </div>
-           <div class="card" id="achievements" style="$card-header-padding: 20px" v-else-if="EditProject">
-            <header class="card-header">
-              <p class="card-header-title" id="cardHeader">Acheivement</p>
-            </header>
-            <div id="achieve">
-              <div id="Acheivement" v-for=" i in Acheivement" v-bind:key="i.name">
-                <md-card>
-                  <md-card-header>
-                    <md-card-header-text id="aName"> {{i.name}}</md-card-header-text>
-                  </md-card-header>
-                  <md-card-content id="acDetail" 
-                    style=" font-size: 12px ;
-                            color : #6F6F6F !important;
-                            margin-left: 20px;">
-                    Details : 
-                    <br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.detail}}
-                    <br>
-                    <br>
-                    Company: &nbsp;&nbsp;&nbsp;{{i.company}}
-                    <br>
-                    Date of Event: &nbsp;&nbsp;&nbsp;{{i.date_of_event}}
-                  </md-card-content>
-                </md-card>
-              </div>
-            </div>
-             <button  id="addAC"> + </button>
-          </div>
-          <!-- ------------------- -->
-          <div id="carousel">
-            <div id="container is-fluid">
-              <div class="columns is-multiline">
-                <div class="column is-one" v-for="(picture,index) in getImages" v-bind:key="index">
-                  <button  id="deleteImg" v-if="EditProject" @click="deletePicture(index)">x</button>
-                  <div class="image is-128x128">
-                    <img :src="picture.path">
-                    <!-- {{index}} -->
-                  </div>
-                  
-                </div>
-              </div>
-              <div class="container" v-if="EditProject">
-                <uploadimg/>
-              </div>
-            </div>
-          </div>
-          <!-- <div class="card" id="Details" v-if="this.video.length > 0">
-            <div class="card-content">
-              <div class="content" id="content">
-                <Video/>
-              </div>
-            </div>
-          </div> -->
-          <div class="card" id="Details" >
-            <div class="card-content">
-              <div class="content" id="content">
-                <Video/>
-              </div>
-            </div>
-          </div>
+
+            <img class="image is-32x32" src="../.././assets/clap.png" style="margin-top:20px ; margin-left:5%">
+            <div style="margin-top:25px ; margin-left:5px">:{{this.clap}}</div>
+
+            <img class="image is-32x32" src="../.././assets/visibility-button.png" style=" margin-left: 30px;
+            margin-top:20px">
+            <div style="margin-top:25px ; margin-left:5px">: {{this.viewer}}</div>
+
         </div>
 
-        <!-- ---------------------------- -->
-        <div class="column">
-          <div class="card" id="Authors">
-            <header class="card-header">
-              <p class="card-header-title" id="cardHeader">Authors</p>
-            </header>
-            <div class="card-content" id="student">
-              <div class="columns" v-for="(student,index) in Authours" v-bind:key="index">
-                <div class="column">
-                  <div class="content">
-                    <input class="input"
-                      type="text"
-                      v-model="student.firstname"
-                      id="fname"
-                      disabled
-                      style="font-size:1px;"
-                    />
-                    <input class="input"
-                      type="text"
-                      v-model="student.lastname"
-                      id="lname"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="column">
-                  <div class="content">
-                    <div id="student_id">ID : {{student.Student_id}}</div>
-                    <div id="mail">{{student.mail}}</div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="columns"
-                v-for=" (out,index) in outsider"
-                v-bind:key="`${index}-${out.id}`"
-                id="outsider"
-              >
-                <div class="column">
-                  <div class="content">
-                    <input
-                      class="input"
-                      type="text"
-                      v-model="out.firstname"
-                      id="fname"
-                      disabled
-                    >
-                    <input
-                      class="input"
-                      type="text"
-                      v-model="out.lastname"
-                      id="lname"
-                      disabled
-                    >
-                  </div>
-                </div>
-                <div class="column">
-                  <div class="content">
-                    <div id="student_id">ID : {{out.id}}</div>
-                    <div id="mail">{{out.email}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-if="(this.Tools.tool)">
-            <div class="card" id="tool">
-              <header class="card-header">
-                <p class="card-header-title" id="cardHeader">Development Tools & Techniques</p>
-              </header>
-              <div class="card-content" id="content_tool">
-                  <textarea
-                    class="textarea has-fixed-size"
-                    v-model="Tools.tool"
-                    id="tool_box"
-                    :disabled="!EditProject"
-                    rows="5"
-                    max-rows="6"
-                  ></textarea>
-              </div>
-            </div>
-          </div>
-          <div v-else-if="EditProject">
-            <div class="card" id="tool">
-              <header class="card-header">
-                <p class="card-header-title" id="cardHeader">Development Tools & Techniques</p>
-              </header>
-              <div class="card-content" id="content_tool">
-                  <textarea
-                    class="textarea has-fixed-size"
-                    v-model="Tools.tool"
-                    id="tool_box"
-                    :disabled="!EditProject"
-                    rows="5"
-                    max-rows="6"
-                  ></textarea>
-                
-              </div>
-            </div>
-          </div>
-          <div class="card" id="Documents"  v-if="this.document.name">
-            <header class="card-header">
-              <p class="card-header-title" id="cardHeader">Documents</p>
-            </header>
-            <div class="card-content">
-              <div class="content">
-                <uploadFilePond/>
-              </div>
-            </div>
-          </div>
-          <div class="card" id="Documents"  v-else-if="EditProject">
-            <header class="card-header">
-              <p class="card-header-title" id="cardHeader">Documents</p>
-            </header>
-            <div class="card-content">
-              <div class="content">
-                <uploadFilePond/>
-              </div>
-            </div>
-          </div>
-          <div class="card" id="References"  v-if="this.References.path_name" >
-            <header class="card-header">
-              <p class="card-header-title" id="cardHeader">References</p>
-            </header>
-            <div class="card-content">
-              <div class="content">
-               <textarea
-                    class="textarea has-fixed-size"
-                    v-model="References.ref"
-                    id="tool_box"
-                    :disabled="!EditProject"
-                    rows="5"
-                    max-rows="6"
-                  ></textarea>
-              </div>
-            </div>
-          </div>
-          <div class="card" id="References"  v-else-if="EditProject" >
-            <header class="card-header">
-              <p class="card-header-title" id="cardHeader">References</p>
-            </header>
-            <div class="card-content">
-              <div class="content">
-               <textarea
-                    class="textarea has-fixed-size"
-                    v-model="References.ref"
-                    id="tool_box"
-                    :disabled="!EditProject"
-                    rows="5"
-                    max-rows="6"
-                  ></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
+    <Abstract />
+    <!-- ------------------------------ -->
+    <div id="body-project">
+        <div class="columns">
+            <div class="column is-6">
+                <Detail />
+                <achievements />
+                <div id="image">
+                    <div id="container is-fluid">
+                        <!-- <div class="columns is-multiline">
+                            <div class="column is-one" v-for="(picture,index) in getImages" v-bind:key="index">
+                                <div class="image is-228x228">
+                                    <md-button style=" justify-content: center" class="md-fab md-mini md-plain md-fab-bottom-right" v-if="EditProject" @click="deletePicture(index)">
+                                        <md-icon>x</md-icon>
+                                    </md-button>
+                                    <img :src="picture.path">
+                                </div>
+                            </div>
+                        </div> -->
+                         <showImg/>
+                        <div class="container" v-if="EditProject">
+                            <uploadimg />
+                        </div>
+                    </div>
+                </div>
+                <div class="card" id="Details">
+                    <div class="card-content">
+                        <div class="content" id="content">
+                            <Video />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ---------------------------- -->
+            <div class="column">
+                <member />
+                <tool />
+                <div class="card" id="Documents" v-if="this.document.name">
+                    <header class="card-header">
+                        <p class="card-header-title" id="cardHeader">Documents</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <uploadFilePond />
+                        </div>
+                    </div>
+                </div>
+                <div class="card" id="Documents" v-else-if="EditProject">
+                    <header class="card-header">
+                        <p class="card-header-title" id="cardHeader">Documents</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <uploadFilePond />
+                        </div>
+                    </div>
+                </div>
+                <ref />
+            </div>
+        </div>
+    </div>
+                             <!-- <showImg/> -->
+</div>
 </template>
+
 <script>
 import Vue from "vue";
 import axios from "axios";
-import { mapGetters, mapActions } from 'vuex'
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
 
+import Abstract from './Abstract';
+import Detail from './Detail';
+import achievements from './achievements';
+import member from './member';
+import tool from './tool';
+import ref from './ref';
 import uploadFilePond from "./uploadFilePond";
 import uploadimg from "./uploadimg";
 import uploadCover from "./uploadCover";
 import Document from "./../NewPortfolioPage/Document.vue";
 import Video from "./../NewPortfolioPage/Video.vue";
 import "./../css/ProjectDetail.css";
+import showImg from "./showImg"
+
+
+
+
 export default {
-  namePro: "ProjectDetail",
-  computed: {
-      ...mapGetters([
-          'getFile',
-          'getPath',
-          'getImages',
-          'GET_CONFIG'
-      ]),
-  },
-  components: {
-    uploadimg,
-    uploadCover,
-    Document,
-    Video,
-    uploadFilePond
-  },
-  data() {
-    return {
-      header: {
-        TitleName: " SIT ",
-        TitleName_TH: "ระบบสะสมผลงานนักศึกษา คณะเทคโนโลยีสารสนเทศ"
-      },
-      Abstract: {
-        content_Abstract: "Abstract"
-      },
-      Detail: {
-        content_eg: " "
-      },
-      Authours: [
-        {
-          project_id: 1,
-          Student_id: "",
-          firstname: "",
-          lastname: "",
-          mail: ""
-        }
-      ],
-      Tools: {
-        tool: "-",
-        Technology: "-",
-        github: "-"
-      },
-      Acheivement: [
-        {
-          name: "test",
-          detail: null,
-          company: null,
-          date_of_event: null
-        }
-      ],
-      References: {
-        ref: "https://bootstrap-vue.js.org/docs/components/form-textarea/"
-      },
-      document: [],
-      outsider: [],
-      showDetail: true,
-      EditProject: false,
-      tags:[],
-      video:[
-          {
-            path_name: ''
-          }
-      ],
-      img: [],
-      cover: [
-        {
-          path: null
-        }
-      ],
-      project_id: 1,
-      pictures: [],
-      tag: [{ name: "Hello" }],
-      seen: true,
-      index: ''
-    };
-  },
 
-  
+    namePro: "ProjectDetail",
 
-  async mounted() {
-    var sizeArea = document.getElementsByTagName("textarea");
-    for (var i = 0; i < sizeArea.length; i++) {
-      sizeArea[i].setAttribute(
-        "style",
-        "height:" + sizeArea[i].scrollHeight + "px;overflow-y:hidden;"
-      );
-      sizeArea[i].addEventListener("input", OnInput, false);
-
-    }
-    // ------- textarea -----------
-    function OnInput() {
-      this.style.height = "auto";
-      this.style.height = this.scrollHeight + "px";
-    }
-    // console.log("เทสๆ " + this.$route.params.pId)
-
-    // get data
-    const { data } = await axios.get(
-      `https://www.sit-acc.nruf.in.th/projects/${this.$route.params.pId}`,
-      this.GET_CONFIG)
-      // "http://localhost:7000/projects/" + this.$route.params.pId
-    this.header.TitleName = data.project_detail.project_name_en;
-    this.header.TitleName_TH = data.project_detail.project_name_th;
-    this.Detail.content_eg = data.project_detail.project_detail;
-    this.Abstract.content_Abstract = data.project_detail.project_abstract;
-    this.Tools.tool = data.project_detail.tool_techniq_detail;
-    this.References.ref = data.project_detail.references;
-    this.project_id = data.project_detail.id;
-    this.setPID(this.project_id)
+    computed: {
+        ...mapGetters([
+            'getFile',
+            'getPath',
+            'getImages',
+            'GET_CONFIG',
+            'getAbstract',
+            'getAchievements',
+            'getMember',
+            'getNonMember',
+            'getEditProject'
+        ]),
+    },
+    components: {
+        uploadimg,
+        uploadCover,
+        Document,
+        Video,
+        uploadFilePond,
+        Abstract,
+        Detail,
+        achievements,
+        member,
+        tool,
+        ref,
+        showImg
     
 
-    // get Acheivement ออกมาไม่ได้
+    },
 
-    for (let i = 0; i < data.achievements.length; i++) {
-    //   if(achievements.length>0){
-        this.Acheivement.push(data.achievements[i]);
-        // this.Acheivement[i].project_id = data.acheivement[i].project_id
-        this.Acheivement[i].name = data.achievements[i].achievement_name;
-        this.Acheivement[i].detail = data.achievements[i].achievement_detail;
-        this.Acheivement[i].company = data.achievements[i].organize_by;
-        this.Acheivement[i].date_of_event = data.achievements[i].date_of_event;
-    // console.log("Project Id : ",   this.Acheivement[i].project_id )
-    //   }
-    }
-    this.Acheivement.length = data.achievements.length;
-
-
-    // console.log("Acheivement : "+ this.Acheivement[0].name)
-    // console.log("detail : "+ this.Acheivement[0].detail)
-    // console.log("Date : "+ this.Acheivement[0].date_of_event )
-
-    for (let i = 0; i < data.students.length; i++) {
-      this.Authours.push(data.students[i]);
-      this.Authours[i].Student_id = data.students[i].student_id;
-      this.Authours[i].firstname = data.students[i].firstname;
-      this.Authours[i].lastname = data.students[i].lastname;
-      this.Authours[i].mail = data.students[i].email;
-      this.index = i;
-    //   console.log("firstname : ", data.students[i] )
-    }
-    this.Authours.length = data.students.length;
-    // console.log("length :"+data.students.length)
-    // console.log("outseider : ", data.outsiders);
-    if (data.outsiders) {
-      for (let i = 0; i < data.outsiders.length; i++) {
-        // console.log("outsiders : ", data.outsiders[i]);
-        this.outsider.push(data.outsiders[i]);
-        this.outsider[i].id = data.outsiders[i].id;
-        this.outsider[i].firstname = data.outsiders[i].firstname;
-        this.outsider[i].lastname = data.outsiders[i].lastname;
-        this.outsider[i].mail = data.outsiders[i].email;
-      }
-      this.outsider.length = data.outsiders.length;
-    } else console.log("outsider :", null);
-    // outsiders
-
-    // document
-    for (let i = 0; i < data.document.length; i++) {
-        this.document.push(data.document[i])
-        this.document[i].name = data.document[i];
-    }
-    this.document.length = data.document.length;
-
-    //tag
-    for(let i =0; i< data.tags.length;i++){
-        this.tags.push(data.tags[i])
-        this.tags[i].name = data.tags[i]
-    }
-    this.tags.length = data.tags.length
-
-    //video
-    // for(let i =0; i< data.video.length;i++){
-    //     this.video.push(data.video[i])
-    //     this.video[i].path_name = data.video[i].path_name
-    // }
-    // this.video.length = this.data.video.length
-
-    // fetch data
-    for (let i = 0; i < data.picture.length; i++) {
-      this.img[i] = data.picture[i].path_name;
-      var path = this.img[i];
-      var name = path
-        .substring(path.lastIndexOf("_", path.length - 1))
-        .substring(1);
-      var newPath = path.replace();
-      if (name === "cover") {
-        this.cover.push(data.picture[i]);
-        this.setFile(data.picture[i].path_name);
-      } else if (name != "cover") {
-        this.countPic++;
-        this.addImage({path:newPath})
-        // this.pictures.push({ path : newPath});
-        
-      }
-    }
-        this.pictures.push({ path : this.getPath });
-        // console.log("getPath : ", this.getPath)
-    // เก็บข้อมูลไว้ก่อน
-    this.cachedUser_eg = this.Detail.content_eg;
-    this.cachedUser_th = this.Abstract.content_Abstract;
-    this.Tools_tool = this.Tools.tool;
-    //  console.log(this.cachedUser)
-    
-    console.log("this.project_id ",typeof this.project_id + "   "+ this.project_id   )
-    // console.log("Students : ", this.project_id)
-  },
-  methods: {
-      ...mapActions([
-          'setFile',
-          'setPath',
-          'addImage',
-          'setPID'
-        
-      ]),
-    save() {
-      try {
-            
-        axios
-          .patch(`https://www.sit-acc.nruf.in.th/projects/`, {
-            project_detail: {
-              id: this.project_id ,
-              project_name_th: this.header.TitleName_TH,
-              project_name_en: this.header.TitleName,
-              project_detail: this.Detail.content_eg,
-              project_abstract: this.Abstract.content_Abstract,
-              haveOutsider: true,
-              isShow: false,
-              tool_techniq_detail: this.Tools.tool,
-              references: null,
-              count_viewer: 0,
-              count_clap: 0,
-              start_month: 2,
-              start_year_th: 2562,
-              start_year_en: 2019,
-              "end_month": 5,
-              "end_year_th": 2562,
-              "end_year_en": 2019,
-              project_type_name: "External"
+    data() {
+        return {
+            header: {
+                TitleName: "",
+                TitleName_TH: ""
             },
-            students: [
-              {
-                student_id: this.Authours.Student_id,
-                firstname: this.Authours.firstname,
-                lastname: this.Authours.lastname,
-                email: this.Authours.mail
-              }
-            ],
-            achievements: [
-              {
-                project_id: this.project_id,
-                achievement_name: this.Acheivement.name,
-                achievement_detail: this.Acheivement.detail,
-                organize_by: this.Acheivement.company,
-                date_of_event: this.Acheivement.date_of_event
-              }
-            ],
-            tags: [],
+            Abstract: {
+                content_Abstract: ""
+            },
+            Detail: {
+                content_eg: " "
+            },
+            Authours: [{
+                project_id: 1,
+                Student_id: "",
+                firstname: "",
+                lastname: "",
+                mail: ""
+            }],
+            Tools: {},
+            Acheivement: [],
+            References: {},
             document: [],
-            picture: [],
-            video: {
-              path_name: null
+            outsider: [],
+            showDetail: true,
+            EditProject: false,
+            tags: [],
+            video: [{
+                path_name: ''
+            }],
+            img: [],
+            cover: [{
+                path: null
+            }],
+            project_id: 1,
+            pictures: [],
+            tag: [{
+                name: "Hello"
+            }],
+            seen: true,
+            index: '',
+            Tags: [
+                'Vue.js'
+            ],
+            start: {
+                month: '',
+                year: ''
             },
-            outsiders: [
-              {
-                id: this.outsider.id,
-                firstname: this.outsider.firstname,
-                lastname: this.outsider.lastname,
-                email: this.outsider.mail
-              }
-            ]
-          },this.GET_CONFIG)
-          .then(function(res) {
-            console.log(res);
-          });
-        this.message = "File has been update";
-        this.cachedUser_eg = Object.assign({}, this.user);
-        this.cachedUser_eg = this.Detail.content_eg;
-        this.cachedUser_th = Object.assign({}, this.user);
-        this.cachedUser_th = this.Abstract.content_Abstract;
-        this.Tools_tool = Object.assign({}, this.user);
-        this.Tools_tool = this.Tools.tool;
-        this.EditProject = false;
-      } catch (err) {
-        console.log("FAILURE!!" + err);
-        this.message = "Something went wrong";
-        this.error = true;
-      }
-    },
-    cancel() {
-      this.Detail.content_eg = this.cachedUser_eg;
-      this.Abstract.content_Abstract = this.cachedUser_th;
-      this.EditProject = Object.assign({}, this.Tools_tool);
-      this.Tools.tool = this.Tools_tool;
-      this.EditProject = false;
-    },
-    // onSlideStart(slide) {
-    //     this.sliding = true
-    // },
-    // onSlideEnd(slide) {
-    //     this.sliding = false
-    // },
-    deletePicture(index) {
-      console.log("delete  : " + this.getImages[index].path);
+            end: {
+                month: '',
+                year: ''
+            },
+            clap: '',
+            viewer: ''
+        }
 
-      try {
-        axios
-          .delete("https://www.sit-acc.nruf.in.th/files/image", {
-              //.delete("http://localhost:7000/files/image", {
-            data: { path_name: this.getImages[index].path }
-          },this.GET_CONFIG)
-          //
-          .then(response => this.getImages.splice(index, 1));
-        // this.pictures[index].path = data.picture.path_name
-        // this.pictures[this.countPic].path = data.picture.path_name
-      } catch (err) {
-        console.log("FAILURE!!" + err);
-        this.message = "Something went wrong";
-        this.error = true;
-      }
+    },
+
+    async mounted() {
+
+        var sizeArea = document.getElementsByTagName("textarea");
+        for (var i = 0; i < sizeArea.length; i++) {
+            sizeArea[i].setAttribute(
+                "style",
+                "height:" + sizeArea[i].scrollHeight + "px;overflow-y:hidden;"
+            );
+            sizeArea[i].addEventListener("input", OnInput, false);
+        }
+
+        function OnInput() {
+            this.style.height = "auto";
+            this.style.height = this.scrollHeight + "px";
+        }
+
+        // get data
+        const {
+            data
+        } = await axios.get(
+            `https://www.sit-acc.nruf.in.th/projects/${this.$route.params.pId}`,
+            this.GET_CONFIG)
+        // "http://localhost:7000/projects/" + this.$route.params.pId
+        this.header.TitleName = data.project_detail.project_name_en;
+        this.header.TitleName_TH = data.project_detail.project_name_th;
+        this.start.month = data.project_detail.start_month
+        this.start.year = data.project_detail.start_year_en
+        this.end.month = data.project_detail.end_month
+        this.end.year = data.project_detail.end_year_en
+        this.clap = data.project_detail.count_clap
+        this.viewer = data.project_detail.count_viewer
+
+        this.setPID(data.project_detail.id)
+        this.setAbstract(data.project_detail.project_abstract)
+        this.setDetail(data.project_detail.project_detail)
+        this.setAchievements(data.achievements)
+        this.setMember(data.students)
+        this.setNonMember(data.outsiders)
+        this.setRef(data.project_detail.references)
+        this.setTool(data.project_detail.tool_techniq_detail)
+
+        // -------------------
+
+        this.Abstract.content_Abstract = data.project_detail.project_abstract
+        this.Detail.content_eg = data.project_detail.project_detail
+        this.Tools = data.project_detail.tool_techniq_detail
+        this.References = data.project_detail.references
+
+        console.log("data.achievements : ", this.Abstract.content_Abstract)
+        console.log("data.outsiders", this.Detail.content_eg)
+
+        // document
+        for (let i = 0; i < data.document.length; i++) {
+            this.document.push(data.document[i])
+            this.document[i].name = data.document[i];
+        }
+        this.document.length = data.document.length;
+
+        //tag
+        for (let i = 0; i < data.tags.length; i++) {
+            this.tags.push(data.tags[i])
+            this.tags[i].name = data.tags[i]
+        }
+        this.tags.length = data.tags.length
+        // fetch data
+        for (let i = 0; i < data.picture.length; i++) {
+            this.img[i] = data.picture[i].path_name;
+            var path = this.img[i];
+            var name = path
+                .substring(path.lastIndexOf("_", path.length - 1))
+                .substring(1);
+            var newPath = path.replace();
+            if (name === "cover") {
+                this.cover.push(data.picture[i]);
+                this.setFile(data.picture[i].path_name);
+            } else if (name != "cover") {
+                this.countPic++;
+                this.addImage({
+                    path: newPath
+                })
+                // this.pictures.push({ path : newPath});
+
+            }
+        }
+        this.pictures.push({
+            path: this.getPath
+        });
+        // console.log("getPath : ", this.getPath)
+    },
+    methods: {
+        ...mapActions([
+            'setFile',
+            'setPath',
+            'addImage',
+            'setPID',
+            'setAbstract',
+            'setEditProject',
+            'setDetail',
+            'setAchievements',
+            'setMember',
+            'setNonMember',
+            'setTool',
+            'setRef',
+        ]),
+        save() {
+            this.EditProject = false;
+            this.setEditProject(this.EditProject)
+            try {
+                axios
+                    .patch(`https://www.sit-acc.nruf.in.th/projects/`, {
+                        project_detail: {
+                            id: this.project_id,
+                            project_name_th: this.header.TitleName_TH,
+                            project_name_en: this.header.TitleName,
+                            project_detail: this.Detail.content_eg,
+                            project_abstract: this.Abstract.content_Abstract,
+                            haveOutsider: true,
+                            isShow: false,
+                            tool_techniq_detail: this.Tools.tool,
+                            references: null,
+                            count_viewer: 0,
+                            count_clap: 0,
+                            start_month: 2,
+                            start_year_th: 2562,
+                            start_year_en: 2019,
+                            "end_month": 5,
+                            "end_year_th": 2562,
+                            "end_year_en": 2019,
+                            project_type_name: "External"
+                        },
+                        students: [{
+                            student_id: this.Authours.Student_id,
+                            firstname: this.Authours.firstname,
+                            lastname: this.Authours.lastname,
+                            email: this.Authours.mail
+                        }],
+                        achievements: [{
+                            project_id: this.project_id,
+                            achievement_name: this.Acheivement.name,
+                            achievement_detail: this.Acheivement.detail,
+                            organize_by: this.Acheivement.company,
+                            date_of_event: this.Acheivement.date_of_event
+                        }],
+                        tags: [],
+                        document: [],
+                        picture: [],
+                        video: {
+                            path_name: null
+                        },
+                        outsiders: [{
+                            id: this.outsider.id,
+                            firstname: this.outsider.firstname,
+                            lastname: this.outsider.lastname,
+                            email: this.outsider.mail
+                        }]
+                    }, this.GET_CONFIG)
+                    .then(function (res) {
+                        console.log(res);
+                    });
+                this.message = "File has been update";
+                this.getEditProject
+                console.log("getEditProject : ", this.getEditProject)
+            } catch (err) {
+                console.log("FAILURE!!" + err);
+                this.error = true;
+            }
+        },
+        cancel() {
+            this.EditProject = false;
+            this.setEditProject(this.EditProject)
+            this.setAbstract(this.Abstract.content_Abstract)
+            this.setDetail(this.Detail.content_eg)
+            this.setTool(this.Tools)
+            this.setRef(this.References)
+        },
+
+        Edit: function () {
+            this.EditProject = true
+            this.setEditProject(this.EditProject)
+            // console.log("2",this.getEditProject)
+        },
+        deletePicture(index) {
+            console.log("delete  : " + this.getImages[index].path);
+
+            try {
+                axios
+                    .delete("https://www.sit-acc.nruf.in.th/files/image", {
+                        //.delete("http://localhost:7000/files/image", {
+                        data: {
+                            path_name: this.getImages[index].path
+                        }
+                    }, this.GET_CONFIG)
+                    //
+                    .then(response => this.getImages.splice(index, 1));
+            } catch (err) {
+                console.log("FAILURE!!" + err);
+                this.message = "Something went wrong";
+                this.error = true;
+            }
+        }
     }
-  }
 };
-</script> 
+</script>
 
+<style>
 
+</style>

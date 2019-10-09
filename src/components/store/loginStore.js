@@ -32,7 +32,7 @@ export const loginStore = {
       // state.userPass = userData.userPass;
     },
     clearAuthData(state) {
-      (state.idToken = null),
+        (state.idToken = null),
         (state.userId = null),
         (state.userName = null),
         (state.userType = null),
@@ -42,6 +42,7 @@ export const loginStore = {
       state.status = 'success'
       state.idToken = token
       state.username = user
+      console.log("success :",user+token)
     },
     auth_error(state) {
       state.status = "error";
@@ -49,7 +50,7 @@ export const loginStore = {
     setIdToken(state, token) {
       state.idToken = token;
       state.config.headers.Authorization = token
-      console.log("refresh แล้ว token จาก localStorageเก็บลง state > ",state.config.headers.Authorization)
+      // console.log("refresh แล้ว token จาก localStorageเก็บลง state > ",state.config.headers.Authorization)
 
     },
     setConfig(state, config) {
@@ -58,16 +59,18 @@ export const loginStore = {
     }
   },
   actions: {
-    login: async function ({ commit }, { username, userType, pass }) {
+    login: async function ({ commit, rootState }, { username, userType, pass }) {
       var data = {
         username: username,
         userType: userType,
         password: pass
       };
+      var pathName = rootState.pathStore.pathName
+      console.log("rootState : " + pathName)
       try {
         await axios
-          // .post("http://localhost:7000/login", data)
-          .post("https://www.sit-acc.nruf.in.th/login", data)
+          .post(pathName+"/login", data)
+          // .post("https://www.sit-acc.nruf.in.th/login", data)
           .then(res => {
             if (res.data.length > 0) {
               commit("setIdToken", res.data);
@@ -78,6 +81,7 @@ export const loginStore = {
             }
           })
           .catch(err => {
+            commit('auth_error ',err)
             console.error("error1 : " + err);
           });
       } catch (err) {

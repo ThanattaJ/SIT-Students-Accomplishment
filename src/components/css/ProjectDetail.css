@@ -6,12 +6,18 @@
     text-align: center;
 }
 #TitleName_eg{
-    font-size: 1.1em;
-    color: #265080;
+  font-family: Asap;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 28px;
+  color: #265080;
 }
 #TitleName_th{
-    font-size: 0.7em;
-    color: #6F6F6F;
+  font-family: Asap;
+  font-size: 16px;
+  margin-top: 5px;
+  color: #6F6F6F;
 }
 #imgCover{
     text-align: center;
@@ -26,7 +32,13 @@
 }
 #cardHeader{
     background:#F9F9F9;
+    font-family: Asap;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
     color: #265080;
+
 }
 #content{
     border-color: transparent;
@@ -46,22 +58,6 @@
 #student_id{
     font-size: 0.85em;
 }
-/* _____ */
-#tool{
-    font-size: 0.85em;
-}
-#carousel{
-    margin: 5% 2% 0 10%;
-}
-#img {
-    width: 30%;
-    margin: auto;
-    display: block;
-    margin-bottom: 10px;
-}
-#container {
-    padding: 0 60px;
-  }
   #Edit{
     background:#265080;
     color: #F9F9F9 ;
@@ -81,21 +77,9 @@
     height: 40px;
     border: none;
   }
-  #tool_box{
-    background-color: white;
-    border: none;
-    font-size: 1.1em;
-    margin-top: 1px;
-  }
-
   #student_id,#mail{
       margin-left: 10%;
       font-size: 0.7em;
-  }
-  #contentDetails{
-      font-size: 1.3em;
-      background-color: white;
-      border: none;
   }
   #contentAbstract{
     font-size: 0.9em;
@@ -119,17 +103,13 @@
     padding: 2%;
     
   }
-  #fname{
-    font-size: 13px !important;
-    width: 35% !important;
+  #fname{ 
+    width: 50% !important;
     background-color: white;
-    border: none;
-    color: #6F6F6F !important;
-    margin-top: -5px !important;
+    margin-top: -5px !important;       
   }
   #lname{
-    font-size: 13px !important;
-    width: 50% !important;
+    width: 60% !important;
     background-color: white;
     border: none;
     color: #6F6F6F !important;
@@ -151,19 +131,14 @@
   #References{
       height: auto !important;
   }
-  #aName{
-      font-size: 14px;
-      color: #6F6F6F !important;
-  }
-  #acDetail{
-    font-size: 12px !important;
-    color: #6F6F6F !important;
-  }
   #addAC{
     font-size: 12px !important;
     color: black !important;
-    margin-left: 20px;
   }
+  #image{
+    margin-top: 5%;
+  }
+
 
 
   

@@ -6,13 +6,13 @@ export const studentStore = {
     },
     actions: {
         LOAD_STUDENT_DATA: async function ({ commit, rootState }) {
-            const URL = "http://localhost:7000/users/default"
-            // const URL = "https://www.sit-acc.nruf.in.th/users/default"
-            console.log("เข้า LOAD_STUDENT_DATA")
+            // const URL = "http://localhost:7000/users/default"
+            const URL = "https://www.sit-acc.nruf.in.th/users/default"
+            // console.log("เข้า LOAD_STUDENT_DATA")
             const { data } = await axios.get(
                 URL, rootState.loginStore.config
             );
-            console.log("access : ", data)
+            // console.log("access : ", data)
             commit('SET_STUDENT_DATA', data)
         }
     },

@@ -1,0 +1,124 @@
+<template>
+    <div id="member">
+        <div class="card" id="Authors">
+            <header class="card-header">
+              <p class="card-header-title" id="cardHeader">Members</p>
+            </header>
+            <div class="card-content" id="student">
+              <div class="columns" v-for="(student,index) in getMember" v-bind:key="index">
+                <div class="column" id="left">
+                  <div class="content">
+                    <input class="input"
+                      type="text"
+                      v-model="student.firstname"
+                      id="fname"
+                      disabled
+                      style="font-size:1px;"
+                    />
+                    <input class="input"
+                      type="text"
+                      v-model="student.lastname"
+                      id="lname"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="content">
+                    <div id="student_id">ID : {{student.student_id}}</div>
+                    <div id="mail">{{student.email}}</div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="getNonMember.length != 0"></div>
+              <p id="non">Non Member</p>
+              <div
+                class="columns"
+                v-for=" (out,index) in getNonMember"
+                v-bind:key="`${index}-${out.id}`"
+                id="outsider"
+              >
+                <div class="column">
+                  <div class="content">
+                    <input
+                      class="input"
+                      type="text"
+                      v-model="out.firstname"
+                      id="fname"
+                      disabled
+                    >
+                    <input
+                      class="input"
+                      type="text"
+                      v-model="out.lastname"
+                      id="lname"
+                      disabled
+                    >
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="content">
+                    <div id="mail">{{out.email}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</template>
+<script>
+import { mapGetters } from 'vuex';
+export default {
+    data(){
+        return{
+            fullname:''
+        }
+    },
+    computed:{
+        ...mapGetters([
+            'getNonMember',
+            'getMember'
+        ])
+    },
+}
+</script>
+<style>
+    #non{
+        color: #949494;
+        margin-left: 15%;
+        margin-bottom: 20px;
+        margin-top: -10px;
+    }
+    #fname,#lname,#student_id{
+      color: #265080 !important ;
+      background-color: white !important;
+      border: none !important;
+      font-family: Asap !important;
+      font-style: normal !important;
+      font-weight: normal !important;
+      font-size: 15px !important;
+      margin-top: -10px !important;
+    }
+    #mail{
+        font-family: Asap !important;
+        font-style: normal !important;
+        font-weight: normal !important;
+        font-size: 14px !important;
+        line-height: 16px !important;
+        display: flex !important;
+        align-items: center !important;
+
+        color: #949494 !important;
+    }
+    #left{
+        max-width: 80%;
+        table-layout: fixed;
+    }
+    #fname{
+
+    }
+    #lname{
+        margin-right: -30px !important;
+    }
+
+</style>
