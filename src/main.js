@@ -6,24 +6,17 @@ import router from './router'
 import {store} from './components/store/store'
 import Axios from 'axios';
 import Bars from 'vuebars'
-
-
-
-
 import "./vee-validate";
-
-
-
-
-
 Vue.use(Bars)
 
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
-
-
 Vue.use(VueMaterial)
+
+import Donut from 'vue-css-donut-chart';
+import 'vue-css-donut-chart/dist/vcdonut.css';
+Vue.use(Donut);
 
 Vue.config.productionTip = false
 

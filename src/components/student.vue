@@ -2,12 +2,8 @@
 <div id="list-project of student">
     <div id="bodyBg">
         <div class="buttons has-addons is-centered is-fullwidth">
-            <!-- <span class="button menuBar">Profile</span> -->
             <span class="button menuBar is-info is-selected">Project</span>
             <span class="button menuBar" style="color:#265080 !important">Assignment</span>
-            <!-- <span class="button menuBar">
-                <router-link to="createPortPage" style="color:#265080 !important">Fingerprint</router-link>
-            </span> -->
             <span class="button menuBar">
                 <router-link to="GenerateResume" style="color:#265080 !important">Generate Resume</router-link>
             </span>
@@ -17,19 +13,14 @@
         <div id="bodyBg">
             <div class="columns" style="padding: 15px 0 15px 0;">
                 <div class="column is-3 picture" style="position: relative;">
-                    <img class="profileImg" :src="profile.profile_picture" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg" height="133.61" width="105">
-                    <!-- <img class="profileImg" src="./../assets/gib.jpg" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg" height="133.61" width="105"> -->
-                    <!-- <img class="profileImg" src="./../assets/03-REP-Photo-KMUTT-SophonJampasornklin.jpg" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg" height="133.61" width="105"> -->
-                    <div id="textBlock" class="text-block" style="display:none">Change Image</div>
-                    <input type="file" ref="profileImg" @change="uploadProfileImg">
-                    <!-- <input type="file" ref="file" @change="selectFile" class="file-input" accept=".jpg, .png"  /> -->
-                    <!-- <img v-if="url" :src="url" /> -->
+                    <img class="profileImg" v-if="profile.profile_picture != null" :src="profile.profile_picture" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg">
+                    <div id="textBlock" class="text-block" style="display:flex"><i class="la la-camera-retro"></i>Update</div>
+                    <input type="file" ref="profileImg" @change="uploadProfileImg" class="file-input profileInput" accept=".jpg, .png"  @mouseover="showUploadImg" @mouseout="hideUploadImg" />
                 </div>
                 <div class="column is-three-fifths" id="information">
                     <br>
                     <p id="name">{{profile.firstname}} {{profile.lastname}}</p>
                     <p id="info">Bachelor of Science Programme in {{profile.curriculum_name}}</p>
-                    <!-- <p id="info"> {{year}} (Mock Data)</p> -->
                     <p id="info"> {{profile.student_id}}</p>
                     <br><br>
                     <p id="info" v-if="clickEditEmail == false">{{profile.email}} <i class="la la-pencil" @click="clickEditEmail = true"></i></p>
@@ -44,7 +35,7 @@
                         <!-- </ValidationProvider> -->
                         <!-- <div></div> -->
                     </md-field>
-                    <div v-if="clickEditEmail == true" style="margin-bottom:-6px">
+                    <div v-if="clickEditEmail == true" style="margin-bottom:-20px">
                         <a class="button is-small saveBtn" @click="saveChange">Save</a>
                         <a class="button is-small cancelBtn" @click="cancelChange">Cancel</a>
                     </div>
@@ -59,7 +50,7 @@
                         </div>
                         <div class="level-item has-text-centered">
                             <div>
-                                <p class="title">{{profile.viwer}}</p>
+                                <p class="title">{{profile.viewer}}</p>
                                 <p class="heading">View Profile</p>
                             </div>
                         </div>
@@ -90,7 +81,9 @@
             <div class="column" style="padding: 8px 8px;">
                 <div class="tags">
                     <span class="tag" v-for="(tag,index) in tags" v-bind:key="index" style="border-radius: 12px;background-color:#FFD15C;color: white;font-weight: bolder;">
-                        {{tag.tag_name}} ({{tag.total_tag}})
+                        {{tag.tag_name}} 
+                        <!-- ({{tag.total_tag}})  -->
+                        <vc-donut :sections="[{ value: (tag.total_tag*100/projects.length), color: '#265080' }]" :size="15" :thickness="40"></vc-donut>
                     </span>
                 </div>
             </div>
@@ -110,7 +103,7 @@
                     <div class="card">
                         <div class="card-image" v-if="project.cover_path != null">
                             <figure class="image is-4by2">
-                                <img :src="project.cover_path" alt="Placeholder image">
+                                <img :src="project.cover_path" alt="Placeholder image" style="height: 156.22px; !important">
                             </figure>
                         </div>
                         <div class="card-image" v-else>
@@ -163,7 +156,8 @@ export default {
             message: '',
             info: 'Bachelor of Science Programme in Information Technology',
             year: '3rd year SIT Student',
-            clickEditEmail: false
+            clickEditEmail: false,
+            sections: [{ value: 35, color: '#265080' }]
         }
     },
     computed: {
@@ -189,10 +183,6 @@ export default {
         },
         async saveChange() {
             var newEmail = document.getElementById('email').value
-            // this.UPDATE_FIELD({
-            //     callSetter: 'SET_EMAIL',
-            //     value: newEmail
-            // })
             try {
                 await axios
                     // .patch("http://localhost:7000/users/email", {
@@ -215,26 +205,9 @@ export default {
             this.clickEditEmail = false
         },
         async uploadProfileImg() {
-            // try {
-            //     await axios
-            //         // .patch("http://localhost:7000/users/email", {
-            //         .patch("https://www.sit-acc.nruf.in.th/users/email", {
-            //             email: newEmail
-            //         }, this.config)
-            //         .then((res) => {
-            //             console.log("success! : ", res);
-            //             this.LOAD_STUDENT_DATA()
-            //         })
-            //         .catch((err) => {
-            //             console.error("err : " + err);
-            //         });
-            // } catch (err) {
-            //     console.log("FAILURE!!" + err);
-            // }
             const formData = new FormData();
             formData.append('file', this.$refs.profileImg.files[0]);
-            // formData.append('project_id',this.$route.params.pId);
-            // console.log("formdata : ",formData)
+            formData.append('method', 'profile');
             try {
                 await axios
                     .patch('https://www.sit-acc.nruf.in.th/users/image', formData, this.config)

@@ -50,8 +50,6 @@ export const loginStore = {
     setIdToken(state, token) {
       state.idToken = token;
       state.config.headers.Authorization = token
-      // console.log("refresh แล้ว token จาก localStorageเก็บลง state > ",state.config.headers.Authorization)
-
     },
     setConfig(state, config) {
       state.headers = config

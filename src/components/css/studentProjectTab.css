@@ -37,7 +37,10 @@ svg{
   margin: -10% 0 0 10% !important;
 }
 #profilePic{
-  width: 105px !important;
+  width: 110.5px !important;
+  /* width: 105px !important; */
+  height: 145px !important;
+  /* height: 133.61px !important; */
   margin: 0 -10% 0 25% !important;
 }
 #name{
@@ -211,9 +214,9 @@ img{
   background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
   color: #f1f1f1;
   position: absolute;
-  padding: 5px 5px;
-  top: 71%;
-  left: 27.5%
+  padding: 5px 21.6px;
+  top: 73.3%;
+  left: 27%;
 }
 
 .picture{
@@ -232,3 +235,6 @@ img{
   color: #6F6F6F !important;
 }
 
+.profileInput:hover{
+  cursor: pointer;
+}
