@@ -11,6 +11,7 @@ export const detailStore = {
         nonMember:'',
         tool:'',
         ref:'',
+        tag:''
     },
     mutations: {
         setPID:(state ,pID)=>{
@@ -40,6 +41,9 @@ export const detailStore = {
         },
         setRef:(state, ref)=>{
             state.ref = ref
+        },
+        setTag:(state, tag)=>{
+            state.tag = tag
         }
     },
     actions: {
@@ -69,6 +73,9 @@ export const detailStore = {
         },
         setRef:({commit},ref)=>{
             commit('setRef',ref)
+        },
+        setTag:({commit},tag)=>{
+            commit('setTag',tag)
         }
     },
     getters: {
@@ -98,6 +105,9 @@ export const detailStore = {
         },
         getRef(state){
             return state.ref
+        },
+        getTag(state){
+            return state.tag
         }
     }
 }

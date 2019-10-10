@@ -112,7 +112,7 @@ export default {
         this.loadAllDocs()
         // const { data } = await axios.get('http://localhost:7000/projects/1')
         // console.log("getID : ",this.getPID)
-        const { data } = await axios.get(`https://www.sit-acc.nruf.in.th/projects/${this.$route.params.pId}`)
+        const { data } = await axios.get(`https://www.sit-acc.nruf.in.th/projects/?project_id=${this.$route.params.pId}`)
         const doc = data.document.map((_item, index = 0) => _item.path_name);
 
         for (let i = 0; i < doc.length; i++) {
@@ -139,7 +139,7 @@ export default {
         loadAllDocs: async function () {
             this.files = []
             // const { data } = await axios.get('http://localhost:7000/projects/1')
-            const { data } = await axios.get(`https://www.sit-acc.nruf.in.th/projects/${this.$route.params.pId}`)
+            const { data } = await axios.get(`https://www.sit-acc.nruf.in.th/projects/?project_id=${this.$route.params.pId}`)
             const doc = data.document.map((_item, index = 0) => _item.path_name);
 
             for (let i = 0; i < doc.length; i++) {

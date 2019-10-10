@@ -1,15 +1,15 @@
 <template>
 <div id="app">
     <div id="Img">
-    <agile class="main" ref="main" :options="options1" :as-nav-for="asNavFor1">
-        <div class="slide" v-for="(slide, index) in getImages" :key="index" :class="`slide--${index}`"><img :src="slide.path" class="image is-3by1"/></div>
-    </agile>
-    <agile class="thumbnails" ref="thumbnails" :options="options2" :as-nav-for="asNavFor2">
-        <div class="slide slide--thumbniail" v-for="(slide, index) in getImages" :key="index" :class="`slide--${index}`" @click="$refs.thumbnails.goTo(index)" >
-            <img :src="slide.path"/></div>
-        <template slot="prevButton"><i class="fas fa-chevron-left"></i></template>
-        <template slot="nextButton"><i class="fas fa-chevron-right"></i></template>
-    </agile>
+        <agile class="main" ref="main" :options="options1" :as-nav-for="asNavFor1">
+            <div class="slide" v-for="(slide, index) in getImages" :key="index" :class="`slide--${index}`"><img :src="slide.path" class="image is-3by1" /></div>
+        </agile>
+        <agile class="thumbnails" ref="thumbnails" :options="options2" :as-nav-for="asNavFor2">
+            <div class="slide slide--thumbniail" v-for="(slide, index) in getImages" :key="index" :class="`slide--${index}`" @click="$refs.thumbnails.goTo(index)">
+                <img :src="slide.path" class="image is-128x128" /></div>
+            <template slot="prevButton"><i class="fas fa-chevron-left"></i></template>
+            <template slot="nextButton"><i class="fas fa-chevron-right"></i></template>
+        </agile>
     </div>
 </div>
 </template>
@@ -17,66 +17,63 @@
 <script>
 import Vue from "vue";
 import VueAgile from '../../../node_modules/vue-agile/src/Agile'
-import  './VueAgile.css'
-import '../../../node_modules/vue-agile/src/mixins/handlers.js'
-import '../../../node_modules/vue-agile/src/mixins/preparations.js'
-import '../../../node_modules/vue-agile/src/mixins/props.js'
-// import '../../../node_modules/vue-agile/src/mixins/watchers.js'
-import '../../../node_modules/vue-agile/src/mixins/helpers.js'
-import '../../../node_modules/vue-agile/src/mixins/preparations.js'
-import { mapGetters } from 'vuex';
+import '../../../node_modules/vue-agile/dist/VueAgile.css'
+
+import {
+    mapGetters
+} from 'vuex';
 
 Vue.use(VueAgile)
 export default {
-        components: {
-        agile: VueAgile 
-        },
-        computed:{
-            ...mapGetters([
-                'getImages'
-            ])
-        },
+    components: {
+        agile: VueAgile
+    },
+    computed: {
+        ...mapGetters([
+            'getImages'
+        ])
+    },
 
-        data() {
-            return {
-                asNavFor1: [],
-                asNavFor2: [],
-                options1: {
-                    dots: false,
-                    fade: true,
-                    navButtons: false
-                },
+    data() {
+        return {
+            asNavFor1: [],
+            asNavFor2: [],
+            options1: {
+                dots: false,
+                fade: true,
+                navButtons: false
+            },
 
-                options2: {
-                    autoplay: true,
-                    centerMode: true,
-                    dots: false,
-                    navButtons: false,
-                    slidesToShow: 1,
-                    responsive: [{
-                            breakpoint: 600,
-                            settings: {
-                                slidesToShow: 4
-                            }
-                        },
-
-                        {
-                            breakpoint: 1000,
-                            settings: {
-                                navButtons: true
-                            }
+            options2: {
+                autoplay: true,
+                centerMode: true,
+                dots: false,
+                navButtons: false,
+                slidesToShow: 4,
+                responsive: [{
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 4
                         }
-                    ]
-                },
-                
-            };
+                    },
 
-        },
-        mounted() {
-            this.asNavFor1.push(this.$refs.thumbnails);
-            this.asNavFor2.push(this.$refs.main);
-            console.log("img : ",this.getImages)
-        }
+                    {
+                        breakpoint: 1000,
+                        settings: {
+                            navButtons: true
+                        }
+                    }
+                ]
+            },
+
+        };
+
+    },
+    mounted() {
+        this.asNavFor1.push(this.$refs.thumbnails);
+        this.asNavFor2.push(this.$refs.main);
+        console.log("img : ", this.getImages)
+    }
 
 }
 </script>
@@ -84,10 +81,10 @@ export default {
 <style>
 #Img {
     font-family: "Lato", sans-serif;
-    font-weight: 300 ;
-    margin: 0 auto ;
-    max-width: 900px ;
-    padding: 30px ;
+    font-weight: 300;
+    margin: 0 auto;
+    max-width: 900px;
+    padding: 30px;
 }
 
 .main {
@@ -177,9 +174,10 @@ export default {
     object-fit: cover;
     -o-object-position: center;
     object-position: center;
-    width: 100% ;
+    width: 100%;
 }
-#Img{
+
+#Img {
     margin-top: -150px;
 }
 </style>

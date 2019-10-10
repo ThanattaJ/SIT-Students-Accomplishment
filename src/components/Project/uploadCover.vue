@@ -102,6 +102,7 @@ export default {
                 this.error = false;
                 console.log(data)
                 this.setFile(data.url)
+                 this.isActive = false;
                 // this.setFile(data.status)
 
             } catch (err) {

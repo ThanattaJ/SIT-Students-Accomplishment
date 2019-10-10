@@ -6,8 +6,8 @@
     </div>
     <!-- -------------cover----------------- -->
     <div class="section" id="imgCover">
-        <div v-if="this.getFile">
-            <img :src="getFile" height="1000" width="900">
+        <div v-if="this.cover[0].path != null">
+            <img :src="this.getFile" height="1000" width="900">
         </div>
         <div v-else>
             <img src="../.././assets/no-image-icon-23485.png">
@@ -23,21 +23,22 @@
                 <div style="margin-left:90%; color: #949494; font-size: 12px;">End at: {{this.end.month}}-{{this.end.year}}</div>
             </div>
         </div>
-        <div class="content" id="tags">
+        <!-- <div class="content" id="tags">
             <div v-if="EditProject">
-                <md-chips v-model="Tags" md-clickable md-placeholder="Add Tags..."></md-chips>
+                <div v-for="(tag,index) in this.getTag" v-bind:key="index">
+                    <md-chips v-model="tag.tag_name" md-clickable md-placeholder="Add Tags..."></md-chips>
+                </div>
             </div>
             <div v-else>
                 <md-chips v-model="Tags" md-clickable md-static md-placeholder="Add Tags..."></md-chips>
             </div>
-        </div>
+        </div> -->
         <div class="columns">
             <div class="column is-four-fifths">
                 <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
                 <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
                 <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
             </div>
-
             <img class="image is-32x32" src="../.././assets/clap.png" style="margin-top:20px ; margin-left:5%">
             <div style="margin-top:25px ; margin-left:5px">:{{this.clap}}</div>
 
@@ -46,30 +47,18 @@
             <div style="margin-top:25px ; margin-left:5px">: {{this.viewer}}</div>
 
         </div>
-
     </div>
     <Abstract />
-    <!-- ------------------------------ -->
     <div id="body-project">
         <div class="columns">
             <div class="column is-6">
                 <Detail />
                 <achievements />
                 <div id="image">
-                    <div id="container is-fluid">
-                        <!-- <div class="columns is-multiline">
-                            <div class="column is-one" v-for="(picture,index) in getImages" v-bind:key="index">
-                                <div class="image is-228x228">
-                                    <md-button style=" justify-content: center" class="md-fab md-mini md-plain md-fab-bottom-right" v-if="EditProject" @click="deletePicture(index)">
-                                        <md-icon>x</md-icon>
-                                    </md-button>
-                                    <img :src="picture.path">
-                                </div>
-                            </div>
-                        </div> -->
-                         <showImg/>
-                        <div class="container" v-if="EditProject">
-                            <uploadimg />
+                    <div id="container">
+                        <showImg />
+                        <div class="container" id="edit" v-if="EditProject">
+                            <editImg />
                         </div>
                     </div>
                 </div>
@@ -81,7 +70,6 @@
                     </div>
                 </div>
             </div>
-            <!-- ---------------------------- -->
             <div class="column">
                 <member />
                 <tool />
@@ -109,7 +97,6 @@
             </div>
         </div>
     </div>
-                             <!-- <showImg/> -->
 </div>
 </template>
 
@@ -130,13 +117,11 @@ import ref from './ref';
 import uploadFilePond from "./uploadFilePond";
 import uploadimg from "./uploadimg";
 import uploadCover from "./uploadCover";
+import editImg from "./editImg"
 import Document from "./../NewPortfolioPage/Document.vue";
 import Video from "./../NewPortfolioPage/Video.vue";
 import "./../css/ProjectDetail.css";
 import showImg from "./showImg"
-
-
-
 
 export default {
 
@@ -152,7 +137,12 @@ export default {
             'getAchievements',
             'getMember',
             'getNonMember',
-            'getEditProject'
+            'getEditProject',
+            'getTool',
+            'GET_ACHIEVEMENT',
+            'getDetail',
+            'getRef',
+            'getTag'
         ]),
     },
     components: {
@@ -167,9 +157,8 @@ export default {
         member,
         tool,
         ref,
-        showImg
-    
-
+        showImg,
+        editImg
     },
 
     data() {
@@ -185,7 +174,6 @@ export default {
                 content_eg: " "
             },
             Authours: [{
-                project_id: 1,
                 Student_id: "",
                 firstname: "",
                 lastname: "",
@@ -227,11 +215,10 @@ export default {
             clap: '',
             viewer: ''
         }
-
     },
 
     async mounted() {
-
+        console.log("Member : ", this.getMember)
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -250,7 +237,7 @@ export default {
         const {
             data
         } = await axios.get(
-            `https://www.sit-acc.nruf.in.th/projects/${this.$route.params.pId}`,
+            `https://www.sit-acc.nruf.in.th/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
         // "http://localhost:7000/projects/" + this.$route.params.pId
         this.header.TitleName = data.project_detail.project_name_en;
@@ -270,6 +257,7 @@ export default {
         this.setNonMember(data.outsiders)
         this.setRef(data.project_detail.references)
         this.setTool(data.project_detail.tool_techniq_detail)
+        this.setTag(data.tags)
 
         // -------------------
 
@@ -278,8 +266,7 @@ export default {
         this.Tools = data.project_detail.tool_techniq_detail
         this.References = data.project_detail.references
 
-        console.log("data.achievements : ", this.Abstract.content_Abstract)
-        console.log("data.outsiders", this.Detail.content_eg)
+        console.log("cover : ", this.cover[0].path)
 
         // document
         for (let i = 0; i < data.document.length; i++) {
@@ -317,7 +304,6 @@ export default {
         this.pictures.push({
             path: this.getPath
         });
-        // console.log("getPath : ", this.getPath)
     },
     methods: {
         ...mapActions([
@@ -333,6 +319,7 @@ export default {
             'setNonMember',
             'setTool',
             'setRef',
+            'setTag'
         ]),
         save() {
             this.EditProject = false;
@@ -341,15 +328,15 @@ export default {
                 axios
                     .patch(`https://www.sit-acc.nruf.in.th/projects/`, {
                         project_detail: {
-                            id: this.project_id,
+                            id: this.$route.params.pId,
                             project_name_th: this.header.TitleName_TH,
                             project_name_en: this.header.TitleName,
-                            project_detail: this.Detail.content_eg,
-                            project_abstract: this.Abstract.content_Abstract,
+                            project_detail: this.getDetail,
+                            project_abstract: this.getAbstract,
                             haveOutsider: true,
                             isShow: false,
-                            tool_techniq_detail: this.Tools.tool,
-                            references: null,
+                            tool_techniq_detail: this.getTool,
+                            references: this.getRef,
                             count_viewer: 0,
                             count_clap: 0,
                             start_month: 2,
@@ -360,19 +347,8 @@ export default {
                             "end_year_en": 2019,
                             project_type_name: "External"
                         },
-                        students: [{
-                            student_id: this.Authours.Student_id,
-                            firstname: this.Authours.firstname,
-                            lastname: this.Authours.lastname,
-                            email: this.Authours.mail
-                        }],
-                        achievements: [{
-                            project_id: this.project_id,
-                            achievement_name: this.Acheivement.name,
-                            achievement_detail: this.Acheivement.detail,
-                            organize_by: this.Acheivement.company,
-                            date_of_event: this.Acheivement.date_of_event
-                        }],
+                        students: this.getMember,
+                        achievements: this.GET_ACHIEVEMENT,
                         tags: [],
                         document: [],
                         picture: [],
@@ -380,7 +356,6 @@ export default {
                             path_name: null
                         },
                         outsiders: [{
-                            id: this.outsider.id,
                             firstname: this.outsider.firstname,
                             lastname: this.outsider.lastname,
                             email: this.outsider.mail
@@ -411,29 +386,10 @@ export default {
             this.setEditProject(this.EditProject)
             // console.log("2",this.getEditProject)
         },
-        deletePicture(index) {
-            console.log("delete  : " + this.getImages[index].path);
 
-            try {
-                axios
-                    .delete("https://www.sit-acc.nruf.in.th/files/image", {
-                        //.delete("http://localhost:7000/files/image", {
-                        data: {
-                            path_name: this.getImages[index].path
-                        }
-                    }, this.GET_CONFIG)
-                    //
-                    .then(response => this.getImages.splice(index, 1));
-            } catch (err) {
-                console.log("FAILURE!!" + err);
-                this.message = "Something went wrong";
-                this.error = true;
-            }
-        }
     }
 };
 </script>
 
 <style>
-
 </style>

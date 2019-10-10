@@ -8,7 +8,7 @@
                         <div class="container">
                             <div class="content has-text-centered">
                                 <p class="control">
-                                    <button v-on:click="launch" class="button is-primary" id="uploadCover">Upload Image</button>
+                                    <md-button class="md-raised md-primary" v-on:click="launch" id="uploadImg">Upload Image</md-button>
                                 </p>
                             </div>
                             <div class="modal" v-bind:class="{'is-active':isActive}" id="modalImage">
@@ -17,11 +17,10 @@
                                     <div class="box">
 
                                         <div class="content has-text-centered">
-                                            <!-- <button @click="close" class="modal-close" id="close"></button> -->
                                             <p class="control" />
                                             <h5>{{messageUpload}}</h5>
                                             <input type="file" ref="file" @change="selectFile" class="file-input" accept=".jpg, .png, .gif" id="inputCovr" />
-                                            <img v-if="url" :src="url" />
+                                            <img  v-if="url" :src="url" id="coverImg" />
                                             <span>&nbsp;</span>
                                             <span v-if="file" class="file-name">{{file.name}}</span>
                                             <p>{{message}}</p>
@@ -77,7 +76,6 @@ export default {
             const formData = new FormData();
             formData.append('files', this.file);
             formData.append('project_id', this.$route.params.pId);
-            // formData.append('isCover',"false");
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
@@ -89,14 +87,14 @@ export default {
                 const {
                     data
                 } = await axios.post('https://www.sit-acc.nruf.in.th/files/imageMul', formData, config)
-
+                
                 this.message = "File has been uploaded";
                 this.error = false;
                 this.addImage({
                     path: data.url[0].path_name
                 })
-
-                console.log("upload image : ", data.url[0].path_name)
+                // console.log("upload image : ", data.url[0].path_name)
+                this.isActive = false;
 
             } catch (err) {
                 console.log('FAILURE!!' + err)
@@ -156,18 +154,6 @@ export default {
     margin-left: -20%;
     margin-top: -2%;
 }
-
-#preview {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#preview img {
-    max-width: 100%;
-    max-height: 500px;
-}
-
 #uploadCover {
     height: 55px;
 }
@@ -180,4 +166,12 @@ export default {
     margin-right: 370px;
     margin-top: 50px
 }
+
+#uploadImg {
+    margin-left: 45%;
+}
+#coverImg{
+    height: 50% !important;
+}
+
 </style>
