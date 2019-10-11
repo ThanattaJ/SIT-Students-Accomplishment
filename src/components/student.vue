@@ -13,8 +13,8 @@
         <div id="bodyBg">
             <div class="columns" style="padding: 15px 0 15px 0;">
                 <div class="column is-3 picture" style="position: relative;">
-                    <img class="profileImg" v-if="profile.profile_picture != null" :src="profile.profile_picture" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg">
-                    <img class="profileImg" v-else src="./../assets/girl.png" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg">
+                    <img class="profileImg StdImgPage" v-if="profile.profile_picture != null" :src="profile.profile_picture" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg">
+                    <img class="profileImg StdImgPage" v-else src="./../assets/girl.png" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg">
                     <div id="textBlock" class="text-block" style="display:flex"><i class="la la-camera-retro"></i>Update</div>
                     <input type="file" ref="profileImg" @change="uploadProfileImg" class="file-input profileInput" accept=".jpg, .png" @mouseover="showUploadImg" @mouseout="hideUploadImg" />
                 </div>
@@ -106,12 +106,12 @@
                     <div class="card">
                         <div class="card-image" v-if="project.cover_path != null">
                             <figure class="image is-4by2">
-                                <img :src="project.cover_path" alt="Placeholder image" style="height: 156.22px; !important">
+                                <img class="StdImgPage" :src="project.cover_path" alt="Placeholder image" style="height: 156.22px; !important">
                             </figure>
                         </div>
                         <div class="card-image" v-else>
                             <figure class="image is-4by2">
-                                <img src="./../assets/noCoverImg.png">
+                                <img class="StdImgPage" src="./../assets/noCoverImg.png">
                             </figure>
                         </div>
                         <div class="card-content projectInfo">
