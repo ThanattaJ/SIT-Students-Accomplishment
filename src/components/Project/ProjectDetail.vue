@@ -6,7 +6,7 @@
     </div>
     <!-- -------------cover----------------- -->
     <div class="section" id="imgCover">
-        <div v-if="this.cover[0].path != null">
+        <div v-if="this.cover[0]">
             <img :src="this.getFile" height="1000" width="900">
         </div>
         <div v-else>
@@ -225,7 +225,7 @@ export default {
     },
 
     async mounted() {
-        // console.log("Member : ", this.getMember)
+        // console.log("Member : ", this.getDetail)
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -257,17 +257,17 @@ export default {
         // this.viewer = data.project_detail.count_viewer
         this.create = data.project_detail.created_at
         this.update = data.project_detail.updated_at
-
         this.setPID(data.project_detail.id)
         this.setAbstract(data.project_detail.project_abstract)
         this.setDetail(data.project_detail.project_detail)
         this.setAchievements(data.achievements)
         this.setMember(data.students)
         this.setNonMember(data.outsiders)
-        this.setRef(data.project_detail.references)
+        this.setRef(data.project_detail.references[0])
         this.setTool(data.project_detail.tool_techniq_detail)
         this.setTag(data.tags)
 
+        console.log("Details :", data.project_detail.project_detail)
         // -------------------
 
         this.Abstract.content_Abstract = data.project_detail.project_abstract
@@ -335,6 +335,8 @@ export default {
             'setPic'
         ]),
         save() {
+            console.log("detail :", this.getDetail)
+            console.log("-------------------")
             this.EditProject = false;
             this.setEditProject(this.EditProject)
             try {
@@ -344,12 +346,12 @@ export default {
                             id: this.$route.params.pId,
                             project_name_th: this.header.TitleName_TH,
                             project_name_en: this.header.TitleName,
-                            project_detail: this.getDetail,
+                            project_detail: this.getDetail === "" ? null : this.getDetail,
                             project_abstract: this.getAbstract,
                             haveOutsider: true,
-                            isShow: false,
+                            isShow: true,
                             tool_techniq_detail: this.getTool,
-                            references: this.getRef,
+                            references: this.getRef === ""? null: this.getRef,
                             count_viewer: 0,
                             count_clap: 0,
                             start_month: 2,
