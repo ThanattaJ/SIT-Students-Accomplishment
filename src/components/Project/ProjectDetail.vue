@@ -17,22 +17,21 @@
         <uploadCover v-if="EditProject" id="uploadCover" />
         <div>
             <div id="create">
-                <div style="margin-left:90%; color: #949494 ; font-size: 12px;">Start at: {{this.start.month}}-{{this.start.year}}</div>
+                <div style="margin-left:80%; color: #949494 ; font-size: 12px;">Created at: {{this.create}}</div>
             </div>
             <div id="end">
-                <div style="margin-left:90%; color: #949494; font-size: 12px;">End at: {{this.end.month}}-{{this.end.year}}</div>
+                <div style="margin-left:80%; color: #949494; font-size: 12px;">Updated at: {{this.update}}</div>
             </div>
         </div>
-        <!-- <div class="content" id="tags">
-            <div v-if="EditProject">
-                <div v-for="(tag,index) in this.getTag" v-bind:key="index">
-                    <md-chips v-model="tag.tag_name" md-clickable md-placeholder="Add Tags..."></md-chips>
-                </div>
+        <div class="column" style="padding: 8px 8px;">
+            <div class="tags">
+                <span class="tag profileTag" v-for="(tag,index) in GET_STUDENT_TAG" v-bind:key="index">
+                    <vc-donut :sections="[{ value: (tag.total_tag*100/GET_STUDENT_PROJECT.length), color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut>
+                    <span style="padding-left:5px">{{tag.tag_name}} </span>
+                    <!-- ({{tag.total_tag}})  -->
+                </span>
             </div>
-            <div v-else>
-                <md-chips v-model="Tags" md-clickable md-static md-placeholder="Add Tags..."></md-chips>
-            </div>
-        </div> -->
+        </div>
         <div class="columns">
             <div class="column is-four-fifths">
                 <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
@@ -56,7 +55,11 @@
                 <achievements />
                 <div id="image">
                     <div id="container">
-                        <showImg />
+                        <div v-if="this.pictures[0].path != ' '">
+                            <showImg />
+                        </div>
+                        <div v-else>
+                        </div>
                         <div class="container" id="edit" v-if="EditProject">
                             <editImg />
                         </div>
@@ -142,7 +145,9 @@ export default {
             'GET_ACHIEVEMENT',
             'getDetail',
             'getRef',
-            'getTag'
+            'getTag',
+            'GET_STUDENT_TAG',
+            'GET_STUDENT_PROJECT'
         ]),
     },
     components: {
@@ -204,21 +209,23 @@ export default {
             Tags: [
                 'Vue.js'
             ],
-            start: {
-                month: '',
-                year: ''
-            },
-            end: {
-                month: '',
-                year: ''
-            },
+            // start: {
+            //     month: '',
+            //     year: ''
+            // },
+            // end: {
+            //     month: '',
+            //     year: ''
+            // },
             clap: '',
-            viewer: ''
+            viewer: '',
+            create: '',
+            update: ''
         }
     },
 
     async mounted() {
-        console.log("Member : ", this.getMember)
+        // console.log("Member : ", this.getMember)
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -242,12 +249,14 @@ export default {
         // "http://localhost:7000/projects/" + this.$route.params.pId
         this.header.TitleName = data.project_detail.project_name_en;
         this.header.TitleName_TH = data.project_detail.project_name_th;
-        this.start.month = data.project_detail.start_month
-        this.start.year = data.project_detail.start_year_en
-        this.end.month = data.project_detail.end_month
-        this.end.year = data.project_detail.end_year_en
-        this.clap = data.project_detail.count_clap
-        this.viewer = data.project_detail.count_viewer
+        // this.start.month = data.project_detail.start_month
+        // this.start.year = data.project_detail.start_year_en
+        // this.end.month = data.project_detail.end_month
+        // this.end.year = data.project_detail.end_year_en
+        // this.clap = data.project_detail.count_clap
+        // this.viewer = data.project_detail.count_viewer
+        this.create = data.project_detail.created_at
+        this.update = data.project_detail.updated_at
 
         this.setPID(data.project_detail.id)
         this.setAbstract(data.project_detail.project_abstract)
@@ -266,7 +275,7 @@ export default {
         this.Tools = data.project_detail.tool_techniq_detail
         this.References = data.project_detail.references
 
-        console.log("cover : ", this.cover[0].path)
+        console.log("cover : ", this.pictures)
 
         // document
         for (let i = 0; i < data.document.length; i++) {
@@ -293,11 +302,14 @@ export default {
                 this.cover.push(data.picture[i]);
                 this.setFile(data.picture[i].path_name);
             } else if (name != "cover") {
+                this.pictures.push({
+                    path: newPath
+                });
                 this.countPic++;
                 this.addImage({
                     path: newPath
                 })
-                // this.pictures.push({ path : newPath});
+                this.setPic(this.pictures)
 
             }
         }
@@ -319,7 +331,8 @@ export default {
             'setNonMember',
             'setTool',
             'setRef',
-            'setTag'
+            'setTag',
+            'setPic'
         ]),
         save() {
             this.EditProject = false;

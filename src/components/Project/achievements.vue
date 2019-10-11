@@ -1,11 +1,11 @@
 <template>
 <div id="achievements">
-    <div class="card" id="achievements" style="$card-header-padding: 20px" v-if="this.GET_ACHIEVEMENT.length != 0">
+    <div class="card" id="achievements" style="$card-header-padding: 20px" v-if="this.getAchievements.length != 0">
         <header class="card-header">
             <p class="card-header-title" id="cardHeader">Acheivement</p>
         </header>
         <div id="achieve">
-            <div id="Acheivement" v-for=" i in this.GET_ACHIEVEMENT" v-bind:key="i.name">
+            <div id="Acheivement" v-for=" i in getAchievements" v-bind:key="i.name">
                 <md-card id="achievem">
                     <md-card-header>
                         <md-card-header-text id="aName"> {{i.achievement_name}}</md-card-header-text>
@@ -49,15 +49,14 @@
                             </md-card-content>
 
                             <md-card-actions>
-                                <md-button>Add</md-button>
-                                <md-button>Cancle</md-button>
+                                <md-button  @click="addAchievement">Add</md-button>
+                                <md-button @click="close">Cancle</md-button>
                             </md-card-actions>
                         </md-card>
                     </md-dialog>
                     <md-button style="margin-right: 20px;margin-bottom:-10px;" class="md-fab md-mini md-primary md-fab-bottom-right" v-if="getEditProject === true" @click="active = true">
                         <md-icon>+</md-icon>
                     </md-button>
-                    <span v-if="value">Value: {{ value }}</span>
                 </div>
             </div>
         </div>
@@ -125,7 +124,8 @@ export default {
         ])
     },
     mounted() {
-        console.log("getAchievements  : ", this.GET_ACHIEVEMENT)
+        console.log("getAchievements  : ", this.getAchievements)
+        console.log("Gib : ",this.GET_ACHIEVEMENT)
     },
     methods: {
         ...mapActions(['SET_ACHIEVEMENT']),
@@ -139,7 +139,7 @@ export default {
                 })
                 this.active = false,
                     this.clearInputValue()
-                console.log("have achivement")
+                // console.log("have achivement")
             } else {
                 console.log("post achivement some thing went worng")
             }

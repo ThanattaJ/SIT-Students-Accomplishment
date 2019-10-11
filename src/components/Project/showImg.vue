@@ -1,11 +1,11 @@
 <template>
 <div id="app">
-    <div id="Img">
+    <div id="Img" >
         <agile class="main" ref="main" :options="options1" :as-nav-for="asNavFor1">
-            <div class="slide" v-for="(slide, index) in getImages" :key="index" :class="`slide--${index}`"><img :src="slide.path" class="image is-3by1" /></div>
+            <div class="slide" v-for="(slide, index) in getPic" :key="index" :class="`slide--${index}`"><img :src="slide.path" class="image is-3by1" /></div>
         </agile>
         <agile class="thumbnails" ref="thumbnails" :options="options2" :as-nav-for="asNavFor2">
-            <div class="slide slide--thumbniail" v-for="(slide, index) in getImages" :key="index" :class="`slide--${index}`" @click="$refs.thumbnails.goTo(index)">
+            <div class="slide slide--thumbniail" v-for="(slide, index) in getPic" :key="index" :class="`slide--${index}`" @click="$refs.thumbnails.goTo(index)">
                 <img :src="slide.path" class="image is-128x128" /></div>
             <template slot="prevButton"><i class="fas fa-chevron-left"></i></template>
             <template slot="nextButton"><i class="fas fa-chevron-right"></i></template>
@@ -30,7 +30,8 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'getImages'
+            'getImages',
+            'getPic'
         ])
     },
 
@@ -49,11 +50,11 @@ export default {
                 centerMode: true,
                 dots: false,
                 navButtons: false,
-                slidesToShow: 4,
+                slidesToShow: 3,
                 responsive: [{
                         breakpoint: 600,
                         settings: {
-                            slidesToShow: 4
+                            slidesToShow: 3
                         }
                     },
 

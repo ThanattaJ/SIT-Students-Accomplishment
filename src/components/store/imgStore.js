@@ -3,7 +3,9 @@ import axios from "axios";
 export const imgStore = {
     state: {
         path: " ",
-        images:[]
+        images:[],
+        pic:''
+
     },
     mutations: {
         setPath:(state, path)=>{
@@ -11,6 +13,9 @@ export const imgStore = {
         },
         setImages:(state,image) =>{
             state.images.push(image)
+        },
+        setPic:(state,pic)=>{
+            state.pic = pic
         }
     },
     actions: {
@@ -20,6 +25,9 @@ export const imgStore = {
 
         addImage:({commit},image)=>{
             commit('setImages',image)
+        },
+        setPic:({commit},pic)=>{
+            commit('setPic',pic)
         }
     },
     getters: {
@@ -28,6 +36,9 @@ export const imgStore = {
         },
         getImages(state){
             return state.images
+        },
+        getPic(state){
+            return state.pic
         }
     }
 }
