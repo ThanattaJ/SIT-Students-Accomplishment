@@ -58,10 +58,24 @@
                     </nav>
                     <nav class="level">
                         <div class="level-item has-text-centered">
-                            <span>{{totalProject[0].start_year_en}}</span>
+                            <!-- {{dataToChart}} -->
+                            <TrendChart 
+                                :datasets="[
+                                    {
+                                        data: dataToChart,
+                                        smooth: true,
+                                        fill: true
+                                    }
+                                ]" 
+                                :labels='{
+                                    xLabels: [totalProject[0].start_year_en, totalProject[totalProject.length-1].start_year_en],
+                                }' 
+                                :min="0">
+                            </TrendChart>
+                            <!-- <span>{{totalProject[0].start_year_en}}</span>
                             <bars :data="dataToChart" :gradient="['#6fa8dc', '#42b983']" :barWidth="10" :growDuration="1.5">
                             </bars>
-                            <span>{{totalProject[totalProject.length-1].start_year_en}}</span>
+                            <span>{{totalProject[totalProject.length-1].start_year_en}}</span> -->
                         </div>
                     </nav>
                 </div>
@@ -162,9 +176,9 @@ export default {
             clickEditEmail: false
         }
     },
-    props: {
-        dataToChart: this.dataToChart
-    },
+    // props: {
+    //     dataToChart: this.dataToChart
+    // },
     computed: {
         ...mapGetters({
             profile: 'GET_STUDENT_PROFILE',

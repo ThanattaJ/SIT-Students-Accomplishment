@@ -101,8 +101,6 @@
                             <md-input id="" :value="GET_BIRTHDAY" @change="handleUpdate('UPDATE_FIELD','SET_BIRTHDAY')"></md-input>
                         </md-field>
 
-
-
                         <!-- <div class="column">
                             <div class="field">
                                 <label class="label inputName">Date of Event</label>
@@ -281,7 +279,7 @@ export default {
     },
     mounted() {
         this.LOAD_RESUME_DATA()
-        console.log("GET CONFIG จากหน้า Generate Resume >>> ",this.GET_CONFIG.headers.Authorization)
+        console.log("GET CONFIG จากหน้า Generate Resume >>> ", this.GET_CONFIG.headers.Authorization)
     },
     methods: {
         printJS() {
@@ -316,7 +314,7 @@ export default {
             //     console.log("FAILURE!!" + err);
             // }
             const resumeData = this.GET_RESUME_DATA.profile
-                console.log("bio : "+ resumeData.introduce_detail)
+            console.log("bio : " + resumeData.introduce_detail)
             if (resumeData.introduce_detail == "") {
                 resumeData.introduce_detail = null
             }
@@ -362,6 +360,15 @@ export default {
 
             console.log("data to db : ", data)
             try {
+                console.log("config : ",this.GET_CONFIG)
+                await axios
+                    .patch("https://www.sit-acc.nruf.in.th/users/count-generate-resume", "",this.GET_CONFIG)
+                    .then((res) => {
+                        console.log("count gen resume");
+                    })
+                    .catch((err) => {
+                        console.error("err : " + err);
+                    });
                 await axios
                     // .patch("http://localhost:7000/users/generate-resume/" + "student01",
                     .patch("https://www.sit-acc.nruf.in.th/users/generate-resume/" + "student01",

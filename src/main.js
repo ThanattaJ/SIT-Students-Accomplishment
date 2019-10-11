@@ -18,6 +18,9 @@ import Donut from 'vue-css-donut-chart';
 import 'vue-css-donut-chart/dist/vcdonut.css';
 Vue.use(Donut);
 
+import TrendChart from "vue-trend-chart";
+Vue.use(TrendChart);
+
 Vue.config.productionTip = false
 
 // Vue.prototype.$http = Axios;

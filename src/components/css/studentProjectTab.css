@@ -246,3 +246,11 @@ svg{
   height: 33px !important; 
   font-size: 13px !important;
 }
+
+.fill{
+  fill:#5FAEB8;
+  fill-opacity: 0.5;
+}
+.stroke{
+  stroke:#5FAEB8;
+}
