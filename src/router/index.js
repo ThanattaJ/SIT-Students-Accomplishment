@@ -16,6 +16,7 @@ import ManageEditRequest from '@/components/admins/ManageEditRequest'
 import lecturer from '@/components/admins/lecturer'
 import login from '@/components/auth/login'
 import courseSemester from '@/components/admins/courseSemester'
+import allProjectList from '@/components/visitor/allProjectList'
 
 
 Vue.use(Router)
@@ -111,10 +112,15 @@ export default new Router({
       ]
     },
     {
-          path: '/',
+          path: '/login',
           name: 'login',
           component: login,
-    }
+    },
+    {
+      path: '/',
+      name: 'allProjectList',
+      component: allProjectList,
+}
   ]
 })
 

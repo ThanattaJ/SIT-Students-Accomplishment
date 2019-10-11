@@ -8,6 +8,7 @@
                     <router-link to="/student"><i class="la la-angle-left"></i></router-link>
                     <span class="titleText">Generate Resume</span>
                     <img src="./../../assets/upload.png" class="uploadImg" alt="Smiley face" height="22" width="22">
+                    <!-- <input type="file" ref="profileImg" @change="uploadProfileImg" class="file-input profileInput" accept=".jpg, .png" @mouseover="showUploadImg" @mouseout="hideUploadImg" /> -->
                 </div>
                 <div style="color:#F7F7F7;height:22px">.</div>
                 <ValidationObserver tag="form" ref="resumeData" v-slot="{ invalid }">
@@ -302,8 +303,18 @@ export default {
             })
         },
         async saveDataToDb() {
-            // var value = await this.$refs.resumeData.validate();
-            // console.log("GET_RESUME_DATA : ", this.GET_RESUME_DATA.profile)
+            // try {
+            //     await axios
+            //         .patch("https://www.sit-acc.nruf.in.th/users/count-generate-resume", this.GET_CONFIG)
+            //         .then((res) => {
+            //             console.log("message : ", res);
+            //         })
+            //         .catch((err) => {
+            //             console.error("err : " + err);
+            //         });
+            // } catch (err) {
+            //     console.log("FAILURE!!" + err);
+            // }
             const resumeData = this.GET_RESUME_DATA.profile
                 console.log("bio : "+ resumeData.introduce_detail)
             if (resumeData.introduce_detail == "") {
@@ -350,12 +361,6 @@ export default {
             }
 
             console.log("data to db : ", data)
-            // const config = {
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-            //     }
-            // }
             try {
                 await axios
                     // .patch("http://localhost:7000/users/generate-resume/" + "student01",

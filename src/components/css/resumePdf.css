@@ -52,6 +52,7 @@
     margin-left: 27px;
     margin-bottom: 8px;
     font-size: 12px;
+    word-wrap: break-word !important;
 }
 
 .eduYear_resumePdf{

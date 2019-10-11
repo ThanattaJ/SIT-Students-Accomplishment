@@ -5,7 +5,7 @@
         <div class="columns A4Padding breakWord">
             <div class="column is-4 leftSide">
                 <div class="name">
-                    <img src="./../../assets/girl.png" style="border-radius:100px !important;width:150px" />
+                    <img :src="GET_STUDENT_PROFILE.profile_picture" style="border-radius:100px !important;width:150px" />
                     <p style="font-size:22px;font-weight:bold">{{GET_FIRSTNAME}}</p>
                     <p style="font-size:18px;font-weight:bold">{{GET_LASTNAME}}</p>
                     <p>( {{GET_NICKNAME}} )</p>
@@ -160,6 +160,7 @@ export default {
     },
     computed: {
         ...mapGetters([
+            'GET_STUDENT_PROFILE',
             'GET_FIRSTNAME', 'GET_LASTNAME',
             'GET_NICKNAME', 'GET_BIOGRAPHY',
             'GET_STREET', 'GET_SUBDISTRICT', 'GET_DISTRICT', 'GET_PROVINCE', 'GET_ZIPCODE',

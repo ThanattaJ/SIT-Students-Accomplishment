@@ -2,7 +2,7 @@
 <div id="app">
     <nav class="navbar nav1 sticky" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <router-link to="/student">
+            <router-link to="/">
                 <a class="navbar-item" style="margin-top: -10px;">
                     <img src="./assets/logo.png">
                 </a>
@@ -18,7 +18,9 @@
             <div class="navbar-start">
                 <a class="navbar-item menuName">
                     <i class="la la-home"></i>
-                    Home
+                    <router-link to="/student">
+                        Home
+                    </router-link>
                 </a>
 
                 <a class="navbar-item menuName">
@@ -30,11 +32,11 @@
                     <i class="la la-user"></i>
                     Profile
                 </a>
-                <a class="navbar-item menuName" >
+                <a class="navbar-item menuName">
                     <i class="la la-user"></i>
-                        <router-link to="/allCourse">
-                            Admin
-                        </router-link>
+                    <router-link to="/allCourse">
+                        Admin
+                    </router-link>
                 </a>
             </div>
 
@@ -43,7 +45,7 @@
                     <i class="la la-sign-in"></i>
                     <!-- <span v-if="isLoggedIn"> | <a @click="logout">Logout</a></span> -->
                     <span v-if="Authen_token!=null"> | <a @click="logout">Logout</a></span>
-                    <span v-if="Authen_token==null"> | <router-link to="/">Login</router-link></span>
+                    <span v-if="Authen_token==null"> | <router-link to="/login">Login</router-link></span>
                 </a>
             </div>
         </div>
@@ -104,7 +106,7 @@ export default {
 }
 </script>
 
-<style >
+<style>
 .navbar {
     /* height: 100px; */
     background-color: #265080 !important;
@@ -116,21 +118,6 @@ export default {
     height: 76px !important;
     padding-top: 15px !important;
     padding-bottom: 15px !important;
-    /* overflow: hidden;
-  background-color: #333;
-  position: fixed;
-  top: 0;
-  width: 100%; */
-
-  /* position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  width: 100%;
-  height: 50px;
-  background-color: #00a087;
-  margin-bottom: 30px */
-
 }
 
 .nav2 {
@@ -157,8 +144,8 @@ export default {
     }
 
     a:not(.md-button):hover {
-    text-decoration: none !important;
-}
+        text-decoration: none !important;
+    }
 }
 
 a.navbar-item:hover {
@@ -176,7 +163,6 @@ a.menuName:hover {
 
 .la {
     font-size: 22px !important;
-    /* margin-right: 3px !important; */
 }
 
 .md-theme-default a:not(.md-button) {
@@ -186,9 +172,4 @@ a.menuName:hover {
 a:not(.md-button):hover {
     text-decoration: none !important;
 }
-
-/* #app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
 </style>

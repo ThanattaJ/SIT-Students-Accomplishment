@@ -1,7 +1,7 @@
 <template>
 <div id="list-project of student">
     <div id="bodyBg">
-        <div class="buttons has-addons is-centered is-fullwidth">
+        <div class="buttons has-addons is-centered is-fullwidth" style="font-weight:bold">
             <span class="button menuBar is-info is-selected">Project</span>
             <span class="button menuBar" style="color:#265080 !important">Assignment</span>
             <span class="button menuBar">
@@ -14,8 +14,9 @@
             <div class="columns" style="padding: 15px 0 15px 0;">
                 <div class="column is-3 picture" style="position: relative;">
                     <img class="profileImg" v-if="profile.profile_picture != null" :src="profile.profile_picture" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg">
+                    <img class="profileImg" v-else src="./../assets/girl.png" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg">
                     <div id="textBlock" class="text-block" style="display:flex"><i class="la la-camera-retro"></i>Update</div>
-                    <input type="file" ref="profileImg" @change="uploadProfileImg" class="file-input profileInput" accept=".jpg, .png"  @mouseover="showUploadImg" @mouseout="hideUploadImg" />
+                    <input type="file" ref="profileImg" @change="uploadProfileImg" class="file-input profileInput" accept=".jpg, .png" @mouseover="showUploadImg" @mouseout="hideUploadImg" />
                 </div>
                 <div class="column is-three-fifths" id="information">
                     <br>
@@ -57,8 +58,10 @@
                     </nav>
                     <nav class="level">
                         <div class="level-item has-text-centered">
-                            <bars :data="[{value: 0, title: ''}, {value: 1, title: 'a'}, {value: 5, title: 'b'}, {value: 3, title: 'c'}, {value: 1, title: 'd'}]" :gradient="['#6fa8dc', '#42b983']" :barWidth="10" :growDuration="1.5">
+                            <span>{{totalProject[0].start_year_en}}</span>
+                            <bars :data="dataToChart" :gradient="['#6fa8dc', '#42b983']" :barWidth="10" :growDuration="1.5">
                             </bars>
+                            <span>{{totalProject[totalProject.length-1].start_year_en}}</span>
                         </div>
                     </nav>
                 </div>
@@ -80,10 +83,10 @@
             </div>
             <div class="column" style="padding: 8px 8px;">
                 <div class="tags">
-                    <span class="tag" v-for="(tag,index) in tags" v-bind:key="index" style="border-radius: 12px;background-color:#FFD15C;color: white;font-weight: bolder;">
-                        {{tag.tag_name}} 
+                    <span class="tag profileTag" v-for="(tag,index) in tags" v-bind:key="index">
+                        <vc-donut :sections="[{ value: (tag.total_tag*100/projects.length), color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut>
+                        <span style="padding-left:5px">{{tag.tag_name}} </span>
                         <!-- ({{tag.total_tag}})  -->
-                        <vc-donut :sections="[{ value: (tag.total_tag*100/projects.length), color: '#265080' }]" :size="15" :thickness="40"></vc-donut>
                     </span>
                 </div>
             </div>
@@ -156,16 +159,19 @@ export default {
             message: '',
             info: 'Bachelor of Science Programme in Information Technology',
             year: '3rd year SIT Student',
-            clickEditEmail: false,
-            sections: [{ value: 35, color: '#265080' }]
+            clickEditEmail: false
         }
+    },
+    props: {
+        dataToChart: this.dataToChart
     },
     computed: {
         ...mapGetters({
-            student: 'GET_STUDENT_DATA',
             profile: 'GET_STUDENT_PROFILE',
             projects: 'GET_STUDENT_PROJECT',
             tags: 'GET_STUDENT_TAG',
+            totalProject: 'GET_STUDENT_TOTALPROJECT',
+            dataToChart: 'GET_DATATOCHART',
             email: 'GET_EMAIL',
             config: 'GET_CONFIG'
         })
