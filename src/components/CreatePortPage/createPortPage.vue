@@ -182,7 +182,7 @@ export default {
                     .then((res) => {
                         console.log("res : ", res.data);
                         this.$router.push({
-                            path: `/ProjectDetail/?project_id=${res.data.project_id}`
+                            path: `/ProjectDetail/${res.data.project_id}`
                         });
                         console.log("success!");
                         this.resetField()
