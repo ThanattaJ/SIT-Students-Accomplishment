@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="this.getNonMember.length != 0">
+            <div v-if="this.getNonMember">
                 <!-- <p id="non">Non Member</p> -->
                 <div class="columns" v-for=" (out,index) in this.getNonMember" v-bind:key="`${index}-${out.id}`" id="outsider">
                     <div class="column">
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div v-else>emtry</div>
+            <div v-else></div>
         </div>
     </div>
 </div>

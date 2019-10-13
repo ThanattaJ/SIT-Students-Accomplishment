@@ -98,11 +98,11 @@ export default new Router({
           name: 'lecturer',
           component: lecturer
         },
-        {
-          path: '/courseSemester',
-          name: 'courseSemester',
-          component: courseSemester
-        },
+        // {
+        //   path: '/courseSemester',
+        //   name: 'courseSemester',
+        //   component: courseSemester
+        // },
         {
           path: '/courseSemester/:semister',
           name: 'courseSemester',

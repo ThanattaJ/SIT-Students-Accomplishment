@@ -23,7 +23,7 @@
                                             <p class="control" />
                                             <h5>{{messageUpload}}</h5>
                                             <input type="file" ref="file" @change="selectFile" class="file-input" accept=".jpg, .png, .gif" id="inputCovr" />
-                                            <img v-if="url" :src="url" />
+                                            <img v-if="url" :src="url" id="cover"/>
                                             <span>&nbsp;</span>
                                             <span v-if="file" class="file-name">{{file.name}}</span>
                                             <p>{{message}}</p>
@@ -121,6 +121,7 @@ export default {
         },
         close: function () {
             this.isActive = false;
+            this.url =''
         },
         onSubmit(e) {
             const file = this.$refs.file.files[0];
@@ -180,5 +181,12 @@ export default {
 
 .modal {
     overflow: hidden;
+}
+#cover{
+    max-width: 300px;
+    max-height: 300px;
+    margin-right: -120px;
+    margin-top: 10px
+
 }
 </style>

@@ -6,7 +6,7 @@
     </div>
     <!-- -------------cover----------------- -->
     <div class="section" id="imgCover">
-        <div v-if="this.cover[0]">
+        <div v-if="this.cover.path !=null">
             <img :src="this.getFile" height="1000" width="900">
         </div>
         <div v-else>
@@ -25,11 +25,11 @@
         </div>
         <div class="column" style="padding: 8px 8px;">
             <div class="tags">
-                <span class="tag profileTag" v-for="(tag,index) in GET_STUDENT_TAG" v-bind:key="index">
-                    <vc-donut :sections="[{ value: (tag.total_tag*100/GET_STUDENT_PROJECT.length), color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut>
+                <!-- <span class="tag profileTag" v-for="(tag,index) in GET_STUDENT_TAG" v-bind:key="index">
+                    <vc-donut :sections="[{color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut>
                     <span style="padding-left:5px">{{tag.tag_name}} </span>
-                    <!-- ({{tag.total_tag}})  -->
-                </span>
+                    
+                </span> -->
             </div>
         </div>
         <div class="columns">
@@ -55,10 +55,11 @@
                 <achievements />
                 <div id="image">
                     <div id="container">
-                        <div v-if="this.pictures[0].path != ' '">
+                        <div v-if="this.pictures[0]">
                             <showImg />
                         </div>
                         <div v-else>
+                            <!-- no more pic -->
                         </div>
                         <div class="container" id="edit" v-if="EditProject">
                             <editImg />
@@ -108,7 +109,8 @@ import Vue from "vue";
 import axios from "axios";
 import {
     mapGetters,
-    mapActions
+    mapActions,
+    mapMutations
 } from 'vuex'
 
 import Abstract from './Abstract';
@@ -125,6 +127,8 @@ import Document from "./../NewPortfolioPage/Document.vue";
 import Video from "./../NewPortfolioPage/Video.vue";
 import "./../css/ProjectDetail.css";
 import showImg from "./showImg"
+
+// import { constants } from 'http2';
 
 export default {
 
@@ -147,7 +151,8 @@ export default {
             'getRef',
             'getTag',
             'GET_STUDENT_TAG',
-            'GET_STUDENT_PROJECT'
+            'GET_STUDENT_PROJECT',
+            'getPic'
         ]),
     },
     components: {
@@ -163,7 +168,7 @@ export default {
         tool,
         ref,
         showImg,
-        editImg
+        editImg,
     },
 
     data() {
@@ -196,9 +201,9 @@ export default {
                 path_name: ''
             }],
             img: [],
-            cover: [{
+            cover: {
                 path: null
-            }],
+            },
             project_id: 1,
             pictures: [],
             tag: [{
@@ -225,7 +230,6 @@ export default {
     },
 
     async mounted() {
-        // console.log("Member : ", this.getDetail)
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -263,11 +267,12 @@ export default {
         this.setAchievements(data.achievements)
         this.setMember(data.students)
         this.setNonMember(data.outsiders)
-        this.setRef(data.project_detail.references[0])
+        this.setRef(data.project_detail.references)
         this.setTool(data.project_detail.tool_techniq_detail)
         this.setTag(data.tags)
+        console.log("----------------")
+        console.log("Member : ", data.outsiders)
 
-        console.log("Details :", data.project_detail.project_detail)
         // -------------------
 
         this.Abstract.content_Abstract = data.project_detail.project_abstract
@@ -275,7 +280,7 @@ export default {
         this.Tools = data.project_detail.tool_techniq_detail
         this.References = data.project_detail.references
 
-        console.log("cover : ", this.pictures)
+        // console.log("--cover-- : ", this.cover[0])
 
         // document
         for (let i = 0; i < data.document.length; i++) {
@@ -299,23 +304,21 @@ export default {
                 .substring(1);
             var newPath = path.replace();
             if (name === "cover") {
-                this.cover.push(data.picture[i]);
+                // this.cover.push(data.picture[i]);
+                this.cover.path = data.picture[i].path_name
                 this.setFile(data.picture[i].path_name);
             } else if (name != "cover") {
                 this.pictures.push({
                     path: newPath
                 });
-                this.countPic++;
                 this.addImage({
                     path: newPath
                 })
-                this.setPic(this.pictures)
-
             }
         }
-        this.pictures.push({
-            path: this.getPath
-        });
+        // this.pictures.push({
+        //     path: this.getPath
+        // });
     },
     methods: {
         ...mapActions([
@@ -332,11 +335,12 @@ export default {
             'setTool',
             'setRef',
             'setTag',
-            'setPic'
+            'addPushImage',
+            'setImage'
         ]),
         save() {
-            console.log("detail :", this.getDetail)
-            console.log("-------------------")
+            // console.log("detail :", this.getDetail)
+            // console.log("-------------------")
             this.EditProject = false;
             this.setEditProject(this.EditProject)
             try {
@@ -350,8 +354,8 @@ export default {
                             project_abstract: this.getAbstract,
                             haveOutsider: true,
                             isShow: true,
-                            tool_techniq_detail: this.getTool,
-                            references: this.getRef === ""? null: this.getRef,
+                            tool_techniq_detail: this.getTool === "" ? null : this.getTool,
+                            references: this.getRef === "" ? null : this.getRef,
                             count_viewer: 0,
                             count_clap: 0,
                             start_month: 2,
@@ -371,6 +375,7 @@ export default {
                             path_name: null
                         },
                         outsiders: [{
+
                             firstname: this.outsider.firstname,
                             lastname: this.outsider.lastname,
                             email: this.outsider.mail
@@ -401,6 +406,9 @@ export default {
             this.setEditProject(this.EditProject)
             // console.log("2",this.getEditProject)
         },
+        beforeDestroy() {
+            this.setImage([])
+        }
 
     }
 };
