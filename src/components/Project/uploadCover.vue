@@ -74,7 +74,8 @@ export default {
     },
     methods: {
         ...mapActions([
-            'setFile'
+            'setFile',
+            'setPath'
         ]),
         selectFile(e) {
             this.file = this.$refs.file.files[0];
@@ -102,7 +103,7 @@ export default {
                 this.error = false;
                 console.log(data)
                 this.setFile(data.url)
-                 this.isActive = false;
+                this.isActive = false;
                 // this.setFile(data.status)
 
             } catch (err) {
@@ -137,6 +138,9 @@ export default {
             }
             alert('File OK');
         },
+        beforeDestroy() {
+            this.setFile(" ")
+        }
     },
 }
 </script>

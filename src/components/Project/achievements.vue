@@ -1,131 +1,231 @@
 <template>
-<div id="achievements">
-    <div class="card" id="achievements" style="$card-header-padding: 20px" v-if="this.getAchievements.length != 0">
-        <header class="card-header">
-            <p class="card-header-title" id="cardHeader">Acheivement</p>
-        </header>
-        <div id="achieve">
-            <div id="Acheivement" v-for=" i in getAchievements" v-bind:key="i.name">
-                <md-card id="achievem">
-                    <md-card-header>
-                        <md-card-header-text id="aName"> {{i.achievement_name}}</md-card-header-text>
-                    </md-card-header>
-                    <md-card-content id="acDetail" style=" font-size: 12px ;
-                            color : #6F6F6F !important;
-                            margin-left: 20px;">
-                        <br>
-                        <div id="detail">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.achievement_detail}}</div>
-                        <br>
-                        <br>
-                        <div id="organize">Organize by : &nbsp;&nbsp;{{i.organize_by}}</div>
-                        <br>
-                        <div id="date"> Date of Event: &nbsp;&nbsp;&nbsp;{{i.date_of_event}}</div>
-                    </md-card-content>
-                </md-card>
-                <div>
-                    <md-dialog :md-active.sync="active" v-model="value">
-                        <md-card>
-                            <md-card-header>
-                                <div class="md-title">Add Acheivement</div>
-                            </md-card-header>
+<div>
+    <div v-if="this.getAchievements.length > 0">
+        <div class="card" id="achievement">
+            <header class="card-header">
+                <p class="card-header-title" id="cardHeader">Achievement</p>
+            </header>
 
-                            <md-card-content>
-                                <md-field>
-                                    <label>Achievement Name</label>
-                                    <md-textarea v-model="achievement_name" md-autogrow></md-textarea>
-                                </md-field>
-                                <md-field>
-                                    <label>Achievement Detail</label>
-                                    <md-textarea v-model="achievement_detail" md-autogrow></md-textarea>
-                                </md-field>
-                                <md-field>
-                                    <label>Organize by</label>
-                                    <md-textarea v-model="organize_by" md-autogrow></md-textarea>
-                                </md-field>
-                                <md-field>
-                                    <label>Date of event</label>
-                                    <md-textarea v-model="date_of_event" md-autogrow></md-textarea>
-                                </md-field>
-                            </md-card-content>
-
-                            <md-card-actions>
-                                <md-button  @click="addAchievement">Add</md-button>
-                                <md-button @click="close">Cancle</md-button>
-                            </md-card-actions>
-                        </md-card>
-                    </md-dialog>
-                    <md-button style="margin-right: 20px;margin-bottom:-10px;" class="md-fab md-mini md-primary md-fab-bottom-right" v-if="getEditProject === true" @click="active = true">
-                        <md-icon>+</md-icon>
-                    </md-button>
+            <div class="card-content">
+                <div v-for="(ach,index) in getAchievements" v-bind:key="index">
+                    <div class="content">
+                        <p class="control" style="width:45%;word-break: break-all; color: #265080;font-size: 18px;">
+                            {{ach.achievement_name}}
+                        </p>
+                    </div>
+                    <div class="content" v-if="ach.achievement_detail">
+                        <p class="control" style="text-indent: 3em; font-size: 14px; color: #265080;">
+                            {{ach.achievement_detail}}
+                        </p>
+                    </div>
+                    <div v-else class="content">
+                        <p class="control" style="text-indent: 3em; font-size: 14px; color: #265080;">
+                            ไม่มีรายละเอียด...
+                        </p>
+                    </div>
+                    <div class="field has-addons" v-if="ach.organize_by">
+                        <p class="control is-expanded" style="word-break: break-all; width:50%;font-size: 12px; color: #265080;">
+                            Organize by : {{ach.organize_by}}
+                        </p>
+                    </div>
+                    <div class="field has-addons" v-else>
+                        <p class="control is-expanded" style="word-break: break-all; width:50%;font-size: 12px; color: #265080;">
+                            Organize by : -
+                        </p>
+                    </div>
+                    <div class="field has-addons">
+                        <div class="field has-addons" v-if="ach.date_of_event">
+                            <p class="control is-expanded" style="word-break: break-all; font-size: 12px; color: #265080;">
+                                Date of event: {{ach.date_of_event}}
+                            </p>
+                        </div>
+                        <div class="field has-addons" v-else>
+                            <p class="control is-expanded" style="word-break: break-all; font-size: 12px; color: #265080;">
+                                Date of event: -
+                            </p>
+                        </div>
+                    </div>
+                    <!-- <p class="control" style="margin-left:80%">
+                        <i class="la la-edit" @click="editAchievementDialog = !editAchievementDialog;editArchievement(index)"></i>
+                        <i :id="'trash'+index" class="la la-trash" @click="removeArchievement(index)"></i>
+                    </p> -->
+                    <hr>
                 </div>
             </div>
         </div>
     </div>
-    <div v-else>
-        <div>
-            <md-dialog :md-active.sync="active" v-model="value">
-                <md-card>
-                    <md-card-header>
-                        <div class="md-title">Add Acheivement</div>
-                    </md-card-header>
-
-                    <md-card-content>
-                        <md-field>
-                            <label>Achievement Name</label>
-                            <md-textarea v-model="achievement_name" md-autogrow></md-textarea>
-                        </md-field>
-                        <md-field>
-                            <label>Achievement Detail</label>
-                            <md-textarea v-model="achievement_detail" md-autogrow></md-textarea>
-                        </md-field>
-                        <md-field>
-                            <label>Organize by</label>
-                            <md-textarea v-model="organize_by" md-autogrow></md-textarea>
-                        </md-field>
-                        <md-field>
-                            <label>Date of event</label>
-                            <md-textarea v-model="date_of_event" md-autogrow></md-textarea>
-                        </md-field>
-                    </md-card-content>
-
-                    <md-card-actions>
-                        <md-button @click="addAchievement">Add</md-button>
-                        <md-button @click="close">Cancle</md-button>
-                    </md-card-actions>
-                </md-card>
-            </md-dialog>
-            <md-button class="md-raised md-primary" id="Achive" v-if="getEditProject === true" @click="active = true">Add Achivement</md-button>
+    <div v-else-if="this.getEditProject">
+        <div class="buttons has-addons is-right" v-if="getEditProject === true">
+            <!-- <span class="button addAchievement" @click="addAchievementDialog = !addAchievementDialog"> Add Achievement</span> -->
+            <md-button class="md-raised md-primary" id="addAchievementDialog"  @click="addAchievementDialog = !addAchievementDialog">Add Achievement</md-button>
         </div>
     </div>
+
+    <div v-if="addAchievementDialog==true">
+        <div class="modal is-active">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Add Achievement</p>
+                    <button class="delete closeDialog" ariaLabel="close" v-on:click="addAchievementDialog = false;clearInputValue()"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label inputName">Achievement Name</label>
+                        <div class="control">
+                            <input ref="achievementName" class="input inputData" type="text" placeholder="e.g. HackaTravel" v-model="achievement_name" />
+                            <p ref="achievementNameValidate" class="help is-danger"></p>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label inputName">Achievement Detail</label>
+                        <div class="control">
+                            <textarea ref="achievementDetail" class="Normal textarea inputData" placeholder="e.g. Create New Era of Tourism in Thailand เปลี่ยนไอเดีย เป็น ธุรกิจท่องเที่ยว" v-model="achievement_detail"></textarea>
+                            <p ref="achievementDetailValidate" class="help is-danger"></p>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label inputName">Organize By</label>
+                                <div class="control">
+                                    <input ref="company" class="input inputData" type="text" placeholder="e.g. การท่องเที่ยวแห่งประเทศไทย(ททท.)" v-model="organize_by">
+                                    <p ref="companyValidate" class="help is-danger"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <div class="field">
+                                <label class="label inputName">Date of Event</label>
+                                <VueCtkDateTimePicker v-model="date_of_event" :formatted="formatted" :color="color" :only-date="onlydate" :label="label" :no-header="noHeader" :auto-close="autoClose" :no-button="noButton" :no-label="noLabel" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="addOutsiderButton">
+                        <button class="button is-success" @click.prevent="addAchievement();">Add</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div v-if="editAchievementDialog==true">
+        <div class="modal is-active">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Achievement</p>
+                    <button class="delete closeDialog" ariaLabel="close" v-on:click="editAchievementDialog = false;clearInputValue()"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label inputName">Achievement Name</label>
+                        <div class="control">
+                            <input ref="achievementName" class="input inputData" type="text" placeholder="e.g. HackaTravel" v-model="achievement_name" />
+                            <p ref="achievementNameValidate" class="help is-danger"></p>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label inputName">Achievement Detail</label>
+                        <div class="control">
+                            <textarea ref="achievementDetail" class="Normal textarea inputData" placeholder="e.g. Create New Era of Tourism in Thailand เปลี่ยนไอเดีย เป็น ธุรกิจท่องเที่ยว" v-model="achievement_detail"></textarea>
+                            <p ref="achievementDetailValidate" class="help is-danger"></p>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label inputName">Organize By</label>
+                                <div class="control">
+                                    <input ref="company" class="input inputData" type="text" placeholder="e.g. การท่องเที่ยวแห่งประเทศไทย(ททท.)" v-model="organize_by">
+                                    <p ref="companyValidate" class="help is-danger"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <div class="field">
+                                <label class="label inputName">Date of Event</label>
+                                <VueCtkDateTimePicker v-model="date_of_event" :formatted="formatted" :color="color" :only-date="onlydate" :label="label" :no-header="noHeader" :auto-close="autoClose" :no-button="noButton" :no-label="noLabel" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="addOutsiderButton">
+                        <button class="button is-success" @click.prevent="saveArchievement();editAchievementDialog = false">Save</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div> -->
 </div>
 </template>
 
 <script>
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import {
     mapGetters,
     mapActions
-} from 'vuex';
+} from 'vuex'
+
 export default {
     data() {
         return {
-            active: false,
-            value: null,
+            addAchievementDialog: false,
+            editAchievementDialog: false,
+            indexOfEdit: 0,
+
             achievement_name: null,
             achievement_detail: null,
             organize_by: null,
-            date_of_event: null,
+            date_of_event: null
+        }
+    },
+    props: {
+        formatted: {
+            type: String,
+            // default: 'DD-MM-YYYY'
+            default: 'll'
+        },
+        color: {
+            type: String,
+            default: '#265080'
+        },
+        onlydate: {
+            type: Boolean,
+            default: true
+        },
+        label: {
+            type: String,
+            default: 'Select date'
+        },
+        noHeader: {
+            type: Boolean,
+            default: true
+        },
+        autoClose: {
+            type: Boolean,
+            default: true
+        },
+        noButton: {
+            type: Boolean,
+            default: true
+        },
+        noLabel: {
+            type: Boolean,
+            default: true
         }
     },
     computed: {
-        ...mapGetters([
-            'getAchievements',
-            'getEditProject',
-            'GET_ACHIEVEMENT'
-        ])
+        ...mapGetters({
+            achievement: 'GET_ACHIEVEMENT',
+            getEditProject: 'getEditProject',
+            getAchievements: 'getAchievements'
+        })
     },
-    mounted() {
-        console.log("getAchievements  : ", this.getAchievements)
-        console.log("Gib : ",this.GET_ACHIEVEMENT)
+    components: {
+        VueCtkDateTimePicker
     },
     methods: {
         ...mapActions(['SET_ACHIEVEMENT']),
@@ -137,11 +237,10 @@ export default {
                     organize_by: this.organize_by,
                     date_of_event: this.date_of_event
                 })
-                this.active = false,
-                    this.clearInputValue()
-                // console.log("have achivement")
+                this.addAchievementDialog = false
+                this.clearInputValue()
             } else {
-                console.log("post achivement some thing went worng")
+                this.$refs.achievementNameValidate.innerHTML = 'The field is required'
             }
         },
         clearInputValue() {
@@ -150,68 +249,37 @@ export default {
             this.organize_by = null
             this.date_of_event = null
         },
-        close: function () {
-            this.active = false
-        },
-    }
+        // removeArchievement(index) {
+        //     this.achievement.splice(index, 1)
+        // },
+        // editArchievement(index) {
+        //     this.achievement_name = this.getAchievements[index].achievement_name
+        //     this.achievement_detail = this.getAchievements[index].achievement_detail
+        //     this.organize_by = this.getAchievements[index].organize_by
+        //     this.date_of_event = this.getAchievements[index].date_of_event
 
+        //     this.indexOfEdit = index
+        // },
+        // saveArchievement() {
+        //     console.log("index : " + this.indexOfEdit)
+        //     this.achievement.splice(this.indexOfEdit, 1, {
+        //         achievement_name: this.achievement_name,
+        //         achievement_detail: this.achievement_detail,
+        //         organize_by: this.organize_by,
+        //         date_of_event: this.date_of_event
+        //     })
+        //     this.clearInputValue()
+        // }
+    },
+    mounted() {
+        console.log("this.getAchievements : ", this.getAchievements)
+    },
 }
 </script>
 
 <style>
-.md-dialog.md-theme-default {
-    width: 50%
-}
-
-#aName {
-    color: #265080 !important;
-    background-color: white !important;
-    border: none !important;
-    font-family: Asap !important;
-    font-style: normal !important;
-    font-weight: normal !important;
-    font-size: 16px !important;
-    margin-left: 30px !important;
-}
-
-#detail {
-    color: #265080 !important;
-    background-color: white !important;
-    border: none !important;
-    font-family: Asap !important;
-    font-style: normal !important;
-    font-weight: normal !important;
-    font-size: 13px !important;
-
-}
-
-#organize {
-
-    color: #265080 !important;
-    background-color: white !important;
-    border: none !important;
-    font-family: Asap !important;
-    font-style: normal !important;
-    font-weight: normal !important;
-    font-size: 12px !important;
-}
-
-#date {
-    color: #265080 !important;
-    background-color: white !important;
-    border: none !important;
-    font-family: Asap !important;
-    font-style: normal !important;
-    font-weight: normal !important;
-    font-size: 12px !important;
-    margin-left: 60% !important;
-}
-
-#achievem {
-    border: none !important;
-}
-
-#Achive {
+#addAchievementDialog{
+    margin-right: 35%;
     margin-top: 20px;
 }
 </style>

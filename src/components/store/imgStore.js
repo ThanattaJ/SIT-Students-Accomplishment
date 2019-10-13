@@ -10,25 +10,32 @@ export const imgStore = {
     mutations: {
         setPath:(state, path)=>{
             state.path = path
+            // cover
         },
-        setImages:(state,image) =>{
+        setPushImages:(state,image) =>{
             state.images.push(image)
         },
-        setPic:(state,pic)=>{
-            state.pic = pic
-        }
+        setImages:(state,images)=>{
+            state.images = images
+        },
+        // popImage: state =>{
+        //     state.images.pop()
+        // }
     },
     actions: {
         setPath:({commit},path)=>{
-            commit('setPath',path)
+            commit("setPath",path)
         },
 
         addImage:({commit},image)=>{
-            commit('setImages',image)
+            commit("setPushImages",image) 
         },
-        setPic:({commit},pic)=>{
-            commit('setPic',pic)
-        }
+        setImage:({commit},images)=>{
+            commit("setImages",images)
+        },
+        // popImage:({commit})=>{
+        //     commit("popImage")
+        // }
     },
     getters: {
         getPath(state){

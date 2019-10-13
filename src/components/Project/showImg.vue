@@ -1,5 +1,5 @@
 <template>
-<vueper-slides class="no-shadow" arrows-outside bullets-outside transition-speed="450" :touchable="false" :slide-ratio="1/2" fixed-height="300px">
+<vueper-slides class="no-shadow"  transition-speed="450" :touchable="false" :slide-ratio="1/2" fixed-height="300px">
     <vueper-slide v-for="(pic,i) in getImages" :key="i" :image="pic.path">
     </vueper-slide>
 </vueper-slides>
@@ -36,7 +36,7 @@ export default {
         }, ]
     }),
     mounted() {
-        console.log("getImages : ", this.getImages)
+        // console.log("getImages : ", this.getImages)
     },
     methods: {
         ...mapActions([

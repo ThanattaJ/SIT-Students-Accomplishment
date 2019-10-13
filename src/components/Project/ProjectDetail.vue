@@ -6,11 +6,11 @@
     </div>
     <!-- -------------cover----------------- -->
     <div class="section" id="imgCover">
-        <div v-if="this.cover.path !=null">
-            <img :src="this.getFile" height="1000" width="900">
+        <div v-if="this.getFile">
+            <img :src="this.getFile" id="coverI">
         </div>
         <div v-else>
-            <img src="../.././assets/no-image-icon-23485.png">
+            <img :src=" this.noPic.cover">
         </div>
     </div>
     <div id="EditProjects">
@@ -25,11 +25,10 @@
         </div>
         <div class="column" style="padding: 8px 8px;">
             <div class="tags">
-                <!-- <span class="tag profileTag" v-for="(tag,index) in GET_STUDENT_TAG" v-bind:key="index">
-                    <vc-donut :sections="[{color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut>
+                <span class="tag profileTag" v-for="(tag,index) in getTag" v-bind:key="index">
                     <span style="padding-left:5px">{{tag.tag_name}} </span>
-                    
-                </span> -->
+
+                </span>
             </div>
         </div>
         <div class="columns">
@@ -69,7 +68,7 @@
                 <div class="card" id="Details">
                     <div class="card-content">
                         <div class="content" id="content">
-                            <Video />
+                            <Video/>
                         </div>
                     </div>
                 </div>
@@ -127,9 +126,6 @@ import Document from "./../NewPortfolioPage/Document.vue";
 import Video from "./../NewPortfolioPage/Video.vue";
 import "./../css/ProjectDetail.css";
 import showImg from "./showImg"
-
-// import { constants } from 'http2';
-
 export default {
 
     namePro: "ProjectDetail",
@@ -191,7 +187,7 @@ export default {
             }],
             Tools: {},
             Acheivement: [],
-            References: {},
+            References: " ",
             document: [],
             outsider: [],
             showDetail: true,
@@ -225,11 +221,16 @@ export default {
             clap: '',
             viewer: '',
             create: '',
-            update: ''
+            update: '',
+            noPic: {
+                'cover': require('../.././assets/noCoverImg.png')
+            }
         }
     },
 
     async mounted() {
+        // console.log("-----------")
+        // console.log("getImage : ",this.getFile)
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -257,8 +258,8 @@ export default {
         // this.start.year = data.project_detail.start_year_en
         // this.end.month = data.project_detail.end_month
         // this.end.year = data.project_detail.end_year_en
-        // this.clap = data.project_detail.count_clap
-        // this.viewer = data.project_detail.count_viewer
+        this.clap = data.project_detail.count_clap
+        this.viewer = data.project_detail.count_viewer                   
         this.create = data.project_detail.created_at
         this.update = data.project_detail.updated_at
         this.setPID(data.project_detail.id)
@@ -270,8 +271,8 @@ export default {
         this.setRef(data.project_detail.references)
         this.setTool(data.project_detail.tool_techniq_detail)
         this.setTag(data.tags)
-        console.log("----------------")
-        console.log("Member : ", data.outsiders)
+        // console.log("----------------")
+        console.log("data.achievements : ", data.students ,data.outsiders)
 
         // -------------------
 
@@ -350,12 +351,12 @@ export default {
                             id: this.$route.params.pId,
                             project_name_th: this.header.TitleName_TH,
                             project_name_en: this.header.TitleName,
-                            project_detail: this.getDetail === "" ? null : this.getDetail,
+                            project_detail: this.getDetail === " " ? null : this.getDetail,
                             project_abstract: this.getAbstract,
                             haveOutsider: true,
                             isShow: true,
-                            tool_techniq_detail: this.getTool === "" ? null : this.getTool,
-                            references: this.getRef === "" ? null : this.getRef,
+                            tool_techniq_detail: this.getTool === " " ? null : this.getTool,
+                            references: this.getRef === " " ? null : this.getRef,
                             count_viewer: 0,
                             count_clap: 0,
                             start_month: 2,
@@ -375,10 +376,10 @@ export default {
                             path_name: null
                         },
                         outsiders: [{
-
-                            firstname: this.outsider.firstname,
-                            lastname: this.outsider.lastname,
-                            email: this.outsider.mail
+                            // "id": this.outsider.id,
+                            // firstname: this.outsider.firstname,
+                            // lastname: this.outsider.lastname,
+                            // email: this.outsider.mail
                         }]
                     }, this.GET_CONFIG)
                     .then(function (res) {
@@ -386,7 +387,7 @@ export default {
                     });
                 this.message = "File has been update";
                 this.getEditProject
-                console.log("getEditProject : ", this.getEditProject)
+                // console.log("getEditProject : ", this.getEditProject)
             } catch (err) {
                 console.log("FAILURE!!" + err);
                 this.error = true;
@@ -406,13 +407,20 @@ export default {
             this.setEditProject(this.EditProject)
             // console.log("2",this.getEditProject)
         },
-        beforeDestroy() {
-            this.setImage([])
-        }
 
+    },
+    beforeDestroy() {
+        this.setImage([])
+        this.setFile(this.noPic.cover)
+        this.setMember('')
+        this.setNonMember('')
     }
 };
 </script>
 
 <style>
+#coverI {
+    max-width: 1000px;
+    max-height: 600px;
+}
 </style>

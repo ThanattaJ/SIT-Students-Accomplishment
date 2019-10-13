@@ -20,7 +20,7 @@
                                             <p class="control" />
                                             <h5>{{messageUpload}}</h5>
                                             <input type="file" ref="file" @change="selectFile" class="file-input" accept=".jpg, .png, .gif" id="inputCovr" />
-                                            <img  v-if="url" :src="url" id="coverImg" />
+                                            <img v-if="url" :src="url" id="Img" />
                                             <span>&nbsp;</span>
                                             <span v-if="file" class="file-name">{{file.name}}</span>
                                             <p>{{message}}</p>
@@ -44,10 +44,16 @@
 <script>
 import axios from 'axios';
 import {
-    mapActions
+    mapActions,
+    mapGetters
 } from 'vuex';
 export default {
     name: "uploadimg",
+    computed: {
+        ...mapGetters([
+            'GET_CONFIG'
+        ])
+    },
     data() {
         return {
             file: " ",
@@ -86,8 +92,8 @@ export default {
             try {
                 const {
                     data
-                } = await axios.post('https://www.sit-acc.nruf.in.th/files/imageMul', formData, config)
-                
+                } = await axios.post('https://www.sit-acc.nruf.in.th/files/imageMul', formData, this.GET_CONFIG)
+
                 this.message = "File has been uploaded";
                 this.error = false;
                 this.addImage({
@@ -154,6 +160,7 @@ export default {
     margin-left: -20%;
     margin-top: -2%;
 }
+
 #uploadCover {
     height: 55px;
 }
@@ -170,8 +177,4 @@ export default {
 #uploadImg {
     margin-left: 45%;
 }
-#coverImg{
-    height: 50% !important;
-}
-
 </style>
