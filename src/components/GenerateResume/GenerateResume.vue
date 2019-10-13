@@ -274,16 +274,15 @@ export default {
     computed: {
         ...mapGetters(['GET_SHOWPAGE', 'GET_RESUME_DATA', 'GET_FIRSTNAME', 'GET_LASTNAME', 'GET_NICKNAME', 'GET_BIOGRAPHY',
             'GET_STREET', 'GET_SUBDISTRICT', 'GET_DISTRICT', 'GET_PROVINCE', 'GET_ZIPCODE',
-            'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY', 'GET_CONFIG'
+            'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY', 'GET_CONFIG', 'userId'
         ])
     },
     mounted() {
         this.LOAD_RESUME_DATA()
-        console.log("GET CONFIG จากหน้า Generate Resume >>> ", this.GET_CONFIG.headers.Authorization)
+        console.log('userId', this.userId)
     },
     methods: {
         printJS() {
-            console.log("กด gen")
             this.toPrintJS = `printJS({
                         printable: 'printJS-form', 
                         type: 'html',
@@ -291,7 +290,6 @@ export default {
                         font: 'Asap',
                         targetStyles: ['*']
                         })`
-            console.log("toPrintJS : " + this.toPrintJS)
         },
         ...mapActions(['SET_PAGE', 'LOAD_RESUME_DATA', 'UPDATE_FIELD']),
         handleUpdate(actionName, setter) {
@@ -301,68 +299,32 @@ export default {
             })
         },
         async saveDataToDb() {
-            // try {
-            //     await axios
-            //         .patch("https://www.sit-acc.nruf.in.th/users/count-generate-resume", this.GET_CONFIG)
-            //         .then((res) => {
-            //             console.log("message : ", res);
-            //         })
-            //         .catch((err) => {
-            //             console.error("err : " + err);
-            //         });
-            // } catch (err) {
-            //     console.log("FAILURE!!" + err);
-            // }
             const resumeData = this.GET_RESUME_DATA.profile
-            console.log("bio : " + resumeData.introduce_detail)
-            if (resumeData.introduce_detail == "") {
-                resumeData.introduce_detail = null
-            }
-            if (resumeData.birthday == "") {
-                resumeData.birthday = null
-            }
-            if (resumeData.telephone_number == "") {
-                resumeData.telephone_number = null
-            }
-            if (resumeData.description == "") {
-                resumeData.description = null
-            }
-            if (resumeData.district == "") {
-                resumeData.district = null
-            }
-            if (resumeData.subdistrict == "") {
-                resumeData.subdistrict = null
-            }
-            if (resumeData.province == "") {
-                resumeData.province = null
-            }
-            if (resumeData.postcode == "") {
-                resumeData.postcode = null
-            }
+
             const data = {
                 profile: {
-                    biology: resumeData.introduce_detail,
+                    biology: resumeData.introduce_detail == "" ? null : resumeData.introduce_detail,
                     firstname: resumeData.firstname,
                     lastname: resumeData.lastname,
                     email: resumeData.email,
                     nickname: resumeData.nickname,
-                    birthday: resumeData.birthday,
-                    telephone_number: resumeData.telephone_number,
+                    birthday: resumeData.birthday == "" ? null : resumeData.birthday,
+                    telephone_number: resumeData.telephone_number == "" ? null : resumeData.telephone_number,
                 },
                 address: {
-                    description: resumeData.description,
-                    district: resumeData.district,
-                    subdistrict: resumeData.subdistrict,
-                    province: resumeData.province,
-                    postcode: resumeData.postcode
+                    description: resumeData.description == "" ? null : resumeData.description,
+                    district: resumeData.district == "" ? null : resumeData.district,
+                    subdistrict: resumeData.subdistrict == "" ? null : resumeData.subdistrict,
+                    province: resumeData.province == "" ? null : resumeData.province,
+                    postcode: resumeData.postcode == "" ? null : resumeData.postcode
                 }
             }
 
             console.log("data to db : ", data)
             try {
-                console.log("config : ",this.GET_CONFIG)
+                console.log("config : ", this.GET_CONFIG)
                 await axios
-                    .patch("https://www.sit-acc.nruf.in.th/users/count-generate-resume", "",this.GET_CONFIG)
+                    .patch("https://www.sit-acc.nruf.in.th/users/count-generate-resume", "", this.GET_CONFIG)
                     .then((res) => {
                         console.log("count gen resume");
                     })

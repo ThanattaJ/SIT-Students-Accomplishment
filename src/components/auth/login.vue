@@ -1,55 +1,54 @@
 <template>
-<div id="login">
-    <form class="login" @submit.prevent="onLogin">
-        <md-card md-with-hover id="flex-container" style="border-radius: 6px;">
-            <div id="sign-up">
-                <form>
-                    <md-card-header>
-                        <md-card-header-text>
-                            <div class="md-title" id="title">Sign in</div>
-                        </md-card-header-text>
-                    </md-card-header>
-                    <div class="grey-text">
-                        <md-card-content>
+<!-- <div id="login"> -->
+<form class="login" @submit.prevent="onLogin">
+    <md-card md-with-hover id="flex-container" style="border-radius: 6px;">
+        <div id="media">
+            <img src="./../../assets/login.jpg" alt="img" />
+        </div>
+        <div id="sign-up">
+            <form>
+                <md-card-header>
+                    <md-card-header-text>
+                        <div class="md-title" id="title">Sign in</div>
+                    </md-card-header-text>
+                </md-card-header>
+                <div class="grey-text">
+                    <md-card-content>
+                        <md-field>
+                            <label>User Name</label>
+                            <md-textarea required v-model="username" md-autogrow></md-textarea>
+                        </md-field>
+                        <div class="md-layout-item">
                             <md-field>
-                                <label>User Name</label>
-                                <md-textarea required v-model="username" md-autogrow></md-textarea>
-                            </md-field>
-                            <div class="md-layout-item">
-                                <md-field>
-                                    <!-- <label for="movie">selected userType</label>
+                                <!-- <label for="movie">selected userType</label>
                               <md-select  required v-model="userType" name="userType" id="userType">
                               <md-option v-for="(types,index) in userType" v-bind:key="index">{{types.type}}</md-option> -->
-                                    <label>Mail@</label>
-                                    <md-textarea required v-model="userType" md-autogrow></md-textarea>
-                                </md-field>
-                            </div>
-                            <md-field>
-                                <label>Password</label>
-                                <md-input required v-model="pass" type="password"></md-input>
+                                <label>Mail@</label>
+                                <md-textarea required v-model="userType" md-autogrow></md-textarea>
                             </md-field>
-                        </md-card-content>
-                    </div>
-                    <div class="text-center" id="btm">
+                        </div>
+                        <md-field>
+                            <label>Password</label>
+                            <md-input required v-model="pass" type="password"></md-input>
+                        </md-field>
+                    </md-card-content>
+                    <a id="login" type="submit" @click="onLogin(username,userType,pass)" style="color:#265080 !important;">Log in </a>
+                </div>
+                <!-- <div class="text-center" id="btm">
                         <a id="login" type="submit" @click="onLogin(username,userType,pass)" style="color:#265080 !important;">Log in </a>
-                    </div>
-                </form>
-            </div>
-            <div id="media">
-                <img src="./../../assets/login.jpg" alt="img" />
-            </div>
-        </md-card>
-    </form>
-</div>
+                    </div> -->
+            </form>
+        </div>
+    </md-card>
+</form>
+<!-- </div> -->
 </template>
 
 <script>
 import axios from 'axios';
 import {
-    mapState,
     mapActions,
-    mapMutations,
-mapGetters
+    mapGetters
 } from 'vuex'
 export default {
     name: 'login',
@@ -57,13 +56,11 @@ export default {
         return {
             username: 'student01',
             userType: 'st.sit.kmutt.ac.th',
-            pass: 'Fxig08',
-            submitted: false
+            pass: 'Fxig08'
         }
     },
     computed: {
         userRole: function () {
-
             let role = this.$store.state.userRole
             if (role === 'student') {
                 router.push('/student')
@@ -75,29 +72,13 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['logout', 'login']),
-        ...mapMutations(['auth_success', 'auth_error']),
-
+        ...mapActions(['LOGIN', 'LOGOUT']),
         onLogin: function () {
-            console.log("เข้า try นะเว้ย")
-            this.login({
+            this.LOGIN({
                 username: this.username,
                 userType: this.userType,
                 pass: this.pass
             })
-            // this.$router.push({
-            //     query: {
-            //         redirect: "http://localhost:7001/"
-            //     }
-            // })
-        },
-        onLogout() {
-            this.logout({
-                router: this.$router
-            });
-        },
-        saveEmail: function (user) {
-            this.$store.state.userName = user
         }
     }
 }

@@ -42,12 +42,14 @@
 
             <div class="navbar-end">
                 <a class="navbar-item">
-                    <i class="la la-sign-in"></i>
-                    <!-- <span v-if="isLoggedIn"> | <a @click="logout">Logout</a></span> -->
-                    <span v-if="Authen_token!=null"> | <a @click="logout">Logout</a></span>
-                    <span v-if="Authen_token==null"> | <router-link to="/login">Login</router-link></span>
+                    <span v-if="loginStatus == true">Hi, <b>{{usernameFromState}}</b> | <a @click="logout">Logout</a></span>
+                    <span v-else><i class="la la-sign-in"></i> | <a @click="showLoginModal">Login</a></span>
                 </a>
             </div>
+
+            <modal name="loginModal" v-if="loginStatus != true">
+                <login></login>
+            </modal>
         </div>
     </nav>
     <router-view />
@@ -55,6 +57,7 @@
 </template>
 
 <script>
+import login from './components/auth/login'
 import {
     mapGetters,
     mapActions
@@ -62,27 +65,39 @@ import {
 
 export default {
     name: 'app',
+    components: {
+        login
+    },
     data() {
         return {
             clickBurger: true,
-            Authen_token: null
+            Authen_token: null,
+            username: null,
         }
+    },
+    computed: {
+        ...mapGetters({
+            loginStatus : 'GET_LOGIN_STATUS',
+            usernameFromState: 'GET_USERNAME'
+        })
     },
     mounted() {
         //เอาค่า Authen_token จาก localStorage เก็บลง state.config.headers.Authorization ใน loginStore
+        this.username = localStorage.getItem('usernameSIT');
         this.Authen_token = localStorage.getItem('Authen_token');
-        this.setIdToken(this.Authen_token)
-        // console.log("Authen_token >  ",this.Authen_token)
-        this.LOAD_STUDENT_DATA()
+        this.SET_LOGIN_STATUS(localStorage.getItem('loginStatus'));
+        if (this.Authen_token != 'null' && this.username != 'null') {
+            this.SET_ALL_LOGIN_DATA({
+                token: this.Authen_token,
+                username: this.username
+            })
+            this.SET_LOGIN_STATUS(true);
+        }
+        this.LOAD_OWN_STUDENT_DATA()
         this.LOAD_RESUME_DATA()
     },
-    computed: {
-        isLoggedIn: function () {
-            return this.$store.getters.userId;
-        }
-    },
     methods: {
-        ...mapActions(['setIdToken', 'GET_CONFIG', 'LOAD_STUDENT_DATA', 'LOAD_RESUME_DATA']),
+        ...mapActions(['SET_ALL_LOGIN_DATA', 'SET_LOGIN_STATUS', 'LOAD_OWN_STUDENT_DATA', 'LOAD_RESUME_DATA', 'LOGOUT']),
         showMenu() {
             this.clickBurger = !this.clickBurger
             if (this.clickBurger != true) {
@@ -94,14 +109,12 @@ export default {
             }
         },
         logout: function () {
-            // this.$store.dispatch("logout").then(() => {
-            //     this.$router.push("/login");
-            // });
-            this.Authen_token = null
-            this.setIdToken(this.Authen_token)
-            localStorage.setItem('Authen_token', null);
-            this.$router.push("/");
+            this.LOGOUT()
+            this.SET_LOGIN_STATUS(null);
         },
+        showLoginModal() {
+            this.$modal.show('loginModal');
+        }
     }
 }
 </script>

@@ -247,10 +247,26 @@ svg{
   font-size: 13px !important;
 }
 
-.fill{
+/* .fill{
   fill:#5FAEB8;
   fill-opacity: 0.5;
 }
 .stroke{
   stroke:#5FAEB8;
+} */
+.stroke {
+    stroke: white;
+    stroke-width: 2;
+  }
+
+.fill {
+    fill: url(#btcFill);
+    fill-opacity: 0.8;
+}
+.vtc {
+  height: 84px;
+}
+.label {
+  color: #9a1313;
+  font-size: 13px;
 }

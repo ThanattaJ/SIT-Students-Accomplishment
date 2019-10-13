@@ -30,7 +30,7 @@
                         <!-- <div slot-scope="{ errors }"> -->
                         <div style="width: 100% !important;">
                             <!-- <label>Email</label> -->
-                            <md-input :value="email" id="email"></md-input>
+                            <md-input :value="profile.email" id="email"></md-input>
                             <!-- <p class="help is-danger">{{ errors[0] }}</p> -->
                         </div>
                         <!-- </ValidationProvider> -->
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="column borderLeft">
-                    <nav class="level">
+                    <nav class="level" style="margin-bottom: 0;">
                         <div class="level-item has-text-centered">
                             <div>
                                 <p class="title">{{profile.resume_gen_count}}</p>
@@ -59,18 +59,25 @@
                     <nav class="level">
                         <div class="level-item has-text-centered">
                             <!-- {{dataToChart}} -->
-                            <TrendChart 
-                                :datasets="[
+                            <svg style="width:0; height:0; position:absolute;" aria-hidden="true" focusable="false">
+                                <defs>
+                                    <linearGradient id="btcFill">
+                                        <stop offset="0%" stop-color="#6fa8dc"></stop>
+                                        <stop offset="100%" stop-color="#42b983"></stop>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <!-- :datasets="[{data: dataset, fill: true, className: 'curve-btc'}]" -->
+                            <TrendChart :datasets="[
                                     {
                                         data: dataToChart,
                                         smooth: true,
-                                        fill: true
+                                        fill: true,
+                                        className: 'curve-btc'
                                     }
-                                ]" 
-                                :labels='{
-                                    xLabels: [totalProject[0].start_year_en, totalProject[totalProject.length-1].start_year_en],
-                                }' 
-                                :min="0">
+                                ]" :labels='{
+                                    xLabels:  totalProject[totalProject.length-1].start_year_en-totalProject[0].start_year_en !=0 ? [totalProject[0].start_year_en, totalProject[totalProject.length-1].start_year_en] :[totalProject[0].start_year_en-1, totalProject[0].start_year_en],
+                                }' :min="0">
                             </TrendChart>
                             <!-- <span>{{totalProject[0].start_year_en}}</span>
                             <bars :data="dataToChart" :gradient="['#6fa8dc', '#42b983']" :barWidth="10" :growDuration="1.5">
@@ -191,10 +198,11 @@ export default {
         })
     },
     mounted() {
-        this.LOAD_STUDENT_DATA()
+        // this.LOAD_OTHER_STUDENT_DATA({user_id:"59130500001"})
+        this.LOAD_OWN_STUDENT_DATA()
     },
     methods: {
-        ...mapActions(['LOAD_STUDENT_DATA', 'UPDATE_FIELD', 'SET_EMAIL']),
+        ...mapActions(['LOAD_OWN_STUDENT_DATA', 'LOAD_OTHER_STUDENT_DATA', 'UPDATE_FIELD', 'SET_EMAIL']),
         showUploadImg: function () {
             document.getElementById("textBlock").style.display = "flex"
         },
@@ -211,7 +219,7 @@ export default {
                     }, this.config)
                     .then((res) => {
                         console.log("success! : ", res);
-                        this.LOAD_STUDENT_DATA()
+                        this.LOAD_OWN_STUDENT_DATA()
                     })
                     .catch((err) => {
                         console.error("err : " + err);
@@ -232,7 +240,7 @@ export default {
                 await axios
                     .patch('https://www.sit-acc.nruf.in.th/users/image', formData, this.config)
                     .then((res) => {
-                        this.LOAD_STUDENT_DATA()
+                        this.LOAD_OWN_STUDENT_DATA()
                         console.log("success! : ", res);
                     })
                     .catch((err) => {

@@ -21,6 +21,9 @@ Vue.use(Donut);
 import TrendChart from "vue-trend-chart";
 Vue.use(TrendChart);
 
+import vmodal from 'vue-js-modal'
+Vue.use(vmodal)
+
 Vue.config.productionTip = false
 
 // Vue.prototype.$http = Axios;
