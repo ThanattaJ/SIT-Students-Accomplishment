@@ -7,8 +7,10 @@
                     <!-- <i class="la la-angle-left"></i> -->
                     <router-link to="/student"><i class="la la-angle-left"></i></router-link>
                     <span class="titleText">Generate Resume</span>
-                    <img src="./../../assets/upload.png" class="uploadImg" alt="Smiley face" height="22" width="22">
-                    <!-- <input type="file" ref="profileImg" @change="uploadProfileImg" class="file-input profileInput" accept=".jpg, .png" @mouseover="showUploadImg" @mouseout="hideUploadImg" /> -->
+                    <label for="file-input">
+                        <img src="./../../assets/upload.png" class="uploadImg" alt="Smiley face" height="22" width="22">
+                    </label>
+                    <input id="file-input" type="file" ref="resumeImg" @change="uploadResumeImg" style="display: none;" />
                 </div>
                 <div style="color:#F7F7F7;height:22px">.</div>
                 <ValidationObserver tag="form" ref="resumeData" v-slot="{ invalid }">
@@ -100,7 +102,7 @@
                             <label>Date of Birth</label>
                             <md-input id="" :value="GET_BIRTHDAY" @change="handleUpdate('UPDATE_FIELD','SET_BIRTHDAY')"></md-input>
                         </md-field>
-
+                        <VueCtkDateTimePicker v-model="dob" :formatted="formatted" :color="color" :only-date="onlydate" :label="label" :no-header="noHeader" :auto-close="autoClose" :no-button="noButton" :no-label="noLabel" />
                         <!-- <div class="column">
                             <div class="field">
                                 <label class="label inputName">Date of Event</label>
@@ -222,14 +224,14 @@ export default {
     data() {
         return {
             page: '1',
-            toPrintJS: ''
+            dob: null
         }
     },
     props: {
         formatted: {
             type: String,
-            // default: 'DD-MM-YYYY'
-            default: 'll'
+            default: 'DD-MM-YYYY'
+            // default: 'll'
         },
         color: {
             type: String,
@@ -274,23 +276,13 @@ export default {
     computed: {
         ...mapGetters(['GET_SHOWPAGE', 'GET_RESUME_DATA', 'GET_FIRSTNAME', 'GET_LASTNAME', 'GET_NICKNAME', 'GET_BIOGRAPHY',
             'GET_STREET', 'GET_SUBDISTRICT', 'GET_DISTRICT', 'GET_PROVINCE', 'GET_ZIPCODE',
-            'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY', 'GET_CONFIG', 'userId'
+            'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY', 'GET_CONFIG', 'GET_USERNAME'
         ])
     },
     mounted() {
         this.LOAD_RESUME_DATA()
-        console.log('userId', this.userId)
     },
     methods: {
-        printJS() {
-            this.toPrintJS = `printJS({
-                        printable: 'printJS-form', 
-                        type: 'html',
-                        style: @import url('https://fonts.googleapis.com/css?family=Asap');,
-                        font: 'Asap',
-                        targetStyles: ['*']
-                        })`
-        },
         ...mapActions(['SET_PAGE', 'LOAD_RESUME_DATA', 'UPDATE_FIELD']),
         handleUpdate(actionName, setter) {
             this[actionName]({
@@ -346,7 +338,25 @@ export default {
             } catch (err) {
                 console.log("FAILURE!!" + err);
             }
-        }
+        },
+        async uploadResumeImg() {
+            const formData = new FormData();
+            formData.append('file', this.$refs.resumeImg.files[0]);
+            formData.append('method', 'resume');
+            try {
+                await axios
+                    .patch('https://www.sit-acc.nruf.in.th/users/image', formData, this.GET_CONFIG)
+                    .then((res) => {
+                        this.LOAD_RESUME_DATA()
+                        console.log("success! : ", res);
+                    })
+                    .catch((err) => {
+                        console.error("err : " + err);
+                    });
+            } catch (err) {
+                console.log('FAILURE!!' + err)
+            }
+        },
     }
 }
 </script>

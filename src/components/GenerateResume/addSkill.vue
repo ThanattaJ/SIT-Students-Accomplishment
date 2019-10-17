@@ -15,7 +15,7 @@
             </md-field>
         </div>
         <div class="select">
-            <select id="proficiency_name" required>
+            <select id="proficiency_name" class="selectInGenResume" required>
                 <option selected disabled>Select a Proficiency ...</option>
                 <option v-for="(level,index) in proficiency" v-bind:key="index" :value="level.id">{{level.level_name}}</option>
             </select>
@@ -32,7 +32,7 @@
             </md-field>
         </div>
         <div class="select">
-            <select :id="'proficiency_name'+getIndex" required>
+            <select :id="'proficiency_name'+getIndex" class="selectInGenResume" required>
                 <option disabled selected :value="proficiency[(skill[getIndex].skill_level_id)-1].id">{{proficiency[(skill[getIndex].skill_level_id)-1].level_name}}</option>
                 <option :id="'profi'+getIndex" v-for="(level,index) in proficiency" v-bind:key="index" :value="level.id">{{level.level_name}}</option>
             </select>
@@ -133,7 +133,7 @@ export default {
             var skill_level_id = parseInt(document.getElementById('proficiency_name').value)-1
             this.skill.push({
                 skill_name: document.getElementById('skill_name').value,
-                skill_level_id: skill_level_id,
+                skill_level_id: skill_level_id+1,
                 level_name: this.proficiency[skill_level_id].level_name
             })
             console.log("skill : ",this.skill)

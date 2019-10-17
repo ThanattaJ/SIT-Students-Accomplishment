@@ -53,7 +53,7 @@ export default {
     data() {
         return {
             allSocial: {},
-            website: [],
+            // website: [],
             chooseNw: false,
             networkName: 'network',
             colorNw: '',
@@ -114,25 +114,11 @@ export default {
     computed: {
         ...mapGetters({
             social: 'GET_SOCIAL',
-            config: 'GET_CONFIG'
+            config: 'GET_CONFIG',
+            website: 'GET_WEBSITE'
         })
     },
     mounted() {
-        var numOfSocails = Object.keys(this.social).length
-        console.log("web: ", this.website)
-        for (var n = 0; n < numOfSocails; n++) {
-            var nw = this.allNetwork[n].network
-            if (this.social[nw] != null) {
-                console.log("เข้า")
-                this.website.push({
-                    network: nw,
-                    color: this.allNetwork[n].color,
-                    username: this.social[nw]
-                })
-            }
-        }
-        this.SEND_WEB_TOSTATE(this.website)
-        console.log("call SEND_WEB_TOSTATE")
     },
     methods: {
         ...mapActions(['SET_PAGE', 'SET_SOCIAL', 'SEND_WEB_TOSTATE']),

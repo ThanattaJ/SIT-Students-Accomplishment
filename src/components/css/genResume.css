@@ -80,7 +80,7 @@ input[type=text]:focus {
     outline: none !important;
 }
 
-select {
+.selectInGenResume {
     background: transparent !important;
     border: none !important;
     border-bottom: 1px solid #DBDBDB !important;
@@ -91,7 +91,7 @@ select {
     padding-left: 0px !important;
 }
 
-select:focus{
+.selectInGenResume:focus{
     box-shadow: none !important;
 }
 

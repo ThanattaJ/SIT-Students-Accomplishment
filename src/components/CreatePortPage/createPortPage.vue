@@ -168,12 +168,6 @@ export default {
                     }
                 }
             }
-            // const config = {
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-            //     }
-            // }
             try {
                 console.log("data : ", data)
                 await axios
@@ -202,16 +196,10 @@ export default {
             this.UPDATE_FIELD({callSetter: 'SET_PROJECT_ABSTRACT', value: ""})
             this.UPDATE_FIELD({callSetter: 'SET_PROJECT_DETAIL', value: ""})
 
-            // commit(callSetter, value)
             this.SET_SELECTED_STUDENT_MEMBER([])
-                // commit('SET_SELECTED_STUDENT_MEMBER', student)
             this.SET_OUTSIDER([])
-                // commit('SET_OUTSIDER', outsider)
             this.SET_HAVE_OUTSIDER(false)
-                // commit('SET_HAVE_OUTSIDER')
             this.SET_ACHIEVEMENT([])
-                // commit('SET_ACHIEVEMENT', achievement)
-            
         }
     },
 

@@ -8,13 +8,13 @@
     <!-- form for add -->
     <div class="language" v-else style="margin-bottom:10px">
         <div class="select">
-            <select id="language_name" required>
+            <select id="language_name" class="selectInGenResume" required>
                 <option selected disabled>Select a Language ...</option>
                 <option v-for="(language,index) in language_list" v-bind:key="index" :value="[language.language_name,index+1]">{{language.language_name}}</option>
             </select>
         </div>
         <div class="select">
-            <select id="proficiency_name" required>
+            <select id="proficiency_name" class="selectInGenResume" required>
                 <option selected disabled>Select a Proficiency ...</option>
                 <option v-for="(level,index) in proficiency" v-bind:key="index" :value="[level.level_name,index+1]">{{level.level_name}}</option>
             </select>
@@ -25,13 +25,13 @@
     <!-- form for edit -->
     <div id="editing" class="language editing" v-if="showForm == true && language.length>0">
         <div class="select">
-            <select :id="'language_name'+getIndex" required>
+            <select :id="'language_name'+getIndex" required class="selectInGenResume">
                 <option disabled selected :value="[language[getIndex].language_name,getIndex+1]">{{language[getIndex].language_name}}</option>
                 <option v-for="(language,index) in language_list" v-bind:key="index" :value="[language.language_name,index+1]">{{language.language_name}}</option>
             </select>
         </div>
         <div class="select">
-            <select :id="'proficiency_name'+getIndex" required>
+            <select :id="'proficiency_name'+getIndex" required class="selectInGenResume">
                 <option disabled selected :value="[language[getIndex].level_name,getIndex+1]">{{language[getIndex].level_name}}</option>
                 <option v-for="(level,index) in proficiency" v-bind:key="index" :value="[level.level_name,index+1]">{{level.level_name}}</option>
             </select>
