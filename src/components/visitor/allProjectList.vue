@@ -1,60 +1,119 @@
 <template>
 <div id="list-project of student">
+    <!-- <div id="bodyBg">
+        <div class="field has-addons">
+            <p class="control">
+                <span class="select">
+                    <select id="typeOfSearch" class="selectInSearch" style="font-size: 16px !important; ">
+                        <option value="all">All Projects</option>
+                        <option value="achievement">All Achievement</option>
+                        <option value="assignment">All Assignment</option>
+                    </select>
+                </span>
+            </p>
+            <p class="control">
+                <input id="searchText" class="input" type="text" placeholder="Looking for?" style="font-size: 16px !important;margin-top: 0px !important;border-bottom: 1px solid #DBDBDB !important;">
+            </p>
+            <p class="control">
+                <span class="select">
+                    <select id="searchBy" class="selectInSearch" style="font-size: 16px !important;">
+                        <option value="projects">Search by Project</option>
+                        <option value="tags">Search by Tag</option>
+                    </select>
+                </span>
+            </p>
+            <p class="control">
+                <span class="select">
+                    <select id="year" class="selectInSearch" style="font-size: 16px !important;">
+                        <option value="present">Present</option>
+                        <option>2018</option>
+                        <option>2017</option>
+                    </select>
+                </span>
+            </p>
+            <p class="control" @click="search">
+                <a class="button" style="color: rebeccapurple !important;">
+                    <i class="la la-search"></i>
+                </a>
+            </p>
+        </div>
+    </div> -->
     <div id="bodyBg">
-
-    </div>
-    <div class="navProfile">
-        <div id="bodyBg">
-            <!-- {{allProjectPresent.projects}} -->
-
+        <div class="field has-addons">
+            <p class="control">
+                <input id="searchText" class="input" type="text" placeholder="Looking for?" style="font-size: 16px !important;margin-top: 0px !important;border-bottom: 1px solid #DBDBDB !important;">
+            </p>
+            <div class="control">
+                <div class="dropdown is-hoverable">
+                    <div class="dropdown-trigger">
+                        <button class="button filter" aria-haspopup="true" aria-controls="dropdown-menu4">
+                            <span><img src="./../../assets/filter-results-button.png" width="17px"></span>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+                        <div class="dropdown-content">
+                            <div class="dropdown-item">
+                                <p class="menu-label">
+                                    All prejects
+                                </p>
+                                <a href="#" class="dropdown-item" style="color:black !important">
+                                    <input type="checkbox">have achievement
+                                </a>
+                                <a href="#" class="dropdown-item" style="color:black !important">
+                                    <input type="checkbox">have assignment
+                                </a>
+                                <p class="menu-label">
+                                    Year
+                                </p>
+                                <div class="dropdown-item select">
+                                    <select id="proficiency_name" class="selectInGenResume" required>
+                                        <option selected>Present</option>
+                                        <option>2018</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="control" @click="search">
+                <a class="button" style="color: #265080 !important;">
+                    <i class="la la-search"></i>
+                </a>
+            </p>
         </div>
     </div>
     <!-- All projects -->
     <div id="bodyBg">
-        <div class="columns">
-            <div class="column is-narrow" style="padding: 0 !important;padding-left: 0.75rem !important;">
-                <div class="field">
-                    <p class="control has-icons-left">
-                        <input class="input" type="text" placeholder="Search Project...">
-                        <span class="icon is-small is-left">
-                            <i class="la la-search"></i>
-                        </span>
-                    </p>
-                </div>
-            </div>
-        </div>
         <div class="columns is-multiline">
             <div class="column is-one-quarter" v-for="(allProject,index) in allProjectPresent.projects" v-bind:key="index">
                 <router-link :to="`/ProjectDetail/${allProject.id}`">
-                    <div class="card">
+                    <div class="card content_img">
                         <div class="card-image" v-if="allProject.cover_path != null">
                             <figure class="image is-4by2">
-                                <img :src="allProject.cover_path" alt="Placeholder image" style="height: 156.22px; !important">
+                                <img src="./../../assets/gold-medal.png" width="17px" v-if="allProject.achievement" style="z-index:2;position:absolute;width:40px;">
+                                <img :src="allProject.cover_path" alt="Placeholder image" style="height: 156.22px !important;border-radius: 5px;">
+                                <div class="img-text">
+                                    <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
+                                    <span class="countText">{{allProject.count_viewer}} </span>
+                                    <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
+                                    <span class="countText">{{allProject.count_clap}} </span>
+                                </div>
                             </figure>
                         </div>
                         <div class="card-image" v-else>
                             <figure class="image is-4by2">
-                                <img src="./../../assets/noCoverImg.png">
+                                <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;">
+                                <div class="img-text">
+                                    <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
+                                    <span class="countText">{{allProject.count_viewer}} </span>
+                                    <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
+                                    <span class="countText">{{allProject.count_clap}} </span>
+                                </div>
                             </figure>
                         </div>
                         <div class="card-content projectInfo">
-                            <div class="content">
-                                <p class="projectName" style="height: 22px;overflow: hidden;">{{allProject.project_name_en}}</p>
-                                <div class="columns">
-                                    <div class="column" v-if="allProject.achievement">
-                                        <p class="projectDetail" style="margin-top:8px;">
-                                            <img src="./../../assets/trophy.png" width="25px">
-                                        </p>
-                                    </div>
-                                    <div class="column">
-                                        <p class="projectDetail" style="margin-top:8px;text-align:right">
-                                            <img src="./../../assets/visibility-button.png" width="30px" style="margin-right:5px;"><span style="margin-right:5px">{{allProject.count_viewer}} </span>
-                                            <img src="./../../assets/clap-hands.png" width="25px" style="margin-right:5px"><span style="margin-right:5px">{{allProject.count_clap}} </span>
-                                        </p>
-                                    </div>
-                                </div>
-
-                            </div>
+                            <p class="projectName" style="height: 22px;overflow: hidden;">{{allProject.project_name_en}}</p>
                         </div>
                     </div>
                 </router-link>
@@ -66,6 +125,7 @@
 
 <script>
 // import './../../node_modules/bulma/css/bulma.css';
+import './../css/visitor.css';
 import './../css/studentProjectTab.css';
 import {
     mapGetters,
@@ -75,7 +135,9 @@ import axios from 'axios'
 
 export default {
     data() {
-        return {}
+        return {
+            hoverCardOrNot: false
+        }
     },
     computed: {
         ...mapGetters({
@@ -83,11 +145,36 @@ export default {
         })
     },
     mounted() {
-        this.LOAD_ALL_PROJECT_VISITORVIEW()
+        this.LOAD_ALL_PROJECT_VISITORVIEW({
+            type: "all",
+            year: "present"
+        })
     },
     methods: {
-        ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW']),
+        ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW', 'LOAD_PROJECT_BY_SEARCH']),
+        search() {
+            var typeOfSearch = document.getElementById('typeOfSearch').value
+            var searchText = document.getElementById('searchText').value
+            var searchBy = document.getElementById('searchBy').value
+            var year = document.getElementById('year').value
 
+            console.log("typeOfSearch : " + document.getElementById('typeOfSearch').value)
+            console.log("searchText : " + document.getElementById('searchText').value)
+            console.log("searchBy : " + document.getElementById('searchBy').value)
+            console.log("year : " + document.getElementById('year').value)
+
+            if (searchText == "") {
+                this.LOAD_ALL_PROJECT_VISITORVIEW({
+                    type: typeOfSearch,
+                    year: year
+                })
+            } else {
+                this.LOAD_PROJECT_BY_SEARCH({
+                    searchText: searchText,
+                    searchBy: searchBy
+                })
+            }
+        }
     }
 }
 </script>
