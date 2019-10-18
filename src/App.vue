@@ -120,6 +120,9 @@ export default {
 </script>
 
 <style>
+.card{
+    box-shadow: none !important;
+}
 .navbar {
     /* height: 100px; */
     background-color: #265080 !important;

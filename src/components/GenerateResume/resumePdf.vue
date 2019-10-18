@@ -1,38 +1,55 @@
 <template>
 <div style="padding-left: 22.3%;padding-right: 22.3%;padding-top: 2%;padding-bottom: 8%;">
-<!-- {{GET_WEBSITE}} -->
     <form method="post" action="#" id="printJS-form">
         <div class="columns A4Padding breakWord">
             <div class="column is-4 leftSide">
                 <div class="name">
-                    <img :src="GET_STUDENT_PROFILE.profile_picture" style="border-radius:100px !important;width:150px" />
+                    <img :src="GET_RESUME_DATA.profile.resume_picture == null ? GET_RESUME_DATA.profile.profile_picture : GET_RESUME_DATA.profile.resume_picture" 
+                        style="vertical-align: middle;
+                        width: 150px;
+                        height: 150px;
+                        border-radius: 50%;" 
+                    />
                     <p style="font-size:22px;font-weight:bold">{{GET_FIRSTNAME}}</p>
                     <p style="font-size:18px;font-weight:bold">{{GET_LASTNAME}}</p>
-                    <p>( {{GET_NICKNAME}} )</p>
+                    <p v-if="GET_NICKNAME.length > 0">( {{GET_NICKNAME}} )</p>
                 </div>
 
                 <div class="contact_topic">
-                    <p class="topic_resume">CONTACT</p>
-                    <p class="contact"><img src="./../../assets/placeholder.png" class="contact_icon" />ADDRESS</p>
-                    <p class="contact_detail">{{GET_STREET}} , {{GET_SUBDISTRICT}} , {{GET_DISTRICT}} , {{GET_PROVINCE}} , {{GET_ZIPCODE}}</p>
-                    <p class="contact"><img src="./../../assets/cake (2).png" class="contact_icon" />DATE OF BIRTH</p>
+                    <p class="topic_resume" v-if="GET_STREET.length > 0 || GET_SUBDISTRICT.length > 0 || GET_DISTRICT.length > 0 || GET_PROVINCE.length > 0 && GET_ZIPCODE.length > 0 || GET_BIRTHDAY.length > 0 || GET_PHONENO.length > 0 || GET_EMAIL.length > 0">CONTACT</p>
+                    <p class="contact" v-if="GET_STREET.length > 0 || GET_SUBDISTRICT.length > 0 || GET_DISTRICT.length > 0 || GET_PROVINCE.length > 0 && GET_ZIPCODE.length > 0">
+                        <img src="./../../assets/placeholder.png" class="contact_icon" />
+                        ADDRESS
+                    </p>
+                    <p class="contact_detail">
+                        {{GET_STREET}}
+                        <span v-if="GET_STREET.length > 0">,</span>
+                        {{GET_SUBDISTRICT}}
+                        <span v-if="GET_SUBDISTRICT.length > 0">,</span>
+                        {{GET_DISTRICT}}
+                        <span v-if="GET_DISTRICT.length > 0">,</span>
+                        {{GET_PROVINCE}}
+                        <span v-if="GET_PROVINCE.length > 0 && GET_ZIPCODE.length > 0">,</span>
+                        {{GET_ZIPCODE}}
+                    </p>
+                    <p class="contact" v-if="GET_BIRTHDAY.length > 0"><img src="./../../assets/cake (2).png" class="contact_icon" />DATE OF BIRTH</p>
                     <p class="contact_detail">{{GET_BIRTHDAY}}</p>
-                    <p class="contact"><img src="./../../assets/phone.png" class="contact_icon" />PHONE</p>
+                    <p class="contact" v-if="GET_PHONENO.length > 0"><img src="./../../assets/phone.png" class="contact_icon" />PHONE</p>
                     <p class="contact_detail">{{GET_PHONENO}}</p>
-                    <p class="contact"><img src="./../../assets/gmail.png" class="contact_icon" />E-MAIL</p>
+                    <p class="contact" v-if="GET_EMAIL.length > 0"><img src="./../../assets/gmail.png" class="contact_icon" />E-MAIL</p>
                     <p class="contact_detail">{{GET_EMAIL}}</p>
 
                     <!-- <div> -->
                     <div>
-                        <p class="topic_resume">WEBSITE</p>
+                        <p class="topic_resume" v-if="GET_WEBSITE.length > 0">WEBSITE</p>
                         <p class="webList_resume" v-for="(web,index) in GET_WEBSITE" v-bind:key="'web'+index">
                             <img :src="getImgUrl(web.network)" class="contact_icon" />{{web.username}}
                         </p>
                     </div>
                     <!-- <div> -->
                     <!-- <div v-if="GET_SKILL.length > 0"> -->
-                        <div>
-                        <p class="topic_resume">SKILL</p>
+                    <div>
+                        <p class="topic_resume" v-if="GET_SKILL.length > 0">SKILL</p>
                         <table>
                             <tbody>
                                 <tr v-for="(skill,index) in GET_SKILL" v-bind:key="'skill'+index">
@@ -43,8 +60,8 @@
                         </table>
                     </div>
                     <div>
-                    <!-- <div v-if="GET_LANGUAGE.length > 0"> -->
-                        <p class="topic_resume">LANGUAGE</p>
+                        <!-- <div v-if="GET_LANGUAGE.length > 0"> -->
+                        <p class="topic_resume" v-if="GET_LANGUAGE.length > 0">LANGUAGE</p>
                         <table>
                             <tbody>
                                 <tr v-for="(lang,index) in GET_LANGUAGE" v-bind:key="'lang'+index">
@@ -63,8 +80,8 @@
                     <p>{{GET_BIOGRAPHY}}</p>
                 </div>
                 <!-- EDUCATION -->
-                    <div>
-                <!-- <div class="rightSide" v-if="GET_EDUCATION_DATA.length > 0"> -->
+                <!-- <div> -->
+                <div class="rightSide" v-if="GET_EDUCATION_DATA.length > 0">
                     <p class="topic_resume">EDUCATION</p>
                     <div class="columns" v-for="(edu,index) in GET_EDUCATION_DATA" v-bind:key="'edu'+index">
                         <div class="column is-4 eduYear_resumePdf">{{edu.start_year}} - {{edu.end_year}}</div>
@@ -76,7 +93,7 @@
                 </div>
                 <!-- EXPERIENCE -->
                 <div v-if="GET_EXPERIENCE_SELECTED.length > 0">
-                <p class="topic_resume">EXPERIENCE</p>
+                    <p class="topic_resume">EXPERIENCE</p>
                     <div class="columns" v-for="(exp,index) in GET_EXPERIENCE_SELECTED" v-bind:key="'exp'+index">
                         <div class="column is-3 eduYear_resumePdf">{{exp.start_year_en}}</div>
                         <div class="column eduDetail">
@@ -160,34 +177,23 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'GET_STUDENT_PROFILE',
+            // 'GET_STUDENT_PROFILE',
+            'GET_RESUME_DATA',
             'GET_FIRSTNAME', 'GET_LASTNAME',
             'GET_NICKNAME', 'GET_BIOGRAPHY',
             'GET_STREET', 'GET_SUBDISTRICT', 'GET_DISTRICT', 'GET_PROVINCE', 'GET_ZIPCODE',
             'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY',
-            'GET_SOCIAL', 'GET_EDUCATION_DATA', 'GET_EXPERIENCE_DATA', 'GET_EXPERIENCE_SELECTED','GET_SKILL', 'GET_LANGUAGE', 'GET_WEBSITE'
+            'GET_SOCIAL', 'GET_EDUCATION_DATA', 'GET_EXPERIENCE_DATA', 'GET_EXPERIENCE_SELECTED', 'GET_SKILL', 'GET_LANGUAGE', 'GET_WEBSITE'
         ])
     },
     mounted() {
-        // var numOfSocails = Object.keys(this.GET_SOCIAL).length
-        // console.log("web: ", this.website)
-        // for (var n = 0; n < numOfSocails; n++) {
-        //     var nw = this.allNetwork[n].network
-        //     if (this.GET_SOCIAL[nw] != null) {
-        //         console.log("เข้า")
-        //         this.website.push({
-        //             network: nw,
-        //             color: this.allNetwork[n].color,
-        //             username: this.GET_SOCIAL[nw]
-        //         })
-        //     }
-        // }
+        this.LOAD_RESUME_DATA()
     },
     methods: {
         getImgUrl(pic) {
             return require('./../../assets/' + pic + '.png')
-        }
-        // ...mapActions(['SET_PAGE', 'LOAD_RESUME_DATA', 'UPDATE_FIELD']),
+        },
+        ...mapActions(['LOAD_RESUME_DATA']),
     }
 
 }

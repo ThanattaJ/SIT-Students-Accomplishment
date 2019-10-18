@@ -2,7 +2,16 @@ import axios from "axios";
 
 export const studentStore = {
     state: {
-        studentData: {},
+        studentData: {
+            // profile: {},
+            access: Boolean,
+            projects: [],
+            totalProject: [{
+                start_year_en: Number,
+                total: Number
+            }],
+            allTag: []
+        },
         dataToChart: []
     },
     actions: {

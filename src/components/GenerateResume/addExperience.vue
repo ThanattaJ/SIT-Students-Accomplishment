@@ -4,6 +4,7 @@
         <i class="la la-angle-left" v-on:click="addExpeToState"></i>
         <span class="titleText">Experience</span>
     </div>
+    Please select the project
     <!-- form for edit -->
     <!-- <div class="education editing" v-if="showForm == true && selectedExpe.length>0">
         <div>
@@ -38,9 +39,10 @@
         </div>
     </div>
     <!-- show all experience -->
-    <div :id="'allExp'+index" class="columns allEducation" v-for="(expe,index) in experience" v-bind:key="index">
+    <div :id="'allExp'+index" class="columns allEducation" v-for="(expe,index) in experience" v-bind:key="index" @click="chooseExp(index);showForm = false">
         <div class="column is-1 educationList">
-            <input :id="'checkbox'+index" type="checkbox" class="checkboxExpe" @click="chooseExp(index);showForm = false">
+            <!-- <input :id="'checkbox'+index" type="checkbox" class="checkboxExpe" @click="chooseExp(index);showForm = false"> -->
+            <input :id="'checkbox'+index" type="checkbox" class="checkboxExpe">
         </div>
         <div class="column">
             <p class="showEducation schoolname">{{expe.project_name_en}}</p>

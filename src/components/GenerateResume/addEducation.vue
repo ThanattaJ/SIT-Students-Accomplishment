@@ -9,7 +9,7 @@
     <!-- form for add -->
     <div class="education" v-else style="margin-bottom:10px">
         <div class="select">
-            <select id="level_name" required>
+            <select id="level_name" class="selectInGenResume" required>
                 <option selected disabled>Select a Degree ...</option>
                 <option id="level" v-for="(level,index) in education_level" :key="index" :value="level.id">{{level.level_name}}</option>
             </select>
@@ -52,7 +52,7 @@
     <!-- form for edit -->
     <div class="education editing" v-if="showForm == true && education.length>0">
         <div class="select">
-            <select :id="'level_name'+getIndex">
+            <select :id="'level_name'+getIndex" class="selectInGenResume">
                 <option disabled selected :value="levelId_all[getIndex]">{{education[getIndex].level_name}}</option>
                 <option :id="'level'+getIndex" v-for="(level,index) in education_level" v-bind:key="index" :value="level.id">{{level.level_name}}</option>
             </select>
@@ -161,18 +161,11 @@ export default {
         },
         async addEduToState() {
             this.SET_PAGE(1);
-            // const config = {
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-            //     }
-            // }
             try {
                 console.log(" this.education : ", this.education)
                 await axios
                     // .patch("http://localhost:7000/users/educations", {
                     .patch("https://www.sit-acc.nruf.in.th/users/educations", {
-                // educations : []
                 educations : this.education
                 }, this.config)
                     .then((res) => {

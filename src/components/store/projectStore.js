@@ -5,14 +5,23 @@ export const projectStore = {
         data: {}
     },
     actions: {
-        LOAD_ALL_PROJECT_VISITORVIEW: async function ({ commit, rootState }) {
-            // const URL = "http://localhost:7000/users/default"
-            const URL = "https://www.sit-acc.nruf.in.th/projects/all/present"
+        LOAD_ALL_PROJECT_VISITORVIEW: async function ({ commit, rootState }, {type, year}) {
+            const URL = rootState.pathStore.pathName+"/projects/"+type+"?year="+year
+            console.log("URL : "+URL)
             const { data } = await axios.get(
                 URL
             );
             commit('SET_ALL_PROJECT_VISITORVIEW', data)
-        }
+        },
+        LOAD_PROJECT_BY_SEARCH: async function ({ commit, rootState }, {searchText, searchBy}) {
+            const URL = rootState.pathStore.pathName+"/projects/search?by="+searchBy+"&search="+searchText
+            console.log("URL : "+URL)
+            const { data } = await axios.get(
+                URL
+            );
+            commit('SET_ALL_PROJECT_VISITORVIEW', data)
+            commit('SET_ALL_PROJECT_VISITORVIEW', data)
+        },
     },
     mutations: {
         SET_ALL_PROJECT_VISITORVIEW: function (state, projects) {

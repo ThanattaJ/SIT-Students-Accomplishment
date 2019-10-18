@@ -5,10 +5,13 @@ export const resumeStore = {
         showPage: 1,
         website: [],
         selectedExpe: [],
-        // skill: [],
         resumeData: {
-            profile: {
-            }
+            profile: {},
+            language: [],
+            education: [],
+            skill: [],
+            social: {},
+            projects: []
         }
     },
     actions: {
@@ -16,29 +19,86 @@ export const resumeStore = {
             commit('SET_PAGE', page)
         },
         LOAD_RESUME_DATA: async function ({ commit, rootState }) {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-                }
-            }
             // const URL = "http://localhost:7000/users/generate-resume/"
             const URL = "https://www.sit-acc.nruf.in.th/users/generate-resume/"
-            // const URL = "http://localhost:7000/users/generate-resume/student01"
             const { data } = await axios.get(
-                URL+rootState.loginStore.userName , rootState.loginStore.config
-                // URL, config
-
+                URL + rootState.loginStore.username, rootState.loginStore.config
             );
-            console.log(data)
+            console.log("resume data from db : ",data)
+            console.log("=======================================")
+
             commit('SET_RESUME_DATA', data)
+
+            var allNetwork = [{
+                id: 0,
+                network: 'Twitter',
+                color: '#47ABE7'
+            },
+            {
+                id: 1,
+                network: 'Facebook',
+                color: '#4267b2'
+            },
+            {
+                id: 2,
+                network: 'Instagram',
+                color: '#FF007A'
+            },
+            {
+                id: 3,
+                network: 'Linkedin',
+                color: '#0077B5'
+            },
+            {
+                id: 4,
+                network: 'Github',
+                color: '#24292D'
+            },
+            {
+                id: 5,
+                network: 'Pinterest',
+                color: '#E60122'
+            },
+            {
+                id: 6,
+                network: 'Vimeo',
+                color: '#1CB7EA'
+            },
+            {
+                id: 7,
+                network: 'Tumblr',
+                color: '#000000'
+            },
+            {
+                id: 8,
+                network: 'Flickr',
+                color: '#0063DB'
+            },
+            {
+                id: 9,
+                network: 'Link',
+                color: '#DB6318'
+            },
+            ]
+            var websiteTmp = []
+            var socialTmp = data.social
+            var numOfSocails = Object.keys(socialTmp).length
+            console.log("numOfSocails : " + numOfSocails)
+            for (var n = 0; n < numOfSocails; n++) {
+                var nw = allNetwork[n].network
+                if (socialTmp[nw] != null) {
+                    websiteTmp.push({
+                        network: nw,
+                        color: allNetwork[n].color,
+                        username: socialTmp[nw]
+                    })
+                }
+            }
+            commit('SET_WEBSITE', websiteTmp)
+
         },
         UPDATE_FIELD: function ({ commit }, { callSetter, value }) {
             commit(callSetter, value)
-        },
-        //WEBSITE
-        SEND_WEB_TOSTATE: function ({ commit }, web) {
-            commit('SET_WEBSITE', web)
         },
         SET_SOCIAL: function ({ commit }, social) {
             commit('SET_SOCIAL', social)
@@ -146,11 +206,6 @@ export const resumeStore = {
         GET_BIRTHDAY: function (state) {
             return state.resumeData.profile.birthday
         },
-        //WEBSITE
-        GET_WEBSITE: function (state) {
-            console.log("website : ",state.website)
-            return state.website
-        },
         //EDUCATION
         GET_EDUCATION_DATA: function (state) {
             return state.resumeData.education
@@ -172,8 +227,12 @@ export const resumeStore = {
         },
         //SOCIAL
         GET_SOCIAL: function (state) {
-            console.log("social : ",state.resumeData.social)
+            console.log("social : ", state.resumeData.social)
             return state.resumeData.social
-        }
+        },
+        GET_WEBSITE: function (state) {
+            console.log("website : ", state.website)
+            return state.website
+        },
     }
 }

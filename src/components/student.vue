@@ -58,7 +58,6 @@
                     </nav>
                     <nav class="level">
                         <div class="level-item has-text-centered">
-                            <!-- {{dataToChart}} -->
                             <svg style="width:0; height:0; position:absolute;" aria-hidden="true" focusable="false">
                                 <defs>
                                     <linearGradient id="btcFill">
@@ -67,22 +66,23 @@
                                     </linearGradient>
                                 </defs>
                             </svg>
-                            <!-- :datasets="[{data: dataset, fill: true, className: 'curve-btc'}]" -->
-                            <TrendChart :datasets="[
+                            <TrendChart 
+                                :datasets="[
                                     {
                                         data: dataToChart,
                                         smooth: true,
                                         fill: true,
                                         className: 'curve-btc'
                                     }
-                                ]" :labels='{
-                                    xLabels:  totalProject[totalProject.length-1].start_year_en-totalProject[0].start_year_en !=0 ? [totalProject[0].start_year_en, totalProject[totalProject.length-1].start_year_en] :[totalProject[0].start_year_en-1, totalProject[0].start_year_en],
-                                }' :min="0">
+                                ]" 
+                                :labels="{
+                                    xLabels:  totalProject[totalProject.length-1].start_year_en-totalProject[0].start_year_en !=0 ? 
+                                                [totalProject[0].start_year_en, totalProject[totalProject.length-1].start_year_en] :
+                                                [totalProject[0].start_year_en-1, totalProject[0].start_year_en]
+                                }"
+                                :min="0"
+                            >
                             </TrendChart>
-                            <!-- <span>{{totalProject[0].start_year_en}}</span>
-                            <bars :data="dataToChart" :gradient="['#6fa8dc', '#42b983']" :barWidth="10" :growDuration="1.5">
-                            </bars>
-                            <span>{{totalProject[totalProject.length-1].start_year_en}}</span> -->
                         </div>
                     </nav>
                 </div>
@@ -122,7 +122,39 @@
                     </div>
                 </router-link>
             </div>
-            <div class="column is-one-quarter" v-for="(project,index) in projects" v-bind:key="index">
+            <div class="column is-one-quarter" v-for="(allProject,index) in projects" v-bind:key="index">
+                <router-link :to="`/ProjectDetail/${allProject.id}`">
+                    <div class="card content_img">
+                        <div class="card-image" v-if="allProject.cover_path != null">
+                            <figure class="image is-4by2">
+                                <img src="./../assets/gold-medal.png" width="17px" v-if="allProject.achievement" style="z-index:2;position:absolute;width:40px;">
+                                <img :src="allProject.cover_path" alt="Placeholder image" style="height: 156.22px !important;border-radius: 5px;">
+                                <div class="img-text" >
+                                    <img src="./../assets/visibility-button.png" style="width:15px;display: inline;">
+                                    <span class="countText">{{allProject.count_viewer}} </span>
+                                    <img src="./../assets/clap-hands.png" style="width:15px;display: inline;">
+                                    <span class="countText">{{allProject.count_clap}} </span>
+                                </div>
+                            </figure>
+                        </div>
+                        <div class="card-image" v-else>
+                            <figure class="image is-4by2">
+                                <img src="./../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;">
+                                <div class="img-text" >
+                                    <img src="./../assets/visibility-button.png" style="width:15px;display: inline;">
+                                    <span class="countText">{{allProject.count_viewer}} </span>
+                                    <img src="./../assets/clap-hands.png" style="width:15px;display: inline;">
+                                    <span class="countText">{{allProject.count_clap}} </span>
+                                </div>
+                            </figure>
+                        </div>
+                        <div class="card-content projectInfo">
+                            <p class="projectName" style="height: 22px;overflow: hidden;">{{allProject.project_name_en}}</p>
+                        </div>
+                    </div>
+                </router-link>
+            </div>
+            <!-- <div class="column is-one-quarter" v-for="(project,index) in projects" v-bind:key="index">
                 <router-link :to="`/ProjectDetail/${project.id}`">
                     <div class="card">
                         <div class="card-image" v-if="project.cover_path != null">
@@ -156,7 +188,7 @@
                         </div>
                     </div>
                 </router-link>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -167,6 +199,7 @@
 <script>
 import './../../node_modules/bulma/css/bulma.css';
 import './css/studentProjectTab.css';
+import './css/visitor.css';
 import print from 'print-js'
 import {
     mapGetters,
