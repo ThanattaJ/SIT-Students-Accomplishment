@@ -4,6 +4,7 @@
         <p id="TitleName_eg">{{header.TitleName}}</p>
         <p id="TitleName_th">{{header.TitleName_TH}}</p>
     </div>
+    <!-- -------------cover----------------- -->
     <div class="section" id="imgCover">
         <div v-if="this.getFile">
             <img :src="this.getFile" id="coverI">
@@ -26,9 +27,9 @@
             <div class="tags">
                 <span class="tag profileTag" v-for="(tag,index) in getTag" v-bind:key="index">
                     <span style="padding-left:5px">{{tag.tag_name}} </span>
+
                 </span>
             </div>
-            <!-- <tag/> -->
         </div>
         <div class="columns">
             <div class="column is-four-fifths">
@@ -67,7 +68,7 @@
                 <div class="card" id="Details">
                     <div class="card-content">
                         <div class="content" id="content">
-                            <Video />
+                            <Video/>
                         </div>
                     </div>
                 </div>
@@ -117,7 +118,6 @@ import achievements from './achievements';
 import member from './member';
 import tool from './tool';
 import ref from './ref';
-import tag from './tag';
 import uploadFilePond from "./uploadFilePond";
 import uploadimg from "./uploadimg";
 import uploadCover from "./uploadCover";
@@ -148,8 +148,7 @@ export default {
             'getTag',
             'GET_STUDENT_TAG',
             'GET_STUDENT_PROJECT',
-            'getPic',
-            'getNonMember'
+            'getPic'
         ]),
     },
     components: {
@@ -166,7 +165,6 @@ export default {
         ref,
         showImg,
         editImg,
-        tag
     },
 
     data() {
@@ -212,6 +210,14 @@ export default {
             Tags: [
                 'Vue.js'
             ],
+            // start: {
+            //     month: '',
+            //     year: ''
+            // },
+            // end: {
+            //     month: '',
+            //     year: ''
+            // },
             clap: '',
             viewer: '',
             create: '',
@@ -223,6 +229,8 @@ export default {
     },
 
     async mounted() {
+        // console.log("-----------")
+        // console.log("getImage : ",this.getFile)
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -246,27 +254,34 @@ export default {
         // "http://localhost:7000/projects/" + this.$route.params.pId
         this.header.TitleName = data.project_detail.project_name_en;
         this.header.TitleName_TH = data.project_detail.project_name_th;
+        // this.start.month = data.project_detail.start_month
+        // this.start.year = data.project_detail.start_year_en
+        // this.end.month = data.project_detail.end_month
+        // this.end.year = data.project_detail.end_year_en
         this.clap = data.project_detail.count_clap
-        this.viewer = data.project_detail.count_viewer
+        this.viewer = data.project_detail.count_viewer                   
         this.create = data.project_detail.created_at
         this.update = data.project_detail.updated_at
         this.setPID(data.project_detail.id)
         this.setAbstract(data.project_detail.project_abstract)
         this.setDetail(data.project_detail.project_detail)
-        this.SET_ACHIEVEMENT_STATE(data.achievements)
+        this.setAchievements(data.achievements)
         this.setMember(data.students)
         this.setNonMember(data.outsiders)
         this.setRef(data.project_detail.references)
         this.setTool(data.project_detail.tool_techniq_detail)
         this.setTag(data.tags)
+        // console.log("----------------")
+        console.log("data.achievements : ", data.students ,data.outsiders)
 
-        // console.log("---------   --")
-        // console.log("Tags : ", this.getTag)
+        // -------------------
 
         this.Abstract.content_Abstract = data.project_detail.project_abstract
         this.Detail.content_eg = data.project_detail.project_detail
         this.Tools = data.project_detail.tool_techniq_detail
         this.References = data.project_detail.references
+
+        // console.log("--cover-- : ", this.cover[0])
 
         // document
         for (let i = 0; i < data.document.length; i++) {
@@ -281,6 +296,7 @@ export default {
             this.tags[i].name = data.tags[i]
         }
         this.tags.length = data.tags.length
+        // fetch data
         for (let i = 0; i < data.picture.length; i++) {
             this.img[i] = data.picture[i].path_name;
             var path = this.img[i];
@@ -289,6 +305,7 @@ export default {
                 .substring(1);
             var newPath = path.replace();
             if (name === "cover") {
+                // this.cover.push(data.picture[i]);
                 this.cover.path = data.picture[i].path_name
                 this.setFile(data.picture[i].path_name);
             } else if (name != "cover") {
@@ -300,6 +317,9 @@ export default {
                 })
             }
         }
+        // this.pictures.push({
+        //     path: this.getPath
+        // });
     },
     methods: {
         ...mapActions([
@@ -317,10 +337,11 @@ export default {
             'setRef',
             'setTag',
             'addPushImage',
-            'setImage',
-            'SET_ACHIEVEMENT_STATE'
+            'setImage'
         ]),
         save() {
+            // console.log("detail :", this.getDetail)
+            // console.log("-------------------")
             this.EditProject = false;
             this.setEditProject(this.EditProject)
             try {
@@ -354,13 +375,19 @@ export default {
                         video: {
                             path_name: null
                         },
-                        outsiders: this.getNonMember
+                        outsiders: [{
+                            // "id": this.outsider.id,
+                            // firstname: this.outsider.firstname,
+                            // lastname: this.outsider.lastname,
+                            // email: this.outsider.mail
+                        }]
                     }, this.GET_CONFIG)
                     .then(function (res) {
                         console.log(res);
                     });
                 this.message = "File has been update";
                 this.getEditProject
+                // console.log("getEditProject : ", this.getEditProject)
             } catch (err) {
                 console.log("FAILURE!!" + err);
                 this.error = true;
