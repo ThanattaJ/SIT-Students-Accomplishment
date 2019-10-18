@@ -6,7 +6,7 @@ export const detailStore = {
         EditProject: false,
         abstract :' ',
         detail:'',
-        // achievements:'',
+        achievements:'',
         member:'',
         nonMember:'',
         tool:'',
@@ -27,15 +27,13 @@ export const detailStore = {
         setDetail:(state,detail)=>{
             state.detail = detail
         },
-        // setAchievements:(state,achievements)=>{
-        //     state.achievements = achievements
-        // },
+        setAchievements:(state,achievements)=>{
+            state.achievements = achievements
+        },
         setMember:(state,member)=>{
-            // console.log("member" , member)
             state.member =member
         },
         setNonMember:(state , nonMember)=>{
-            // console.log("non-member",nonMember)
             state.nonMember = nonMember
         },
         setTool:(state , tool)=>{
@@ -61,9 +59,9 @@ export const detailStore = {
         setDetail:({commit},detail)=>{
             commit('setDetail',detail)
         },
-        // setAchievements:({commit},achievements)=>{
-        //     commit('setAchievements',achievements)
-        // },
+        setAchievements:({commit},achievements)=>{
+            commit('setAchievements',achievements)
+        },
         setMember:({commit},member)=>{
             commit('setMember',member)
         },
@@ -93,9 +91,9 @@ export const detailStore = {
         getDetail(state){
             return state.detail
         },
-        // getAchievements(state){
-        //     return state.achievements
-        // },
+        getAchievements(state){
+            return state.achievements
+        },
         getMember(state){
             return state.member
         },
