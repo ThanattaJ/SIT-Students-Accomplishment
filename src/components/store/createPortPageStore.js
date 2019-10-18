@@ -51,6 +51,9 @@ export const createPortPageStore = {
         SET_ACHIEVEMENT: function ({ commit }, achievement) {
             commit('SET_ACHIEVEMENT', achievement)
         },
+        SET_ACHIEVEMENT_STATE:({commit},achievement)=>{
+            commit('SET_ACHIEVEMENT_STATE',achievement)
+        },
         // STEP1 & STEP2
         UPDATE_FIELD: function ({ commit }, { callSetter, value }) {
             commit(callSetter, value)
@@ -91,6 +94,9 @@ export const createPortPageStore = {
                 organize_by: achievement.organize_by,
                 date_of_event: achievement.date_of_event
             })
+        },  
+        SET_ACHIEVEMENT_STATE:(state,achievement)=>{
+            state.achievement =achievement
         },
         SET_HAVE_OUTSIDER: function (state) {
             state.project_data.haveOutsider = true

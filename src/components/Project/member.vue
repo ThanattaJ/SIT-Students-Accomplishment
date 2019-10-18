@@ -23,8 +23,8 @@
                 <div class="columns" v-for=" (out,index) in getNonMember" v-bind:key="`${index}-${out.id}`" id="outsider">
                     <div class="column">
                         <div class="content">
-                            <input class="input" type="text" v-model="out.firstname" id="fname" disabled>
-                            <input class="input" type="text" v-model="out.lastname" id="lname" disabled>
+                            <input class="input" type="text" v-model="out.firstname" id="fname" :disabled="!getEditProject">
+                            <input class="input" type="text" v-model="out.lastname" id="lname" :disabled="!getEditProject">
                         </div>
                     </div>
                     <div class="column">

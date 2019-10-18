@@ -1,13 +1,13 @@
 <template>
 <div>
-    <div v-if="this.getAchievements.length > 0">
+    <div v-if="this.achievement.length > 0">
         <div class="card" id="achievement">
             <header class="card-header">
                 <p class="card-header-title" id="cardHeader">Achievement</p>
             </header>
 
             <div class="card-content">
-                <div v-for="(ach,index) in getAchievements" v-bind:key="index">
+                <div v-for="(ach,index) in achievement " v-bind:key="index">
                     <div class="content">
                         <p class="control" style="width:45%;word-break: break-all; color: #265080;font-size: 18px;">
                             {{ach.achievement_name}}
@@ -45,7 +45,7 @@
                             </p>
                         </div>
                     </div>
-                    <!-- <p class="control" style="margin-left:80%">
+                    <!-- <p class="control" style="margin-left:80%" v-if="getEditProject === true">
                         <i class="la la-edit" @click="editAchievementDialog = !editAchievementDialog;editArchievement(index)"></i>
                         <i :id="'trash'+index" class="la la-trash" @click="removeArchievement(index)"></i>
                     </p> -->
@@ -54,12 +54,8 @@
             </div>
         </div>
     </div>
-    <div v-else-if="this.getEditProject">
-        <div class="buttons has-addons is-right" v-if="getEditProject === true">
-            <!-- <span class="button addAchievement" @click="addAchievementDialog = !addAchievementDialog"> Add Achievement</span> -->
-            <md-button class="md-raised md-primary" id="addAchievementDialog"  @click="addAchievementDialog = !addAchievementDialog">Add Achievement</md-button>
-        </div>
-    </div>
+
+    <md-button class="md-raised md-primary" id="addAchievementDialog" v-if="getEditProject === true" @click="addAchievementDialog = !addAchievementDialog">Add Achievement</md-button>
 
     <div v-if="addAchievementDialog==true">
         <div class="modal is-active">
@@ -110,7 +106,7 @@
         </div>
     </div>
 
-    <!-- <div v-if="editAchievementDialog==true">
+    <div v-if="editAchievementDialog==true">
         <div class="modal is-active">
             <div class="modal-background"></div>
             <div class="modal-card">
@@ -157,7 +153,7 @@
                 </section>
             </div>
         </div>
-    </div> -->
+    </div>
 </div>
 </template>
 
@@ -235,7 +231,8 @@ export default {
                     achievement_name: this.achievement_name,
                     achievement_detail: this.achievement_detail,
                     organize_by: this.organize_by,
-                    date_of_event: this.date_of_event
+                    date_of_event: this.date_of_event,
+                    project_id: this.$route.params.pId
                 })
                 this.addAchievementDialog = false
                 this.clearInputValue()
@@ -249,36 +246,37 @@ export default {
             this.organize_by = null
             this.date_of_event = null
         },
-        // removeArchievement(index) {
-        //     this.achievement.splice(index, 1)
-        // },
-        // editArchievement(index) {
-        //     this.achievement_name = this.getAchievements[index].achievement_name
-        //     this.achievement_detail = this.getAchievements[index].achievement_detail
-        //     this.organize_by = this.getAchievements[index].organize_by
-        //     this.date_of_event = this.getAchievements[index].date_of_event
+       
+        editArchievement(index) {
+            this.achievement_name = this.getAchievements[index].achievement_name
+            this.achievement_detail = this.getAchievements[index].achievement_detail
+            this.organize_by = this.getAchievements[index].organize_by
+            this.date_of_event = this.getAchievements[index].date_of_event
 
-        //     this.indexOfEdit = index
-        // },
-        // saveArchievement() {
-        //     console.log("index : " + this.indexOfEdit)
-        //     this.achievement.splice(this.indexOfEdit, 1, {
-        //         achievement_name: this.achievement_name,
-        //         achievement_detail: this.achievement_detail,
-        //         organize_by: this.organize_by,
-        //         date_of_event: this.date_of_event
-        //     })
-        //     this.clearInputValue()
-        // }
+            this.indexOfEdit = index
+        },
+        saveArchievement() {
+            console.log("index : " + this.indexOfEdit)
+            this.achievement.splice(this.indexOfEdit, 1, {
+                achievement_name: this.achievement_name,
+                achievement_detail: this.achievement_detail,
+                organize_by: this.organize_by,
+                date_of_event: this.date_of_event
+            })
+            this.clearInputValue()
+        }
     },
-    mounted() {
-        console.log("this.getAchievements : ", this.getAchievements)
-    },
+    mounted(){
+        // console.log('SET_ACHIEVEMENT',this.achievement)
+    }
+    //  beforeDestroy() {
+    //      this.SET_ACHIEVEMENT(' ')
+    // }
 }
 </script>
 
 <style>
-#addAchievementDialog{
+#addAchievementDialog {
     margin-right: 35%;
     margin-top: 20px;
 }

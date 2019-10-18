@@ -51,7 +51,7 @@ export default {
         }
     },
     async mounted() {
-
+      // console.log("ref : ",this.getRef)
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
           sizeArea[i].setAttribute(
