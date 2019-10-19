@@ -38,6 +38,12 @@
                         Admin
                     </router-link>
                 </a>
+                <a class="navbar-item menuName">
+                    <i class="la la-user"></i>
+                    <router-link to="/course">
+                        Lecturer
+                    </router-link>
+                </a>
             </div>
 
             <div class="navbar-end">
@@ -120,7 +126,7 @@ export default {
 </script>
 
 <style>
-.card{
+.projectCard{
     box-shadow: none !important;
 }
 .navbar {

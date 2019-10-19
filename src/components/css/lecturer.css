@@ -1,0 +1,107 @@
+.lecturerCard{
+    border-color: white !important;
+    box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.12) !important;
+    border-radius: 12px !important; 
+}
+.lecturerCourseCard{
+    height: 60px !important;
+    margin-bottom: 15px;
+}
+.lecturerCourseCard:hover{
+    cursor: pointer;
+    background-color: #0669db0c !important;
+}
+.cardSize{
+    padding: 20px;
+}
+
+.courseName{
+    color: #265080 !important;
+    font-weight: 500 !important;
+}
+.createAssignBtn{
+    border: 1px dashed #4A4A4A;
+    border-radius: 5px;;
+    padding: 2px 5px 2px 5px;
+}
+.createAssignBtn:hover{
+    font-weight: 500;
+}
+.countAssign{
+    text-align: center;
+}
+.countAll{
+    text-align: right;
+}
+.colName{
+    color: #4A4A4A;
+    font-size: 13px;
+    padding: 0px 20px 8px 20px;
+}
+
+.topic{
+    color: #265080 !important;
+    font-weight: 600 !important;
+    font-size: 18px !important;
+}
+.createBtn{
+    color: white;
+    background-color: #265080;
+    border-color: white;
+    padding: 0 6px 0 6px;
+}
+.createBtn:hover{
+    color: white;
+    background-color: #1b3a5e;
+    border-color: white;
+}
+.courseNameInAssignDetail{
+    margin-top: -12px;
+    margin-bottom: 18px;
+    font-size: 12px;
+}
+.codeJoin{
+    font-weight: 600;
+    border: 2px solid #4A4A4A;
+    border-radius: 6px;
+    padding: 3px 5px 3px 5px;
+    margin-left: 7px;
+}
+.navAssignDetail{
+    margin-left: 0px;
+    font-size: 14px;
+}
+
+.navTopic{
+    margin-bottom: 15px;
+}
+.navTitle{
+    margin-bottom: 10px;
+}
+.navCanClick:hover{
+    cursor: pointer;
+    background-color: rgba(74, 74, 74, 0.068);
+    border-radius: 6px;
+    padding: 3px 5px 3px 5px;
+}
+.countProjectStatus{
+    border-radius: 5px;
+    padding: 2px 6px 2px 6px;
+    margin-left: 7px;
+    color:white
+}
+.approved{
+    background: #88D738;
+}
+.request{
+    background: #F8C441;
+}
+.denied{
+    background: #EB5656;
+}
+.projectStatus{
+    background: #88D738;
+    border-radius: 5px;
+    padding: 3px 10px 3px 10px;
+    color:white
+}

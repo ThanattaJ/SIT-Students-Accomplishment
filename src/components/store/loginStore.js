@@ -28,8 +28,10 @@ export const loginStore = {
       var pathName = rootState.pathStore.pathName
       console.log("rootState : " + pathName)
       try {
+        console.log("เข้า try LOGIN")
         await axios
-          .post(pathName + "/login", data)
+          // .post(pathName + "/login", data)
+          .post("http://localhost:7000" + "/login", data)
           // .post("https://www.sit-acc.nruf.in.th/login", data)
           .then(res => {
             if (res.data.length > 0) {

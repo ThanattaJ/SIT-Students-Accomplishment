@@ -4,7 +4,7 @@ import Home from '@/components/Home'
 import student from '@/components/student'
 import GenerateResume from '@/components/GenerateResume/GenerateResume'
 import ShowProject from '@/components/Project/ShowProject'
-import Assignment from '@/components/Assignment'
+// import Assignment from '@/components/Assignment'
 import createPortPage from '@/components/CreatePortPage/createPortPage'
 import CreateExternalPortPage from '@/components/NewPortfolioPage/CreateExternalPortPage'
 import Document from '@/components/NewPortfolioPage/Document'
@@ -17,6 +17,10 @@ import lecturer from '@/components/admins/lecturer'
 import login from '@/components/auth/login'
 import courseSemester from '@/components/admins/courseSemester'
 import allProjectList from '@/components/visitor/allProjectList'
+// Lecturer
+import course from '@/components/lecturer/course'
+import assignment from '@/components/lecturer/assignment'
+import assignmentDetail from '@/components/lecturer/assignmentDetail'
 
 
 Vue.use(Router)
@@ -35,18 +39,13 @@ export default new Router({
       path: '/student',
       name: 'student',
       component: student,
-      children:[
-      {
-        path: '/Assignment',
-        name: 'Assignment',
-        component: Assignment
-      },
-      {
-        path: '/ShowProject',
-        name: 'ShowProject',
-        component: ShowProject
-      }
-       ]
+      children: [
+        {
+          path: '/ShowProject',
+          name: 'ShowProject',
+          component: ShowProject
+        }
+      ]
     },
     {
       path: '/GenerateResume',
@@ -82,7 +81,7 @@ export default new Router({
       path: '/admin',
       name: 'admin',
       component: admin,
-      children:[
+      children: [
         {
           path: '/allCourse',
           name: 'allCourse',
@@ -112,15 +111,30 @@ export default new Router({
       ]
     },
     {
-          path: '/login',
-          name: 'login',
-          component: login,
+      path: '/login',
+      name: 'login',
+      component: login,
     },
     {
       path: '/',
       name: 'allProjectList',
       component: allProjectList,
-}
+    },
+    {
+      path: '/course',
+      name: 'course',
+      component: course,
+    },
+    {
+      path: '/allassignment',
+      name: 'assignment',
+      component: assignment,
+    },
+    {
+      path: '/assignmentDetail',
+      name: 'assignmentDetail',
+      component: assignmentDetail,
+    }
   ]
 })
 

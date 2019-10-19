@@ -88,7 +88,7 @@
         <div class="columns is-multiline">
             <div class="column is-one-quarter" v-for="(allProject,index) in allProjectPresent.projects" v-bind:key="index">
                 <router-link :to="`/ProjectDetail/${allProject.id}`">
-                    <div class="card content_img">
+                    <div class="card projectCard content_img">
                         <div class="card-image" v-if="allProject.cover_path != null">
                             <figure class="image is-4by2">
                                 <img src="./../../assets/gold-medal.png" width="17px" v-if="allProject.achievement" style="z-index:2;position:absolute;width:40px;">
