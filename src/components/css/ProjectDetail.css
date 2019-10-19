@@ -27,8 +27,10 @@
     margin: -1% 0 0 0;
 }
 #Details,#achievement,#Authors,#tool,#Documents,#Tag,#References,#video{
-    margin: 5% 0 0 0; 
+    /* margin: 5% 0 0 0;  */
     border-radius: 5px;
+    margin-top: 5%;
+    
 }
 #cardHeader{
     background:#F9F9F9;

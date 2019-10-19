@@ -49,8 +49,12 @@
     <div id="body-project">
         <div class="columns">
             <div class="column is-6">
+            <div id="Details">
                 <Detail />
+            </div>
+            <div id="achievement">
                 <achievements />
+            </div>
                 <div id="image">
                     <div id="container">
                         <div v-if="this.pictures[0]">
@@ -73,8 +77,12 @@
                 </div>
             </div>
             <div class="column">
-                <member />
-                <tool />
+                <div id="Authors">
+                    <member />
+                </div>
+                <div id="tool">
+                    <tool />
+                </div>
                 <div class="card" id="Documents" v-if="this.document.name">
                     <header class="card-header">
                         <p class="card-header-title" id="cardHeader">Documents</p>
