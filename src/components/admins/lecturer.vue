@@ -10,7 +10,7 @@
     </aside>
 
     <div class="container">
-        <div id="lecturer">
+        <div id="body">
             <md-table v-show="persons.length">
                 <md-table-row>
                     <md-table-head md-numeric>#</md-table-head>
@@ -107,9 +107,10 @@ var ordonner = function (a, b) {
 
 <style>
 #lecturer {
-    width: 90%;
-    margin-top: 6.5%;
-    margin-left: 30%;
+  width: 90%;
+    margin-left: 150px;
+    max-width: 70%;
+    margin-top: 50px !important;
 }
 
 #thead {
@@ -145,12 +146,12 @@ var ordonner = function (a, b) {
 #action_bar {
     color: #265080 !important
 }
-#lecturer{
-  max-width: 70%;
-  margin-left: 200px;
-  margin-top: -120px
-}
+
 #aside{
     max-width: 30%;
+}
+#body{
+    margin-top: -120px !important;
+    margin-left: 200px !important;    
 }
 </style>

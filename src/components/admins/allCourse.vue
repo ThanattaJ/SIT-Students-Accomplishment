@@ -11,7 +11,7 @@
     </aside>
 
     <div class="container">
-        <div id="allCourse">
+        <div id="body">
             <md-table v-show="persons.length" >
                 <md-table-row >
                     <md-table-head md-numeric>#</md-table-head>
@@ -373,8 +373,10 @@ var ordonner = function (a, b) {
 <style>
 #allCourse {
     width: 90%;
-    margin-top: 5%;
-    margin-left: 30%;
+    margin-left: 150px;
+    max-width: 70%;
+    margin-top: 50px !important;
+
 }
 
 #thead {
@@ -406,12 +408,11 @@ var ordonner = function (a, b) {
 #action_bar {
     color: #265080 !important
 }
-#allCourse{
-  max-width: 70%;
-  margin-left: 200px;
-  margin-top: -120px
-}
 #aside{
     max-width: 30%;
+}
+#body{
+    margin-top: -120px !important;
+    margin-left: 200px !important;    
 }
 </style>

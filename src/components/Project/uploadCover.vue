@@ -159,9 +159,9 @@ export default {
     border: none
 }
 
-.columns {
+/* .columns {
     margin-top: 2%;
-}
+} */
 
 #cover {
     margin-left: -20%;

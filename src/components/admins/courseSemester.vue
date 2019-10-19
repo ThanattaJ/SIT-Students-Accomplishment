@@ -392,9 +392,11 @@ var ordonner = function (a, b) {
 
 <style>
 #courseSemester {
-    width: 80%;
-    margin-top: 5%;
-    margin-left: 30%;
+   width: 90%;
+    margin-left: 150px;
+    max-width: 70%;
+    margin-top: 50px !important;
+
 }
 
 #index {
