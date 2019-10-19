@@ -74,9 +74,6 @@ export default {
     color: #265080 !important;
     background-color: white !important;
     border: none !important;
-    font-family: Asap !important;
-    font-style: normal !important;
-    font-weight: normal !important;
     font-size: 16px !important;
 }
 </style>
