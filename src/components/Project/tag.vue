@@ -1,88 +1,88 @@
 <template>
 <div>
-    <multiselect v-model="value" 
-    tag-placeholder="Add this as new tag" 
-    placeholder="Search or a tag" 
-    label="name" 
-    track-by="code" 
-    :options="options" 
-    :multiple="true" 
-    :taggable="true" 
-    @tag="addTag">
-    </multiselect>
-
-    <pre class="language-json"><code>Value tag :  {{value}}</code></pre>
-
-    <input v-model="currentTag">
-    <p>current tag : {{ currentTag }}</p>
-
+    <vue-tags-input v-model="tag" :tags="tags" :autocomplete-items="filteredItems" @tags-changed="newTags => tags = newTags" />
+    <div>{{tag}}</div>
 </div>
 </template>
 
 <script>
 import Vue from "vue";
 import axios from "axios";
-import Multiselect from 'vue-multiselect'
+import VueTagsInput from '@johmun/vue-tags-input';
 import {
     mapGetters
 } from 'vuex';
 
-Vue.component('multiselect', Multiselect)
-
 export default {
-    computed: {
-        ...mapGetters([
-            'getTag',
-            'GET_CONFIG'
-        ])
-    },
     components: {
-        Multiselect
+        VueTagsInput,
     },
     data() {
         return {
-            currentTag: '',
-            value: [],
-            options: [{
-                name: 'hahaha',
-                id: 'vu'
-            }, ]
+            tag: '',
+            tags: [],
+            autocompleteItems: [{
+                    text: 'Spain',
+                },
+                {
+                    text: 'France',
+                },
+                {
+                    text: 'USA',
+                },
+                {
+                    text: 'Germany',
+                },
+                {
+                    text: 'China',
+                }
+            ],
+            index: 0,
+            storeTags: [],
+        };
+    },
+    computed: {
+        ...mapGetters([
+            'getTag',
+        ]),
+        filteredItems() {
+            return this.autocompleteItems.filter(i => {
+                return i.text.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1;
+            });
+        },
+    },
+    mounted() {
+        for (let i = 0; i < this.getTag.length; i++) {
+            // console.log(this.getTag[i].tag_name)
+            this.storeTags[i] = this.getTag[i].tag_name
+            this.tags.push({
+                text: this.storeTags[i]
+            })
+            // console.log('this.tag : ',this.storeTags[i])
         }
     },
-    methods: {
-        addTag(newTag) {
-            const tag = {
-                name: newTag,
-                id: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+    watch: {
+        async tag(newVal) {
+            console.log(this.tag.length)
+             if (this.tag.length === 0 ) {
+                this.autocompleteItems = []
+                console.log("ไม่มีค่า tag")
             }
-            this.options.push(tag)
-            this.value.push(tag)
-        }
-    },
-    async mounted() {
-
-        if (this.getTag) {
-            for (let i = 0; i < this.getTag.length; i++) {
-                this.value.push({
-                    name: this.getTag[i].tag_name,
-                    id: this.getTag[i].tag_name.substring(0, 2) + Math.floor((Math.random() * 10000000))
+            const {
+                data
+            } = await axios.get(`https://www.sit-acc.nruf.in.th/tags/${this.tag}`)
+            // console.log(data)
+            data.forEach(tag => {
+                this.autocompleteItems.push({
+                    text: tag.tag_name
                 })
-                //set ค่าลง vuex
-            }
+            })
+            console.log(this.autocompleteItems)
+        },
+        tags() {
+            this.autocompleteItems = []
         }
-        console.log('-------------')
-        const {
-            data
-        } = await axios.get(
-            `https://www.sit-acc.nruf.in.th/tags/b`,
-            this.GET_CONFIG)
-        console.log("tags : ", data)
-
     }
-}
+
+};
 </script>
-
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
-
-<style>
-</style>

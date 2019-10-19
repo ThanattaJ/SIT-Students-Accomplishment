@@ -28,7 +28,7 @@
                     <span style="padding-left:5px">{{tag.tag_name}} </span>
                 </span>
             </div>
-            <!-- <tag/> -->
+            <tag/>
         </div>
         <div class="columns">
             <div class="column is-four-fifths">
@@ -259,9 +259,11 @@ export default {
         this.setRef(data.project_detail.references)
         this.setTool(data.project_detail.tool_techniq_detail)
         this.setTag(data.tags)
+        // this.addTag(data.tags)
+
 
         // console.log("---------   --")
-        // console.log("Tags : ", this.getTag)
+        console.log("Tags : ", this.getTag)
 
         this.Abstract.content_Abstract = data.project_detail.project_abstract
         this.Detail.content_eg = data.project_detail.project_detail
@@ -318,7 +320,8 @@ export default {
             'setTag',
             'addPushImage',
             'setImage',
-            'SET_ACHIEVEMENT_STATE'
+            'SET_ACHIEVEMENT_STATE',
+            'addTag'
         ]),
         save() {
             this.EditProject = false;
