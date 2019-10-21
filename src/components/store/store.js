@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import { studentStore } from './studentStore'
-import { teacherStore } from './teacherStore'
+import { lecturerStore } from './lecturerStore'
 import { adminStore } from './adminStore'
 import { projectStore } from './projectStore'
 import { resumeStore } from './resumeStore'
@@ -23,7 +23,7 @@ export const store = new Vuex.Store({
 // export default new Vuex.Store({
     modules: {
         studentStore,
-        teacherStore,
+        lecturerStore,
         adminStore,
         projectStore,
         resumeStore,

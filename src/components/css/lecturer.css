@@ -20,14 +20,16 @@
     font-weight: 500 !important;
 }
 .createAssignBtn{
+    color: #4A4A4A;
     border: 1px dashed #4A4A4A;
-    border-radius: 5px;;
+    border-radius: 5px;
     padding: 2px 5px 2px 5px;
 }
 .createAssignBtn:hover{
     font-weight: 500;
 }
 .countAssign{
+    color: #4A4A4A;
     text-align: center;
 }
 .countAll{
@@ -47,6 +49,7 @@
 .createBtn{
     color: white;
     background-color: #265080;
+    border-radius: 8px !important;
     border-color: white;
     padding: 0 6px 0 6px;
 }
@@ -79,10 +82,11 @@
     margin-bottom: 10px;
 }
 .navCanClick:hover{
-    cursor: pointer;
-    background-color: rgba(74, 74, 74, 0.068);
-    border-radius: 6px;
-    padding: 3px 5px 3px 5px;
+    color: #4A4A4A !important;
+    cursor: pointer !important;
+    background-color: rgba(74, 74, 74, 0.068) !important;
+    border-radius: 6px !important;
+    padding: 3px 5px 3px 5px !important;
 }
 .countProjectStatus{
     border-radius: 5px;
@@ -100,8 +104,48 @@
     background: #EB5656;
 }
 .projectStatus{
-    background: #88D738;
     border-radius: 5px;
     padding: 3px 10px 3px 10px;
     color:white
+}
+.haveComment:hover{
+    color: #0f263f !important;
+    cursor: pointer;
+}
+.addCommentBtn{
+    color: white;
+    background-color: #265080;
+    border-radius: 8px !important;
+    border-color: white;
+    padding: 2px 20px 2px 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.addCommentBtn:hover{
+    color: white;
+    background-color: #1b3a5e;
+    border-color: white;
+}
+.cancelCommentBtn{
+    border-radius: 8px !important;
+    border-color: white;
+    padding: 2px 20px 2px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 5%;
+}
+.cancelCommentBtn:hover{
+    background-color: #387ecf2c;
+    border-color: white;
+}
+.addBtn{
+    text-align:center;
+    bottom: 5%;
+    position: absolute;
+    margin-left: 37.3%;
+    margin-right: 37.3%;
+    display: inline-flex;
+}
+.cannotClick{
+    background-color:#265080;
 }

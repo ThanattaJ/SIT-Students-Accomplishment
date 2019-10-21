@@ -5,7 +5,7 @@
         <div id="media">
             <img src="./../../assets/login.jpg" alt="img" />
         </div>
-        <div id="sign-up">
+        <div id="sign-in">
             <form>
                 <md-card-header>
                     <md-card-header-text>
@@ -32,11 +32,10 @@
                             <md-input required v-model="pass" type="password"></md-input>
                         </md-field>
                     </md-card-content>
-                    <a id="login" type="submit" @click="onLogin(username,userType,pass)" style="color:#265080 !important;">Log in </a>
+                    <p id="loginCenter">
+                        <a class="button loginBtn" @click.prevent="onLogin(username,userType,pass)">Login</a>
+                    </p>
                 </div>
-                <!-- <div class="text-center" id="btm">
-                        <a id="login" type="submit" @click="onLogin(username,userType,pass)" style="color:#265080 !important;">Log in </a>
-                    </div> -->
             </form>
         </div>
     </md-card>
@@ -74,6 +73,7 @@ export default {
     methods: {
         ...mapActions(['LOGIN', 'LOGOUT']),
         onLogin: function () {
+            console.log("a")
             this.LOGIN({
                 username: this.username,
                 userType: this.userType,
@@ -85,43 +85,40 @@ export default {
 </script>
 
 <style>
-#login {
-    justify-content: center;
-    width: 40%;
-    margin-left: 30%;
-    margin-top: 3%;
-    padding: 10px;
-    font-family: 'Courier New', Courier, monospace;
+.loginBtn{
+    color: white;
+    background-color: #265080;
+    border-radius: 8px !important;
+    border-color: white;
+    padding: 2px 20px 2px 20px;
+    font-size: 14px;
+    font-weight: 500;
 }
-
+.loginBtn:hover{
+    color: white;
+    background-color: #1b3a5e;
+    border-color: white;
+}
+#loginCenter{
+    text-align: center;
+}
+#loginText{
+    color: #265080;
+}
 #title {
-    color: grey;
-    margin-left: 30%;
+    color: #265080;
+    text-align: center
 }
-
 #flex-container {
     display: flex;
 }
-
-#sign-up {
-    flex-grow: 1;
+#sign-in {
+    /* flex-grow: 1; */
     width: 50%;
 }
-
 #media {
-    flex-grow: 1;
+    /* flex-grow: 1; */
     width: 50%;
 
-}
-
-#login-btm {
-    color: grey;
-    text-decoration: none;
-    width: 70%;
-}
-
-#btm {
-    margin-left: 25%;
-    margin-top: 15%;
 }
 </style>

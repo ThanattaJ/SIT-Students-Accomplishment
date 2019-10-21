@@ -2,7 +2,8 @@
 <div>
     <div id="bodyBg">
         <div class="columns">
-            Course / Assignment
+            <router-link to="/course"><span style="color:#4A4A4A">Course</span></router-link> /
+            <span style="color:#265080">Assignment</span>
         </div>
         <!-- <search -->
         <div class="columns">
@@ -19,13 +20,13 @@
                 </div>
             </div>
             <div class="column countAll">
-                <button class="button createBtn">+ Create assignment ...</button>
+                <button class="button createBtn" @click="showCreateAssignment = true">+ Create assignment ...</button>
             </div>
         </div>
         <!-- assignment topic -->
         <div class="columns">
-            <div class="column topic">INT351 Human Computer Interaction</div>
-            <div class="column countAll">All course 1 - 2 out of 2 results</div>
+            <div class="column topic">{{course_name}}</div>
+            <!-- <div class="column countAll">All course 1 - 2 out of 2 results</div> -->
         </div>
         <!-- All assignment -->
         <div class="card-content cardSize colName">
@@ -37,20 +38,33 @@
                 <div class="column countAssign"># Approved</div>
             </div>
         </div>
-        <router-link :to="`/assignmentDetail`">
-            <div class="card lecturerCard lecturerCourseCard">
+        <div class="card lecturerCard lecturerCourseCard" v-for="(assignment,index) in assignments" v-bind:key="index">
+            <router-link :to="`/assignmentDetail/${assignment.assignment_id}`">
                 <div class="card-content cardSize">
                     <div class="columns">
-                        <div class="column is-two-thirds courseName">1) Design Web Application</div>
-                        <div class="column countAssign">78D1CA</div>
-                        <div class="column countAssign">120</div>
-                        <div class="column countAssign">2</div>
-                        <div class="column countAssign">1</div>
+                        <div class="column is-two-thirds courseName">{{index+1}}) {{assignment.assignment_name}}</div>
+                        <div class="column countAssign">{{assignment.join_code}}</div>
+                        <div class="column countAssign">{{assignment.count.student}}</div>
+                        <div class="column countAssign">{{assignment.count.project}}</div>
+                        <div class="column countAssign">Mock</div>
                     </div>
                 </div>
+            </router-link>
+        </div>
+        <div class="card lecturerCard" v-if="showCreateAssignment == true">
+            <div class="card-content cardSize">
+                <div class="field">
+                    <div class="control">
+                        <input class="input inputData" v-model="assignmentName" type="text" placeholder="Assignment name">
+                    </div>
+                </div>
+                <a class="button is-small saveBtn" @click="createAssignment">Add</a>
+                <a class="button is-small cancelBtn" @click="showCreateAssignment = false">Cancel</a>
             </div>
-        </router-link>
+
+        </div>
     </div>
+    <!-- {{assignments}} -->
 </div>
 </template>
 
@@ -68,17 +82,59 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            hoverCardOrNot: false
+            assignments: Object,
+            showCreateAssignment: false,
+            assignmentName: null
         }
     },
     computed: {
         ...mapGetters({
-            // allProjectPresent: 'GET_ALL_PROJECT_VISITORVIEW'
+            course_name: 'GET_COURSENAME',
+            config: 'GET_CONFIG',
+            URL: 'GET_PATHNAMR',
+            academic_term_id: 'GET_ACADEMIC_TERM_ID',
+            course_id: 'GET_COURSE_ID'
         })
     },
-    mounted() {},
+    mounted() {
+        this.getAllAssignment()
+        this.SET_COURSE_ID(this.$route.params.courseId)
+    },
     methods: {
-        ...mapActions(['', '']),
+        ...mapActions(['SET_COURSE_ID']),
+        async getAllAssignment() {
+            await axios.get(
+                    this.URL + `/assignment/list-assignment?course_id=${this.$route.params.courseId}`, this.config
+                ).then(res => {
+                    console.log("res : ", res)
+                    this.assignments = res.data
+                })
+                .catch(err => {
+                    console.error("error : " + err);
+                });
+        },
+        async createAssignment() {
+            var data = {
+                academic_term_id: this.academic_term_id,
+                course_id: this.course_id,
+                assignment_name: this.assignmentName
+            }
+            await axios.post(
+                    this.URL + '/assignment', data, this.config
+                ).then(res => {
+                    console.log("res : ", res)
+                    if (res.status == 200) {
+                        // this.$router.push({
+                        //     path: `/ProjectDetail/${res.data.project_id}`
+                        // });
+                        this.getAllAssignment()
+                    }
+                })
+                .catch(err => {
+                    console.error("error : " + err);
+                });
+            this.showCreateAssignment = false
+        }
     }
 }
 </script>

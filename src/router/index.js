@@ -126,12 +126,12 @@ export default new Router({
       component: course,
     },
     {
-      path: '/allassignment',
+      path: '/allassignment/:courseId',
       name: 'assignment',
       component: assignment,
     },
     {
-      path: '/assignmentDetail',
+      path: '/assignmentDetail/:assignmentId',
       name: 'assignmentDetail',
       component: assignmentDetail,
     }

@@ -13,7 +13,7 @@ export const loginStore = {
   },
   //----------------------------------------------------------------------------------------------------------------------------------------------------------------
   actions: {
-    SET_LOGIN_STATUS({commit}, loginStatus){
+    SET_LOGIN_STATUS({ commit }, loginStatus) {
       commit("SET_LOGIN_STATUS", loginStatus)
     },
     SET_ALL_LOGIN_DATA({ commit }, { token, username }) {
@@ -26,21 +26,36 @@ export const loginStore = {
         password: pass
       };
       var pathName = rootState.pathStore.pathName
-      console.log("rootState : " + pathName)
+      console.log("data : " , data)
       try {
         console.log("เข้า try LOGIN")
         await axios
           // .post(pathName + "/login", data)
-          .post("http://localhost:7000" + "/login", data)
-          // .post("https://www.sit-acc.nruf.in.th/login", data)
+          // .post("http://localhost:7000/login", data,
+          //   {
+          //     headers: {
+          //       'Content-Type': 'application/json'
+          //     }
+          //   })
+          .post(pathName + "/login", data,{
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
           .then(res => {
-            if (res.data.length > 0) {
-              commit("SET_ALL_LOGIN_DATA", { token: res.data, username: username });
+            console.log("res : ",res.data)
+            if (res.data.status == 200) {
+              commit("SET_ALL_LOGIN_DATA", { token: res.data.token, username: username });
               commit("SET_LOGIN_STATUS", true);
-              localStorage.setItem('Authen_token', res.data);
+              localStorage.setItem('Authen_token', res.data.token);
               localStorage.setItem('usernameSIT', username);
               localStorage.setItem('loginStatus', true);
-              router.push('/student')
+              if(res.data.isAdmin){
+                router.push('/course')
+              }
+              else{
+                router.push('/student')
+              }
             }
           })
           .catch(err => {
