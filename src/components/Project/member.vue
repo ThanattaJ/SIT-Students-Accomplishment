@@ -103,7 +103,6 @@ export default {
     table-layout: fixed;
 }
 
-#fname {}
 
 #lname {
     margin-right: -30px !important;

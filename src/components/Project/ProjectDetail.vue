@@ -28,13 +28,20 @@
                     <span style="padding-left:5px">{{tag.tag_name}} </span>
                 </span>
             </div>
-            <tag/>
+            <div id="tag" v-if="EditProject" >
+                <tag/>
+            </div>
         </div>
         <div class="columns">
             <div class="column is-four-fifths">
-                <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
-                <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
-                <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
+                <div v-if="this.access === true">
+                    <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
+                     <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
+                    <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
+                </div>
+                <div>
+                  <md-switch v-model="show" v-if="EditProject">{{show}}</md-switch>
+                </div>
             </div>
             <img class="image is-32x32" src="../.././assets/clap.png" style="margin-top:20px ; margin-left:5%">
             <div style="margin-top:25px ; margin-left:5px">:{{this.clap}}</div>
@@ -226,7 +233,9 @@ export default {
             update: '',
             noPic: {
                 'cover': require('../.././assets/noCoverImg.png')
-            }
+            },
+            show:true ,
+            access:true,
         }
     },
 
@@ -268,10 +277,12 @@ export default {
         this.setTool(data.project_detail.tool_techniq_detail)
         this.setTag(data.tags)
         // this.addTag(data.tags)
+        this.show = data.project_detail.isShow
+        this.access = data.access
 
 
         // console.log("---------   --")
-        console.log("Tags : ", this.getTag)
+        console.log("acess : ", this.show)
 
         this.Abstract.content_Abstract = data.project_detail.project_abstract
         this.Detail.content_eg = data.project_detail.project_detail
@@ -344,7 +355,7 @@ export default {
                             project_detail: this.getDetail === " " ? null : this.getDetail,
                             project_abstract: this.getAbstract,
                             haveOutsider: true,
-                            isShow: true,
+                            isShow: this.show,
                             tool_techniq_detail: this.getTool === " " ? null : this.getTool,
                             references: this.getRef === " " ? null : this.getRef,
                             count_viewer: 0,
