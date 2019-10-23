@@ -51,8 +51,18 @@
             <!-- detail -->
             <div class="column" style="padding-left:100px;padding-right:100px">
                 <div id="assignmentDetail">
-                    <div v-if="assignmentDetail.assignment_detail == null">no detail</div>
-                    <div v-else>{{assignmentDetail.assignment_detail}}</div>
+                    <div id="aaaaaaa">
+                        <div v-if="detailText == null || detailText == ''">no detail</div>
+                        <div v-else>{{detailText}}</div>
+                        <i class="la la-pencil" @click="editDetail(true)"></i>
+                    </div>
+                    <div id="inputDetail" class="field" style="display:none">
+                        <div class="control">
+                            <textarea class="input inputData" v-model="detailText" type="text" placeholder="Detail ..." style="height: 230px;margin-bottom: 10px;" />
+                            <a class="button is-small saveBtn" @click="updateDetail">Add</a>
+                            <a class="button is-small cancelBtn" @click="editDetail(false)">Cancel</a>
+                        </div>
+                    </div>
                 </div>
                 <!-- student -->
                 <div id="studentsMember">
@@ -85,8 +95,13 @@
                             <div class="columns">
                                 <div class="column is-two-thirds courseName">{{index+1}}) {{lecturer.lecturers_name}}</div>
                                 <div class="column countAssign">
-                                    <span v-if="lecturer.isApprover == true">Approver</span>
-                                    <i class="la la-pencil" v-if="lecturer_username == creator.lecturer_id"></i>
+                                    <span :id="'editCanApprove'+index" style="display:none">
+                                        <input :id="'lecturerCanApprove'+index" type="checkbox"/>
+                                        <span>Can approve</span>
+                                    </span>
+                                    <span :id="'Approver'+index" v-if="lecturer.isApprover == true">Approver</span>
+                                    <span :id="'Approver'+index" v-else>Cannot Approve</span>
+                                    <i class="la la-pencil" v-if="lecturer_username == creator.lecturer_id" @click="checkedBox(index,lecturer.lecturer_course_id)"></i>
                                 </div>
                             </div>
                         </div>
@@ -106,10 +121,10 @@
                         <div class="card-content cardSize">
                             <div class="columns" v-for="(project,index) in approveProject" v-bind:key="index">
                                 <div class="column is-two-thirds courseName">{{index+1}}) {{project.project_name_en}}</div>
-                                <div class="column countAssign"><span class="projectStatus request">Request</span></div>
+                                <div class="column countAssign"><span class="projectStatus approved">Approve</span></div>
                                 <div class="column countAssign">
                                     <i class="la la-comment" v-if="project.comment == null" style="color:#CCCCCC"></i>
-                                    <i class="la la-comment haveComment" v-else @click="showComment(project.assignment_id,project.project_id,project.status_name,project.comment)" style="color:#265080"></i>
+                                    <i class="la la-comment haveComment" v-else @click="showComment(project.comment)" style="color:#265080"></i>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +148,7 @@
                                         <div class="column countAssign"><span class="projectStatus request">Request</span></div>
                                         <div class="column countAssign">
                                             <i class="la la-comment" v-if="project.comment == null" style="color:#CCCCCC"></i>
-                                            <i class="la la-comment haveComment" v-else @click="showComment(project.assignment_id,project.project_id,project.status_name,project.comment)" style="color:#265080"></i>
+                                            <i class="la la-comment haveComment" v-else @click="showComment(project.comment)" style="color:#265080"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -154,10 +169,10 @@
                         <div class="card-content cardSize">
                             <div class="columns" v-for="(project,index) in deniedProject" v-bind:key="index">
                                 <div class="column is-two-thirds courseName">{{index+1}}) {{project.project_name_en}}</div>
-                                <div class="column countAssign"><span class="projectStatus request">Request</span></div>
+                                <div class="column countAssign"><span class="projectStatus denied">Reject</span></div>
                                 <div class="column countAssign">
                                     <i class="la la-comment" v-if="project.comment == null" style="color:#CCCCCC"></i>
-                                    <i class="la la-comment haveComment" v-else @click="showComment(project.assignment_id,project.project_id,project.status_name,project.comment)" style="color:#265080"></i>
+                                    <i class="la la-comment haveComment" v-else @click="showComment(project.comment)" style="color:#265080"></i>
                                 </div>
                             </div>
                         </div>
@@ -167,24 +182,16 @@
         </div>
     </div>
     <modal name="commentModal">
-        <form class="login">
-            <div>
-                <form>
-                    <md-card-header>
-                        <md-card-header-text>
-                            <div class="md-title" id="title">Comment</div>
-                        </md-card-header-text>
-                    </md-card-header>
-                    <div class="grey-text">
-                        <md-card-content>
-                            {{commentText}}
-                        </md-card-content>
-                    </div>
-                </form>
-            </div>
-        </form>
-
-        <!-- <form class="login" @submit.prevent="onLogin">
+        <md-card-header>
+            <md-card-header-text>
+                <div class="md-title" id="title">Comment</div>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content style="max-height: 200px; overflow-y: auto">
+            {{commentText}}
+        </md-card-content>
+    </modal>
+    <!-- <form class="login" @submit.prevent="onLogin">
             <div>
                 <form>
                     <md-card-header>
@@ -205,10 +212,7 @@
                             <a class="button addCommentBtn" v-else @click.prevent="addComment">Add</a>
                         </span>
                     </div>
-                </form>
-            </div>
-        </form> -->
-    </modal>
+                </form> -->
 </div>
 </template>
 
@@ -237,6 +241,7 @@ export default {
             assignment_id: Number,
             project_id: Number,
             status: "",
+            detailText: ""
         }
     },
     computed: {
@@ -248,28 +253,40 @@ export default {
     },
     async mounted() {
         this.hideElements()
-        await axios.get(
-                this.URL + `/assignment/detail/${this.$route.params.assignmentId}`, this.config
-            ).then(res => {
-                console.log("res : ", res)
-                this.assignmentDetail = res.data
-            })
-            .catch(err => {
-                console.error("error : " + err);
-            });
-        this.courseId = this.$route.params.assignmentId
-        this.created_at = this.assignmentDetail.created_at.substring(0, this.assignmentDetail.created_at.indexOf(','))
-        this.updated_at = this.assignmentDetail.updated_at.substring(0, this.assignmentDetail.updated_at.indexOf(','))
+        this.getAllAssignmentDetail()
+        var navStyle = document.getElementById('navAssignment').style
 
-        var lecturer = this.assignmentDetail.lecturers
-        for (var n = 0; n < lecturer.length; n++) {
-            if (lecturer[n].isCreator == true) {
-                this.creator = lecturer[n]
-            }
-        }
+        navStyle.color = "white"
+        navStyle.background = "#265080"
+        navStyle.borderRadius = "6px"
+        navStyle.padding = "3px 5px 3px 5px"
     },
     methods: {
         ...mapActions(['', '']),
+        async getAllAssignmentDetail() {
+            await axios.get(
+                    this.URL + `/assignment/detail/${this.$route.params.assignmentId}`, this.config
+                ).then(res => {
+                    // console.log(this.URL + `/assignment/detail/${this.$route.params.assignmentId}`)
+                    console.log("res : ", res)
+                    this.assignmentDetail = res.data
+                    this.detailText = this.assignmentDetail.assignment_detail
+                })
+                .catch(err => {
+                    console.error("error : " + err);
+                });
+
+            this.courseId = this.$route.params.assignmentId
+            this.created_at = this.assignmentDetail.created_at.substring(0, this.assignmentDetail.created_at.indexOf(','))
+            this.updated_at = this.assignmentDetail.updated_at.substring(0, this.assignmentDetail.updated_at.indexOf(','))
+
+            var lecturer = this.assignmentDetail.lecturers
+            for (var n = 0; n < lecturer.length; n++) {
+                if (lecturer[n].isCreator == true) {
+                    this.creator = lecturer[n]
+                }
+            }
+        },
         hideElements() {
             document.getElementById("studentsMember").style.display = "none"
             document.getElementById("lecturersMember").style.display = "none"
@@ -277,31 +294,20 @@ export default {
             document.getElementById("waiting").style.display = "none"
             document.getElementById("reject").style.display = "none"
 
-            document.getElementById("navAssignment").style.backgroundColor = "transparent"
-            document.getElementById("navLecturer").style.backgroundColor = "transparent"
-            document.getElementById("navStudent").style.backgroundColor = "transparent"
-            document.getElementById("navApprove").style.backgroundColor = "transparent"
-            document.getElementById("navRequest").style.backgroundColor = "transparent"
-            document.getElementById("navDenied").style.backgroundColor = "transparent"
-            document.getElementById("navAssignment").style.color = "#4A4A4A"
-            document.getElementById("navLecturer").style.color = "#4A4A4A"
-            document.getElementById("navStudent").style.color = "#4A4A4A"
-            document.getElementById("navApprove").style.color = "#4A4A4A"
-            document.getElementById("navRequest").style.color = "#4A4A4A"
-            document.getElementById("navDenied").style.color = "#4A4A4A"
-            document.getElementById("navAssignment").style.padding = "0"
-            document.getElementById("navLecturer").style.padding = "0"
-            document.getElementById("navStudent").style.padding = "0"
-            document.getElementById("navApprove").style.padding = "0"
-            document.getElementById("navRequest").style.padding = "0"
-            document.getElementById("navDenied").style.padding = "0"
+            var allNavs = ['navAssignment', 'navLecturer', 'navStudent', 'navApprove', 'navRequest', 'navDenied']
+            for (var n = 0; n < allNavs.length; n++) {
+                document.getElementById(allNavs[n]).style.backgroundColor = "transparent"
+                document.getElementById(allNavs[n]).style.color = "#4A4A4A"
+                document.getElementById(allNavs[n]).style.padding = "0"
+            }
         },
-        show(element,nav) {
+        show(element, nav) {
             this.hideElements()
             document.getElementById("assignmentDetail").style.display = "none"
             document.getElementById(element).style.display = "block"
 
             var navStyle = document.getElementById(nav).style
+
             navStyle.color = "white"
             navStyle.background = "#265080"
             navStyle.borderRadius = "6px"
@@ -310,35 +316,89 @@ export default {
             this.getProjectData(element)
         },
         async getProjectData(element) {
-            console.log("element : " + element)
             var status = element
-            await axios.get(
-                    this.URL + `/assignment/requests?assignment_id=${this.$route.params.assignmentId}&status=` + status, this.config
+            if (status == 'approve' || status == 'waiting' || status == 'reject') {
+                await axios.get(
+                        this.URL + `/assignment/requests?assignment_id=${this.$route.params.assignmentId}&status=` + status, this.config
+                    ).then(res => {
+                        console.log("res : ", res)
+                        console.log(this.URL + `/assignment/requests?assignment_id=${this.$route.params.assignmentId}&status=` + status)
+
+                        if (status == "approve" || status == "Approve") {
+                            this.approveProject = res.data
+                        } else if (status == "waiting" || status == "Waiting") {
+                            this.requestProject = res.data
+                        } else {
+                            this.deniedProject = res.data
+                        }
+                    })
+                    .catch(err => {
+                        console.error("error : " + err);
+                    });
+            }
+
+        },
+        showComment(commentText) {
+            this.commentText = commentText
+            this.$modal.show('commentModal');
+        },
+        editDetail(boo) {
+            if (boo) {
+                document.getElementById("inputDetail").style.display = "block"
+                document.getElementById("inputDetail").focus()
+                document.getElementById("aaaaaaa").style.display = 'none'
+            } else {
+                document.getElementById("inputDetail").style.display = 'none'
+                document.getElementById("aaaaaaa").style.display = "block"
+            }
+        },
+        async updateDetail() {
+            var data = {
+                assignment_id: this.assignmentDetail.assignment_id,
+                assignment_detail: this.detailText
+            }
+            await axios.patch(
+                    this.URL + '/assignment', data, this.config
                 ).then(res => {
                     console.log("res : ", res)
-                    // console.log(status+ " | " ,res.data)
-
-                    if (status == "approve" || status == "Approve") {
-                        this.approveProject = res.data
-                    } else if (status == "waiting" || status == "Waiting") {
-                        this.requestProject = res.data
-                    } else {
-                        this.deniedProject = res.data
-                    }
+                    // if (res.status == 200) {
+                    //     this.getAllAssignmentDetail()
+                    // }
                 })
                 .catch(err => {
                     console.error("error : " + err);
                 });
+            this.editDetail(false)
         },
-        showComment(assignment_id, project_id, status, commentText) {
-            console.log(assignment_id, project_id, status, commentText)
-            this.assignment_id = assignment_id,
-                this.project_id = project_id,
-                this.status = status
-            this.commentText = commentText
+        async checkedBox(index, lecturer_course_id) {
+            var checkbox = document.getElementById("lecturerCanApprove" + index)
+            var editCanApprove = document.getElementById("editCanApprove" + index)
+            var approver = document.getElementById("Approver" + index)
 
-            this.$modal.show('commentModal');
-        },
+            if (editCanApprove.style.display == 'none') {
+                editCanApprove.style.display = 'initial';
+                approver.style.display = 'none';
+            } else {
+                editCanApprove.style.display = 'none'
+                approver.style.display = 'initial';
+                var data = {
+                    assignment_id: this.assignmentDetail.assignment_id,
+                    lecturer_course_id: lecturer_course_id,
+                    isApprove: checkbox.checked
+                }
+                await axios.patch(
+                        this.URL + '/assignment/lecturer', data, this.config
+                    ).then(res => {
+                        console.log("res : ", res)
+                        if (res.status == 200) {
+                            this.getAllAssignmentDetail()
+                        }
+                    })
+                    .catch(err => {
+                        console.error("error : " + err);
+                    });
+            }
+        }
         // async addComment() {
         //     var data = {
         //         assignment_id: this.assignment_id,

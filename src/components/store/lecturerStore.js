@@ -1,8 +1,8 @@
 export const lecturerStore = {
     state: {
         course_name: "",
-        academic_term_id: Number,
-        course_id: Number
+        academic_term_id: 3,
+        course_id: 0
     },
     actions: {
         SET_COURSENAME({ commit }, course_name) {

@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="column countAll">
-                <button class="button createBtn" @click="showCreateAssignment = true">+ Create assignment ...</button>
+                <button class="button createBtn" @click="focus(true)">+ Create assignment ...</button>
             </div>
         </div>
         <!-- assignment topic -->
@@ -28,7 +28,7 @@
             <div class="column topic">{{course_name}}</div>
             <!-- <div class="column countAll">All course 1 - 2 out of 2 results</div> -->
         </div>
-        <!-- All assignment -->
+        <!-- หัวตาราง assignment -->
         <div class="card-content cardSize colName">
             <div class="columns">
                 <div class="column is-two-thirds">Assignment</div>
@@ -38,6 +38,19 @@
                 <div class="column countAssign"># Approved</div>
             </div>
         </div>
+        <!-- create assignment -->
+        <div id="assignmentForm" class="card lecturerCard" style="margin-bottom:20px;display:none">
+            <div class="card-content cardSize">
+                <div class="field">
+                    <div class="control">
+                        <input id="inputAssignment" class="input inputData" v-model="assignmentName" type="text" placeholder="Assignment name">
+                    </div>
+                </div>
+                <a class="button is-small saveBtn" @click="createAssignment">Add</a>
+                <a class="button is-small cancelBtn" @click="focus(false)">Cancel</a>
+            </div>
+        </div>
+        <!-- All assignment -->
         <div class="card lecturerCard lecturerCourseCard" v-for="(assignment,index) in assignments" v-bind:key="index">
             <router-link :to="`/assignmentDetail/${assignment.assignment_id}`">
                 <div class="card-content cardSize">
@@ -51,25 +64,11 @@
                 </div>
             </router-link>
         </div>
-        <div class="card lecturerCard" v-if="showCreateAssignment == true">
-            <div class="card-content cardSize">
-                <div class="field">
-                    <div class="control">
-                        <input class="input inputData" v-model="assignmentName" type="text" placeholder="Assignment name">
-                    </div>
-                </div>
-                <a class="button is-small saveBtn" @click="createAssignment">Add</a>
-                <a class="button is-small cancelBtn" @click="showCreateAssignment = false">Cancel</a>
-            </div>
-
-        </div>
     </div>
-    <!-- {{assignments}} -->
 </div>
 </template>
 
 <script>
-// import './../../node_modules/bulma/css/bulma.css';
 import './../css/visitor.css';
 import './../css/studentProjectTab.css';
 import './../css/lecturer.css';
@@ -82,8 +81,7 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            assignments: Object,
-            showCreateAssignment: false,
+            assignments: {},
             assignmentName: null
         }
     },
@@ -133,7 +131,16 @@ export default {
                 .catch(err => {
                     console.error("error : " + err);
                 });
-            this.showCreateAssignment = false
+            this.focus(false)
+        },
+        focus(boo) {
+            if (boo) {
+                document.getElementById("assignmentForm").style.display = 'block'
+                document.getElementById("inputAssignment").focus()
+            } else {
+                document.getElementById("assignmentForm").style.display = 'none'
+            }
+
         }
     }
 }
