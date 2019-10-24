@@ -34,7 +34,7 @@
         <div class="featuresRow">
           <div class="featuresCol" id="featuresCol">
             <img src="../../assets/home-page.png" class="imgFeaturers">
-            <p id="contentFetures">Manage your projects</p>
+            <p id="contentFetures">Manage your portfolio pages</p>
           </div>
           <div class="featuresCol" id="featuresCol">
             <img src="../../assets/home-upload.png" class="imgFeaturers">
@@ -46,17 +46,17 @@
           </div>
           <div class="featuresCol" id="featuresCol">
             <img src="../../assets/home-achive.png" class="imgFeaturers">
-            <p id="contentFetures">Specify your awards of project</p>
+            <p id="contentFetures">Specify your awards of portfolio</p>
           </div>
         </div>
         <div class="featuresRow">
           <div class="featuresCol" id="featuresCol">
             <img src="../../assets/home-group.png" class="imgFeaturers">
-            <p id="contentFetures">Referring to the collaborators of projects</p>
+            <p id="contentFetures">Referring to the collaborators of portfolio</p>
           </div>
           <div class="featuresCol" id="featuresCol">
             <img src="../../assets/home-chart.png" class="imgFeaturers">
-            <p id="contentFetures">Show Statistics on project relevance from tags.</p>
+            <p id="contentFetures">Show Statistics on portfolio relevance from tags.</p>
           </div>
           <div class="featuresCol" id="featuresCol">
             <img src="../../assets/home-clap.png" class="imgFeaturers">
@@ -92,7 +92,7 @@
       async mounted() {
         const {
             data
-        } = await axios.get('http://localhost:7000/projects/Top-Project');
+        } = await axios.get('https://www.sit-acc.nruf.in.th/projects/Top-Project');
           console.log('data', data);
           console.log('data', data.length);
           console.log('projects', this.projects)
@@ -108,3 +108,18 @@
     },
   }
 </script>
+
+<style>
+  .vueperslides__bullet {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: none;
+    box-shadow: none;
+    transition: 0.3s;
+    width: 20px;
+    height: 20px;
+  }
+
+  .vueperslides__bullet--active {
+    background-color: #265080;
+  }
+</style>

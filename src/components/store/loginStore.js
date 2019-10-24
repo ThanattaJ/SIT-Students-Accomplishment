@@ -47,14 +47,26 @@ export const loginStore = {
             if (res.data.status == 200) {
               commit("SET_ALL_LOGIN_DATA", { token: res.data.token, username: username });
               commit("SET_LOGIN_STATUS", true);
+              if(userType === 'st.sit.kmutt.ac.th'){
+                localStorage.setItem('user_role', 'student');
+              }else{
+                localStorage.setItem('user_role', 'lecturer');
+                if(res.data.isAdmin){
+                  localStorage.setItem('isAdmin', true);
+                }else{
+                  localStorage.setItem('isAdmin', false);
+                }
+              }
               localStorage.setItem('Authen_token', res.data.token);
               localStorage.setItem('usernameSIT', username);
               localStorage.setItem('loginStatus', true);
               if(res.data.isAdmin){
                 router.push('/course')
+                location.reload()
               }
               else{
                 router.push('/student')
+                location.reload()
               }
             }
           })
@@ -66,10 +78,8 @@ export const loginStore = {
       }
     },
     LOGOUT({ commit }) {
-      commit("SET_ALL_LOGIN_DATA", { token: null, username: null });
-      localStorage.setItem('Authen_token', null);
-      localStorage.setItem('usernameSIT', null);
-      localStorage.setItem('loginStatus', null);
+      localStorage.clear()
+      location.reload()
       router.push("/");
     }
   },
