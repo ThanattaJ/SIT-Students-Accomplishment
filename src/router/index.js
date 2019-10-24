@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
+import Home from '@/components/Home/Home'
 import student from '@/components/student'
 import GenerateResume from '@/components/GenerateResume/GenerateResume'
 import ShowProject from '@/components/Project/ShowProject'
@@ -31,7 +31,7 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/Home',
+      path: '/',
       name: 'Home',
       component: Home,
     },
@@ -116,7 +116,7 @@ export default new Router({
       component: login,
     },
     {
-      path: '/',
+      path: '/Projects',
       name: 'allProjectList',
       component: allProjectList,
     },

@@ -91,7 +91,8 @@ export default {
         //เอาค่า Authen_token จาก localStorage เก็บลง state.config.headers.Authorization ใน loginStore
         this.username = localStorage.getItem('usernameSIT');
         this.Authen_token = localStorage.getItem('Authen_token');
-        this.SET_LOGIN_STATUS(localStorage.getItem('loginStatus'));
+        const status = localStorage.getItem('loginStatus') || false
+        this.SET_LOGIN_STATUS(status);  
         if (this.Authen_token != 'null' && this.username != 'null') {
             this.SET_ALL_LOGIN_DATA({
                 token: this.Authen_token,
