@@ -229,17 +229,17 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            assignmentDetail: Object,
-            courseId: Number,
+            assignmentDetail: {},
+            courseId: 0,
             created_at: "",
             updated_at: "",
             creator: {},
-            approveProject: Object,
-            requestProject: Object,
-            deniedProject: Object,
+            approveProject: {},
+            requestProject: {},
+            deniedProject: {},
             commentText: null,
-            assignment_id: Number,
-            project_id: Number,
+            assignment_id: 0,
+            project_id: 0,
             status: "",
             detailText: ""
         }

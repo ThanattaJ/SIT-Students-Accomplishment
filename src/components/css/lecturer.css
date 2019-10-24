@@ -58,6 +58,10 @@
     background-color: #1b3a5e;
     border-color: white;
 }
+.createBtn::after{
+    border-color: none;
+    color: white;
+}
 .courseNameInAssignDetail{
     margin-top: -12px;
     margin-bottom: 18px;

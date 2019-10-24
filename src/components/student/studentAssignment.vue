@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="column countAll">
-            <button class="button createBtn" @click="focus(true)">+ Join assignment ...</button>
+            <button class="button createBtn">+ Join assignment ...</button>
         </div>
     </div>
     <!-- หัวตาราง assignment -->
@@ -120,7 +120,7 @@ export default {
             this.$modal.show('commentModal');
         },
         routeToAssignmentDetail(assignment_id){
-            router.push(`/assignmentDetail/${assignment_id}`)
+            router.push(`/studentAssignmentDetail/${assignment_id}`)
 
         }
     }

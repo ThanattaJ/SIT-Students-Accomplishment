@@ -23,6 +23,7 @@ import assignment from '@/components/lecturer/assignment'
 import assignmentDetail from '@/components/lecturer/assignmentDetail'
 // Student
 import studentAssignment from '@/components/student/studentAssignment'
+import studentAssignmentDetail from '@/components/student/studentAssignmentDetail'
 
 Vue.use(Router)
 
@@ -51,6 +52,10 @@ export default new Router({
     {
       path: '/assignment',
       component: studentAssignment
+    },
+    {
+      path: '/studentAssignmentDetail/:assignmentId',
+      component: studentAssignmentDetail
     },
     {
       path: '/GenerateResume',
