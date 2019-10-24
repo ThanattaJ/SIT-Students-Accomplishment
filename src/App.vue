@@ -1,6 +1,7 @@
 <template>
 <div id="app">
-    <nav class="navbar nav1 sticky" role="navigation" aria-label="main navigation">
+    <nav class="navbar nav1 sticky" role="navigation" aria-label="main navigation" style="position:relative; "></nav>
+    <nav class="navbar nav1 sticky" role="navigation" aria-label="main navigation" style="position:fixed; top:0;">
         <div class="navbar-brand">
             <router-link to="/">
                 <a class="navbar-item" style="margin-top: -10px;">
@@ -16,34 +17,43 @@
         </div>
         <div ref="menu" id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item menuName">
-                    <i class="la la-home"></i>
+                <span class="navbar-item">
+                  <a class="navbar-item menuName">
+                      <img src="./assets/folder.png" style="max-height: 30px !important; margin-right: 10px">
+                      <router-link to="/Projects">
+                          Project
+                      </router-link>
+                  </a>
+                </span>
+
+                <span class="navbar-item" v-if="user_role == 'student'">
+                  <a class="navbar-item menuName">
+                    <i class="la la-user"></i>
                     <router-link to="/student">
-                        Home
+                        Profile
                     </router-link>
-                </a>
+                  </a>
+                </span>
 
-                <a class="navbar-item menuName">
-                    <i class="la la-folder-o"></i>
-                    Project
-                </a>
-
-                <a class="navbar-item menuName">
-                    <i class="la la-user"></i>
-                    Profile
-                </a>
-                <a class="navbar-item menuName">
-                    <i class="la la-user"></i>
-                    <router-link to="/allCourse">
-                        Admin
-                    </router-link>
-                </a>
-                <a class="navbar-item menuName">
+                <span class="navbar-item" v-if="user_role == 'lecturer'">
+                  <a class="navbar-item menuName">
                     <i class="la la-user"></i>
                     <router-link to="/course">
                         Lecturer
                     </router-link>
-                </a>
+                  </a>
+                </span>
+                
+                
+                <span class="navbar-item" v-if="isAdmin == 'true'">
+                    <a class="navbar-item menuName">
+                      <i class="la la-user"></i>
+                      <router-link to="/allCourse">
+                          Admin
+                      </router-link>
+                    </a>
+                </span>
+
             </div>
 
             <div class="navbar-end">
@@ -79,6 +89,8 @@ export default {
             clickBurger: true,
             Authen_token: null,
             username: null,
+            user_role: null,
+            isAdmin: null,
         }
     },
     computed: {
@@ -89,16 +101,18 @@ export default {
     },
     mounted() {
         //เอาค่า Authen_token จาก localStorage เก็บลง state.config.headers.Authorization ใน loginStore
-        this.username = localStorage.getItem('usernameSIT');
-        this.Authen_token = localStorage.getItem('Authen_token');
-        const status = localStorage.getItem('loginStatus') || false
-        this.SET_LOGIN_STATUS(status);  
-        if (this.Authen_token != 'null' && this.username != 'null') {
+        this.username = localStorage.getItem('usernameSIT') !== null
+        this.Authen_token = localStorage.getItem('Authen_token') !== null
+        this.user_role = localStorage.getItem('user_role')
+        this.isAdmin = localStorage.getItem('isAdmin')
+        if (this.Authen_token && this.username && this.user_role) {
             this.SET_ALL_LOGIN_DATA({
-                token: this.Authen_token,
-                username: this.username
+                token: localStorage.getItem('Authen_token'),
+                username: localStorage.getItem('usernameSIT')
             })
             this.SET_LOGIN_STATUS(true);
+        } else {
+            this.SET_LOGIN_STATUS(false);  
         }
         this.LOAD_OWN_STUDENT_DATA()
         this.LOAD_RESUME_DATA()
@@ -135,6 +149,7 @@ export default {
     background-color: #265080 !important;
     padding-left: 10% !important;
     padding-right: 10% !important;
+    width: 100%;
 }
 
 .nav1 {
@@ -153,9 +168,9 @@ export default {
     color: white !important;
 }
 
-@media screen and (max-width: 1085px) {
+@media screen and (max-width: 1085px) {z
     .navbar-item {
-        color: #265080 !important;
+        color: #265080 !important; 
     }
 
     .navbar-menu {
@@ -181,7 +196,7 @@ a.menuName:hover {
 }
 
 .navbar-item img {
-    max-height: 50px !important;
+    max-height: 90px !important;
 }
 
 .la {
