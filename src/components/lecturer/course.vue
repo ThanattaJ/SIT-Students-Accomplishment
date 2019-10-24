@@ -32,7 +32,7 @@
             <div class="columns">
                 <div class="column is-two-thirds">Course</div>
                 <div class="column countAssign"># Assignment</div>
-                <div class="column"></div>
+                <!-- <div class="column"></div> -->
             </div>
         </div>
         <div class="card lecturerCard lecturerCourseCard" v-for="(course,index) in defaultCourse.courses" v-bind:key="'courseTerm'+index">
@@ -41,7 +41,7 @@
                     <div class="columns">
                         <div class="column is-two-thirds courseName">{{index+1}}) {{course.course_name}}</div>
                         <div class="column countAssign">{{course.assignment_counting}}</div>
-                        <div class="column"><span class="createAssignBtn">+ Create Assignment</span></div>
+                        <!-- <div class="column"><span class="createAssignBtn">+ Create Assignment</span></div> -->
                     </div>
                 </div>
             </router-link>

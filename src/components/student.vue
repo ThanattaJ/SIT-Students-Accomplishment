@@ -3,9 +3,11 @@
     <div id="bodyBg">
         <div class="buttons has-addons is-centered is-fullwidth" style="font-weight:bold">
             <span class="button menuBar is-info is-selected">Project</span>
-            <span class="button menuBar" style="color:#265080 !important">Assignment</span>
+            <span class="button menuBar" style="color:#265080 !important">
+                <router-link to="/assignment" style="color:#265080 !important">Assignment</router-link>
+            </span>
             <span class="button menuBar">
-                <router-link to="GenerateResume" style="color:#265080 !important">Generate Resume</router-link>
+                <router-link to="/GenerateResume" style="color:#265080 !important">Generate Resume</router-link>
             </span>
         </div>
     </div>

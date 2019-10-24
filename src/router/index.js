@@ -21,7 +21,8 @@ import allProjectList from '@/components/visitor/allProjectList'
 import course from '@/components/lecturer/course'
 import assignment from '@/components/lecturer/assignment'
 import assignmentDetail from '@/components/lecturer/assignmentDetail'
-
+// Student
+import studentAssignment from '@/components/student/studentAssignment'
 
 Vue.use(Router)
 
@@ -46,6 +47,10 @@ export default new Router({
           component: ShowProject
         }
       ]
+    },
+    {
+      path: '/assignment',
+      component: studentAssignment
     },
     {
       path: '/GenerateResume',
