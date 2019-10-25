@@ -4,7 +4,7 @@
     <nav class="navbar nav1 sticky" role="navigation" aria-label="main navigation" style="position:fixed; top:0;">
         <div class="navbar-brand">
             <router-link to="/">
-                <a class="navbar-item" style="margin-top: -10px;">
+                <a class="navbar-item" style="margin-top: -15px;">
                     <img src="./assets/logo.png">
                 </a>
             </router-link>
@@ -18,40 +18,40 @@
         <div ref="menu" id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
                 <span class="navbar-item">
-                  <a class="navbar-item menuName">
-                      <img src="./assets/folder.png" style="max-height: 30px !important; margin-right: 10px">
-                      <router-link to="/Projects">
-                          Project
-                      </router-link>
-                  </a>
+                    <router-link to="/Projects">
+                        <a class="navbar-item menuName">
+                            <img src="./assets/folder.png" style="max-height: 30px !important; margin-right: 10px">
+                            Project
+                        </a>
+                    </router-link>
                 </span>
 
                 <span class="navbar-item" v-if="user_role == 'student'">
-                  <a class="navbar-item menuName">
-                    <i class="la la-user"></i>
                     <router-link to="/student">
+                    <a class="navbar-item menuName">
+                        <i class="la la-user"></i>
                         Profile
+                    </a>
                     </router-link>
-                  </a>
                 </span>
 
                 <span class="navbar-item" v-if="user_role == 'lecturer'">
-                  <a class="navbar-item menuName">
-                    <i class="la la-user"></i>
                     <router-link to="/course">
-                        Lecturer
+                        <a class="navbar-item menuName">
+                            <i class="la la-user"></i>
+                            Lecturer
+                        </a>
                     </router-link>
-                  </a>
                 </span>
                 
                 
                 <span class="navbar-item" v-if="isAdmin == 'true'">
-                    <a class="navbar-item menuName">
-                      <i class="la la-user"></i>
-                      <router-link to="/allCourse">
-                          Admin
-                      </router-link>
-                    </a>
+                    <router-link to="/allCourse">
+                        <a class="navbar-item menuName">
+                            <i class="la la-user"></i>
+                            Admin
+                        </a>
+                    </router-link>
                 </span>
 
             </div>
@@ -196,7 +196,7 @@ a.menuName:hover {
 }
 
 .navbar-item img {
-    max-height: 90px !important;
+    max-height: 60px !important;
 }
 
 .la {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-    <vueper-slides autoplay :dragging-distance="50" prevent-y-scroll :arrows="false"  fixed-height="700px" :bullets-outside="true">
+    <vueper-slides autoplay :dragging-distance="50" prevent-y-scroll :arrows="false"  fixed-height="680px" :bullets-outside="true">
       <vueper-slide 
         v-for="(project,i) in projects" 
           :key="i" 
