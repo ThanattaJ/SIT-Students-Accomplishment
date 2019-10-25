@@ -22,21 +22,14 @@ export const createPortPageStore = {
             end_month: null, //step1
             end_year_en: null, //step1
             project_type_name: "external",
-        },
-
-        // config : {
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-        //     }
-        // }
+        }
     },
     actions: {
-        LOAD_ALL_STUDENT: async function ({ commit }) { //ดึงนศทั้งหมด
+        LOAD_ALL_STUDENT: async function ({ commit, rootState }) { //ดึงนศทั้งหมด
             console.log("ดึงนศทั้งหมด")
+            const URL = rootState.pathStore.pathName
             const { data } = await axios.get(
-                // "http://localhost:7000/users/list_student/59" 
-                "https://www.sit-acc.nruf.in.th/users/list_student/59" 
+                URL+'/users/list_student/59'
             );
             commit('SET_ALL_STUDENT', data)
         },
@@ -165,10 +158,6 @@ export const createPortPageStore = {
         //
         GET_PROJECT_DATA: function (state) {
             return state.project_data
-        },
-        //CONFIG
-        // GET_CONFIG: function (state) {
-        //     return state.config
-        // }
+        }
     }
 }

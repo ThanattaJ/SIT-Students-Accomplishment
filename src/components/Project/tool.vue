@@ -1,7 +1,7 @@
 <template>
     <div id="tool">
           <div v-if="this.getTool">
-            <div class="card">
+            <div class="card lecturerCard">
               <header class="card-header">
                 <p class="card-header-title" id="cardHeader">Development Tools & Techniques</p>
               </header>
@@ -16,7 +16,7 @@
             </div>
           </div>
           <div v-else-if="this.getEditProject">
-            <div class="card">
+            <div class="card lecturerCard">
               <header class="card-header">
                 <p class="card-header-title" id="cardHeader">Development Tools & Techniques</p>
               </header>

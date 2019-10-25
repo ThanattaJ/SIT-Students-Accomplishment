@@ -1,6 +1,6 @@
 <template>
     <div id="ref">
-        <div class="card" id="References"  v-if="this.getRef" >
+        <div class="card lecturerCard" id="References"  v-if="this.getRef" >
             <header class="card-header">
               <p class="card-header-title" id="cardHeader">References</p>
             </header>
@@ -15,7 +15,7 @@
               </div>
             </div>
           </div>
-           <div class="card" id="References"  v-else-if="this.getEditProject" >
+           <div class="card lecturerCard" id="References"  v-else-if="this.getEditProject" >
             <header class="card-header">
               <p class="card-header-title" id="cardHeader">References</p>
             </header>

@@ -6,15 +6,12 @@
     text-align: center;
 }
 #TitleName_eg{
-  font-family: Asap;
-  font-style: normal;
-  font-weight: normal;
   font-size: 20px;
+  font-weight: 600;
   line-height: 28px;
   color: #265080;
 }
 #TitleName_th{
-  font-family: Asap;
   font-size: 16px;
   margin-top: 5px;
   color: #6F6F6F;
@@ -31,15 +28,19 @@
     border-radius: 5px;
     
 }
+.card-header{
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
 #cardHeader{
     background:#F9F9F9;
-    font-family: Asap;
     font-style: normal;
     font-weight: normal;
     font-size: 20px;
     line-height: 23px;
     color: #265080;
-
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
 #content{
     border-color: transparent;

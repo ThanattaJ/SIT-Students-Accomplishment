@@ -132,15 +132,15 @@ export default {
     computed: {
         ...mapGetters({
             education: 'GET_EDUCATION_DATA',
-            config: 'GET_CONFIG'
+            config: 'GET_CONFIG',
+            URL: 'GET_PATHNAME'
         })
     },
     async mounted() {
         const {
             data
         } = await axios.get(
-            // "http://localhost:7000/users/education-level"
-            "https://www.sit-acc.nruf.in.th/users/education-level"
+            this.URL + '/users/education-level'
         );
         this.education_level = data
         for (var n = 0; n < this.education.length; n++) {
@@ -164,16 +164,15 @@ export default {
             try {
                 console.log(" this.education : ", this.education)
                 await axios
-                    // .patch("http://localhost:7000/users/educations", {
-                    .patch("https://www.sit-acc.nruf.in.th/users/educations", {
-                educations : this.education
-                }, this.config)
+                    .patch(this.URL + '/users/educations', {
+                        educations: this.education
+                    }, this.config)
                     .then((res) => {
                         console.log("res : ", res);
                         console.log("Update Education Success!");
                     })
                     .catch((err) => {
-                        console.error("err : "+ err);
+                        console.error("err : " + err);
                     });
             } catch (err) {
                 console.log("FAILURE!!" + err);

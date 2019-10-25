@@ -7,13 +7,13 @@
         </div>
         <!-- assignment topic -->
         <div class="columns">
-            <div class="column topic" style="padding-bottom:0">{{assignmentDetail.assignment_name}}</div>
+            <div class="column topicAboutAssignment" style="padding-bottom:0">{{assignmentDetail.assignment_name}}</div>
         </div>
         <div class="courseNameInAssignDetail">{{assignmentDetail.course_name}}</div>
         <div class="columns">
             <div class="column">
                 <span style="margin-right:20px">Create by : {{assignmentDetail.lecturers_name}}</span>
-                {{created_at}} (Edited {{updated_at}})
+                <!-- {{created_at}} (Edited {{updated_at}}) -->
             </div>
             <div class="column countAll">
                 Status : 
@@ -53,9 +53,7 @@
             </div>
             <div class="column">{{assignmentDetail.assignment_detail}}</div>
         </div>
-
     </div>
-
 </div>
 </template>
 

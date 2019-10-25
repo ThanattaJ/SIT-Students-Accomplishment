@@ -114,6 +114,7 @@ export default {
         } else {
             this.SET_LOGIN_STATUS(false);  
         }
+        
         this.LOAD_OWN_STUDENT_DATA()
         this.LOAD_RESUME_DATA()
     },
@@ -153,6 +154,7 @@ export default {
 }
 
 .nav1 {
+    position: sticky;
     height: 76px !important;
     padding-top: 15px !important;
     padding-bottom: 15px !important;

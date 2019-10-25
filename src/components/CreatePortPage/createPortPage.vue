@@ -5,7 +5,7 @@
     </div>
     <div class="columns">
         <div class="column stepCard">
-            <div class="card card-equal-height">
+            <div class="card card-equal-height lecturerCard">
                 <div class="card-content form">
                     <div class="content">
                         <form>
@@ -93,6 +93,7 @@ export default {
             member_outsider: 'GET_OUTSIDER',
             achievement: 'GET_ACHIEVEMENT',
             config: 'GET_CONFIG',
+            URL: 'GET_PATHNAME'
         })
     },
 
@@ -171,8 +172,7 @@ export default {
             try {
                 console.log("data : ", data)
                 await axios
-                    // .post("http://localhost:7000/projects/external", data, this.config)
-                    .post("https://www.sit-acc.nruf.in.th/projects/external", data, this.config)
+                    .post(this.URL + '/projects/external', data, this.config)
                     .then((res) => {
                         console.log("res : ", res.data);
                         this.$router.push({
@@ -189,12 +189,30 @@ export default {
             }
         },
         resetField() {
-            this.UPDATE_FIELD({callSetter: 'SET_PROJECTNAME_EN', value: null})
-            this.UPDATE_FIELD({callSetter: 'SET_PROJECTNAME_TH', value: null})
-            this.UPDATE_FIELD({callSetter: 'SET_DATE_STARTPROJECT', value: null})
-            this.UPDATE_FIELD({callSetter: 'SET_DATE_ENDPROJECT', value: null})
-            this.UPDATE_FIELD({callSetter: 'SET_PROJECT_ABSTRACT', value: ""})
-            this.UPDATE_FIELD({callSetter: 'SET_PROJECT_DETAIL', value: ""})
+            this.UPDATE_FIELD({
+                callSetter: 'SET_PROJECTNAME_EN',
+                value: null
+            })
+            this.UPDATE_FIELD({
+                callSetter: 'SET_PROJECTNAME_TH',
+                value: null
+            })
+            this.UPDATE_FIELD({
+                callSetter: 'SET_DATE_STARTPROJECT',
+                value: null
+            })
+            this.UPDATE_FIELD({
+                callSetter: 'SET_DATE_ENDPROJECT',
+                value: null
+            })
+            this.UPDATE_FIELD({
+                callSetter: 'SET_PROJECT_ABSTRACT',
+                value: ""
+            })
+            this.UPDATE_FIELD({
+                callSetter: 'SET_PROJECT_DETAIL',
+                value: ""
+            })
 
             this.SET_SELECTED_STUDENT_MEMBER([])
             this.SET_OUTSIDER([])

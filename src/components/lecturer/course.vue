@@ -73,7 +73,7 @@ export default {
     computed: {
         ...mapGetters({
             config: 'GET_CONFIG',
-            URL: 'GET_PATHNAMR'
+            URL: 'GET_PATHNAME'
         })
     },
     async mounted() {

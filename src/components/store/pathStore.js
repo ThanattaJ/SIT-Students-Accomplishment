@@ -10,7 +10,7 @@ export const pathStore = {
 
     },
     getters: {
-        GET_PATHNAMR(state) {
+        GET_PATHNAME(state) {
             return state.pathName
           }
     }

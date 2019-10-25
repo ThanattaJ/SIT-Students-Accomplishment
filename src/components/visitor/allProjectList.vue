@@ -124,7 +124,6 @@
 </template>
 
 <script>
-// import './../../node_modules/bulma/css/bulma.css';
 import './../css/visitor.css';
 import './../css/studentProjectTab.css';
 import {

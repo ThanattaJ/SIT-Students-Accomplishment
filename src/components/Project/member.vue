@@ -1,6 +1,6 @@
 <template>
 <div id="member">
-    <div class="card" id="Authors">
+    <div class="card lecturerCard" id="Authors">
         <header class="card-header">
             <p class="card-header-title" id="cardHeader">Members</p>
         </header>

@@ -68,22 +68,18 @@
                                     </linearGradient>
                                 </defs>
                             </svg>
-                            <TrendChart 
-                                :datasets="[
+                            <TrendChart :datasets="[
                                     {
                                         data: dataToChart,
                                         smooth: true,
                                         fill: true,
                                         className: 'curve-btc'
                                     }
-                                ]" 
-                                :labels="{
+                                ]" :labels="{
                                     xLabels:  totalProject[totalProject.length-1].start_year_en-totalProject[0].start_year_en !=0 ? 
                                                 [totalProject[0].start_year_en, totalProject[totalProject.length-1].start_year_en] :
                                                 [totalProject[0].start_year_en-1, totalProject[0].start_year_en]
-                                }"
-                                :min="0"
-                            >
+                                }" :min="0">
                             </TrendChart>
                         </div>
                     </nav>
@@ -131,7 +127,7 @@
                             <figure class="image is-4by2">
                                 <img src="./../assets/gold-medal.png" width="17px" v-if="allProject.achievement" style="z-index:2;position:absolute;width:40px;">
                                 <img :src="allProject.cover_path" alt="Placeholder image" style="height: 156.22px !important;border-radius: 5px;">
-                                <div class="img-text" >
+                                <div class="img-text">
                                     <img src="./../assets/visibility-button.png" style="width:15px;display: inline;">
                                     <span class="countText">{{allProject.count_viewer}} </span>
                                     <img src="./../assets/clap-hands.png" style="width:15px;display: inline;">
@@ -142,7 +138,7 @@
                         <div class="card-image" v-else>
                             <figure class="image is-4by2">
                                 <img src="./../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;">
-                                <div class="img-text" >
+                                <div class="img-text">
                                     <img src="./../assets/visibility-button.png" style="width:15px;display: inline;">
                                     <span class="countText">{{allProject.count_viewer}} </span>
                                     <img src="./../assets/clap-hands.png" style="width:15px;display: inline;">
@@ -229,7 +225,8 @@ export default {
             totalProject: 'GET_STUDENT_TOTALPROJECT',
             dataToChart: 'GET_DATATOCHART',
             email: 'GET_EMAIL',
-            config: 'GET_CONFIG'
+            config: 'GET_CONFIG',
+            URL: 'GET_PATHNAME'
         })
     },
     mounted() {
@@ -248,8 +245,7 @@ export default {
             var newEmail = document.getElementById('email').value
             try {
                 await axios
-                    // .patch("http://localhost:7000/users/email", {
-                    .patch("https://www.sit-acc.nruf.in.th/users/email", {
+                    .patch(this.URL + '/users/email', {
                         email: newEmail
                     }, this.config)
                     .then((res) => {
@@ -273,7 +269,7 @@ export default {
             formData.append('method', 'profile');
             try {
                 await axios
-                    .patch('https://www.sit-acc.nruf.in.th/users/image', formData, this.config)
+                    .patch(this.URL + '/users/image', formData, this.config)
                     .then((res) => {
                         this.LOAD_OWN_STUDENT_DATA()
                         console.log("success! : ", res);

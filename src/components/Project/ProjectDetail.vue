@@ -39,6 +39,11 @@
                      <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
                     <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
                 </div>
+                <div v-if="GET_ISAPPROVER == true">
+                    <!-- {{GET_ISAPPROVER}} -->
+                    <approveAssignmentProject></approveAssignmentProject>
+                </div>
+                <div v-else>cannot approve</div>
                 <div>
                   <md-switch v-model="show" v-if="EditProject">{{show}}</md-switch>
                 </div>
@@ -75,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card" id="Details">
+                <div class="card lecturerCard" id="Details">
                     <div class="card-content">
                         <div class="content" id="content">
                             <Video />
@@ -90,7 +95,7 @@
                 <div id="tool">
                     <tool />
                 </div>
-                <div class="card" id="Documents" v-if="this.document.name">
+                <div class="card lecturerCard" id="Documents" v-if="this.document.name">
                     <header class="card-header">
                         <p class="card-header-title" id="cardHeader">Documents</p>
                     </header>
@@ -100,7 +105,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card" id="Documents" v-else-if="EditProject">
+                <div class="card lecturerCard" id="Documents" v-else-if="EditProject">
                     <header class="card-header">
                         <p class="card-header-title" id="cardHeader">Documents</p>
                     </header>
@@ -141,6 +146,7 @@ import Document from "./../NewPortfolioPage/Document.vue";
 import Video from "./../NewPortfolioPage/Video.vue";
 import "./../css/ProjectDetail.css";
 import showImg from "./showImg"
+import approveAssignmentProject from "./../lecturer/approveAssignmentProject"
 export default {
 
     namePro: "ProjectDetail",
@@ -164,7 +170,10 @@ export default {
             'GET_STUDENT_TAG',
             'GET_STUDENT_PROJECT',
             'getPic',
-            'getNonMember'
+            'getNonMember',
+
+            //lecturer
+            'GET_ISAPPROVER'
         ]),
     },
     components: {
@@ -181,7 +190,8 @@ export default {
         ref,
         showImg,
         editImg,
-        tag
+        tag,
+        approveAssignmentProject
     },
 
     data() {

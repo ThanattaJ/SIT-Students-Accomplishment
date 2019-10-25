@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="column countAll">
-            <button class="button createBtn">+ Join assignment ...</button>
+            <button class="button createBtn" @click="joinAssignmentModal(true)">+ Join assignment ...</button>
         </div>
     </div>
     <!-- หัวตาราง assignment -->
@@ -48,7 +48,8 @@
                 <div class="column countAssign">
                     <span class="projectStatus approved" v-if="assignment.status_name == 'Approve'">{{assignment.status_name}}</span>
                     <span class="projectStatus request" v-else-if="assignment.status_name == 'Waiting'">{{assignment.status_name}}</span>
-                    <span class="projectStatus denied" v-else>{{assignment.status_name}}</span>
+                    <span class="projectStatus denied" v-else-if="assignment.status_name == 'Reject'">{{assignment.status_name}}</span>
+                    <span v-else>Not submit</span>
                 </div>
                 <div class="column countAssign">
                     <i class="la la-comment" v-if="assignment.comment == null" style="color:#CCCCCC"></i>
@@ -73,6 +74,26 @@
             {{commentText}}
         </md-card-content>
     </modal>
+    <modal name="joinAssignmentModal">
+        <md-card-header>
+            <md-card-header-text>
+                <div class="md-title" id="title">Join Assignment</div>
+            </md-card-header-text>
+        </md-card-header>
+        <div class="grey-text">
+            <md-card-content>
+                <md-field>
+                    <label>Code join ...</label>
+                    <md-input v-model="code_join" md-autofocus></md-input>
+                </md-field>
+            </md-card-content>
+            <span class="addBtn">
+                <a class="button cancelCommentBtn" @click="joinAssignmentModal(false)"><span class="courseName">Cancel</span></a>
+                <a class="button addCommentBtn cannotClick" v-if="code_join == '' || code_join == null">Add</a>
+                <a class="button addCommentBtn" v-else @click.prevent="addAssignment">Add</a>
+            </span>
+        </div>
+    </modal>
 </div>
 </template>
 
@@ -90,7 +111,8 @@ export default {
     data() {
         return {
             assignments: {},
-            commentText: ''
+            commentText: '',
+            code_join: null
         }
     },
     computed: {
@@ -119,9 +141,30 @@ export default {
             this.commentText = commentText
             this.$modal.show('commentModal');
         },
-        routeToAssignmentDetail(assignment_id){
+        joinAssignmentModal(value) {
+            this.code_join = null
+            if(value){
+               this.$modal.show('joinAssignmentModal'); 
+            }else{
+               this.$modal.hide('joinAssignmentModal'); 
+            }
+            
+        },
+        async addAssignment(){
+            await axios.post(
+                    this.URL + '/assignment/join-assignment/?join_code='+ this.code_join, "", this.config
+                ).then(res => {
+                    console.log("res : ", res)
+                    this.getAllAssignment()
+                    this.joinAssignmentModal(false) 
+                    // 48W93Y
+                })
+                .catch(err => {
+                    console.error("error : " + err);
+                });
+        },
+        routeToAssignmentDetail(assignment_id) {
             router.push(`/studentAssignmentDetail/${assignment_id}`)
-
         }
     }
 }

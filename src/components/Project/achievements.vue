@@ -1,7 +1,7 @@
 <template>
 <div>
     <div v-if="this.achievement.length > 0">
-        <div class="card" id="achievement">
+        <div class="card lecturerCard" id="achievement">
             <header class="card-header">
                 <p class="card-header-title" id="cardHeader">Achievement</p>
             </header>

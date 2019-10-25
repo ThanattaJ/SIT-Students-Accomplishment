@@ -16,22 +16,20 @@ export const studentStore = {
     },
     actions: {
         LOAD_OWN_STUDENT_DATA: async function ({ commit, rootState }) {
-            // const URL = "http://localhost:7000/users/default"
-            const URL = "https://www.sit-acc.nruf.in.th/users/default"
+            const URL = rootState.pathStore.pathName
             const { data } = await axios.get(
-                URL, rootState.loginStore.config
+                URL + '/users/default', rootState.loginStore.config
             );
-            console.log("---data--- : ", data)
             commit('SET_STUDENT_DATA', data)
         },
         LOAD_OTHER_STUDENT_DATA: async function ({ commit, rootState }, { user_role, user_id }) {
-            var URL;
+            var URL = rootState.pathStore.pathName
             var config;
             if (user_id == "") {
-                URL = "https://www.sit-acc.nruf.in.th/users/default"
+                URL = URL + "/users/default"
                 config = rootState.loginStore.config
             } else {
-                URL = "https://www.sit-acc.nruf.in.th/users/default?user_role=" + user_role + "&user_id=" + user_id
+                URL = URL + "/users/default?user_role=" + user_role + "&user_id=" + user_id
                 if (rootState.loginStore.config.headers.Authorization == null) {
                     config = {
                         'headers': {
@@ -42,14 +40,9 @@ export const studentStore = {
                     config = rootState.loginStore.config
                 }
             }
-            console.log("URL : " + URL)
-            console.log("config : ", config)
-
             const { data } = await axios.get(
                 URL, config
             );
-
-            console.log("---data--- : ", data)
             commit('SET_STUDENT_DATA', data)
         },
     },
@@ -59,9 +52,6 @@ export const studentStore = {
         }
     },
     getters: {
-        // GET_STUDENT_DATA: function (state) {
-        //     return state.studentData
-        // },
         GET_STUDENT_PROFILE: function (state) {
             return state.studentData.profile
         },
@@ -76,10 +66,6 @@ export const studentStore = {
         },
         GET_DATATOCHART: function (state) {
             state.dataToChart = []
-            // state.dataToChart.push(0)
-            // for (var n = 0; n < state.studentData.totalProject.length; n++) {
-            //     state.dataToChart.push(state.studentData.totalProject[n].total)
-            // }
             var start = state.studentData.totalProject[0].start_year_en
             var last = state.studentData.totalProject[state.studentData.totalProject.length - 1].start_year_en
             var a = last - start

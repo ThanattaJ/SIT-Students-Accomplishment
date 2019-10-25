@@ -19,14 +19,10 @@ export const resumeStore = {
             commit('SET_PAGE', page)
         },
         LOAD_RESUME_DATA: async function ({ commit, rootState }) {
-            // const URL = "http://localhost:7000/users/generate-resume/"
-            const URL = "https://www.sit-acc.nruf.in.th/users/generate-resume/"
+            const URL = rootState.pathStore.pathName
             const { data } = await axios.get(
-                URL + rootState.loginStore.username, rootState.loginStore.config
+                URL + '/users/generate-resume/' + rootState.loginStore.username, rootState.loginStore.config
             );
-            console.log("resume data from db : ",data)
-            console.log("=======================================")
-
             commit('SET_RESUME_DATA', data)
 
             var allNetwork = [{

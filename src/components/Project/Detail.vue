@@ -1,7 +1,7 @@
 <template>
 <div id="Details">
     <div v-if="(this.getDetail)">
-        <div class="card" id="Details">
+        <div class="card lecturerCard" id="Details">
             <header class="card-header">
                 <p class="card-header-title" id="cardHeader">Details</p>
             </header>
@@ -14,7 +14,7 @@
         </div>
     </div>
     <div v-else-if="this.getEditProject">
-        <div class="card" id="Details">
+        <div class="card lecturerCard" id="Details">
             <header class="card-header">
                 <p class="card-header-title" id="cardHeader">Details</p>
             </header>

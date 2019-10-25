@@ -74,7 +74,8 @@ export default {
     computed: {
         ...mapGetters({
             language: 'GET_LANGUAGE',
-            config: 'GET_CONFIG'
+            config: 'GET_CONFIG',
+            URL: 'GET_PATHNAME'
         })
     },
     async mounted() {
@@ -84,8 +85,7 @@ export default {
         const {
             data
         } = await axios.get(
-            // "http://localhost:7000/users/languages"
-            "https://www.sit-acc.nruf.in.th/users/languages"
+            this.URL + "/users/languages"
         );
         this.language_list = data.language
         this.proficiency = data.level
@@ -117,20 +117,19 @@ export default {
             //     }
             // }
             const languageData = []
-            for(var n = 0; n<this.language.length; n++){
+            for (var n = 0; n < this.language.length; n++) {
                 languageData.push({
                     language_id: this.language[n].languages_id,
-    		        level_id: this.language[n].languages_level_id
+                    level_id: this.language[n].languages_level_id
                 })
             }
             const data = {
                 languages: languageData
             }
-            console.log("All lang : ",data)
+            console.log("All lang : ", data)
             try {
                 await axios
-                    // .patch("http://localhost:7000/users/languages", data, this.config)
-                    .patch("https://www.sit-acc.nruf.in.th/users/languages", data, this.config)
+                    .patch(this.URL + "/users/languages", data, this.config)
                     .then((res) => {
                         console.log("res : ", res);
                         console.log("success!");

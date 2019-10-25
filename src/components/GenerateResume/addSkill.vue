@@ -62,7 +62,9 @@ import {
     mapGetters,
     mapActions
 } from 'vuex'
-import { parse } from 'path';
+import {
+    parse
+} from 'path';
 
 export default {
     data() {
@@ -77,19 +79,19 @@ export default {
     computed: {
         ...mapGetters({
             skill: 'GET_SKILL',
-            config: 'GET_CONFIG'
+            config: 'GET_CONFIG',
+            URL: 'GET_PATHNAME'
         })
     },
     async mounted() {
-        
+
         const {
             data
         } = await axios.get(
-            // "http://localhost:7000/users/skill-level"
-            "https://www.sit-acc.nruf.in.th/users/skill-level"
+            this.URL + "/users/skill-level"
         );
         this.proficiency = data
-        
+
     },
     methods: {
         ...mapActions(['SET_PAGE']),
@@ -106,37 +108,30 @@ export default {
         async addSkillToState() {
             this.SET_PAGE(1);
             console.log("all skill : ", this.skill)
-            // const config = {
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2OTUwOTU1NzQxMX0.n7-qj3563sovVgYgbkPiK5ZqirMRvD2qAsGMvvvXcbg'
-            //     }
-            // }
             try {
                 await axios
-                    // .patch("http://localhost:7000/users/skills", {
-                    .patch("https://www.sit-acc.nruf.in.th/users/skills", {
-                skills : this.skill
-                }, this.config)
+                    .patch(this.URL + "/users/skills", {
+                        skills: this.skill
+                    }, this.config)
                     .then((res) => {
                         console.log("res : ", res);
                         console.log("success!");
                     })
                     .catch((err) => {
-                        console.error("err : "+ err);
+                        console.error("err : " + err);
                     });
             } catch (err) {
                 console.log("FAILURE!!" + err);
             }
         },
         addSkill() {
-            var skill_level_id = parseInt(document.getElementById('proficiency_name').value)-1
+            var skill_level_id = parseInt(document.getElementById('proficiency_name').value) - 1
             this.skill.push({
                 skill_name: document.getElementById('skill_name').value,
-                skill_level_id: skill_level_id+1,
+                skill_level_id: skill_level_id + 1,
                 level_name: this.proficiency[skill_level_id].level_name
             })
-            console.log("skill : ",this.skill)
+            console.log("skill : ", this.skill)
         },
         canClickAddSkillBtn() { //ทำให้กดปุ่มได้
             document.getElementById('addSkillBtn').setAttribute("class", "addSkillBtn")
@@ -152,13 +147,13 @@ export default {
             return this.getIndex
         },
         saveChange(index) {
-            var skill_level_id = parseInt(document.getElementById('proficiency_name'+ index).value)
+            var skill_level_id = parseInt(document.getElementById('proficiency_name' + index).value)
             var replaceSkill = {
-                skill_name: document.getElementById('skill_name'+ index).value,
+                skill_name: document.getElementById('skill_name' + index).value,
                 skill_level_id: skill_level_id,
-                level_name: this.proficiency[skill_level_id-1].level_name
+                level_name: this.proficiency[skill_level_id - 1].level_name
             }
-                console.log(replaceSkill)
+            console.log(replaceSkill)
             this.skill.splice(index, 1, replaceSkill)
             this.cancelChange(index)
             this.canClickAddSkillBtn()

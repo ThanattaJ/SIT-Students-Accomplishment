@@ -276,7 +276,8 @@ export default {
     computed: {
         ...mapGetters(['GET_SHOWPAGE', 'GET_RESUME_DATA', 'GET_FIRSTNAME', 'GET_LASTNAME', 'GET_NICKNAME', 'GET_BIOGRAPHY',
             'GET_STREET', 'GET_SUBDISTRICT', 'GET_DISTRICT', 'GET_PROVINCE', 'GET_ZIPCODE',
-            'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY', 'GET_CONFIG', 'GET_USERNAME'
+            'GET_EMAIL', 'GET_PHONENO', 'GET_BIRTHDAY', 'GET_CONFIG', 'GET_USERNAME',
+            'GET_PATHNAME'
         ])
     },
     mounted() {
@@ -316,7 +317,7 @@ export default {
             try {
                 console.log("config : ", this.GET_CONFIG)
                 await axios
-                    .patch("https://www.sit-acc.nruf.in.th/users/count-generate-resume", "", this.GET_CONFIG)
+                    .patch(this.GET_PATHNAME + "/users/count-generate-resume", "", this.GET_CONFIG)
                     .then((res) => {
                         console.log("count gen resume");
                     })
@@ -324,8 +325,7 @@ export default {
                         console.error("err : " + err);
                     });
                 await axios
-                    // .patch("http://localhost:7000/users/generate-resume/" + "student01",
-                    .patch("https://www.sit-acc.nruf.in.th/users/generate-resume/" + "student01",
+                    .patch(this.GET_PATHNAME + "/users/generate-resume/" + this.GET_USERNAME,
                         data, this.GET_CONFIG)
                     .then((res) => {
                         console.log("message : ", res.data.message);
@@ -345,7 +345,7 @@ export default {
             formData.append('method', 'resume');
             try {
                 await axios
-                    .patch('https://www.sit-acc.nruf.in.th/users/image', formData, this.GET_CONFIG)
+                    .patch(this.GET_PATHNAME + '/users/image', formData, this.GET_CONFIG)
                     .then((res) => {
                         this.LOAD_RESUME_DATA()
                         console.log("success! : ", res);

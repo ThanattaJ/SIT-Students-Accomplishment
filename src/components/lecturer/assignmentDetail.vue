@@ -8,7 +8,7 @@
         </div>
         <!-- assignment topic -->
         <div class="columns">
-            <div class="column topic" style="padding-bottom:0">{{assignmentDetail.assignment_name}}</div>
+            <div class="column topicAboutAssignment" style="padding-bottom:0">{{assignmentDetail.assignment_name}}</div>
         </div>
         <div class="courseNameInAssignDetail">{{assignmentDetail.course_name}}</div>
         <div class="columns">
@@ -40,9 +40,9 @@
                         <li>
                             <span>Projects</span>
                             <ul>
-                                <li id="navApprove" class="navTitle navCanClick" @click="show('approve','navApprove')">Approved<span class="countProjectStatus approved">2</span></li>
-                                <li id="navRequest" class="navTitle navCanClick" @click="show('waiting','navRequest')">Request<span class="countProjectStatus request">0</span></li>
-                                <li id="navDenied" class="navTitle navCanClick" @click="show('reject','navDenied')">Denied<span class="countProjectStatus denied">1</span></li>
+                                <li id="navApprove" class="navTitle navCanClick" @click="show('approve','navApprove')">Approved<span class="countProjectStatus approved">{{countProject.approve}}</span></li>
+                                <li id="navRequest" class="navTitle navCanClick" @click="show('waiting','navRequest')">Request<span class="countProjectStatus request">{{countProject.request}}</span></li>
+                                <li id="navDenied" class="navTitle navCanClick" @click="show('reject','navDenied')">Denied<span class="countProjectStatus denied">{{countProject.denied}}</span></li>
                             </ul>
                         </li>
                     </ul>
@@ -51,7 +51,7 @@
             <!-- detail -->
             <div class="column" style="padding-left:100px;padding-right:100px">
                 <div id="assignmentDetail">
-                    <div id="aaaaaaa">
+                    <div id="datail">
                         <div v-if="detailText == null || detailText == ''">no detail</div>
                         <div v-else>{{detailText}}</div>
                         <i class="la la-pencil" @click="editDetail(true)"></i>
@@ -110,21 +110,24 @@
 
                 <!-- Approved -->
                 <div id="approve">
-                    <div class="card-content cardSize colName">
-                        <div class="columns">
-                            <div class="column is-two-thirds">Project</div>
-                            <div class="column countAssign">Status</div>
-                            <div class="column countAssign">Comment</div>
+                    <div v-if="approveProject.length == 0">no approve project</div>
+                    <div v-else>
+                        <div class="card-content cardSize colName">
+                            <div class="columns">
+                                <div class="column is-two-thirds">Project</div>
+                                <div class="column countAssign">Status</div>
+                                <div class="column countAssign">Comment</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card lecturerCard lecturerCourseCard">
-                        <div class="card-content cardSize">
-                            <div class="columns" v-for="(project,index) in approveProject" v-bind:key="index">
-                                <div class="column is-two-thirds courseName">{{index+1}}) {{project.project_name_en}}</div>
-                                <div class="column countAssign"><span class="projectStatus approved">Approve</span></div>
-                                <div class="column countAssign">
-                                    <i class="la la-comment" v-if="project.comment == null" style="color:#CCCCCC"></i>
-                                    <i class="la la-comment haveComment" v-else @click="showComment(project.comment)" style="color:#265080"></i>
+                        <div class="card lecturerCard lecturerCourseCard">
+                            <div class="card-content cardSize">
+                                <div class="columns" v-for="(project,index) in approveProject" v-bind:key="index">
+                                    <div class="column is-two-thirds courseName" @click="routeToProjectDetail(project.project_id,project.status_name)">{{index+1}}) {{project.project_name_en}}</div>
+                                    <div class="column countAssign"><span class="projectStatus approved">Approve</span></div>
+                                    <div class="column countAssign">
+                                        <i class="la la-comment" v-if="project.comment == null" style="color:#CCCCCC"></i>
+                                        <i class="la la-comment haveComment" v-else @click="showComment(project.comment)" style="color:#265080"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -132,23 +135,26 @@
                 </div>
                 <!-- Request -->
                 <div id="waiting">
-                    <div class="columns">
-                        <div class="column">
-                            <div class="card-content cardSize colName">
-                                <div class="columns">
-                                    <div class="column is-two-thirds">Project</div>
-                                    <div class="column countAssign">Status</div>
-                                    <div class="column countAssign">Comment</div>
+                    <div v-if="requestProject.length == 0">no request project</div>
+                    <div v-else>
+                        <div class="columns">
+                            <div class="column">
+                                <div class="card-content cardSize colName">
+                                    <div class="columns">
+                                        <div class="column is-two-thirds">Project</div>
+                                        <div class="column countAssign">Status</div>
+                                        <div class="column countAssign">Comment</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card lecturerCard lecturerCourseCard">
-                                <div class="card-content cardSize">
-                                    <div class="columns" v-for="(project,index) in requestProject" v-bind:key="index">
-                                        <div class="column is-two-thirds courseName">{{index+1}}) {{project.project_name_en}}</div>
-                                        <div class="column countAssign"><span class="projectStatus request">Request</span></div>
-                                        <div class="column countAssign">
-                                            <i class="la la-comment" v-if="project.comment == null" style="color:#CCCCCC"></i>
-                                            <i class="la la-comment haveComment" v-else @click="showComment(project.comment)" style="color:#265080"></i>
+                                <div class="card lecturerCard lecturerCourseCard">
+                                    <div class="card-content cardSize">
+                                        <div class="columns" v-for="(project,index) in requestProject" v-bind:key="index">
+                                            <div class="column is-two-thirds courseName" @click="routeToProjectDetail(project.project_id,project.status_name)">{{index+1}}) {{project.project_name_en}}</div>
+                                            <div class="column countAssign"><span class="projectStatus request">Request</span></div>
+                                            <div class="column countAssign">
+                                                <i class="la la-comment" v-if="project.comment == null" style="color:#CCCCCC"></i>
+                                                <i class="la la-comment haveComment" v-else @click="showComment(project.comment)" style="color:#265080"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -158,21 +164,24 @@
                 </div>
                 <!-- Denied -->
                 <div id="reject">
-                    <div class="card-content cardSize colName">
-                        <div class="columns">
-                            <div class="column is-two-thirds">Project</div>
-                            <div class="column countAssign">Status</div>
-                            <div class="column countAssign">Comment</div>
+                    <div v-if="deniedProject.length == 0">no request project</div>
+                    <div v-else>
+                        <div class="card-content cardSize colName">
+                            <div class="columns">
+                                <div class="column is-two-thirds">Project</div>
+                                <div class="column countAssign">Status</div>
+                                <div class="column countAssign">Comment</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card lecturerCard lecturerCourseCard">
-                        <div class="card-content cardSize">
-                            <div class="columns" v-for="(project,index) in deniedProject" v-bind:key="index">
-                                <div class="column is-two-thirds courseName">{{index+1}}) {{project.project_name_en}}</div>
-                                <div class="column countAssign"><span class="projectStatus denied">Reject</span></div>
-                                <div class="column countAssign">
-                                    <i class="la la-comment" v-if="project.comment == null" style="color:#CCCCCC"></i>
-                                    <i class="la la-comment haveComment" v-else @click="showComment(project.comment)" style="color:#265080"></i>
+                        <div class="card lecturerCard lecturerCourseCard">
+                            <div class="card-content cardSize">
+                                <div class="columns" v-for="(project,index) in deniedProject" v-bind:key="index">
+                                    <div class="column is-two-thirds courseName" @click="routeToProjectDetail(project.project_id,project.status_name)">{{index+1}}) {{project.project_name_en}}</div>
+                                    <div class="column countAssign"><span class="projectStatus denied">Reject</span></div>
+                                    <div class="column countAssign">
+                                        <i class="la la-comment" v-if="project.comment == null" style="color:#CCCCCC"></i>
+                                        <i class="la la-comment haveComment" v-else @click="showComment(project.comment)" style="color:#265080"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -191,32 +200,12 @@
             {{commentText}}
         </md-card-content>
     </modal>
-    <!-- <form class="login" @submit.prevent="onLogin">
-            <div>
-                <form>
-                    <md-card-header>
-                        <md-card-header-text>
-                            <div class="md-title" id="title">Comment</div>
-                        </md-card-header-text>
-                    </md-card-header>
-                    <div class="grey-text">
-                        <md-card-content>
-                            <md-field>
-                                <label>Add a comment ...</label>
-                                <md-textarea v-model="commentText" md-autogrow style="max-height: 130px;"></md-textarea>
-                            </md-field>
-                        </md-card-content>
-                        <span class="addBtn">
-                            <a class="button cancelCommentBtn" @click="closeComment"><span class="courseName">Cancel</span></a>
-                            <a class="button addCommentBtn cannotClick" v-if="commentText == '' || commentText == null">Add</a>
-                            <a class="button addCommentBtn" v-else @click.prevent="addComment">Add</a>
-                        </span>
-                    </div>
-                </form> -->
+
 </div>
 </template>
 
 <script>
+import router from '../../router/index'
 import './../css/visitor.css';
 import './../css/studentProjectTab.css';
 import './../css/lecturer.css';
@@ -241,13 +230,18 @@ export default {
             assignment_id: 0,
             project_id: 0,
             status: "",
-            detailText: ""
+            detailText: "",
+            countProject: {
+                approve: 0,
+                request: 0,
+                denied: 0
+            }
         }
     },
     computed: {
         ...mapGetters({
             config: 'GET_CONFIG',
-            URL: 'GET_PATHNAMR',
+            URL: 'GET_PATHNAME',
             lecturer_username: 'GET_USERNAME'
         })
     },
@@ -262,15 +256,15 @@ export default {
         navStyle.padding = "3px 5px 3px 5px"
     },
     methods: {
-        ...mapActions(['', '']),
+        ...mapActions(['SET_PROJECT_STATUS', 'SET_ASSIGNMENT_ID', 'SET_PROJECT_ID']),
         async getAllAssignmentDetail() {
             await axios.get(
                     this.URL + `/assignment/detail/${this.$route.params.assignmentId}`, this.config
                 ).then(res => {
-                    // console.log(this.URL + `/assignment/detail/${this.$route.params.assignmentId}`)
                     console.log("res : ", res)
                     this.assignmentDetail = res.data
                     this.detailText = this.assignmentDetail.assignment_detail
+                    this.SET_ASSIGNMENT_ID(res.data.assignment_id)
                 })
                 .catch(err => {
                     console.error("error : " + err);
@@ -284,6 +278,17 @@ export default {
             for (var n = 0; n < lecturer.length; n++) {
                 if (lecturer[n].isCreator == true) {
                     this.creator = lecturer[n]
+                }
+            }
+
+            var countProjectNav = this.assignmentDetail.project
+            for(var n = 0; n < countProjectNav.length; n++){
+                if(countProjectNav[n].status_name == 'Approve'){
+                    this.countProject.approve = countProjectNav[n].count
+                }else if(countProjectNav[n].status_name == 'Waiting'){
+                    this.countProject.request = countProjectNav[n].count
+                }else{
+                    this.countProject.denied = countProjectNav[n].count
                 }
             }
         },
@@ -313,30 +318,28 @@ export default {
             navStyle.borderRadius = "6px"
             navStyle.padding = "3px 5px 3px 5px"
 
-            this.getProjectData(element)
+            if (element == 'approve' || element == 'waiting' || element == 'reject') {
+                this.getProjectData(element)
+            }
         },
         async getProjectData(element) {
-            var status = element
-            if (status == 'approve' || status == 'waiting' || status == 'reject') {
-                await axios.get(
-                        this.URL + `/assignment/requests?assignment_id=${this.$route.params.assignmentId}&status=` + status, this.config
-                    ).then(res => {
-                        console.log("res : ", res)
-                        console.log(this.URL + `/assignment/requests?assignment_id=${this.$route.params.assignmentId}&status=` + status)
+            await axios.get(
+                    this.URL + `/assignment/requests?assignment_id=${this.$route.params.assignmentId}&status=` + element, this.config
+                ).then(res => {
+                    console.log("res : ", res)
+                    console.log(this.URL + `/assignment/requests?assignment_id=${this.$route.params.assignmentId}&status=` + element)
 
-                        if (status == "approve" || status == "Approve") {
-                            this.approveProject = res.data
-                        } else if (status == "waiting" || status == "Waiting") {
-                            this.requestProject = res.data
-                        } else {
-                            this.deniedProject = res.data
-                        }
-                    })
-                    .catch(err => {
-                        console.error("error : " + err);
-                    });
-            }
-
+                    if (element == "approve" || element == "Approve") {
+                        this.approveProject = res.data
+                    } else if (element == "waiting" || element == "Waiting") {
+                        this.requestProject = res.data
+                    } else {
+                        this.deniedProject = res.data
+                    }
+                })
+                .catch(err => {
+                    console.error("error : " + err);
+                });
         },
         showComment(commentText) {
             this.commentText = commentText
@@ -346,10 +349,10 @@ export default {
             if (boo) {
                 document.getElementById("inputDetail").style.display = "block"
                 document.getElementById("inputDetail").focus()
-                document.getElementById("aaaaaaa").style.display = 'none'
+                document.getElementById("datail").style.display = 'none'
             } else {
                 document.getElementById("inputDetail").style.display = 'none'
-                document.getElementById("aaaaaaa").style.display = "block"
+                document.getElementById("datail").style.display = "block"
             }
         },
         async updateDetail() {
@@ -398,31 +401,12 @@ export default {
                         console.error("error : " + err);
                     });
             }
+        },
+        routeToProjectDetail(project_id,status_name){
+            this.SET_PROJECT_STATUS(status_name)
+            this.SET_PROJECT_ID(project_id)
+            router.push(`/ProjectDetail/${project_id}`)
         }
-        // async addComment() {
-        //     var data = {
-        //         assignment_id: this.assignment_id,
-        //         project_id: this.project_id,
-        //         status: this.status,
-        //         comment: this.commentText
-        //     }
-        //     console.log("data :", data)
-        //     await axios.patch(
-        //             this.URL + '/assignment/projects', data, this.config
-        //         ).then(res => {
-        //             console.log("res : ", res)
-        //             if (res.status == 200) {
-        //                 this.closeComment()
-        //                 this.getProjectData(this.status)
-        //             }
-        //         })
-        //         .catch(err => {
-        //             console.error("error : " + err);
-        //         });
-        // },
-        // closeComment() {
-        //     this.$modal.hide('commentModal');
-        // }
     }
 }
 </script>

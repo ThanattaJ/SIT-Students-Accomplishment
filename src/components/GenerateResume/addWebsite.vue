@@ -115,7 +115,8 @@ export default {
         ...mapGetters({
             social: 'GET_SOCIAL',
             config: 'GET_CONFIG',
-            website: 'GET_WEBSITE'
+            website: 'GET_WEBSITE',
+            URL: 'GET_PATHNAME'
         })
     },
     mounted() {
@@ -147,8 +148,7 @@ export default {
 
             try {
                 await axios
-                    // .patch("http://localhost:7000/users/social", {
-                    .patch("https://www.sit-acc.nruf.in.th/users/social", {
+                    .patch(this.URL + "/users/social", {
                         social: allWebData
                     }, this.config)
                     .then((res) => {

@@ -18,7 +18,7 @@
             </div>
             <router-link to="/ProjectDetail">
             <div class="column">
-                <div class="card" id="card">
+                <div class="card lecturerCard" id="card">
                     <div class="card-image">
                         <figure class="image is-3by2">
                             <img src="./../../assets/LUNA.png">

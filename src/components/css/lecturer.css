@@ -41,7 +41,7 @@
     padding: 0px 20px 8px 20px;
 }
 
-.topic{
+.topicAboutAssignment{
     color: #265080 !important;
     font-weight: 600 !important;
     font-size: 18px !important;
@@ -131,6 +131,7 @@
     border-color: white;
 }
 .cancelCommentBtn{
+    color: #265080 !important;
     border-radius: 8px !important;
     border-color: white;
     padding: 2px 20px 2px 20px;
@@ -151,5 +152,25 @@
     display: inline-flex;
 }
 .cannotClick{
-    background-color:#265080;
+    background-color:#26508077;
+}
+.cannotClick:hover{
+    background-color:#26508077;
+}
+.statusBtn{
+    color: #265080 !important;
+    border-radius: 8px !important;
+    border-color: #387ecf2c;
+    padding: 2px 20px 2px 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.statusBtn:hover{
+    background-color: #387ecf2c;
+    border-color: white;
+}
+.white{
+    color: white !important;
+    border-color: white !important;
+    font-weight: 500 !important;
 }

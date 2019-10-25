@@ -1,6 +1,6 @@
 <template>
 <div id="editImg">
-    <div id="card">
+    <div id="card lecturerCard">
         <md-dialog :md-active.sync="active">
             <md-card>
                 <md-card-header>

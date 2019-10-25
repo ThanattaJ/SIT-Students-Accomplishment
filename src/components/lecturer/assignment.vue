@@ -25,17 +25,18 @@
         </div>
         <!-- assignment topic -->
         <div class="columns">
-            <div class="column topic">{{course_name}}</div>
-            <!-- <div class="column countAll">All course 1 - 2 out of 2 results</div> -->
+            <div class="column topicAboutAssignment">{{course_name}}</div>
+            <div class="column countAll">All course 1 - {{countAssignment}} out of {{countAssignment}} results</div>
         </div>
         <!-- หัวตาราง assignment -->
         <div class="card-content cardSize colName">
             <div class="columns">
-                <div class="column is-two-thirds">Assignment</div>
+                <div class="column is-half">Assignment</div>
                 <div class="column countAssign">Code Join</div>
                 <div class="column countAssign"># Members</div>
                 <div class="column countAssign"># Projects</div>
-                <div class="column countAssign"># Approved</div>
+                <div class="column countAssign">Due date</div>
+                <div class="column countAssign">Type</div>
             </div>
         </div>
         <!-- create assignment -->
@@ -52,23 +53,28 @@
         </div>
         <!-- All assignment -->
         <div class="card lecturerCard lecturerCourseCard" v-for="(assignment,index) in assignments" v-bind:key="index">
-            <router-link :to="`/assignmentDetail/${assignment.assignment_id}`">
+            <!-- <router-link :to="`/assignmentDetail/${assignment.assignment_id}`"> -->
                 <div class="card-content cardSize">
                     <div class="columns">
-                        <div class="column is-two-thirds courseName">{{index+1}}) {{assignment.assignment_name}}</div>
+                        <div class="column is-half courseName" @click="routeToAssignmentDetail(assignment.assignment_id,assignment.isApprover)">{{index+1}}) {{assignment.assignment_name}}</div>
                         <div class="column countAssign">{{assignment.join_code}}</div>
                         <div class="column countAssign">{{assignment.count.student}}</div>
                         <div class="column countAssign">{{assignment.count.project}}</div>
-                        <div class="column countAssign">Mock</div>
+                        <div class="column countAssign">{{assignment.close_date}}</div>
+                        <div class="column countAssign">
+                            <img src="./../../assets/group.png" style="height: 22px;" v-if="assignment.isGroup == true"/>
+                            <img src="./../../assets/person.png" style="height: 22px;" v-else/>
+                        </div>
                     </div>
                 </div>
-            </router-link>
+            <!-- </router-link> -->
         </div>
     </div>
 </div>
 </template>
 
 <script>
+import router from '../../router/index'
 import './../css/visitor.css';
 import './../css/studentProjectTab.css';
 import './../css/lecturer.css';
@@ -82,14 +88,15 @@ export default {
     data() {
         return {
             assignments: {},
-            assignmentName: null
+            assignmentName: null,
+            countAssignment: 0
         }
     },
     computed: {
         ...mapGetters({
             course_name: 'GET_COURSENAME',
             config: 'GET_CONFIG',
-            URL: 'GET_PATHNAMR',
+            URL: 'GET_PATHNAME',
             academic_term_id: 'GET_ACADEMIC_TERM_ID',
             course_id: 'GET_COURSE_ID'
         })
@@ -99,13 +106,14 @@ export default {
         this.SET_COURSE_ID(this.$route.params.courseId)
     },
     methods: {
-        ...mapActions(['SET_COURSE_ID']),
+        ...mapActions(['SET_COURSE_ID', 'SET_ISAPPROVER']),
         async getAllAssignment() {
             await axios.get(
                     this.URL + `/assignment/list-assignment?course_id=${this.$route.params.courseId}`, this.config
                 ).then(res => {
                     console.log("res : ", res)
                     this.assignments = res.data
+                    this.countAssignment = res.data.length
                 })
                 .catch(err => {
                     console.error("error : " + err);
@@ -140,7 +148,10 @@ export default {
             } else {
                 document.getElementById("assignmentForm").style.display = 'none'
             }
-
+        },
+        routeToAssignmentDetail(assignment_id, isApprover) {
+            this.SET_ISAPPROVER(isApprover)
+            router.push(`/assignmentDetail/${assignment_id}`)
         }
     }
 }
