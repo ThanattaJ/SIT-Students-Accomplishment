@@ -9,7 +9,6 @@
             <li><a @click="getSemester(indexSem)" id="year">{{year.academic_term}}</a></li>
         </ul>
     </aside>
-
     <div id="body">
         <div class="container" id="semester">
             <md-table>
@@ -34,7 +33,28 @@
                         </a>
                     </md-table-cell>
                 </md-table-row>
-                <a href="#!" @click="getCourse()" class="btn btn-waves green darken-2"><i class="material-icons" id="add">+ Add Course ...</i></a>
+                <md-table-row>
+                    <md-table-head md-numeric>#</md-table-head>
+                    <md-table-head>Course</md-table-head>
+                    <md-table-head>Lecturer</md-table-head>
+                </md-table-row>
+                <md-table-row>
+                    <md-table-head md-numeric>#</md-table-head>
+                    <td>
+                        <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
+                        </model-select>
+                    </td>
+                    <td>
+                        <multi-select :options="options" :selected-options="items" placeholder="select item" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px">
+                        </multi-select>
+                    </td>
+                    <td id="add_course">
+                        <a href="#modal" id="Action" @click="add()" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons">save</i>
+                            <!-- <button id="reset" @click="reset">cancle</button> -->
+                        </a>
+                    </td>
+                </md-table-row>
+
             </md-table>
             <div class="modal" v-show="bin.length" v-bind:class="{'is-active':deleteActive}" id="alert">
                 <div class="modal-background"></div>
@@ -62,53 +82,18 @@
                 <div class="modal-card-body">
                     <h4 class="center-align">Edit</h4>
                     <div class="row">
-
-                        <!-- <label>Course Code</label>
-                                    <md-textarea v-model="editInput" md-autogrow></md-textarea>
-                                     <label>Course Name</label>
-                                    <md-textarea v-model="editInput" md-autogrow></md-textarea> -->
-
                         <md-field>
-                            <label for="lec">Course</label>
-                            <md-select v-model="lec" name="movie" id="movie">
-                                <md-option v-for="(nCourse,index) in get_course" v-bind:key="index" id="option">
-                                    {{nCourse.course_code}} : {{nCourse.course_name}}
-                                </md-option>
-                            </md-select>
+                            <model-select :options="option" v-model="item" placeholder="select course">
+                            </model-select>
                         </md-field>
-
                         <md-field>
-                            <label>Lecturer</label>
-                            <md-textarea v-model="editInput.lecturer" md-autogrow></md-textarea>
+                            <multi-select :options="options" :selected-options="items" placeholder="select item" @select="onSelect">
+                            </multi-select>
                         </md-field>
-
                     </div>
                 </div>
                 <footer class="modal-card-foot" id="foot-modal">
                     <md-button class="md-dense md-raised md-primary" href="#!" @click="update(editInput.indexCouse)">Update</md-button>
-                    <md-button class="md-dense md-primary" href="#!" @click="close">Cancle</md-button>
-                </footer>
-            </div>
-        </div>
-
-        <div v-bind:class="{'is-active':addActive}" id="addModal" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <div class="modal-card-body">
-                    <h4 class="center-align">Edit</h4>
-                    <div class="row">
-                        <form class="col s12">
-                            <select @change="switchView($event, $event.target.selectedIndex)">
-                                <option v-for="(nCourse,index) in get_course" v-bind:key="index"> {{nCourse.course_code}} : {{nCourse.course_name}} </option>
-                            </select>
-                            <select @change="lecIndex($event, $event.target.selectedIndex)">
-                                <option v-for="(nlec,index) in get_lecturer" v-bind:key="index"> {{nlec.firstname}} {{nlec.lastname}} </option>
-                            </select>
-                        </form>
-                    </div>
-                </div>
-                <footer class="modal-card-foot" id="foot-modal">
-                    <md-button class="md-dense md-raised md-primary" href="#!" @click="add">Update</md-button>
                     <md-button class="md-dense md-primary" href="#!" @click="close">Cancle</md-button>
                 </footer>
             </div>
@@ -119,17 +104,30 @@
 
 <script>
 import axios from 'axios';
+import _ from 'lodash'
 import {
     mapGetters,
     mapActions,
 } from 'vuex'
+import 'vue-multi-select/dist/lib/vue-multi-select.css';
+import {
+    MultiSelect
+} from 'vue-search-select'
+import {
+    ModelSelect
+} from 'vue-search-select'
 export default {
+    components: {
+        MultiSelect,
+        ModelSelect
+    },
     name: "courseSemester",
     computed: {
         ...mapGetters([
             'get_semester',
             'get_course',
-            'get_lecturer'
+            'get_lecturer',
+            'get_select_lecturer',
         ])
     },
     data() {
@@ -165,15 +163,25 @@ export default {
             editInput: [],
             isActive: false,
             deleteActive: false,
-            addActive: false,
             delIndex: null,
             addIndex: null,
             selectedIndex: 0,
             selectedYear: 0,
-            lec: 0
+            lec: 0,
+            showLec: [],
+            removed: '',
+            options: [],
+            searchText: [],
+            items: [],
+            lastSelectItem: {},
+            option: [],
+            item: {},
+            storeLecturer: [],
+            storeCourse: []
         }
     },
     async mounted() {
+        console.log("all course : ", this.storeCourse)
         const {
             data
         } = await axios.get('https://www.sit-acc.nruf.in.th/course/courseSemester')
@@ -202,14 +210,51 @@ export default {
         for (let i = 0; i < lecturer.length; i++) {
             this.set_lecturer(lecturer)
         }
-        // console.log('lec : ',this.get_lecturer)
+        // console.log('lec : ', this.get_lecturer)
+        // ------------------
+
         var course
         await axios.get('https://www.sit-acc.nruf.in.th/course').then(response => course = response.data)
 
         for (let i = 0; i < course.length; i++) {
             this.set_course(course)
         }
-        // console.log('course',this.get_course)
+        // console.log('cos ', this.get_course)
+        // ---------------
+
+        for (let i = 0; i < this.get_lecturer.length; i++) {
+            this.options.push({
+                text: this.get_lecturer[i].firstname + " " + this.get_lecturer[i].lastname,
+                value: this.get_lecturer[i].text
+            })
+        }
+        // console.log('ops ', this.options)
+        // -----------------
+        const allCouse = this.get_course;
+        const haveCouse = this.get_semester.course
+
+        function comparer(otherArray) {
+            return function (current) {
+                return otherArray.filter(function (other) {
+                    return other.course_id == current.course_id
+                }).length == 0;
+            }
+        }
+        var onlyInCourse = allCouse.filter(comparer(haveCouse));
+        var onlyInHave = haveCouse.filter(comparer(allCouse));
+
+        var result = onlyInCourse.concat(onlyInHave);
+
+        console.log("all course  : ", onlyInCourse)
+        console.log("have this course : ", onlyInHave)
+        // console.log("course  : ", result)
+
+        for (let i = 0; i < result.length; i++) {
+            this.option.push({
+                text: result[i].course_code + ' | ' + result[i].course_name,
+                value: result[i].course_id
+            })
+        }
 
     },
     methods: {
@@ -218,65 +263,70 @@ export default {
             'set_lecturer',
             'set_course',
             'add_semester',
+            'set_select_lecturer'
         ]),
-        switchView: function (event, selectedIndex) {
-
-            this.selectedIndex = selectedIndex;
-            console.log(this.get_course[this.selectedIndex].id);
+        onSelect(items, lastSelectItem) {
+            this.items = items
+            this.lastSelectItem = lastSelectItem
         },
-        lecIndex: function (event, selectedIndex) {
-            this.selectedIndex = selectedIndex;
-            console.log(this.get_lecturer[this.selectedIndex].lecturer_id);
+        reset() {
+            this.items = []
+            this.item = {}
         },
-        getCourse() {
-            this.addActive = true
+        selectFromParentComponent() {
+            this.items = _.unionWith(this.items, [this.options[0]], _.isEqual)
+        },
+        selectFromParentComponent1() {
+            this.item = this.option[0]
         },
         async add() {
+            console.log("store", this.storeLecturer)
+            console.log('term : ', this.get_semester.course[0].academic_term_id)
 
-            try {
-                await axios.post('https://www.sit-acc.nruf.in.th/course/courseSemester', {
-                    academic_term_id: this.get_semester.course[this.delIndex].academic_term_id,
-                    course_id: this.get_course[this.selectedIndex].id,
-                    lecturers: [{
-                        lecturer_id: this.get_lecturer[this.selectedIndex].lecturer_id
-                    }]
-                }).then((res) => {
-                    console.log(res);
-                    console.log("this : ", this)
-                    this.add_semester({
-                        course: this.get_course[this.selectedIndex],
-                        lecturer: this.get_lecturer[this.selectedIndex]
-                    })
-
+            for (let i = 0; i < this.items.length; i++) {
+                this.storeLecturer.push({
+                    "lecturer_id": this.items[i].value
                 })
-                this.file = " ";
-                this.error = false;
-            } catch (err) {
-                console.log('FAILURE!!' + err)
-                this.message = "Something went wrong";
-                console.log("err", this.selectedYear, this.get_course[this.selectedIndex].id, this.get_lecturer[this.lec].lecturer_id)
-                this.error = true;
             }
-            this.addActive = false
-            // this.persons.push({
-            //     course_id: this.course[this.selectedIndex].course_id,
-            //     course: this.course[this.selectedIndex].course,
+            console.log('lecturer', this.storeLecturer)
+            if (this.get_semester.course[0].academic_term_id) {
+                try {
+                    await axios.post('https://www.sit-acc.nruf.in.th/course/courseSemester', {
+                        academic_term_id: this.get_semester.course[0].academic_term_id,
+                        course_id: this.item.value,
+                        lecturers: this.storeLecturer
 
-            // });
-            // this.course.sort(ordonner);
+                    }).then((res) => {
+                        console.log(res);
+                        this.add_semester({
+                            course: this.get_course[this.selectedIndex],
+                            lecturer: this.get_lecturer[this.selectedIndex]
+                        })
+                        this.item = ''
+                        this.items = []
+                        this.storeLecturer = []
+
+                    })
+                    this.file = " ";
+                    this.error = false;
+                } catch (err) {
+                    console.log('FAILURE!!' + err)
+                    this.message = "Something went wrong";
+                    this.error = true;
+                    this.storeLecturer = []
+                }
+
+            } else {
+                console.log("err something")
+            }
         },
         // function to handle data edition
         edit: function (index) {
-            this.editInput.push({
-                course_code: this.get_course[index].course_code
-            })
-            this.editInput.push({
-                course_name: this.get_course[index].course_name
-            })
-            // this.editInput.lecturer = this.get_lecturer[index]
             this.isActive = true
             this.editInput.indexCouse = index
-            console.log("isActive : ", this.editInput)
+            this.item = this.get_semester.course[this.editInput.indexCouse].course
+            console.log('item : ', this.item)
+
         },
         //function to send data to bin
         Delete: function (index) {
@@ -294,10 +344,9 @@ export default {
         },
         //function to update data
         update(index) {
-            JSON.stringify(this.persons[index])
             try {
                 axios.patch('https://www.sit-acc.nruf.in.th/course/courseSemester', {
-                    academic_term_id: this.get_semester.course[this.delIndex].academic_term_id,
+                    // academic_term_id: this.get_semester.course[this.delIndex].academic_term_id,
                     course_id: this.get_course[this.selectedIndex].id,
                     lecturers: [{
                         lecturer_id: this.get_lecturer[this.selectedIndex].lecturer_id
@@ -349,7 +398,6 @@ export default {
         },
         close: function () {
             this.isActive = false;
-            this.addActive = false;
         },
         async getSemester(indexSem) {
             try {
@@ -383,7 +431,8 @@ export default {
             }
 
         }
-    }
+    },
+
 };
 var ordonner = function (a, b) {
     return (a.course > b.course);
@@ -392,9 +441,9 @@ var ordonner = function (a, b) {
 
 <style>
 #courseSemester {
-   width: 90%;
-    margin-left: 150px;
-    max-width: 70%;
+    width: 90%;
+    margin-left: 100px;
+    max-width: 80%;
     margin-top: 50px !important;
 
 }
@@ -408,7 +457,7 @@ var ordonner = function (a, b) {
 }
 
 #Action {
-    width: 200px;
+    width: 150px !important;
 }
 
 #foot-modal {
@@ -421,11 +470,11 @@ var ordonner = function (a, b) {
 }
 
 #semester {
-  max-width: 90%;
-  margin-left: 50px;
-  margin-top: -150px
+    max-width: 90%;
+    margin-top: -150px;
 }
-#aside{
+
+#aside {
     max-width: 30%;
 }
 
@@ -437,11 +486,13 @@ var ordonner = function (a, b) {
     color: #265080 !important;
 }
 
-.md-menu-content.md-select-menu {
-    z-index: 1200 !important;
+#courseSemester {
+    margin-left: 220px;
+    margin-top: -130px
 }
-#courseSemester{
-  margin-left: 220px;
-  margin-top: -130px
+
+#add_course {
+    padding: 15px;
+    font-size: 14px;
 }
 </style>

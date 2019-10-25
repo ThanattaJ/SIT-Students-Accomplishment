@@ -1,7 +1,16 @@
 <template>
 <!-- object value -->
-<model-select :options="options" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
-</model-select>
+<div id="addCourse">
+    <button @click="reset">reset </button>
+    <div>{{this.item.value}}</div>
+    <model-select :options="options" v-model="item"
+         placeholder="select course" 
+         style="position: absolute; max-width: 250px; 
+         margin-top :10px; height:36px ;font-size: 12px ">
+    </model-select>
+    
+    
+</div>
 </template>
 
 <script>
@@ -13,19 +22,19 @@ import {
     mapActions
 } from 'vuex';
 export default {
-    computed:{
+    computed: {
         ...mapGetters([
             'get_course'
         ])
     },
     data() {
         return {
-            options: [],
+            option: [],
             item: {
                 value: '',
                 text: ''
             },
-           
+
         }
     },
     methods: {
@@ -39,10 +48,10 @@ export default {
     components: {
         ModelSelect
     },
-    mounted(){
-        for(let i = 0; i<this.get_course.length;i++){
+    mounted() {
+        for (let i = 0; i < this.get_course.length; i++) {
             this.options.push({
-                text: this.get_course[i].course_code +' | '+ this.get_course[i].course_name,
+                text: this.get_course[i].course_code + ' | ' + this.get_course[i].course_name,
                 value: i
             })
         }
