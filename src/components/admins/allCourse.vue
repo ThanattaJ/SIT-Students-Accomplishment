@@ -2,26 +2,31 @@
 <div id="allCourse">
 
     <aside class="menu" id="aside">
+        <!-- <div id="search">
+            <p class="control">
+                <input id="searchText" class="input" type="text" v-model="search" placeholder="Search Course ..." style="font-size: 16px !important;margin-top: px !important;border-bottom: 1px solid #DBDBDB !important; width:200px !important">
+            </p>
+        </div> -->
         <ul class="menu-list">
-            <li><a id="manu">All</a></li>
-            <li><a id="manu">Information Technology</a></li>
-            <li><a id="manu">Computer Science</a></li>
-            <li><a id="manu">Digital Service Innovation</a></li>
+            <md-button id="manu" @click="all">All</md-button>
+            <md-button id="manu" @click="information">Information Technology</md-button>
+            <md-button id="manu" @click="comSci">Computer Science</md-button>
+            <md-button id="manu" @click="Dsi">Digital Service Innovation</md-button>
         </ul>
     </aside>
 
-    <div class="container">
-        <div id="body">
-            <md-table v-show="persons.length" >
-                <md-table-row >
+    <div>
+        <div id="co">
+            <md-table v-show="persons.length">
+                <md-table-row>
                     <md-table-head md-numeric>#</md-table-head>
                     <md-table-head>Name</md-table-head>
                     <md-table-head>Action</md-table-head>
                 </md-table-row>
-                <md-table-row v-for="(person,index) in persons" v-bind:key="index" >
+                <md-table-row v-for="(person,index) in get_course " v-bind:key="index">
                     <md-table-cell md-numeric>{{index+1}}</md-table-cell>
-                    <md-table-cell @click="showDetail(index)"> 
-                        {{person.course}} | {{person.name}}</md-table-cell>
+                    <md-table-cell @click="showDetail(index)">
+                        {{person.course_code}} | {{person.name}}</md-table-cell>
                     <md-table-cell>
                         <a href="#modal" id="Action" @click="edit(index)" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons">edit</i>
                         </a>
@@ -29,38 +34,9 @@
                         </a>
                     </md-table-cell>
                 </md-table-row>
-                  <td><a href="#!" @click="modalAvtive()" class="btn btn-waves green darken-2"><i class="material-icons" id="add">+ Add Course ...</i></a></td>
+                <td><a href="#!" @click="modalAvtive()" class="btn btn-waves green darken-2"><i class="material-icons" id="add">+ Add Course ...</i></a></td>
             </md-table>
         </div>
-        <!-- <table class="table" v-show="persons.length">
-            <thead>
-                <tr id="thead">
-                   
-                    <th id="index">#</th>
-                    <th id="subjects">Course</th>
-                    <th id="Action">Actions</th>
-            
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(person,index) in persons" v-bind:key="index">
-                    <td id="index">{{index+1}}</td>
-                    <td id="subjects" @click="showDetail(index)">
-                        {{person.course}} | {{person.name}}
-                    </td>
-                    <td id="Action">
-                        <a href="#modal" @click="edit(index)" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons" id="action_bar">edit</i>
-                        </a>
-                        <a href="#!" class="btn waves-effect waves-light red darken-2" @click="Delete(index)"><i class="material-icons" id="action_bar">Delete</i>
-                        </a>
-                    </td>
-                </tr>
-               
-                <tr>
-                  
-                </tr>
-            </tbody>
-        </table> -->
         <div class="modal" v-show="bin.length" v-bind:class="{'is-active':deleteActive}" id="alert">
             <div class="modal-background"></div>
             <div class="modal-content">
@@ -76,7 +52,7 @@
                         </md-card-content>
 
                         <md-card-actions>
-                            <md-button href="#!" @click="restore(index)">restore</md-button>
+                            <md-button href="#!" @click="restore(index)">cancel</md-button>
                             <md-button href="#!" @click="deplete(index)">delete</md-button>
                         </md-card-actions>
                     </md-ripple>
@@ -170,6 +146,7 @@ import {
     mapActions,
 } from 'vuex'
 export default {
+
     name: "allCourse",
     computed: {
         ...mapGetters([
@@ -180,13 +157,7 @@ export default {
     data() {
         return {
             columns: ['#', 'Course', 'Actions '],
-            persons: [{
-                course: null,
-                name: null,
-                detail: null,
-                course_id: null
-
-            }],
+            persons: [],
             bin: [],
             input: {},
             editInput: {
@@ -201,14 +172,34 @@ export default {
             info: null,
             addActive: false,
             delIndex: null,
-            detailIndex: null
+            detailIndex: null,
+            int: [],
+            cs: [],
+            dsi: [],
+            search: " "
         }
     },
-    async mounted() {
+    // computed: {
+    //     searchCourse() {
+    //         if (this.search != " ") {
+    //             return this.get_course.filter(
+    //                 items =>
+    //                 items.course_code.toLowerCase().includes(this.search.toLowerCase()) ||
+    //                 items.course_name.toLowerCase().includes(this.search.toLowerCase())
+    //             )
+    //         } else {
+    //             return this.get_course
+    //         }
+    //     }
+    // },
 
+    async mounted() {
         const {
             data
-        } = await axios.get('https://www.sit-acc.nruf.in.th/course');
+        } = await axios.get('https://www.sit-acc.nruf.in.th/course')
+        this.set_course(data)
+        console.log("get", this.get_course)
+        console.log("data ", data)
         for (let i = 0; i < data.length; i++) {
             this.persons.push(data[i])
             JSON.stringify(this.persons[i])
@@ -216,18 +207,13 @@ export default {
             this.persons[i].name = data[i].course_name
             this.persons[i].course_id = data[i].id
             this.persons[i].detail = data[i].detail
-            this.set_course(data)
-            // console.log("details : "+  this.persons[i].course_id )
         }
         this.persons.length = data.length
-        console.log("all_course", this.get_course)
-
     },
     methods: {
         ...mapActions([
-            'set_course'
+            'set_course',
         ]),
-        //function to add data to table
         modalAvtive: function (index) {
             this.addActive = true
             for (var key in this.editInput) {
@@ -252,23 +238,16 @@ export default {
             }
             this.addActive = false
             this.persons.push({
-                // course: this.input.course,
-                // name: this.input.name,
-                // detail: this.input.detail
                 course: this.editInput.course,
                 name: this.editInput.name,
                 detail: this.editInput.detail
             });
 
             this.persons.sort(ordonner);
-            // this.$refs.course.focus();
-            // this.$refs.name.focus();
-            // this.$refs.detail.focus();
         },
         //function to handle data edition
         edit: function (index) {
             this.editInput = this.persons[index];
-            // console.log(this.editInput);
             this.isActive = true
             this.editInput.indexCouse = index
             console.log("isActive : " + index)
@@ -278,7 +257,6 @@ export default {
             this.bin.push(this.persons[index]);
             this.delIndex = index
             console.log("index : " + this.delIndex)
-            // this.persons.splice(index, 1);
             this.bin.sort(ordonner);
             this.deleteActive = true
 
@@ -357,8 +335,55 @@ export default {
             console.log("")
             //detailIndex = index someone
 
-        }
-    }
+        },
+        information() {
+            this.dsi = []
+            this.cs = []
+            this.int = []
+            this.set_course(this.persons)
+            for (let i = 0; i < this.persons.length; i++) {
+                if (this.get_course[i].course_code.substring(0, 3) === "INT") {
+                    this.int.push(this.get_course[i])
+                }
+            }
+            console.log(this.get_course.length)
+            this.set_course(this.int)
+        },
+        comSci() {
+            this.int = []
+            this.cs = []
+            this.dsi = []
+            this.set_course(this.persons)
+            for (let i = 0; i < this.persons.length; i++) {
+                if (this.get_course[i].course_code.substring(0, 3) === "CSC") {
+                    this.cs.push(this.get_course[i])
+                }
+            }
+            console.log(this.get_course.length)
+            this.set_course(this.cs)
+        },
+        Dsi() {
+            this.int = []
+            this.cs = []
+            this.dsi = []
+            this.set_course(this.persons)
+            for (let i = 0; i < this.persons.length; i++) {
+                if (this.get_course[i].course_code.substring(0, 3) === "DSI" || this.get_course[i].course_code.substring(0, 3) === "SSC") {
+                    this.dsi.push(this.get_course[i])
+                }
+            }
+            console.log(this.get_course.length)
+            this.set_course(this.dsi)
+        },
+        all() {
+            this.int = []
+            this.cs = []
+            this.dsi = []
+            this.set_course(this.persons)
+        },
+
+    },
+
 };
 
 //function to sort table data alphabetically
@@ -394,6 +419,7 @@ var ordonner = function (a, b) {
 
 #Action {
     width: 200px;
+    color: #265080 !important
 }
 
 #foot-modal {
@@ -408,11 +434,14 @@ var ordonner = function (a, b) {
 #action_bar {
     color: #265080 !important
 }
-#aside{
+
+#aside {
     max-width: 30%;
 }
-#body{
-    margin-top: -120px !important;
-    margin-left: 200px !important;    
+
+#co {
+    margin-top: -200px !important;
+    margin-left: 200px !important;
+
 }
 </style>
