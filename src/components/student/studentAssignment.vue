@@ -117,7 +117,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            URL: 'GET_PATHNAMR',
+            URL: 'GET_PATHNAME',
             config: 'GET_CONFIG'
         })
     },
