@@ -40,10 +40,8 @@
                     <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
                 </div>
                 <div v-if="GET_ISAPPROVER == true">
-                    <!-- {{GET_ISAPPROVER}} -->
                     <approveAssignmentProject></approveAssignmentProject>
                 </div>
-                <div v-else>cannot approve</div>
                 <div>
                   <md-switch v-model="show" v-if="EditProject">{{show}}</md-switch>
                 </div>

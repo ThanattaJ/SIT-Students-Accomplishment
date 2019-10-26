@@ -80,6 +80,9 @@ export default {
 
     mounted() {
         this.LOAD_ALL_STUDENT()
+        if (this.isExternalProject == false && this.isGroupProject == false) {
+            this.mySteps = ['Create Project', 'Project Overview', 'Project Achievement']
+        }
     },
 
     computed: {
@@ -93,7 +96,11 @@ export default {
             member_outsider: 'GET_OUTSIDER',
             achievement: 'GET_ACHIEVEMENT',
             config: 'GET_CONFIG',
-            URL: 'GET_PATHNAME'
+            URL: 'GET_PATHNAME',
+            //ใช้แสดงพวก step ในการ create project
+            isExternalProject: 'GET_PROJECTTYPE',
+            isGroupProject: 'GET_ISGROUP',
+            assignment_id: 'GET_ASSIGNMENTID',
         })
     },
 
@@ -107,22 +114,36 @@ export default {
             if (this.currentStep != 0) {
                 this.currentStep--;
             }
+            if (this.isExternalProject == false && this.isGroupProject == false && this.currentStep == 2) {
+                this.currentStep--;
+            }
+
         },
         async next() {
             if (this.currentStep == 0) {
                 var value = await this.$refs.obs1.validate();
                 console.log(value)
                 if (value) {
-                    // if (true) {
                     this.currentStep++;
                 }
             } else if (this.currentStep == 1) {
-                if (this.project_detail.length > 0 || this.project_abstract.length > 0) {
-                    this.currentStep++;
-                    this.invalidStep2 = false
+                if (this.isExternalProject == false && this.isGroupProject == false) {
+                    if (this.project_detail.length > 0 || this.project_abstract.length > 0) {
+                        this.currentStep++;
+                        this.currentStep++;
+                        this.invalidStep2 = false
+                    } else {
+                        this.invalidStep2 = true
+                    }
                 } else {
-                    this.invalidStep2 = true
+                    if (this.project_detail.length > 0 || this.project_abstract.length > 0) {
+                        this.currentStep++;
+                        this.invalidStep2 = false
+                    } else {
+                        this.invalidStep2 = true
+                    }
                 }
+
             } else if (this.currentStep == 2) {
                 this.currentStep++;
             }
@@ -141,11 +162,13 @@ export default {
 
             if (this.project_abstract == "") {
                 this.project_data.project_abstract = null
-                console.log("this.project_abstract : " + this.project_data.project_abstract)
             }
             if (this.project_detail == "") {
                 this.project_data.project_detail = null
-                console.log("this.project_detail : " + this.project_data.project_detail)
+            }
+            if (this.isExternalProject == false) {
+                this.project_data.project_type_name = "assignment"
+                this.project_data.assignment_id = this.assignment_id
             }
             var data;
             data = {
@@ -159,7 +182,6 @@ export default {
             data.project_data.end_year_en = parseInt(data.project_data.end_year_en)
 
             if (this.achievement.length > 0) {
-                console.log("have achievement");
                 data["achievements"] = this.achievement
                 for (var n = 0; n < this.achievement.length; n++) {
                     var date = this.achievement[n].date_of_event
@@ -172,7 +194,7 @@ export default {
             try {
                 console.log("data : ", data)
                 await axios
-                    .post(this.URL + '/projects/external', data, this.config)
+                    .post(this.URL + '/projects', data, this.config)
                     .then((res) => {
                         console.log("res : ", res.data);
                         this.$router.push({
@@ -182,7 +204,7 @@ export default {
                         this.resetField()
                     })
                     .catch((err) => {
-                        console.error("aaaaaaaa : ", err);
+                        console.error("err : ", err);
                     });
             } catch (err) {
                 console.log("FAILURE!!" + err);

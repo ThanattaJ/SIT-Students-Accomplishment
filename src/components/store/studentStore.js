@@ -3,12 +3,11 @@ import axios from "axios";
 export const studentStore = {
     state: {
         studentData: {
-            // profile: {},
-            access: Boolean,
+            // access: false,
             projects: [],
             totalProject: [{
-                start_year_en: Number,
-                total: Number
+                start_year_en: 0,
+                total: 0
             }],
             allTag: []
         },

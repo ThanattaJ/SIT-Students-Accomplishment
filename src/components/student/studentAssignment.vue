@@ -56,10 +56,9 @@
                     <i class="la la-comment haveComment" v-else @click="showComment(assignment.comment)" style="color:#265080"></i>
                 </div>
                 <div class="column countAssign is-one-fifth">
-                    <span class="createAssignBtn">+ Add or Create Project</span>
                     <span class="createAssignBtn" v-if="assignment.status_name == 'Reject'">+ Add or Create Project</span>
-                    <!-- <img src="./../../assets/draft.png" style="height: 20px;" v-else-if="assignment.status_name == 'Waiting'" />
-                    <img src="./../../assets/verified-text-paper.png" style="height: 20px;" v-else /> -->
+                    <img src="./../../assets/draft.png" style="height: 20px;" v-else-if="assignment.status_name == 'Waiting'" />
+                    <img src="./../../assets/verified-text-paper.png" style="height: 20px;" v-else />
                 </div>
             </div>
         </div>

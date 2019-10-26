@@ -1,7 +1,7 @@
 <template>
 <div>
     <div class="stepName">Project Members <i class="la la-group"></i></div>
-    <nav class="tabs is-fullwidth is-centered is-boxed is-small">
+    <nav class="tabs is-fullwidth is-centered is-boxed is-small" v-if="isExternalProject == true">
         <ul>
             <li class="tab is-active" id="Students" v-on:click="openTab('Student')">
                 <a style="font-size: 14px;">SIT Student</a>
@@ -114,7 +114,10 @@ export default {
         ...mapGetters({
             allStudent: 'GET_ALL_STUDENT',
             selectedStudentMember: 'GET_SELECTED_STUDENT_MEMBER',
-            outsider: 'GET_OUTSIDER'
+            outsider: 'GET_OUTSIDER',
+            //ใช้แสดงพวก step ในการ create project
+            isExternalProject: 'GET_PROJECTTYPE',
+            isGroupProject: 'GET_ISGROUP'
         })
     },
     mounted() {},

@@ -13,7 +13,7 @@
         <md-card-content>
             <span class="addBtn">
                 <a class="button cancelCommentBtn" @click="closeAskModal"><span class="courseName">No</span></a>
-                <a class="button addCommentBtn" @click="addComment">Yes</a>
+                <a class="button addCommentBtn" @click="openComment">Yes</a>
             </span>
         </md-card-content>
     </modal>
@@ -98,12 +98,13 @@ export default {
         },
         closeAskModal() {
             this.$modal.hide('askForSure');
-            if (this.statusTmp == 'Reject') {
-                this.openComment()
-            }
         },
         openComment() {
-            this.$modal.show('commentModal');
+            if (this.statusTmp == 'Reject') {
+                this.$modal.show('commentModal');
+            }else{
+                this.addComment()
+            }
             // document.getElementById("inputComment").focus()
         },
         closeComment() {

@@ -112,13 +112,11 @@
         </div>
         <div class="columns is-multiline">
             <div class="column is-one-quarter">
-                <router-link to="/createPortPage">
-                    <div class="createPortPage">
-                        <!-- <i class="la la-plus"></i> -->
+                    <div class="createPortPage" @click="showChooseProjectType">
                         <div class="textCreate" style="font-size:30px !important">+</div>
                         <div class="textCreate" style="padding-top:10px">Create Project</div>
                     </div>
-                </router-link>
+                    <modal name="chooseProjectType"><chooseProjectTypeModal/></modal>
             </div>
             <div class="column is-one-quarter" v-for="(allProject,index) in projects" v-bind:key="index">
                 <router-link :to="`/ProjectDetail/${allProject.id}`">
@@ -152,44 +150,10 @@
                     </div>
                 </router-link>
             </div>
-            <!-- <div class="column is-one-quarter" v-for="(project,index) in projects" v-bind:key="index">
-                <router-link :to="`/ProjectDetail/${project.id}`">
-                    <div class="card">
-                        <div class="card-image" v-if="project.cover_path != null">
-                            <figure class="image is-4by2">
-                                <img class="StdImgPage" :src="project.cover_path" alt="Placeholder image" style="height: 156.22px; !important">
-                            </figure>
-                        </div>
-                        <div class="card-image" v-else>
-                            <figure class="image is-4by2">
-                                <img class="StdImgPage" src="./../assets/noCoverImg.png">
-                            </figure>
-                        </div>
-                        <div class="card-content projectInfo">
-                            <div class="content">
-                                <p class="projectName" style="height: 22px;overflow: hidden;">{{project.project_name_en}}</p>
-                                <div class="columns">
-                                    <div class="column" v-if="project.achievement">
-                                        <p class="projectDetail" style="margin-top:8px;">
-                                            <img src="./../assets/trophy.png" width="25px">
-                                        </p>
-                                    </div>
-                                    <div class="column">
-                                        <p class="projectDetail" style="margin-top:8px;text-align:right">
-                                            <img src="./../assets/visibility-button.png" width="30px" style="margin-right:5px;"><span style="margin-right:5px">{{project.count_viewer}} </span>
-                                            <img src="./../assets/clap-hands.png" width="25px" style="margin-right:5px"><span style="margin-right:5px">{{project.count_clap}} </span>
-                                        </p>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </router-link>
-            </div> -->
         </div>
     </div>
 </div>
+
 </template>
 
 <script src="print.js"></script>
@@ -198,6 +162,7 @@
 import './../../node_modules/bulma/css/bulma.css';
 import './css/studentProjectTab.css';
 import './css/visitor.css';
+import chooseProjectTypeModal from './student/chooseProjectTypeModal';
 import print from 'print-js'
 import {
     mapGetters,
@@ -214,9 +179,9 @@ export default {
             clickEditEmail: false
         }
     },
-    // props: {
-    //     dataToChart: this.dataToChart
-    // },
+    components: {
+        chooseProjectTypeModal
+    },
     computed: {
         ...mapGetters({
             profile: 'GET_STUDENT_PROFILE',
@@ -281,6 +246,9 @@ export default {
                 console.log('FAILURE!!' + err)
             }
         },
+        showChooseProjectType() {
+            this.$modal.show('chooseProjectType')
+        }
     }
 }
 </script>

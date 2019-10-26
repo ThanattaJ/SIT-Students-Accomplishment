@@ -1,5 +1,4 @@
 import axios from "axios";
-import { stat } from "fs";
 
 export const createPortPageStore = {
     state: {
@@ -22,7 +21,12 @@ export const createPortPageStore = {
             end_month: null, //step1
             end_year_en: null, //step1
             project_type_name: "external",
-        }
+        },
+
+        //ใช้แสดงพวก step ในการ create project
+        isExternalProject: true,
+        isGroupProject: true,
+        assignment_id: 0
     },
     actions: {
         LOAD_ALL_STUDENT: async function ({ commit, rootState }) { //ดึงนศทั้งหมด
@@ -53,6 +57,16 @@ export const createPortPageStore = {
         },
         SET_HAVE_OUTSIDER: function ({ commit }) {
             commit('SET_HAVE_OUTSIDER')
+        },
+        //ใช้แสดงพวก step ในการ create project
+        SET_PROJECTTYPE: function ({ commit }, isExternalProjectOrNot) {
+            commit('SET_PROJECTTYPE', isExternalProjectOrNot)
+        },
+        SET_ISGROUP: function ({ commit }, isGroup) {
+            commit('SET_ISGROUP', isGroup)
+        },
+        SET_ASSIGNMENTID: function ({ commit }, assignment_id) {
+            commit('SET_ASSIGNMENTID', assignment_id)
         },
     },
     mutations: {
@@ -120,6 +134,19 @@ export const createPortPageStore = {
         SET_PROJECT_ABSTRACT: function (state, project_abstract) {
             state.project_data.project_abstract = project_abstract
         },
+        //ใช้แสดงพวก step ในการ create project
+        SET_PROJECTTYPE: function (state, isExternalProjectOrNot) {
+            state.isExternalProject = isExternalProjectOrNot
+            console.log('external project ? >>> ' + state.isExternalProject)
+        },
+        SET_ISGROUP: function (state, isGroup) {
+            state.isGroupProject = isGroup
+            console.log('Is group project ? >>> ' + state.isGroupProject)
+        },
+        SET_ASSIGNMENTID: function (state, assignment_id) {
+            state.assignment_id = assignment_id
+            console.log('assignment_id ? >>> ' + state.assignment_id)
+        },
     },
     getters: {
         GET_ALL_STUDENT: function (state) {
@@ -158,6 +185,16 @@ export const createPortPageStore = {
         //
         GET_PROJECT_DATA: function (state) {
             return state.project_data
-        }
+        },
+        //ใช้แสดงพวก step ในการ create project
+        GET_PROJECTTYPE: function (state) {
+            return state.isExternalProject
+        },
+        GET_ISGROUP: function (state) {
+            return state.isGroupProject
+        },
+        GET_ASSIGNMENTID: function (state) {
+            return state.assignment_id
+        },
     }
 }
