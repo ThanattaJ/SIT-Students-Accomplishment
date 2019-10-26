@@ -15,6 +15,9 @@
     <div id="EditProjects">
         <uploadCover v-if="EditProject" id="uploadCover" />
         <div>
+            <div id="term" v-if="this.haveAssignment">
+                <div style="margin-left:80%; color: #949494 ; font-size: 12px;">Academic Term: {{this.academic_term}}</div>
+            </div>
             <div id="create">
                 <div style="margin-left:80%; color: #949494 ; font-size: 12px;">Created at: {{this.create}}</div>
             </div>
@@ -28,43 +31,42 @@
                     <span style="padding-left:5px">{{tag.tag_name}} </span>
                 </span>
             </div>
-            <div id="tag" v-if="EditProject" >
-                <tag/>
+            <div id="tag" v-if="EditProject">
+                <tag />
             </div>
         </div>
         <div class="columns">
             <div class="column is-four-fifths">
                 <div v-if="this.access === true">
                     <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
-                     <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
+                    <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
                     <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
                 </div>
                 <div v-if="GET_ISAPPROVER == true">
                     <approveAssignmentProject></approveAssignmentProject>
                 </div>
                 <div>
-                  <md-switch v-model="show" v-if="EditProject">{{show}}</md-switch>
+                    <md-switch v-model="show" v-if="EditProject">{{show}}</md-switch>
                 </div>
             </div>
-            <img class="image is-32x32" src="../.././assets/clap.png" style="margin-top:20px ; margin-left:5%">
+            <button @click="clapProject"><img class="image is-32x32" src="../.././assets/clap.png" style="margin-top:20px ; margin-left:5%"></button>
             <div style="margin-top:25px ; margin-left:5px">:{{this.clap}}</div>
 
             <img class="image is-32x32" src="../.././assets/visibility-button.png" style=" margin-left: 30px;
             margin-top:20px">
             <div style="margin-top:25px ; margin-left:5px">: {{this.viewer}}</div>
-
         </div>
     </div>
     <Abstract />
     <div id="body-project">
         <div class="columns">
             <div class="column is-6">
-            <div id="Details">
-                <Detail />
-            </div>
-            <div id="achievement">
-                <achievements />
-            </div>
+                <div id="Details">
+                    <Detail />
+                </div>
+                <div id="achievement">
+                    <achievements />
+                </div>
                 <div id="image">
                     <div id="container">
                         <div v-if="this.pictures[0]">
@@ -89,6 +91,18 @@
             <div class="column">
                 <div id="Authors">
                     <member />
+                </div>
+                <div id="lecturer" v-if="this.haveAssignment" >
+                    <div class="card lecturerCard" id="Documents">
+                        <header class="card-header">
+                            <p class="card-header-title" id="cardHeader">Lecturer</p>
+                        </header>
+                        <div class="card-content">
+                            <div class="content" style="color: #265080 !important " v-for='(lecturer,index) in lecturer' v-bind:key="index">
+                                {{lecturer.lecturers_name}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div id="tool">
                     <tool />
@@ -242,12 +256,16 @@ export default {
             noPic: {
                 'cover': require('../.././assets/noCoverImg.png')
             },
-            show:true ,
-            access:true,
+            show: true,
+            access: true,
+            haveAssignment: false,
+            academic_term: '',
+            lecturer: []
         }
     },
 
     async mounted() {
+
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -269,13 +287,39 @@ export default {
             `https://www.sit-acc.nruf.in.th/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
         // "http://localhost:7000/projects/" + this.$route.params.pId
-        this.header.TitleName = data.project_detail.project_name_en;
-        this.header.TitleName_TH = data.project_detail.project_name_th;
+
+        if (data.project_detail.assignment_detail.assignment_id != null) {
+            console.log("have assignment")
+            this.header.TitleName = data.project_detail.assignment_detail.assignment_name,
+            this.academic_term = data.project_detail.assignment_detail.academic_term
+            this.header.TitleName_TH = data.project_detail.assignment_detail.course_name
+            this.setPID(data.project_detail.assignment_detail.assignment_id)
+            // this.lecturer = data.project_detail.assignment_detail.lecturer
+            for(var i = 0; i<data.project_detail.assignment_detail.lecturers.length;i++){
+                this.lecturer.push(data.project_detail.assignment_detail.lecturers[i])
+            }
+            console.log("lecturer : ",this.lecturer)
+            // "assignment_id": null,
+            // "assignment_name": null, /
+            // "academic_term_id": null,
+            // "academic_term": null, /
+            // "course_id": null,
+            // "course_name": null,/
+            // "lecturers": null,/
+            // "project_status": null,
+            // "comment": null
+            this.haveAssignment = true
+
+        } else {
+            this.header.TitleName = data.project_detail.project_name_en;
+            this.header.TitleName_TH = data.project_detail.project_name_th;
+            this.setPID(data.project_detail.id)
+            this.haveAssignment = false
+        }
         this.clap = data.project_detail.count_clap
         this.viewer = data.project_detail.count_viewer
         this.create = data.project_detail.created_at
         this.update = data.project_detail.updated_at
-        this.setPID(data.project_detail.id)
         this.setAbstract(data.project_detail.project_abstract)
         this.setDetail(data.project_detail.project_detail)
         this.SET_ACHIEVEMENT_STATE(data.achievements)
@@ -288,9 +332,8 @@ export default {
         this.show = data.project_detail.isShow
         this.access = data.access
 
-
-        // console.log("---------   --")
-        console.log("acess : ", this.show)
+        // console.log("-----------")
+        console.log("acess : ", data)
 
         this.Abstract.content_Abstract = data.project_detail.project_abstract
         this.Detail.content_eg = data.project_detail.project_detail
@@ -366,8 +409,8 @@ export default {
                             isShow: this.show,
                             tool_techniq_detail: this.getTool === " " ? null : this.getTool,
                             references: this.getRef === " " ? null : this.getRef,
-                            count_viewer: 0,
-                            count_clap: 0,
+                            // count_viewer: 0,
+                            count_clap: this.clap,
                             start_month: 2,
                             start_year_th: 2562,
                             start_year_en: 2019,
@@ -379,6 +422,7 @@ export default {
                         students: this.getMember,
                         achievements: this.GET_ACHIEVEMENT,
                         tags: [],
+                        //update tags  
                         document: [],
                         picture: [],
                         video: {
@@ -410,6 +454,9 @@ export default {
             this.setEditProject(this.EditProject)
             // console.log("2",this.getEditProject)
         },
+        clapProject() {
+            this.clap++
+        }
 
     },
     beforeDestroy() {
