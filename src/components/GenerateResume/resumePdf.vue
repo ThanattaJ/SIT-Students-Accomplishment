@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="contact_topic">
-                    <p class="topic_resume" v-if="GET_STREET.length > 0 || GET_SUBDISTRICT.length > 0 || GET_DISTRICT.length > 0 || GET_PROVINCE.length > 0 && GET_ZIPCODE.length > 0 || GET_BIRTHDAY.length > 0 || GET_PHONENO.length > 0 || GET_EMAIL.length > 0">CONTACT</p>
+                    <p class="topic_resume" v-if="GET_STREET.length > 0 || GET_SUBDISTRICT.length > 0 || GET_DISTRICT.length > 0 || GET_PROVINCE.length > 0 && GET_ZIPCODE.length > 0 || GET_BIRTHDAY != null || GET_PHONENO.length > 0 || GET_EMAIL.length > 0">CONTACT</p>
                     <p class="contact" v-if="GET_STREET.length > 0 || GET_SUBDISTRICT.length > 0 || GET_DISTRICT.length > 0 || GET_PROVINCE.length > 0 && GET_ZIPCODE.length > 0">
                         <img src="./../../assets/placeholder.png" class="contact_icon" />
                         ADDRESS
@@ -32,7 +32,7 @@
                         <span v-if="GET_PROVINCE.length > 0 && GET_ZIPCODE.length > 0">,</span>
                         {{GET_ZIPCODE}}
                     </p>
-                    <p class="contact" v-if="GET_BIRTHDAY.length > 0"><img src="./../../assets/cake (2).png" class="contact_icon" />DATE OF BIRTH</p>
+                    <p class="contact" v-if="GET_BIRTHDAY != null"><img src="./../../assets/cake (2).png" class="contact_icon" />DATE OF BIRTH</p>
                     <p class="contact_detail">{{GET_BIRTHDAY}}</p>
                     <p class="contact" v-if="GET_PHONENO.length > 0"><img src="./../../assets/phone.png" class="contact_icon" />PHONE</p>
                     <p class="contact_detail">{{GET_PHONENO}}</p>

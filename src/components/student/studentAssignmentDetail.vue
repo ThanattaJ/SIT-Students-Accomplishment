@@ -15,22 +15,25 @@
                 <span style="margin-right:20px">Create by : {{assignmentDetail.lecturers_name}}</span>
                 <!-- {{created_at}} (Edited {{updated_at}}) -->
             </div>
-            <div class="column countAll">
-                Status : 
+            <div class="column countAll" v-if="assignmentDetail.status_name != null">
+                Status :
                 <span v-if="assignmentDetail.status_name == 'Approve'" class="projectStatus approved">{{assignmentDetail.status_name}}</span>
                 <span v-else-if="assignmentDetail.status_name == 'Waiting'" class="projectStatus request">{{assignmentDetail.status_name}}</span>
                 <span v-else class="projectStatus denied">{{assignmentDetail.status_name}}</span>
             </div>
         </div>
         <div class="columns" style="margin-top:5%">
-             <div class="column is-one-quarter" v-if="assignmentDetail.project_id == null">
+            <div class="column is-one-quarter" v-if="assignmentDetail.project_id == null">
+                <createProjectBtn />
+            </div>
+            <!-- <div class="column is-one-quarter" v-if="assignmentDetail.project_id == null">
                  <router-link to="/createPortPage">
                     <div class="createPortPage">
                         <div class="textCreate" style="font-size:30px !important">+</div>
                         <div class="textCreate" style="padding-top:10px">Add or Create Project</div>
                     </div>
                 </router-link>
-            </div>
+            </div> -->
             <div class="column is-one-quarter" v-else>
                 <router-link :to="`/ProjectDetail/${assignmentDetail.project_id}`">
                     <div class="card projectCard content_img">
@@ -61,6 +64,7 @@
 import './../css/visitor.css';
 import './../css/studentProjectTab.css';
 import './../css/lecturer.css';
+import createProjectBtn from './createProjectBtn'
 import {
     mapGetters,
     mapActions
@@ -74,6 +78,9 @@ export default {
             created_at: "",
             updated_at: ""
         }
+    },
+    components: {
+        createProjectBtn
     },
     computed: {
         ...mapGetters({

@@ -36,7 +36,8 @@
             <div class="column countAssign">Code Join</div>
             <div class="column countAssign">Status</div>
             <div class="column countAssign">Comment</div>
-            <div class="column countAssign is-one-fifth"></div>
+            <div class="column countAssign">Due date</div>
+            <div class="column countAssign">Type</div>
         </div>
     </div>
     <!-- All assignment -->
@@ -55,10 +56,10 @@
                     <i class="la la-comment" v-if="assignment.comment == null" style="color:#CCCCCC"></i>
                     <i class="la la-comment haveComment" v-else @click="showComment(assignment.comment)" style="color:#265080"></i>
                 </div>
-                <div class="column countAssign is-one-fifth">
-                    <span class="createAssignBtn" v-if="assignment.status_name == 'Reject'">+ Add or Create Project</span>
-                    <img src="./../../assets/draft.png" style="height: 20px;" v-else-if="assignment.status_name == 'Waiting'" />
-                    <img src="./../../assets/verified-text-paper.png" style="height: 20px;" v-else />
+                <div class="column countAssign">{{assignment.close_date}}</div>
+                <div class="column countAssign">
+                    <img src="./../../assets/group.png" style="height: 22px;" v-if="assignment.isGroup == true" />
+                    <img src="./../../assets/person.png" style="height: 22px;" v-else />
                 </div>
             </div>
         </div>
@@ -142,20 +143,20 @@ export default {
         },
         joinAssignmentModal(value) {
             this.code_join = null
-            if(value){
-               this.$modal.show('joinAssignmentModal'); 
-            }else{
-               this.$modal.hide('joinAssignmentModal'); 
+            if (value) {
+                this.$modal.show('joinAssignmentModal');
+            } else {
+                this.$modal.hide('joinAssignmentModal');
             }
-            
+
         },
-        async addAssignment(){
+        async addAssignment() {
             await axios.post(
-                    this.URL + '/assignment/join-assignment/?join_code='+ this.code_join, "", this.config
+                    this.URL + '/assignment/join-assignment/?join_code=' + this.code_join, "", this.config
                 ).then(res => {
                     console.log("res : ", res)
                     this.getAllAssignment()
-                    this.joinAssignmentModal(false) 
+                    this.joinAssignmentModal(false)
                     // 48W93Y
                 })
                 .catch(err => {

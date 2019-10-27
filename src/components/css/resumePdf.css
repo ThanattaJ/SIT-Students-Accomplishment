@@ -3,7 +3,8 @@
     background-color:white;
     width:595px;
     height:842px;
-    font-family:'acumin-pro';
+    /* font-family:'acumin-pro'; */
+    font-family: 'acumin-pro', sans-serif;
 }
 
 .A4Padding{

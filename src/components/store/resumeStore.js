@@ -1,4 +1,5 @@
 import axios from "axios";
+import { stat } from "fs";
 
 export const resumeStore = {
     state: {
@@ -96,6 +97,9 @@ export const resumeStore = {
         UPDATE_FIELD: function ({ commit }, { callSetter, value }) {
             commit(callSetter, value)
         },
+        SET_BIRTHDAY: function ({ commit },  dob ) {
+            commit('SET_BIRTHDAY', dob)
+        },
         SET_SOCIAL: function ({ commit }, social) {
             commit('SET_SOCIAL', social)
         }
@@ -107,6 +111,8 @@ export const resumeStore = {
         },
         SET_RESUME_DATA: function (state, resumeData) {
             state.resumeData = resumeData
+            console.log(" -------------- state.resumeData  -------------- ")
+            console.log("", state.resumeData)
         },
         //PERSONAL
         SET_FIRSTNAME: function (state, firstname) {

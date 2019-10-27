@@ -39,9 +39,9 @@
                         <div class="column countAssign">Due date</div>
                     </div>
                 </div>
-                <div class="card lecturerCard lecturerCourseCard">
+                <div class="card lecturerCard lecturerCourseCard" v-for="(assignment,index) in assignments" v-bind:key="index">
                     <div class="card-content cardSize">
-                        <div class="columns" v-for="(assignment,index) in assignments" v-bind:key="index">
+                        <div class="columns">
                             <div class="column is-three-fifths courseName" @click="showAddOrCreate(assignment.assignment_id,assignment.isGroup, assignment.assignment_name)">{{index+1}}) {{assignment.assignment_name}}</div>
                             <div class="column countAssign">
                                 <img src="./../../assets/group.png" style="height: 22px;" v-if="assignment.isGroup == true" />

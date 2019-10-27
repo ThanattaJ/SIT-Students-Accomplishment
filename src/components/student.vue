@@ -1,6 +1,6 @@
 <template>
 <div id="list-project of student">
-    <div id="bodyBg">
+    <div id="bodyBg" v-if="access == true">
         <div class="buttons has-addons is-centered is-fullwidth" style="font-weight:bold">
             <span class="button menuBar is-info is-selected">Project</span>
             <span class="button menuBar" style="color:#265080 !important">
@@ -26,7 +26,7 @@
                     <p id="info">Bachelor of Science Programme in {{profile.curriculum_name}}</p>
                     <p id="info"> {{profile.student_id}}</p>
                     <br><br>
-                    <p id="info" v-if="clickEditEmail == false">{{profile.email}} <i class="la la-pencil" @click="clickEditEmail = true"></i></p>
+                    <p id="info" v-if="clickEditEmail == false">{{profile.email}} <i class="la la-pencil" @click="clickEditEmail = true"  v-if="access == true"></i></p>
                     <md-field v-if="clickEditEmail == true" style="width: 50%;margin-top: -22px !important;">
                         <!-- <ValidationProvider name=" Email " rules="required"> -->
                         <!-- <div slot-scope="{ errors }"> -->
@@ -90,7 +90,7 @@
     <!-- All projects -->
     <div id="bodyBg">
         <div class="columns">
-            <div class="column is-narrow" style="padding: 0 !important;padding-left: 0.75rem !important;">
+            <!-- <div class="column is-narrow" style="padding: 0 !important;padding-left: 0.75rem !important;">
                 <div class="field">
                     <p class="control has-icons-left">
                         <input class="input" type="text" placeholder="Search Project...">
@@ -99,24 +99,19 @@
                         </span>
                     </p>
                 </div>
-            </div>
+            </div> -->
             <div class="column" style="padding: 8px 8px;">
                 <div class="tags">
-                    <span class="tag profileTag" v-for="(tag,index) in tags" v-bind:key="index">
+                    <span class="tag profileTag" @click="filterByTag(tag.tag_name)" v-for="(tag,index) in tags" v-bind:key="index">
                         <vc-donut :sections="[{ value: (tag.total_tag*100/projects.length), color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut>
                         <span style="padding-left:5px">{{tag.tag_name}} </span>
-                        <!-- ({{tag.total_tag}})  -->
                     </span>
                 </div>
             </div>
         </div>
         <div class="columns is-multiline">
-            <div class="column is-one-quarter">
-                    <div class="createPortPage" @click="showChooseProjectType">
-                        <div class="textCreate" style="font-size:30px !important">+</div>
-                        <div class="textCreate" style="padding-top:10px">Create Project</div>
-                    </div>
-                    <modal name="chooseProjectType"><chooseProjectTypeModal/></modal>
+            <div class="column is-one-quarter" v-if="access == true">
+                <createProjectBtn />
             </div>
             <div class="column is-one-quarter" v-for="(allProject,index) in projects" v-bind:key="index">
                 <router-link :to="`/ProjectDetail/${allProject.id}`">
@@ -153,7 +148,6 @@
         </div>
     </div>
 </div>
-
 </template>
 
 <script src="print.js"></script>
@@ -162,7 +156,8 @@
 import './../../node_modules/bulma/css/bulma.css';
 import './css/studentProjectTab.css';
 import './css/visitor.css';
-import chooseProjectTypeModal from './student/chooseProjectTypeModal';
+import createProjectBtn from './student/createProjectBtn'
+// import chooseProjectTypeModal from './student/chooseProjectTypeModal';
 import print from 'print-js'
 import {
     mapGetters,
@@ -180,10 +175,11 @@ export default {
         }
     },
     components: {
-        chooseProjectTypeModal
+        createProjectBtn
     },
     computed: {
         ...mapGetters({
+            access: 'GET_ACCESS',
             profile: 'GET_STUDENT_PROFILE',
             projects: 'GET_STUDENT_PROJECT',
             tags: 'GET_STUDENT_TAG',
@@ -195,7 +191,6 @@ export default {
         })
     },
     mounted() {
-        // this.LOAD_OTHER_STUDENT_DATA({user_id:"59130500001"})
         this.LOAD_OWN_STUDENT_DATA()
     },
     methods: {
@@ -248,6 +243,11 @@ export default {
         },
         showChooseProjectType() {
             this.$modal.show('chooseProjectType')
+        },
+        filterByTag(tag_name) {
+            
+            // this.projects = 
+            console.log("tag name : ", tag_name)
         }
     }
 }

@@ -32,13 +32,13 @@
             <div class="column">
                 <md-field>
                     <label>Start Year</label>
-                    <md-input id="start_year"></md-input>
+                    <md-input id="start_year" style="    width: 100% !important;"></md-input>
                 </md-field>
             </div>
             <div class="column">
                 <md-field>
                     <label id="present">End Year</label>
-                    <md-input id="end_year"></md-input>
+                    <md-input id="end_year" style="    width: 100% !important;"></md-input>
                 </md-field>
                 <label class="checkbox" style="font-size:11px;">
                     <input type="checkbox" @click="selectCurrent(chooseCurrent)">

@@ -160,16 +160,11 @@ export default {
                 this.SET_HAVE_OUTSIDER()
             }
 
-            if (this.project_abstract == "") {
-                this.project_data.project_abstract = null
-            }
-            if (this.project_detail == "") {
-                this.project_data.project_detail = null
-            }
-            if (this.isExternalProject == false) {
-                this.project_data.project_type_name = "assignment"
-                this.project_data.assignment_id = this.assignment_id
-            }
+            this.project_abstract == "" ? this.project_data.project_abstract = null : this.project_abstract
+            this.project_detail == "" ? this.project_data.project_detail = null : this.project_detail
+            this.isExternalProject == false ? this.project_data.project_type_name = "assignment" : this.project_data.project_type_name = "external"
+            this.isExternalProject == false ? this.project_data.assignment_id = this.assignment_id : this.project_data.assignment_id = null
+
             var data;
             data = {
                 project_data: this.project_data,
@@ -178,6 +173,7 @@ export default {
                     outsiders: JSON.parse(JSON.stringify(this.member_outsider))
                 }
             };
+            
             data.project_data.start_year_en = parseInt(data.project_data.start_year_en)
             data.project_data.end_year_en = parseInt(data.project_data.end_year_en)
 

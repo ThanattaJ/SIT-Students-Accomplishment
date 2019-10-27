@@ -98,11 +98,11 @@
                             <label>Email</label>
                             <md-input id="" :value="GET_EMAIL" @change="handleUpdate('UPDATE_FIELD','SET_EMAIL')"></md-input>
                         </md-field> -->
-                        <md-field>
+                        <!-- <md-field>
                             <label>Date of Birth</label>
                             <md-input id="" :value="GET_BIRTHDAY" @change="handleUpdate('UPDATE_FIELD','SET_BIRTHDAY')"></md-input>
-                        </md-field>
-                        <VueCtkDateTimePicker v-model="dob" :formatted="formatted" :color="color" :only-date="onlydate" :label="label" :no-header="noHeader" :auto-close="autoClose" :no-button="noButton" :no-label="noLabel" />
+                        </md-field> -->
+                        <VueCtkDateTimePicker v-model="dob" :formatted="formatted" :locale="locale" :color="color" :only-date="onlydate" :label="label" :no-header="noHeader" :auto-close="autoClose" :no-button="noButton" :no-label="noLabel" />
                         <!-- <div class="column">
                             <div class="field">
                                 <label class="label inputName">Date of Event</label>
@@ -228,6 +228,10 @@ export default {
         }
     },
     props: {
+        locale: {
+            type: String,
+            default: 'en'
+        },
         formatted: {
             type: String,
             default: 'DD-MM-YYYY'
@@ -243,7 +247,7 @@ export default {
         },
         label: {
             type: String,
-            default: 'Select date'
+            default: 'Date of Birth'
         },
         noHeader: {
             type: Boolean,
@@ -259,7 +263,7 @@ export default {
         },
         noLabel: {
             type: Boolean,
-            default: true
+            default: false
         }
     },
     components: {
@@ -282,9 +286,17 @@ export default {
     },
     mounted() {
         this.LOAD_RESUME_DATA()
+        this.dob = this.GET_BIRTHDAY.substring(6,10) + "-" + this.GET_BIRTHDAY.substring(3,5) + "-" + this.GET_BIRTHDAY.substring(0,2)
+    },
+    watch: {
+        dob: function (val) {
+            this.dob = val
+            var dateOfBirth = this.dob.substring(8,10) + "-" + this.dob.substring(5, 7) + "-" + this.dob.substring(0, 4)
+            this.SET_BIRTHDAY(dateOfBirth)
+        }
     },
     methods: {
-        ...mapActions(['SET_PAGE', 'LOAD_RESUME_DATA', 'UPDATE_FIELD']),
+        ...mapActions(['SET_PAGE', 'LOAD_RESUME_DATA', 'UPDATE_FIELD', 'SET_BIRTHDAY']),
         handleUpdate(actionName, setter) {
             this[actionName]({
                 callSetter: setter,
@@ -312,25 +324,30 @@ export default {
                     postcode: resumeData.postcode == "" ? null : resumeData.postcode
                 }
             }
-
-            console.log("data to db : ", data)
             try {
-                console.log("config : ", this.GET_CONFIG)
-                await axios
-                    .patch(this.GET_PATHNAME + "/users/count-generate-resume", "", this.GET_CONFIG)
-                    .then((res) => {
-                        console.log("count gen resume");
-                    })
-                    .catch((err) => {
-                        console.error("err : " + err);
-                    });
                 await axios
                     .patch(this.GET_PATHNAME + "/users/generate-resume/" + this.GET_USERNAME,
                         data, this.GET_CONFIG)
                     .then((res) => {
+                        console.log("res : ",res)
                         console.log("message : ", res.data.message);
-                        console.log("message : ", res);
-                        console.log("success!");
+                        if(res.data.message == 'Update Success'){
+                            // this.countGenResume()
+                        }
+                    })
+                    .catch((err) => {
+                        console.error("err : " + err);
+                    });
+            } catch (err) {
+                console.log("FAILURE!!" + err);
+            }
+        },
+        async countGenResume() {
+            try {
+                await axios
+                    .patch(this.GET_PATHNAME + "/users/count-generate-resume", "", this.GET_CONFIG)
+                    .then((res) => {
+                        console.log("count gen resume");
                     })
                     .catch((err) => {
                         console.error("err : " + err);
@@ -360,3 +377,18 @@ export default {
     }
 }
 </script>
+
+<style>
+/* .datetimepicker[data-v-564d30d4] {
+    top: 10 !important;
+    margin-bottom: 0 !important;
+    bottom: 86% !important;
+    position: fixed !important;
+    z-index: 9 !important;
+    width: 100% !important;
+}
+.datetimepicker .datepicker[data-v-564d30d4] {
+    position: fixed !important;
+    top: 14% !important;
+} */
+</style>

@@ -17,7 +17,11 @@
     </div>
     <div v-if="chooseNw==true" class="afterChooseNw">
         <span class="pre">{{networkName}}</span>
-        <input id="username" type="text" placeholder="username">
+        <md-field>
+            <label>username</label>
+            <md-input id="username"></md-input>
+        </md-field>
+        <!-- <input id="username" type="text" placeholder="username"> -->
         <div class="" id="addCancelBtn" style="margin-top: 8px;">
             <a id="addBtn" class="button is-small saveBtn" @click="addWebsiteBtn();">Add</a>
             <a id="cancelBtn1" class="button is-small cancelBtn" @click="cancelWebsiteBtn()">Cancel</a>
@@ -119,8 +123,7 @@ export default {
             URL: 'GET_PATHNAME'
         })
     },
-    mounted() {
-    },
+    mounted() {},
     methods: {
         ...mapActions(['SET_PAGE', 'SET_SOCIAL', 'SEND_WEB_TOSTATE']),
         async SetSocailToState() {

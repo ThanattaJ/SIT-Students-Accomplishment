@@ -91,7 +91,7 @@
                         <div class="column">
                             <div class="field">
                                 <label class="label inputName">Date of Event</label>
-                                <VueCtkDateTimePicker v-model="date_of_event" :formatted="formatted" :color="color" :only-date="onlydate" :label="label" :no-header="noHeader" :auto-close="autoClose" :no-button="noButton" :no-label="noLabel" />
+                                <VueCtkDateTimePicker v-model="date_of_event"  :locale="locale" :formatted="formatted" :color="color" :only-date="onlydate" :label="label" :no-header="noHeader" :auto-close="autoClose" :no-button="noButton" :no-label="noLabel" />
                             </div>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                         <div class="column">
                             <div class="field">
                                 <label class="label inputName">Date of Event</label>
-                                <VueCtkDateTimePicker v-model="date_of_event" :formatted="formatted" :color="color" :only-date="onlydate" :label="label" :no-header="noHeader" :auto-close="autoClose" :no-button="noButton" :no-label="noLabel" />
+                                <VueCtkDateTimePicker v-model="date_of_event" :locale="locale" :formatted="formatted" :color="color" :only-date="onlydate" :label="label" :no-header="noHeader" :auto-close="autoClose" :no-button="noButton" :no-label="noLabel" />
                             </div>
                         </div>
                     </div>
@@ -176,6 +176,10 @@ export default {
         }
     },
     props: {
+        locale: {
+            type: String,
+            default: 'en'
+        },
         formatted: {
             type: String,
             // default: 'DD-MM-YYYY'
@@ -264,3 +268,12 @@ export default {
     }
 }
 </script>
+
+<style>
+.datetimepicker[data-v-564d30d4] {
+    bottom: 46% !important;
+    position: fixed !important;
+    z-index: 9 !important;
+    width: 100% !important;
+}
+</style>

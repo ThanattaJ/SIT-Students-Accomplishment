@@ -51,6 +51,9 @@ export const studentStore = {
         }
     },
     getters: {
+        GET_ACCESS:function (state) {
+            return state.studentData.access
+        },
         GET_STUDENT_PROFILE: function (state) {
             return state.studentData.profile
         },
