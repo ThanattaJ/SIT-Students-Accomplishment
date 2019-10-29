@@ -111,12 +111,11 @@ export default {
                 username: localStorage.getItem('usernameSIT')
             })
             this.SET_LOGIN_STATUS(true);
+            this.LOAD_OWN_STUDENT_DATA()
+            this.LOAD_RESUME_DATA()
         } else {
             this.SET_LOGIN_STATUS(false);  
         }
-        
-        this.LOAD_OWN_STUDENT_DATA()
-        this.LOAD_RESUME_DATA()
     },
     methods: {
         ...mapActions(['SET_ALL_LOGIN_DATA', 'SET_LOGIN_STATUS', 'LOAD_OWN_STUDENT_DATA', 'LOAD_RESUME_DATA', 'LOGOUT']),
