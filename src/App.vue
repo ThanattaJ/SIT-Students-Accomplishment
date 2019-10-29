@@ -21,7 +21,7 @@
                     <router-link to="/Projects">
                         <a class="navbar-item menuName">
                             <img src="./assets/folder.png" style="max-height: 30px !important; margin-right: 10px">
-                            Project
+                            All Portfolio
                         </a>
                     </router-link>
                 </span>
