@@ -7,9 +7,7 @@
           :key="i" 
           :project_id="projects[i].project_id"
           :image="projects[i].cover_path"
-          :name_en="projects[i].name_em"
-          :name_th="projects[i].name_th"
-          :link="`http://localhost:7001/ProjectDetail/${projects[i].project_id}`">
+          :link="`https://www.sit-acc.nruf.in.th/ProjectDetail/${projects[i].project_id}`">
       </vueper-slide>
     </vueper-slides>
     </div>
@@ -21,10 +19,15 @@
           <div class="introCol" id="introCol">
             <h1 id="headerContent">SIT STUDENTS ACCOMPLISHMENT</h1>
             <p id="contentIntro">
-              &emsp;&nbsp; Web Application for students of School of Information Technology faculty of 
-              King Mongkut's University of Technology Thonburi blah blah blah
-
-              Achievement Base blah blah
+              &emsp;&nbsp; Online portfolio lets students of the 
+              School of Information Technology faculty at KMUTT collecting 
+              their portfolios that persistent, not lost and can be used in the future
+              <br><br>
+              <blockquote style="display: block;">
+                <div style="padding-left:45%"><img class="imgQuote" src="../../assets/left-quotes-sign.png"></div>
+                <p class="quote">Everyone is on the achievement base.<br>We believe that the portfolio is a success.</p>
+                <p class="quote-footer">SIT Student Accomplishment</p>
+              </blockquote>
             </p>
           </div>
         </div>
