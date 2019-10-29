@@ -60,35 +60,6 @@
                     </select>
                 </span>
             </p>
-            <!-- <div class="control">
-                <div class="dropdown is-hoverable">
-                    <div class="dropdown-trigger">
-                        <button class="button filter" aria-haspopup="true" aria-controls="dropdown-menu4">
-                            <span><img src="./../../assets/filter-results-button.png" width="17px"></span>
-                        </button>
-                    </div>
-                    <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-                        <div class="dropdown-content">
-                            <div class="dropdown-item">
-                                <p class="menu-label">
-                                    All projects
-                                </p>
-                                <a href="#" class="dropdown-item" style="color:black !important">
-                                    <input type="checkbox" @change="selectHaveAchievement">have achievement
-                                </a>
-                                <a href="#" class="dropdown-item" style="color:black !important">
-                                    <input type="checkbox">have assignment
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- <p class="control" @click="search">
-                <a class="button" style="color: #265080 !important;">
-                    <i class="la la-search"></i>
-                </a>
-            </p> -->
         </div>
     </div>
     <!-- All projects -->
@@ -195,29 +166,6 @@ export default {
     },
     methods: {
         ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW', 'LOAD_PROJECT_BY_SEARCH']),
-        // search() {
-        //     var typeOfSearch = document.getElementById('typeOfSearch').value
-        //     var searchText = document.getElementById('searchText').value
-        //     var searchBy = document.getElementById('searchBy').value
-        //     var year = document.getElementById('year').value
-
-        //     console.log("typeOfSearch : " + document.getElementById('typeOfSearch').value)
-        //     console.log("searchText : " + document.getElementById('searchText').value)
-        //     console.log("searchBy : " + document.getElementById('searchBy').value)
-        //     console.log("year : " + document.getElementById('year').value)
-
-        //     if (searchText == "") {
-        //         this.LOAD_ALL_PROJECT_VISITORVIEW({
-        //             type: typeOfSearch,
-        //             year: year
-        //         })
-        //     } else {
-        //         this.LOAD_PROJECT_BY_SEARCH({
-        //             searchText: searchText,
-        //             searchBy: searchBy
-        //         })
-        //     }
-        // },
         selectYear() {
             var selectYear = document.getElementById("selectYear").value
             console.log("selectYear : " + selectYear)

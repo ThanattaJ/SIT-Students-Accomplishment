@@ -25,6 +25,14 @@
                         </a>
                     </router-link>
                 </span>
+                <span class="navbar-item">
+                    <router-link to="/Faculty">
+                        <a class="navbar-item menuName">
+                            <!-- <img src="./assets/folder.png" style="max-height: 30px !important; margin-right: 10px"> -->
+                            Faculty
+                        </a>
+                    </router-link>
+                </span>
 
                 <span class="navbar-item" v-if="user_role == 'student'">
                     <router-link to="/student">

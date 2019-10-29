@@ -17,6 +17,7 @@ import lecturer from '@/components/admins/lecturer'
 import login from '@/components/auth/login'
 import courseSemester from '@/components/admins/courseSemester'
 import allProjectList from '@/components/visitor/allProjectList'
+import facultyProject from '@/components/visitor/facultyProject'
 // Lecturer
 import course from '@/components/lecturer/course'
 import assignment from '@/components/lecturer/assignment'
@@ -129,6 +130,11 @@ export default new Router({
       path: '/Projects',
       name: 'allProjectList',
       component: allProjectList,
+    },
+    {
+      path: '/Faculty',
+      name: 'Faculty',
+      component: facultyProject,
     },
     {
       path: '/course',

@@ -42,6 +42,26 @@
     font-size: 12px
 }
 
-/* .filter{
-    border: none !important
-} */
+
+.visitorMenu{
+    padding: 1.7% 11.45% 1.7% 11.45% !important
+  }
+  
+  @media screen and (max-width: 1024px){
+    .visitorMenu{
+      padding: 1.7% 5.1% 1.7% 5.1% !important;
+    }
+  }
+  
+  @media screen and (max-width: 800px){
+    .visitorMenu{
+      padding: 1.7% 3.5% 1.7% 3.5% !important;
+    }
+  }
+  
+  @media screen and (max-width: 500px){
+    .visitorMenu{
+      width: 100% !important;
+      border-radius: 5px !important;
+    }
+  }

@@ -7,15 +7,13 @@
         </div>
         <!-- <search -->
         <div class="columns">
-            <div class="column">
-                <div class="field has-addons">
-                    <p class="control">
-                        <input id="searchText" class="input" type="text" placeholder="Search Assignment ..." style="font-size: 16px !important;margin-top: 0px !important;border-bottom: 1px solid #DBDBDB !important;">
-                    </p>
-                    <p class="control">
-                        <a class="button" style="color: #265080 !important;">
+            <div class="column is-narrow">
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" type="text" v-model="search" placeholder="Search Assignment ...">
+                        <span class="icon is-small is-left">
                             <i class="la la-search"></i>
-                        </a>
+                        </span>
                     </p>
                 </div>
             </div>
@@ -66,8 +64,8 @@
                     <div class="column">
                         <div>Type</div>
                         <div style="margin-top: -10px;">
-                            <md-radio v-model="isGroup" value="group"  class="md-primary">Group</md-radio>
-                            <md-radio v-model="isGroup" value="single"  class="md-primary">Single</md-radio>
+                            <md-radio v-model="isGroup" value="group" class="md-primary">Group</md-radio>
+                            <md-radio v-model="isGroup" value="single" class="md-primary">Single</md-radio>
                         </div>
                     </div>
                 </div>
@@ -79,17 +77,19 @@
             </span>
         </modal>
         <!-- All assignment -->
-        <div class="card lecturerCard lecturerCourseCard" v-for="(assignment,index) in assignments" v-bind:key="index">
-            <div class="card-content cardSize">
-                <div class="columns">
-                    <div class="column is-half courseName" @click="routeToAssignmentDetail(assignment.assignment_id,assignment.isApprover)">{{index+1}}) {{assignment.assignment_name}}</div>
-                    <div class="column countAssign">{{assignment.join_code}}</div>
-                    <div class="column countAssign">{{assignment.count.student}}</div>
-                    <div class="column countAssign">{{assignment.count.project}}</div>
-                    <div class="column countAssign">{{assignment.close_date}}</div>
-                    <div class="column countAssign">
-                        <img src="./../../assets/group.png" style="height: 22px;" v-if="assignment.isGroup == true" />
-                        <img src="./../../assets/person.png" style="height: 22px;" v-else />
+        <div class="overflowY" style="height: 500px;">
+            <div class="card lecturerCard lecturerCourseCard" v-for="(assignment,index) in allAssignments" v-bind:key="index">
+                <div class="card-content cardSize">
+                    <div class="columns">
+                        <div class="column is-half courseName" @click="routeToAssignmentDetail(assignment.assignment_id,assignment.isApprover)">{{index+1}}) {{assignment.assignment_name}}</div>
+                        <div class="column countAssign">{{assignment.join_code}}</div>
+                        <div class="column countAssign">{{assignment.count.student}}</div>
+                        <div class="column countAssign">{{assignment.count.project}}</div>
+                        <div class="column countAssign">{{assignment.close_date}}</div>
+                        <div class="column countAssign">
+                            <img src="./../../assets/group.png" style="height: 22px;" v-if="assignment.isGroup == true" />
+                            <img src="./../../assets/person.png" style="height: 22px;" v-else />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -119,6 +119,7 @@ export default {
             assignmentDetail: null,
             isGroup: 'group',
             closeDate: null,
+            search: '',
 
             countAssignment: 0
         }
@@ -172,7 +173,17 @@ export default {
             URL: 'GET_PATHNAME',
             academic_term_id: 'GET_ACADEMIC_TERM_ID',
             course_id: 'GET_COURSE_ID'
-        })
+        }),
+        allAssignments() {
+            if (this.search != "") {
+                return this.assignments.filter(
+                    items =>
+                    items.assignment_name.toLowerCase().includes(this.search.toLowerCase())
+                )
+            } else {
+                return this.assignments
+            }
+        }
     },
     mounted() {
         this.getAllAssignment()
@@ -201,10 +212,10 @@ export default {
                 close_date: this.closeDate.substring(8, 10) + "-" + this.closeDate.substring(5, 7) + "-" + this.closeDate.substring(0, 4),
                 isGroup: this.isGroup == 'group' ? true : false
             }
-            if(this.assignmentDetail != null){
+            if (this.assignmentDetail != null) {
                 data['assignment_detail'] = this.assignmentDetail
             }
-            
+
             console.log("create assignment data")
             console.log("", data)
             await axios.post(
@@ -243,12 +254,15 @@ export default {
 .md-radio.md-theme-default.md-checked .md-radio-container:after {
     background-color: #265080 !important;
 }
+
 .md-radio.md-theme-default.md-checked .md-radio-container {
     border-color: #265080 !important;
 }
+
 .md-radio.md-theme-default .md-radio-container {
     border-color: #265080 !important;
 }
+
 .md-radio .md-radio-container {
     width: 15px !important;
     min-width: 15px !important;
@@ -256,6 +270,6 @@ export default {
     position: relative !important;
     border: 2px solid transparent !important;
     border-radius: 50% !important;
-    transition: .4s cubic-bezier(.25,.8,.25,1) !important;
+    transition: .4s cubic-bezier(.25, .8, .25, 1) !important;
 }
 </style>

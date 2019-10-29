@@ -3,7 +3,6 @@ import axios from "axios";
 export const studentStore = {
     state: {
         studentData: {
-            // access: false,
             projects: [],
             totalProject: [{
                 start_year_en: 0,
@@ -44,10 +43,16 @@ export const studentStore = {
             );
             commit('SET_STUDENT_DATA', data)
         },
+        SET_STUDENT_PROJECT: function ({ commit }, projects) {
+            commit('SET_STUDENT_PROJECT', projects)
+        },
     },
     mutations: {
         SET_STUDENT_DATA: function (state, studentData) {
             state.studentData = studentData
+        },
+        SET_STUDENT_PROJECT: function (state, projects) {
+            state.studentData.projects = projects
         }
     },
     getters: {

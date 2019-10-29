@@ -5,9 +5,6 @@
             <div class="column">
                 <div class="field has-addons">
                     <p class="control">
-                        <input id="searchText" class="input" type="text" placeholder="Search Course ..." style="font-size: 16px !important;margin-top: 0px !important;border-bottom: 1px solid #DBDBDB !important;">
-                    </p>
-                    <p class="control">
                         <span class="select">
                             <select id="chooseTerm" @change="chooseTerm">
                                 <option :value="course.academic_term_id" class="navCanClick" v-for="(course,index) in courses" v-bind:key="index">
@@ -17,9 +14,7 @@
                         </span>
                     </p>
                     <p class="control">
-                        <a class="button" style="color: #265080 !important;">
-                            <i class="la la-search"></i>
-                        </a>
+                        <input id="searchText" class="input" type="text" v-model="search" placeholder="Search Course ..." style="font-size: 16px !important;margin-top: 0px !important;border-bottom: 1px solid #DBDBDB !important;">
                     </p>
                 </div>
             </div>
@@ -35,20 +30,20 @@
                 <!-- <div class="column"></div> -->
             </div>
         </div>
-        <div class="card lecturerCard lecturerCourseCard" v-for="(course,index) in defaultCourse.courses" v-bind:key="'courseTerm'+index">
-            <router-link :to="`/allassignment/${course.course_id}`">
-                <div class="card-content cardSize" @click="SET_COURSENAME(course.course_name)">
-                    <div class="columns">
-                        <div class="column is-two-thirds courseName">{{index+1}}) {{course.course_name}}</div>
-                        <div class="column countAssign">{{course.assignment_counting}}</div>
-                        <!-- <div class="column"><span class="createAssignBtn">+ Create Assignment</span></div> -->
+        <div  class="overflowY" style="height: 540px;">
+            <div class="card lecturerCard lecturerCourseCard" v-for="(course,index) in allCourse" v-bind:key="'courseTerm'+index">
+                <router-link :to="`/allassignment/${course.course_id}`">
+                    <div class="card-content cardSize" @click="SET_COURSENAME(course.course_name)">
+                        <div class="columns">
+                            <div class="column is-two-thirds courseName">{{index+1}}) {{course.course_name}}</div>
+                            <div class="column countAssign">{{course.assignment_counting}}</div>
+                            <!-- <div class="column"><span class="createAssignBtn">+ Create Assignment</span></div> -->
+                        </div>
                     </div>
-                </div>
-            </router-link>
+                </router-link>
+            </div>
         </div>
-
     </div>
-    <!-- {{defaultCourse.courses}} -->
 </div>
 </template>
 
@@ -66,15 +61,26 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            courses: Object,
-            defaultCourse: Array
+            courses: {},
+            defaultCourse: [],
+            search: ''
         }
     },
     computed: {
         ...mapGetters({
             config: 'GET_CONFIG',
             URL: 'GET_PATHNAME'
-        })
+        }),
+        allCourse() {
+            if (this.search != "") {
+                return this.defaultCourse.courses.filter(
+                    items =>
+                    items.course_name.toLowerCase().includes(this.search.toLowerCase())
+                )
+            } else {
+                return this.defaultCourse.courses
+            }
+        }
     },
     async mounted() {
         await axios.get(

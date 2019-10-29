@@ -3,6 +3,7 @@ import axios from "axios";
 export const projectStore = {
     state: {
         data: {},
+        courses: [],
         years: []
 
     },
@@ -14,8 +15,12 @@ export const projectStore = {
                 URL
             );
             console.log("====== LOAD_ALL_PROJECT_VISITORVIEW ======")
-            console.log("",data.projects)
-            commit('SET_ALL_PROJECT_VISITORVIEW', data.projects)
+            if(type == 'all'){
+                commit('SET_ALL_PROJECT_VISITORVIEW', data.projects)
+            }
+            else if(type == 'assignment'){
+                commit('SET_ALL_COURSE_PROJECT', data.courses)                
+            }
             if(state.years.length == 0) {
                 commit('SET_YEARS', data.years) 
              }
@@ -33,6 +38,9 @@ export const projectStore = {
         SET_ALL_PROJECT_VISITORVIEW: function (state, projects) {
             state.data = projects
         },
+        SET_ALL_COURSE_PROJECT: function (state, courses) {
+            state.courses = courses
+        },
         SET_YEARS: function (state, years) {
             state.years = years
         }
@@ -40,6 +48,9 @@ export const projectStore = {
     getters: {
         GET_ALL_PROJECT_VISITORVIEW: function (state) {
             return state.data
+        },
+        GET_ALL_COURSE_PROJECT: function (state) {
+            return state.courses
         },
         GET_YEARS: function (state) {
             return state.years

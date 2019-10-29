@@ -90,16 +90,16 @@
     <!-- All projects -->
     <div id="bodyBg">
         <div class="columns">
-            <!-- <div class="column is-narrow" style="padding: 0 !important;padding-left: 0.75rem !important;">
+            <div class="column is-narrow" style="padding: 0 !important;padding-left: 0.75rem !important;">
                 <div class="field">
                     <p class="control has-icons-left">
-                        <input class="input" type="text" placeholder="Search Project...">
+                        <input class="input" type="text" v-model="search" placeholder="Search Project ...">
                         <span class="icon is-small is-left">
                             <i class="la la-search"></i>
                         </span>
                     </p>
                 </div>
-            </div> -->
+            </div>
             <div class="column" style="padding: 8px 8px;">
                 <div class="tags">
                     <span class="tag profileTag" @click="filterByTag(tag.tag_name)" v-for="(tag,index) in tags" v-bind:key="index">
@@ -113,7 +113,7 @@
             <div class="column is-one-quarter" v-if="access == true">
                 <createProjectBtn />
             </div>
-            <div class="column is-one-quarter" v-for="(allProject,index) in projects" v-bind:key="index">
+            <div class="column is-one-quarter" v-for="(allProject,index) in allProjects" v-bind:key="index">
                 <router-link :to="`/ProjectDetail/${allProject.id}`">
                     <div class="card projectCard content_img">
                         <div class="card-image" v-if="allProject.cover_path != null">
@@ -171,7 +171,8 @@ export default {
             message: '',
             info: 'Bachelor of Science Programme in Information Technology',
             year: '3rd year SIT Student',
-            clickEditEmail: false
+            clickEditEmail: false,
+            search: ''
         }
     },
     components: {
@@ -187,14 +188,25 @@ export default {
             dataToChart: 'GET_DATATOCHART',
             email: 'GET_EMAIL',
             config: 'GET_CONFIG',
-            URL: 'GET_PATHNAME'
-        })
+            URL: 'GET_PATHNAME',
+            user_id: 'GET_USERNAME'
+        }),
+        allProjects() {
+            if (this.search != "") {
+                return this.projects.filter(
+                    items =>
+                    items.project_name_en.toLowerCase().includes(this.search.toLowerCase())
+                )
+            } else {
+                return this.projects
+            }
+        }
     },
     mounted() {
         this.LOAD_OWN_STUDENT_DATA()
     },
     methods: {
-        ...mapActions(['LOAD_OWN_STUDENT_DATA', 'LOAD_OTHER_STUDENT_DATA', 'UPDATE_FIELD', 'SET_EMAIL']),
+        ...mapActions(['LOAD_OWN_STUDENT_DATA', 'LOAD_OTHER_STUDENT_DATA', 'UPDATE_FIELD', 'SET_EMAIL', 'SET_STUDENT_PROJECT']),
         showUploadImg: function () {
             document.getElementById("textBlock").style.display = "flex"
         },
@@ -244,9 +256,20 @@ export default {
         showChooseProjectType() {
             this.$modal.show('chooseProjectType')
         },
-        filterByTag(tag_name) {
-            
-            // this.projects = 
+        async filterByTag(tag_name) {
+            try {
+                await axios
+                    .get(this.URL + '/users/project?user_id='+this.user_id+'&tag='+tag_name, this.config)
+                    .then((res) => {
+                        console.log("success! : ", res);
+                        this.SET_STUDENT_PROJECT(res.data)
+                    })
+                    .catch((err) => {
+                        console.error("err : " + err);
+                    });
+            } catch (err) {
+                console.log('FAILURE!!' + err)
+            }
             console.log("tag name : ", tag_name)
         }
     }
