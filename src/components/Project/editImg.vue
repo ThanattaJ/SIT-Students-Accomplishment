@@ -182,9 +182,10 @@ export default {
     margin-right: 50px;
 }
 
-#add {
+#addImage {
     margin-left: 20%;
     margin-top: 5%;
+    color: white;
 }
 
 #Img {

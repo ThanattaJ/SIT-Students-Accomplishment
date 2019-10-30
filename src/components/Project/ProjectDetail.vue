@@ -104,7 +104,7 @@
                 </div>
                 <div class="card lecturerCard" id="Documents" v-else-if="EditProject">
                     <header class="card-header">
-                        <p class="card-header-title" id="cardHeader">Videp</p>
+                        <p class="card-header-title" id="cardHeader">Video</p>
                     </header>
                     <div class="card-content">
                         <div class="content">
@@ -328,7 +328,7 @@ export default {
         } = await axios.get(
             this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
-        // "http://localhost:7000/projects/" + this.$route.params.pId
+            console.log('Token : ',this.GET_CONFIG)
         console.log('data : ', data)
         if (data.project_detail.assignment_detail.assignment_id != null) {
             console.log("have assignment")
@@ -455,7 +455,6 @@ export default {
 
         ]),
         save() {
-            // this.EditProject = false;
             this.setEditProject(this.EditProject)
             var vdo_pathname = this.GET_VDO_PATHNAME
             var data = {
@@ -587,7 +586,7 @@ export default {
         this.setMember('')
         this.setNonMember('')
     },
-    created() {
+    beforeMount() {
         this.isLoading = true;
         setTimeout(() => {
             this.isLoading = false
