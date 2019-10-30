@@ -4,7 +4,9 @@ export const projectStore = {
     state: {
         data: {},
         courses: [],
-        years: []
+        years: [],
+
+        vdo_pathname: ''
 
     },
     actions: {
@@ -33,6 +35,9 @@ export const projectStore = {
             );
             commit('SET_ALL_PROJECT_VISITORVIEW', data)
         },
+        SET_VDO_PATHNAME: function ({ commit }, vdo_pathname) {
+            commit('SET_VDO_PATHNAME', vdo_pathname)
+        }
     },
     mutations: {
         SET_ALL_PROJECT_VISITORVIEW: function (state, projects) {
@@ -43,7 +48,10 @@ export const projectStore = {
         },
         SET_YEARS: function (state, years) {
             state.years = years
-        }
+        },
+        SET_VDO_PATHNAME: function (state, vdo_pathname) {
+            state.vdo_pathname = vdo_pathname
+        },
     },
     getters: {
         GET_ALL_PROJECT_VISITORVIEW: function (state) {
@@ -55,5 +63,8 @@ export const projectStore = {
         GET_YEARS: function (state) {
             return state.years
         },
+        GET_VDO_PATHNAME: function (state) {
+            return state.vdo_pathname
+        }
     }
 }

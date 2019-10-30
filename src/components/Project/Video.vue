@@ -2,17 +2,21 @@
 <div>
     <div class="field has-addons">
         <div class="control" style="width: 100%;">
-            <input id="myUrl" v-model="myUrl" class="input urlField" type="text" placeholder="Paste a youtube link">
+            <input id="myUrl" v-model="myUrl" @change="callIframe()" class="input urlField" type="text" placeholder="Paste a youtube link">
         </div>
         <div class="control">
-            <a class="button is-info embed" @click="callIframe()">EMBED</a>
+            <!-- <a class="button is-info embed" @click="callIframe()">EMBED</a> -->
         </div>
     </div>
-    <div v-if="myUrl.length > 0" class="resp-container" id="myCode"></div>
+    <!-- <div v-if="myUrl.length > 0" class="resp-container" id="myCode"></div> -->
 </div>
 </template>
 
 <script>
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
 export default {
     data() {
         return {
@@ -23,7 +27,14 @@ export default {
             a: ""
         }
     },
+    computed: {
+        ...mapGetters(['GET_VDO_PATHNAME']),
+    },
+    mounted() {
+        this.myUrl = 'https://youtu.be/' + this.GET_VDO_PATHNAME
+    },
     methods: {
+        ...mapActions(['SET_VDO_PATHNAME']),
         getId(url) {
             var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             var match = url.match(regExp);
@@ -35,9 +46,13 @@ export default {
             }
         },
         callIframe() {
-            var myId;
-            myId = this.getId(this.myUrl);
-            document.getElementById('myCode').innerHTML = '<iframe width="560" height="315" src="//www.youtube.com/embed/' + myId + '" frameborder="0" allowfullscreen></iframe>'
+            console.log("callIframe")
+            var myId = this.getId(this.myUrl);
+            if (myId != '' || myId == null) {
+                // document.getElementById('myCode').innerHTML = '<iframe width="560" height="315" src="//www.youtube.com/embed/' + myId + '" frameborder="0" allowfullscreen></iframe>'
+                this.SET_VDO_PATHNAME(myId)
+                console.log("myId : ", myId)
+            }
         }
     }
 }

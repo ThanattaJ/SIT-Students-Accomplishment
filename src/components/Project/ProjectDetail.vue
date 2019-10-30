@@ -92,9 +92,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="card lecturerCard" id="Details">
+                <div id="Details" v-if="video_pathname != null && EditProject == false">
+                    <div class="resp-container">
+                        <iframe width="560" height="315" :src="'//www.youtube.com/embed/' + GET_VDO_PATHNAME " frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="card lecturerCard" id="Documents" v-else-if="EditProject">
+                    <header class="card-header">
+                        <p class="card-header-title" id="cardHeader">Videp</p>
+                    </header>
                     <div class="card-content">
-                        <div class="content" id="content">
+                        <div class="content">
                             <Video />
                         </div>
                     </div>
@@ -119,13 +127,14 @@
                 <div id="tool">
                     <tool />
                 </div>
-                <div class="card lecturerCard" id="Documents" v-if="this.document.name">
+                <div class="card lecturerCard" id="Documents" v-if="files.length > 0 && EditProject == false">
                     <header class="card-header">
                         <p class="card-header-title" id="cardHeader">Documents</p>
                     </header>
                     <div class="card-content">
-                        <div class="content">
-                            <uploadFilePond />
+                        <div class="content" style="color: #265080 !important " v-for="(doc,index) in files" v-bind:key="index">
+                            <a :href="doc.document_path"><span style="color:#265080">{{doc.document_name}}</span></a>
+
                         </div>
                     </div>
                 </div>
@@ -167,7 +176,7 @@ import uploadimg from "./uploadimg";
 import uploadCover from "./uploadCover";
 import editImg from "./editImg"
 import Document from "./../NewPortfolioPage/Document.vue";
-import Video from "./../NewPortfolioPage/Video.vue";
+import Video from "./Video.vue";
 import "./../css/ProjectDetail.css";
 import showImg from "./showImg"
 import approveAssignmentProject from "./../lecturer/approveAssignmentProject"
@@ -178,6 +187,8 @@ export default {
 
     computed: {
         ...mapGetters([
+            'GET_PATHNAME',
+            'GET_VDO_PATHNAME',
             'getFile',
             'getPath',
             'getImages',
@@ -248,14 +259,13 @@ export default {
             Tools: {},
             Acheivement: [],
             References: " ",
-            document: [],
+            // document: [],
+            files: [],
             outsider: [],
             showDetail: true,
             EditProject: false,
             tags: [],
-            video: [{
-                path_name: ''
-            }],
+            video_pathname: '',
             img: [],
             cover: {
                 path: null
@@ -287,7 +297,7 @@ export default {
     },
 
     async mounted() {
-
+        
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -356,11 +366,10 @@ export default {
         this.References = data.project_detail.references
 
         // document
-        for (let i = 0; i < data.document.length; i++) {
-            this.document.push(data.document[i])
-            this.document[i].name = data.document[i];
-        }
-        this.document.length = data.document.length;
+        this.loadDocumentToShow()
+
+        //video
+        this.video_pathname = data.video.path_name
 
         //tag
         for (let i = 0; i < data.tags.length; i++) {
@@ -399,6 +408,21 @@ export default {
         }
     },
     methods: {
+        async loadDocumentToShow(document) {
+            const {
+                data
+            } = await axios.get(this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`)
+
+            const doc = data.document.map((_item, index = 0) => _item.path_name);
+            this.files = []
+            for (let i = 0; i < doc.length; i++) {
+                var docName = doc[i].substring(doc[i].lastIndexOf("/", doc[i].length - 1)).substring(1)
+                this.files.push({
+                    document_name: docName.substring(docName.lastIndexOf("_")).substring(1),
+                    document_path: doc[i]
+                })
+            }
+        },
         ...mapActions([
             'setFile',
             'setPath',
@@ -421,7 +445,41 @@ export default {
 
         ]),
         save() {
+            this.EditProject = false;
             this.setEditProject(this.EditProject)
+            var vdo_pathname = this.GET_VDO_PATHNAME
+            var data = {
+                project_detail: {
+                    id: this.$route.params.pId,
+                    project_name_th: this.header.TitleName_TH,
+                    project_name_en: this.header.TitleName,
+                    project_detail: this.getDetail === " " ? null : this.getDetail,
+                    project_abstract: this.getAbstract,
+                    haveOutsider: true,
+                    isShow: this.show,
+                    tool_techniq_detail: this.getTool === " " ? null : this.getTool,
+                    references: this.getRef === " " ? null : this.getRef,
+                    // count_viewer: 0,
+                    // count_clap: this.clap,
+                    start_month: 2,
+                    start_year_th: 2562,
+                    start_year_en: 2019,
+                    "end_month": 5,
+                    "end_year_th": 2562,
+                    "end_year_en": 2019,
+                    project_type_name: "External"
+                },
+                students: this.getMember,
+                achievements: this.GET_ACHIEVEMENT,
+                tags: [],
+                //update tags  
+                // document: [],
+                picture: [],
+                video: {
+                    path_name: vdo_pathname
+                },
+                outsiders: this.getNonMember
+            }
             try {
                 axios
                     .patch(this.GET_PATHNAME + `/projects/`, {
@@ -449,10 +507,10 @@ export default {
                         achievements: this.GET_ACHIEVEMENT,
                         tags: this.getTag,
                         //update tags  
-                        document: [],
+                        // document: [],
                         picture: [],
                         video: {
-                            path_name: null
+                            path_name: vdo_pathname
                         },
                         outsiders: this.getNonMember
                     }, this.GET_CONFIG)
@@ -465,7 +523,7 @@ export default {
 
                 this.message = "File has been update";
                 this.getEditProject
-                // window.location.reload();
+                this.video_pathname = vdo_pathname
             } catch (err) {
                 console.log("FAILURE!!" + err);
                 this.error = true;
