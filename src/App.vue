@@ -38,7 +38,7 @@
                     <router-link to="/student">
                     <a class="navbar-item menuName">
                         <i class="la la-user"></i>
-                        Profile
+                        My Profile
                     </a>
                     </router-link>
                 </span>

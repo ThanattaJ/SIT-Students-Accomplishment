@@ -17,7 +17,7 @@
                 <div class="column is-3 picture" style="position: relative;">
                     <img class="profileImg StdImgPage" v-if="profile.profile_picture != null" :src="profile.profile_picture" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg">
                     <img class="profileImg StdImgPage" v-else src="./../assets/girl.png" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg">
-                    <div id="textBlock" class="text-block" style="display:flex"><i class="la la-camera-retro"></i>Update</div>
+                    <div id="textBlock" class="text-block" style="display:flex" v-if="access == true"><i class="la la-camera-retro"></i>Update</div>
                     <input type="file" ref="profileImg" @change="uploadProfileImg" class="file-input profileInput" accept=".jpg, .png" @mouseover="showUploadImg" @mouseout="hideUploadImg" />
                 </div>
                 <div class="column is-three-fifths" id="information">
