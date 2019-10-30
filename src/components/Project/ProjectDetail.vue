@@ -46,15 +46,27 @@
                     <approveAssignmentProject></approveAssignmentProject>
                 </div>
                 <div v-if="get_approver == true">
-                    <adminApprover/>
+                    <adminApprover />
                 </div>
                 <div>
                     <md-switch v-model="show" v-if="EditProject">{{show}}</md-switch>
                 </div>
             </div>
-            <a @click="clapProject"><img class="image is-32x32" src="../.././assets/clap.png" style="margin-top:20px ; margin-left:5%"></a>
-            <div style="margin-top:25px ; margin-left:5px">:{{this.getClap}}</div>
-
+            <div v-if="this.clap">
+            <md-button class="md-icon-button md-accent" 
+                        style="margin-top:12px" 
+                        @click="clapProject">
+                        <img class="image" src="../.././assets/clap.png">
+            </md-button>
+            </div>
+            <div v-else>
+                   <md-button class="md-icon-button" disabled
+                        style="margin-top:12px" >
+                        <img class="image" src="../.././assets/clap.png">
+                    </md-button>
+            </div>
+            <div style="margin-top:24px">:{{this.getClap}}</div>
+    
             <img class="image is-32x32" src="../.././assets/visibility-button.png" style=" margin-left: 30px;
             margin-top:20px">
             <div style="margin-top:25px ; margin-left:5px">: {{this.viewer}}</div>
@@ -191,6 +203,9 @@ export default {
             //admin
             'get_approver',
 
+            //login
+            'GET_USERNAME',
+
             //lecturer
             'GET_ISAPPROVER'
         ]),
@@ -268,12 +283,13 @@ export default {
             access: true,
             haveAssignment: false,
             academic_term: '',
-            lecturer: []
+            lecturer: [],
+            isClap: true
         }
     },
 
     async mounted() {
-
+        
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -295,7 +311,7 @@ export default {
             `https://www.sit-acc.nruf.in.th/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
         // "http://localhost:7000/projects/" + this.$route.params.pId
-        console.log('data !! : ',data)
+        console.log('data : ', data)
 
         if (data.project_detail.assignment_detail.assignment_id != null) {
             console.log("have assignment")
@@ -303,20 +319,18 @@ export default {
             this.academic_term = data.project_detail.assignment_detail.academic_term
             // this.header.TitleName_TH = data.project_detail.assignment_detail.course_name
             this.setPID(data.project_detail.assignment_detail.assignment_id)
-            
+
             for (var i = 0; i < data.project_detail.assignment_detail.lecturers.length; i++) {
                 this.lecturer.push(data.project_detail.assignment_detail.lecturers[i])
-            }                      
+            }
             this.haveAssignment = true
 
         } else {
 
-            
-            
             this.setPID(data.project_detail.id)
             this.haveAssignment = false
         }
-        console.log("  this.header.TitleName : ",  data.project_detail.assignment_detail.assignment_name)
+        console.log("  this.header.TitleName : ", data.project_detail.assignment_detail.assignment_name)
         this.header.TitleName = data.project_detail.project_name_en;
         this.header.TitleName_TH = data.project_detail.project_name_th;
         this.viewer = data.project_detail.count_viewer
@@ -334,7 +348,6 @@ export default {
         // this.addTag(data.tags)
         this.show = data.project_detail.isShow
         this.access = data.access
-
 
         // console.log("-----------")
         console.log("acess : ", data)
@@ -376,6 +389,16 @@ export default {
                 })
             }
         }
+        // ------------- clap -------------
+        console.log('GET_USERNAME : ',this.GET_USERNAME)
+        console.log('Member :',this.getMember)
+        for(let i =0 ; i< this.getMember.length ;i++){
+            if(this.getMember[i].student_id === this.GET_USERNAME){
+                this.clap = false
+            }else{
+                this.clap = true
+            }
+        }
     },
     methods: {
         ...mapActions([
@@ -397,7 +420,7 @@ export default {
             'SET_ACHIEVEMENT_STATE',
             'addTag',
             'setClap',
-            'set_assignment_id'
+
         ]),
         save() {
             this.EditProject = false;
@@ -467,14 +490,13 @@ export default {
                 }).then(function (res) {
                     console.log(res);
                 });
-                var clap = this.getClap +1
+                var clap = this.getClap + 1
                 this.setClap(clap)
-                console.log('can clap',clap)
+                console.log('can clap', clap)
             } catch (err) {
                 console.log('can not clap')
             }
-        }
-
+        },
     },
     beforeDestroy() {
         this.setImage([])
@@ -489,5 +511,8 @@ export default {
 #coverI {
     max-width: 1000px;
     max-height: 600px;
+}
+.md-button.md-theme-default.md-accent{
+    color: #265080;
 }
 </style>
