@@ -7,7 +7,7 @@
           :key="i" 
           :project_id="projects[i].project_id"
           :image="projects[i].cover_path"
-          :link="`https://www.sit-acc.nruf.in.th/ProjectDetail/${projects[i].project_id}`">
+          :link="`https://accomplishment-sit.netlify.com/ProjectDetail/${projects[i].project_id}`">
       </vueper-slide>
     </vueper-slides>
     </div>
