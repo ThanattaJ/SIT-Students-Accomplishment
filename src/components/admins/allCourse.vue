@@ -160,7 +160,8 @@ export default {
     computed: {
         ...mapGetters([
             'get_course',
-            'get_lecturer'
+            'get_lecturer',
+            'GET_PATHNAME'
         ]),
         messageClass() {
             if (this.addInput.course != null) {
@@ -191,7 +192,7 @@ export default {
             }
 
         },
-        get_course() {
+        get_course:function() {
             if (this.search != " ") {
                 return this.persons.filter(
                     items =>
@@ -233,7 +234,7 @@ export default {
     async mounted() {
         const {
             data
-        } = await axios.get('https://www.sit-acc.nruf.in.th/course')
+        } = await axios.get(this.GET_PATHNAME+'/course')
         this.set_course(data)
         for (let i = 0; i < data.length; i++) {
             this.persons.push(data[i])
@@ -244,7 +245,7 @@ export default {
             this.persons[i].course_detail = data[i].course_detail
         }
         this.persons.length = data.length
-        console.log('data',data)
+        console.log('data',this.persons)
     },
     methods: {
         ...mapActions([
@@ -260,7 +261,7 @@ export default {
         async add() {
             if (!this.hasMessages) {
                 try {
-                    axios.post('https://www.sit-acc.nruf.in.th/course', {
+                    axios.post(this.GET_PATHNAME+'/course', {
                         code: this.addInput.course,
                         name: this.addInput.name,
                     }).then(function (res) {
@@ -317,7 +318,7 @@ export default {
                 console.log("if : ", this.editInput.course.length)
                 JSON.stringify(this.persons[index])
                 try {
-                    axios.patch('https://www.sit-acc.nruf.in.th/course?id=' + this.persons[index].course_id, {
+                    axios.patch(this.GET_PATHNAME+'/course?id=' + this.persons[index].course_id, {
                         code: this.editInput.course,
                         name: this.editInput.name,
                         detail: this.editInput.course_detail
@@ -385,12 +386,13 @@ export default {
             this.int = []
             this.set_course(this.persons)
             for (let i = 0; i < this.persons.length; i++) {
-                if (this.get_course[i].course_code.substring(0, 3) === "INT") {
+                if (this.get_course[i].course_code.substring(0,3) === "INT") {
                     this.int.push(this.get_course[i])
                 }
             }
-            console.log(this.get_course.length)
+            // console.log("int :",this.int)
             this.set_course(this.int)
+            // console.log("get_course",this.get_course.length)
         },
         comSci() {
             this.int = []

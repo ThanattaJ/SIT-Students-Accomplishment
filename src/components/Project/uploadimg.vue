@@ -51,7 +51,8 @@ export default {
     name: "uploadimg",
     computed: {
         ...mapGetters([
-            'GET_CONFIG'
+            'GET_CONFIG',
+            'GET_PATHNAME'
         ])
     },
     data() {
@@ -92,7 +93,7 @@ export default {
             try {
                 const {
                     data
-                } = await axios.post('https://www.sit-acc.nruf.in.th/files/imageMul', formData, this.GET_CONFIG)
+                } = await axios.post(this.GET_PATHNAME+'/files/imageMul', formData, this.GET_CONFIG)
 
                 this.message = "File has been uploaded";
                 this.error = false;

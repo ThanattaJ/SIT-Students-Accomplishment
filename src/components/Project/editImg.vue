@@ -61,7 +61,8 @@ export default {
             'getEditProject',
             'getImages',
             'GET_CONFIG',
-            'getPic'
+            'getPic',
+            'GET_PATHNAME'
         ]),
     },
     components: {
@@ -100,7 +101,7 @@ export default {
 
             try {
                 axios
-                    .delete("https://www.sit-acc.nruf.in.th/files/image", {
+                    .delete(this.GET_PATHNAME+"/files/image", {
                         //.delete("http://localhost:7000/files/image", {
                         data: {
                             path_name: this.getImages[index].path
@@ -132,7 +133,7 @@ export default {
             try {
                 const {
                     data
-                } = await axios.post('https://www.sit-acc.nruf.in.th/files/imageMul', formData, this.GET_CONFIG)
+                } = await axios.post(this.GET_PATHNAME+'/files/imageMul', formData, this.GET_CONFIG)
 
                 this.message = "File has been uploaded";
                 this.error = false;

@@ -48,7 +48,8 @@ export default {
     name: 'app',
     computed:{
         ...mapGetters([
-            'getPID'
+            'getPID',
+            'GET_PATHNAME'
         ])
     },
     data: function () {
@@ -57,7 +58,7 @@ export default {
             files: [],
             myFiles: [],
             // apiPath: "http://localhost:7000/files/document",
-            apiPath: "https://www.sit-acc.nruf.in.th/files/document",
+            apiPath: this.GET_PATHNAME+"/files/document",
             api: {
                 process: async (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                     const formData = new FormData();
@@ -112,7 +113,7 @@ export default {
         this.loadAllDocs()
         // const { data } = await axios.get('http://localhost:7000/projects/1')
         // console.log("getID : ",this.getPID)
-        const { data } = await axios.get(`https://www.sit-acc.nruf.in.th/projects/?project_id=${this.$route.params.pId}`)
+        const { data } = await axios.get(this.GET_PATHNAME+`/projects/?project_id=${this.$route.params.pId}`)
         const doc = data.document.map((_item, index = 0) => _item.path_name);
 
         for (let i = 0; i < doc.length; i++) {
@@ -139,7 +140,7 @@ export default {
         loadAllDocs: async function () {
             this.files = []
             // const { data } = await axios.get('http://localhost:7000/projects/1')
-            const { data } = await axios.get(`https://www.sit-acc.nruf.in.th/projects/?project_id=${this.$route.params.pId}`)
+            const { data } = await axios.get(this.GET_PATHNAME+`/projects/?project_id=${this.$route.params.pId}`)
             const doc = data.document.map((_item, index = 0) => _item.path_name);
 
             for (let i = 0; i < doc.length; i++) {

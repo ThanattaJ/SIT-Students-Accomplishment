@@ -29,7 +29,7 @@
                                                 <span v-if="file" class="file-name">{{file.name}}</span>
                                                 <p>{{message}}</p>
                                                 <div class="column" id="update">
-                                                    <md-button class="md-raised md-primary" @click="sendFile" type="submit">Update</md-button>
+                                                    <md-button class="md-raised md-primary" @click="sendFile" type="submit" onclick="return false">Update</md-button>
                                                     <md-button class="md-accent" @click="close">cancle</md-button>
                                                 </div>
                                             </div>
@@ -59,6 +59,11 @@ import {
     mapGetters
 } from 'vuex';
 export default {
+    computed:{
+        ...mapGetters([
+            'GET_PATHNAME'
+        ])
+    },
     name: "uploadCover",
     data() {
         return {
@@ -99,14 +104,19 @@ export default {
             try {
                 const {
                     data
-                } = await axios.post('https://www.sit-acc.nruf.in.th/files/image', formData)
+                } = await axios.post(this.GET_PATHNAME+'/files/image', formData)
                 //https://www.sit-acc.nruf.in.th
-
+                .then(res => {
+                    console.log("res : ", res)
+                    if (res.status == 200) {
+                         this.isActive = false;
+                    }
+                })
                 this.message = "File has been uploaded";
                 this.error = false;
                 console.log(data)
                 this.setFile(data.url)
-                this.isActive = false;
+               
                 // this.setFile(data.status)
 
             } catch (err) {
@@ -132,14 +142,13 @@ export default {
             if (!file) {
                 e.preventDefault();
                 alert('No file chosen');
-                return;
             }
             if (file.size > 35000000) {
                 e.preventDefault();
                 alert('File too big (> 1MB)');
-                return;
             }
             alert('File OK');
+            return false
         },
         beforeDestroy() {
             this.setFile(" ")

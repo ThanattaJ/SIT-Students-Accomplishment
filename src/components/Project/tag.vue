@@ -13,6 +13,7 @@ import {
     mapGetters,
     mapActions
 } from 'vuex';
+import index from '../../router';
 
 export default {
     components: {
@@ -25,19 +26,20 @@ export default {
             autocompleteItems: [],
             index: 0,
             storeTags: [],
+            arrayTags:[]
 
         };
     },
     computed: {
         ...mapGetters([
             'getTag',
+            'GET_PATHNAME'
         ]),
         filteredItems() {
-            return this.autocompleteItems.filter(i => {
-                return i.text.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1;
+            return this.arrayTags.filter(i => {
+                return i.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1;
             });
-        },
-
+        },   
     },
     mounted() {
         for (let i = 0; i < this.getTag.length; i++) {
@@ -46,7 +48,6 @@ export default {
                 text: this.getTag[i].tag_name
             })
             // console.log(this.storeTags[i])
-
         }
     },
     methods: {
@@ -63,7 +64,7 @@ export default {
             }
             const {
                 data
-            } = await axios.get(`https://www.sit-acc.nruf.in.th/tags/${this.tag}`)
+            } = await axios.get(this.GET_PATHNAME+`/tags/${this.tag}`)
             // console.log(data)
             data.forEach(tag => {
                 this.autocompleteItems.push({
@@ -71,18 +72,16 @@ export default {
                 })
             })
 
-          
-
-            // const a = this.autocompleteItems;
-
-            // const uniqueArray = a.filter(function (item, pos) {
-            //     return a.indexOf(item) === a.lastIndexOf(item);
-            // })
-
-            // console.log(uniqueArray);
+            for(let i = 0 ;i<this.autocompleteItems.length;i++){
+                this.arrayTags.push(this.autocompleteItems[i].text)
+            }
+            this.arrayTags.reduce((unique,item)=>{
+                return this.arrayTags = unique.includes(item) ? unique : [...unique,item]
+            },[])
+            console.log("auto ; ",this.arrayTags)
         },
         tags() {
-            this.autocompleteItems = []
+            // this.autocompleteItems = []
             if (this.tags.length != 0) {
                 for (let i = 0; i < this.tags.length; i++) {
                     console.log("tags : ", this.tags[i].text)
@@ -96,13 +95,17 @@ export default {
                 this.storeTags = []
                 this.setTag(this.storeTags)
             }
-            // this.setTag(this.storeTags)
+            this.setTag(this.storeTags)
         },
         getTag() {
             this.storeTags = []
         }
 
-    }
+    },
+    beforeDestroy() {
+    this.storeTags = [] 
+    this.autocompleteItems = []
+    },
 
 };
 </script>

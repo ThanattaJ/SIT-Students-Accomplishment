@@ -126,6 +126,7 @@ export default {
             'get_course',
             'get_lecturer',
             'get_select_lecturer',
+            'GET_PATHNAME'
         ])
     },
     data() {
@@ -180,7 +181,7 @@ export default {
     async mounted() {
         const {
             data
-        } = await axios.get('https://www.sit-acc.nruf.in.th/course/courseSemester')
+        } = await axios.get(this.GET_PATHNAME+'/course/courseSemester')
         this.set_semester(data)
         for (let i = 0; i < data.course.length; i++) {
             this.set_course(data.course[i])
@@ -202,7 +203,7 @@ export default {
         this.semesters.length = data.semester.length
 
         var lecturer
-        await axios.get('https://www.sit-acc.nruf.in.th/users/list_lecturer').then(response => lecturer = response.data)
+        await axios.get(this.GET_PATHNAME+'/users/list_lecturer').then(response => lecturer = response.data)
         for (let i = 0; i < lecturer.length; i++) {
             this.set_lecturer(lecturer)
         }
@@ -210,7 +211,7 @@ export default {
         // ------------------
 
         var course
-        await axios.get('https://www.sit-acc.nruf.in.th/course').then(response => course = response.data)
+        await axios.get(this.GET_PATHNAME+'/course').then(response => course = response.data)
 
         for (let i = 0; i < course.length; i++) {
             this.set_course(course)
@@ -277,7 +278,7 @@ export default {
             console.log('lecturer', this.storeLecturer)
             if (this.get_semester.course[0].academic_term_id) {
                 try {
-                    await axios.post('https://www.sit-acc.nruf.in.th/course/courseSemester', {
+                    await axios.post(this.GET_PATHNAME+'/course/courseSemester', {
                         academic_term_id: this.get_semester.course[0].academic_term_id,
                         course_id: this.item.value,
                         lecturers: this.storeLecturer
@@ -351,7 +352,7 @@ export default {
             console.log('lecturer', this.storeLecturer)
             if (this.get_semester.course[0].academic_term_id) {
                 try {
-                    axios.patch('https://www.sit-acc.nruf.in.th/course/courseSemester', {
+                    axios.patch(this.GET_PATHNAME+'/course/courseSemester', {
                         academic_term_id: this.get_semester.course[0].academic_term_id,
                         course_id: this.item.value,
                         lecturers: this.storeLecturer
@@ -388,7 +389,7 @@ export default {
             console.log("____")
             try {
                 axios
-                    .delete("https://www.sit-acc.nruf.in.th/course/courseSemester", {
+                    .delete(this.GET_PATHNAME+"/course/courseSemester", {
                         data: {
                             academic_term_id: this.get_semester.course[0].academic_term_id,
                             course_id: course_id
@@ -413,7 +414,7 @@ export default {
             try {
                 const {
                     data
-                } = await axios.get('https://www.sit-acc.nruf.in.th/course/courseSemester?semester_id=' + this.semesters[indexSem].academic_term_id)
+                } = await axios.get(this.GET_PATHNAME+'/course/courseSemester?semester_id=' + this.semesters[indexSem].academic_term_id)
                 console.log("semester : ", data)
 
                 for (let i = 0; i < data.course.length; i++) {

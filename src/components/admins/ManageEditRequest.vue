@@ -30,7 +30,8 @@ export default {
         ...mapGetters([
             'GET_CONFIG',
             'GET_ALL_PROJECT_VISITORVIEW',
-            'get_approver'
+            'get_approver',
+            'GET_PATHNAME'
         ])
     },
     data() {
@@ -47,7 +48,7 @@ export default {
             data
         } =
         await axios.get(
-            'https://www.sit-acc.nruf.in.th/assignment/requests?status=Request',
+            this.GET_PATHNAME+'/assignment/requests?status=Request',
             this.GET_CONFIG);
         this.request = data
         console.log("data : ", this.request)

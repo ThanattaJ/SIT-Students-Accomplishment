@@ -50,7 +50,7 @@ export default {
     async mounted() {
         const {
             data
-        } = await axios.get('https://www.sit-acc.nruf.in.th/users/list_lecturer');
+        } = await axios.get(this.GET_PATHNAME+'/users/list_lecturer');
         for (let i = 0; i < data.length; i++) {
             this.persons.push(data[i])
             this.persons[i].fName = data[i].firstname

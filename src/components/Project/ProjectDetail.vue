@@ -37,7 +37,7 @@
         </div>
         <div class="columns">
             <div class="column is-four-fifths">
-                <div v-if="this.access === true">
+                <div v-if="this.access == true">
                     <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
                     <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
                     <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
@@ -53,20 +53,17 @@
                 </div>
             </div>
             <div v-if="this.clap">
-            <md-button class="md-icon-button md-accent" 
-                        style="margin-top:12px" 
-                        @click="clapProject">
-                        <img class="image" src="../.././assets/clap.png">
-            </md-button>
+                <md-button class="md-icon-button md-accent" style="margin-top:12px" @click="clapProject">
+                    <img class="image" src="../.././assets/clap.png">
+                </md-button>
             </div>
             <div v-else>
-                   <md-button class="md-icon-button" disabled
-                        style="margin-top:12px" >
-                        <img class="image" src="../.././assets/clap.png">
-                    </md-button>
+                <md-button class="md-icon-button" disabled style="margin-top:12px">
+                    <img class="image" src="../.././assets/clap.png">
+                </md-button>
             </div>
             <div style="margin-top:24px">:{{this.getClap}}</div>
-    
+
             <img class="image is-32x32" src="../.././assets/visibility-button.png" style=" margin-left: 30px;
             margin-top:20px">
             <div style="margin-top:25px ; margin-left:5px">: {{this.viewer}}</div>
@@ -200,6 +197,7 @@ export default {
             'getPic',
             'getNonMember',
             'getClap',
+            'GET_PATHNAME',
             //admin
             'get_approver',
 
@@ -289,7 +287,7 @@ export default {
     },
 
     async mounted() {
-        
+
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -308,7 +306,7 @@ export default {
         const {
             data
         } = await axios.get(
-            `https://www.sit-acc.nruf.in.th/projects/?project_id=${this.$route.params.pId}`,
+            this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
         // "http://localhost:7000/projects/" + this.$route.params.pId
         console.log('data : ', data)
@@ -350,7 +348,7 @@ export default {
         this.access = data.access
 
         // console.log("-----------")
-        console.log("acess : ", data)
+        console.log("acess : ", this.access)
 
         this.Abstract.content_Abstract = data.project_detail.project_abstract
         this.Detail.content_eg = data.project_detail.project_detail
@@ -390,12 +388,12 @@ export default {
             }
         }
         // ------------- clap -------------
-        console.log('GET_USERNAME : ',this.GET_USERNAME)
-        console.log('Member :',this.getMember)
-        for(let i =0 ; i< this.getMember.length ;i++){
-            if(this.getMember[i].student_id === this.GET_USERNAME){
+        console.log('GET_USERNAME : ', this.GET_USERNAME)
+        console.log('Member :', this.getMember)
+        for (let i = 0; i < this.getMember.length; i++) {
+            if (this.getMember[i].student_id === this.GET_USERNAME) {
                 this.clap = false
-            }else{
+            } else {
                 this.clap = true
             }
         }
@@ -423,11 +421,10 @@ export default {
 
         ]),
         save() {
-            this.EditProject = false;
             this.setEditProject(this.EditProject)
             try {
                 axios
-                    .patch(`https://www.sit-acc.nruf.in.th/projects/`, {
+                    .patch(this.GET_PATHNAME + `/projects/`, {
                         project_detail: {
                             id: this.$route.params.pId,
                             project_name_th: this.header.TitleName_TH,
@@ -450,7 +447,7 @@ export default {
                         },
                         students: this.getMember,
                         achievements: this.GET_ACHIEVEMENT,
-                        tags: [],
+                        tags: this.getTag,
                         //update tags  
                         document: [],
                         picture: [],
@@ -459,11 +456,16 @@ export default {
                         },
                         outsiders: this.getNonMember
                     }, this.GET_CONFIG)
-                    .then(function (res) {
-                        console.log(res);
-                    });
+                    .then(res => {
+                        console.log("res : ", res)
+                        if (res.status == 200) {
+                            this.EditProject = false;
+                        }
+                    })
+
                 this.message = "File has been update";
                 this.getEditProject
+                // window.location.reload();
             } catch (err) {
                 console.log("FAILURE!!" + err);
                 this.error = true;
@@ -485,7 +487,7 @@ export default {
         },
         clapProject() {
             try {
-                axios.patch(`https://www.sit-acc.nruf.in.th/projects/claping`, {
+                axios.patch(this.GET_PATHNAME + `/projects/claping`, {
                     project_id: this.$route.params.pId
                 }).then(function (res) {
                     console.log(res);
@@ -512,7 +514,8 @@ export default {
     max-width: 1000px;
     max-height: 600px;
 }
-.md-button.md-theme-default.md-accent{
+
+.md-button.md-theme-default.md-accent {
     color: #265080;
 }
 </style>
