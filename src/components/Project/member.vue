@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import router from '../../router/index'
 import {
     mapGetters,
     mapActions
@@ -81,6 +82,7 @@ export default {
             } catch(err) {
                 console.log('err',err)
             }
+            this.$router.push('/student')
         }
     },
     beforeDestroy() {
