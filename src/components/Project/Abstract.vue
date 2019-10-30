@@ -30,7 +30,7 @@
                     class="textarea has-fixed-size"
                     v-model="message"
                     id="abstracts"
-                    :disabled="this.getEditProject"
+                    :disabled="!this.getEditProject"
                   ></textarea> 
                 </div>
               </div>
