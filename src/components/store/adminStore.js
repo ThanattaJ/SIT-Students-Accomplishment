@@ -2,15 +2,23 @@ import axios from "axios";
 
 export const adminStore = {
     state: {
-        course:[],
+        course:[{
+            course_code:'',
+            name:'',
+            course_detail:''
+        }],
         lecturers:[],
         semester:[],
         thisShow:false,
-        selectLecturer:[]
+        selectLecturer:[],
+        isApprover: false,
     },
     mutations: {
         set_course:(state,course)=>{
             state.course = course
+        },
+        push_course:(state,course)=>{
+            state.course.push(course)
         },
         set_lecturers:(state,lecturer)=>{
             state.lecturers = lecturer
@@ -40,11 +48,17 @@ export const adminStore = {
         },
         setShow:(state,thisShow)=>{
             state.thisShow =thisShow
+        },
+        set_approver:(state,isApprover)=>{
+            state.isApprover = isApprover
         }
     },
     actions: {
         set_course:({commit},course)=>{
             commit('set_course',course)
+        },
+        push_course:({commit},course)=>{
+            commit('push_course',course)
         },
         set_lecturers:({commit},lecturer)=>{
             commit('set_lecturers',lecturer)
@@ -68,6 +82,9 @@ export const adminStore = {
         },
         setShow:({commit},thisShow)=>{
             commit('setShow',thisShow)
+        },
+        set_approver:({commit},isApprover)=>{
+            commit('set_approver',isApprover)
         }
     },
     getters: {
@@ -86,6 +103,9 @@ export const adminStore = {
         },
         getShow(state){
             return state.semester
+        },
+        get_approver(state){
+            return state.isApprover
         }
     }
 }

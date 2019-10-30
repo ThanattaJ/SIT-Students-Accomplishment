@@ -7,14 +7,14 @@
         <div class="card-content" id="student">
             <div class="columns" v-for="(student,index) in getMember" v-bind:key="index">
                 <div class="column" id="left">
-                    <div class="content">
+                    <div class="content" @click="profile(index)">
                         <input class="input" type="text" v-model="student.firstname" id="fname" disabled style="font-size:1px;" />
                         <input class="input" type="text" v-model="student.lastname" id="lname" disabled />
                     </div>
                 </div>
                 <div class="column">
                     <div class="content">
-                        <div id="student_id">ID : {{student.student_id}}</div>
+                        <div id="student_id" @click="profile(index)">ID : {{student.student_id}}</div>
                         <div id="mail">{{student.email}}</div>
                     </div>
                 </div>
@@ -48,21 +48,40 @@ import {
 export default {
     data() {
         return {
-            fullname: ''
+            fullname: '',
+            user_role: "student"
         }
     },
     computed: {
         ...mapGetters([
             'getNonMember',
             'getMember',
-            'getEditProject'
+            'getEditProject',
+            'GET_STUDENT_PROFILE'
         ])
     },
     methods: {
         ...mapActions([
             'setMember',
-            'setNonMember'
-        ])
+            'setNonMember',
+            'LOAD_OTHER_STUDENT_DATA'
+        ]),
+        profile(index) {
+
+         
+            var user_id = this.getMember[index].student_id
+            console.log('user_id ', user_id)
+            var user_role = 'student'
+            try {
+                this.LOAD_OTHER_STUDENT_DATA({
+                    user_role: user_role,
+                    user_id: user_id,
+                })
+
+            } catch(err) {
+                console.log('err',err)
+            }
+        }
     },
     beforeDestroy() {
         this.setMember(" ")
@@ -102,7 +121,6 @@ export default {
     max-width: 80%;
     table-layout: fixed;
 }
-
 
 #lname {
     margin-right: -30px !important;

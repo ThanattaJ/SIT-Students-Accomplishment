@@ -79,10 +79,8 @@ span:active{
     color: white !important
 }
 #box{
-     width: 10%;
     font-size: 16px;
-    
-    
+    width: 20%;
 }
 
 

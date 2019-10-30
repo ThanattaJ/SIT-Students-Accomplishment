@@ -109,7 +109,7 @@
             <div class="modal-card">
                 <header class="modal-card-head">
                     <p class="modal-card-title">Edit Achievement</p>
-                    <button class="delete closeDialog" ariaLabel="close" v-on:click="editAchievementDialog = false;clearInputValue()"></button>
+                   <button class="delete closeDialog" ariaLabel="close" v-on:click="editAchievementDialog = false;clearInputValue()"></button> 
                 </header>
                 <section class="modal-card-body">
                     <div class="field">

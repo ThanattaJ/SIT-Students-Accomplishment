@@ -45,12 +45,15 @@
                 <div v-if="GET_ISAPPROVER == true">
                     <approveAssignmentProject></approveAssignmentProject>
                 </div>
+                <div v-if="get_approver == true">
+                    <adminApprover/>
+                </div>
                 <div>
                     <md-switch v-model="show" v-if="EditProject">{{show}}</md-switch>
                 </div>
             </div>
-            <button @click="clapProject"><img class="image is-32x32" src="../.././assets/clap.png" style="margin-top:20px ; margin-left:5%"></button>
-            <div style="margin-top:25px ; margin-left:5px">:{{this.clap}}</div>
+            <a @click="clapProject"><img class="image is-32x32" src="../.././assets/clap.png" style="margin-top:20px ; margin-left:5%"></a>
+            <div style="margin-top:25px ; margin-left:5px">:{{this.getClap}}</div>
 
             <img class="image is-32x32" src="../.././assets/visibility-button.png" style=" margin-left: 30px;
             margin-top:20px">
@@ -92,7 +95,7 @@
                 <div id="Authors">
                     <member />
                 </div>
-                <div id="lecturer" v-if="this.haveAssignment" >
+                <div id="lecturer" v-if="this.haveAssignment">
                     <div class="card lecturerCard" id="Documents">
                         <header class="card-header">
                             <p class="card-header-title" id="cardHeader">Lecturer</p>
@@ -159,6 +162,7 @@ import Video from "./../NewPortfolioPage/Video.vue";
 import "./../css/ProjectDetail.css";
 import showImg from "./showImg"
 import approveAssignmentProject from "./../lecturer/approveAssignmentProject"
+import adminApprover from "./../admins/adminApprover"
 export default {
 
     namePro: "ProjectDetail",
@@ -183,6 +187,9 @@ export default {
             'GET_STUDENT_PROJECT',
             'getPic',
             'getNonMember',
+            'getClap',
+            //admin
+            'get_approver',
 
             //lecturer
             'GET_ISAPPROVER'
@@ -203,7 +210,8 @@ export default {
         showImg,
         editImg,
         tag,
-        approveAssignmentProject
+        approveAssignmentProject,
+        adminApprover
     },
 
     data() {
@@ -287,36 +295,30 @@ export default {
             `https://www.sit-acc.nruf.in.th/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
         // "http://localhost:7000/projects/" + this.$route.params.pId
+        console.log('data !! : ',data)
 
         if (data.project_detail.assignment_detail.assignment_id != null) {
             console.log("have assignment")
-            this.header.TitleName = data.project_detail.assignment_detail.assignment_name,
+            // this.header.TitleName = data.project_detail.assignment_detail.assignment_name,
             this.academic_term = data.project_detail.assignment_detail.academic_term
-            this.header.TitleName_TH = data.project_detail.assignment_detail.course_name
+            // this.header.TitleName_TH = data.project_detail.assignment_detail.course_name
             this.setPID(data.project_detail.assignment_detail.assignment_id)
-            // this.lecturer = data.project_detail.assignment_detail.lecturer
-            for(var i = 0; i<data.project_detail.assignment_detail.lecturers.length;i++){
+            
+            for (var i = 0; i < data.project_detail.assignment_detail.lecturers.length; i++) {
                 this.lecturer.push(data.project_detail.assignment_detail.lecturers[i])
-            }
-            console.log("lecturer : ",this.lecturer)
-            // "assignment_id": null,
-            // "assignment_name": null, /
-            // "academic_term_id": null,
-            // "academic_term": null, /
-            // "course_id": null,
-            // "course_name": null,/
-            // "lecturers": null,/
-            // "project_status": null,
-            // "comment": null
+            }                      
             this.haveAssignment = true
 
         } else {
-            this.header.TitleName = data.project_detail.project_name_en;
-            this.header.TitleName_TH = data.project_detail.project_name_th;
+
+            
+            
             this.setPID(data.project_detail.id)
             this.haveAssignment = false
         }
-        this.clap = data.project_detail.count_clap
+        console.log("  this.header.TitleName : ",  data.project_detail.assignment_detail.assignment_name)
+        this.header.TitleName = data.project_detail.project_name_en;
+        this.header.TitleName_TH = data.project_detail.project_name_th;
         this.viewer = data.project_detail.count_viewer
         this.create = data.project_detail.created_at
         this.update = data.project_detail.updated_at
@@ -328,9 +330,11 @@ export default {
         this.setRef(data.project_detail.references)
         this.setTool(data.project_detail.tool_techniq_detail)
         this.setTag(data.tags)
+        this.setClap(data.project_detail.count_clap)
         // this.addTag(data.tags)
         this.show = data.project_detail.isShow
         this.access = data.access
+
 
         // console.log("-----------")
         console.log("acess : ", data)
@@ -391,7 +395,9 @@ export default {
             'addPushImage',
             'setImage',
             'SET_ACHIEVEMENT_STATE',
-            'addTag'
+            'addTag',
+            'setClap',
+            'set_assignment_id'
         ]),
         save() {
             this.EditProject = false;
@@ -410,7 +416,7 @@ export default {
                             tool_techniq_detail: this.getTool === " " ? null : this.getTool,
                             references: this.getRef === " " ? null : this.getRef,
                             // count_viewer: 0,
-                            count_clap: this.clap,
+                            // count_clap: this.clap,
                             start_month: 2,
                             start_year_th: 2562,
                             start_year_en: 2019,
@@ -455,7 +461,18 @@ export default {
             // console.log("2",this.getEditProject)
         },
         clapProject() {
-            this.clap++
+            try {
+                axios.patch(`https://www.sit-acc.nruf.in.th/projects/claping`, {
+                    project_id: this.$route.params.pId
+                }).then(function (res) {
+                    console.log(res);
+                });
+                var clap = this.getClap +1
+                this.setClap(clap)
+                console.log('can clap',clap)
+            } catch (err) {
+                console.log('can not clap')
+            }
         }
 
     },

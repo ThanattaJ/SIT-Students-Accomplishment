@@ -22,17 +22,7 @@ export default {
         return {
             tag: '',
             tags: [],
-            autocompleteItems: [{
-                text: 'Spain',
-            }, {
-                text: 'France',
-            }, {
-                text: 'USA',
-            }, {
-                text: 'Germany',
-            }, {
-                text: 'China',
-            }],
+            autocompleteItems: [],
             index: 0,
             storeTags: [],
 
@@ -47,12 +37,13 @@ export default {
                 return i.text.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1;
             });
         },
+
     },
     mounted() {
         for (let i = 0; i < this.getTag.length; i++) {
             // this.storeTags[i] = this.getTag[i].tag_name
             this.tags.push({
-                text : this.getTag[i].tag_name
+                text: this.getTag[i].tag_name
             })
             // console.log(this.storeTags[i])
 
@@ -65,7 +56,7 @@ export default {
     },
     watch: {
         async tag(newVal) {
-            console.log(this.tag.length)
+            // console.log(this.tag.length)
             if (this.tag.length === 0) {
                 this.autocompleteItems = []
                 console.log("ไม่มีค่า tag")
@@ -79,27 +70,36 @@ export default {
                     text: tag.tag_name
                 })
             })
-            // console.log(this.autocompleteItems)
+
+          
+
+            // const a = this.autocompleteItems;
+
+            // const uniqueArray = a.filter(function (item, pos) {
+            //     return a.indexOf(item) === a.lastIndexOf(item);
+            // })
+
+            // console.log(uniqueArray);
         },
         tags() {
             this.autocompleteItems = []
-            if(this.tags.length != 0){
-                for(let i =0 ; i < this.tags.length ;i++){
-                    console.log("tags : ",this.tags[i].text)
+            if (this.tags.length != 0) {
+                for (let i = 0; i < this.tags.length; i++) {
+                    console.log("tags : ", this.tags[i].text)
                     this.storeTags.push({
-                        tag_name:this.tags[i].text
+                        tag_name: this.tags[i].text
                     })
                 }
                 this.setTag(this.storeTags)
-                console.log("getTag : ",this.getTag)
-            }else{
-                this.storeTags= []
+                // console.log("getTag : ", this.getTag)
+            } else {
+                this.storeTags = []
                 this.setTag(this.storeTags)
             }
             // this.setTag(this.storeTags)
         },
-        getTag(){
-            this.storeTags= []
+        getTag() {
+            this.storeTags = []
         }
 
     }

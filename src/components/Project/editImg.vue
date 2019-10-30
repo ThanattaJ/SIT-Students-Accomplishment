@@ -166,7 +166,7 @@ export default {
         }
     },
     beforeDestroy() {
-        this.setImage([])
+        // this.setImage([])
     }
 
 }

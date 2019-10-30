@@ -26,11 +26,11 @@
                             {{nameLec.lecturer_name}}
                         </md-table-row>
                     </md-table-cell>
-                    <md-table-cell>
-                        <a href="#modal" id="Action" @click="edit(index)" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons">edit</i>
-                        </a>
-                        <a href="#!" id="Action" class="btn waves-effect waves-light red darken-2" @click="Delete(index)"><i class="material-icons">Delete</i>
-                        </a>
+                    <md-table-cell id="barAction">
+                        <p class="control">
+                            <i class="la la-edit" @click="edit(index)" id="Action"></i>
+                            <!-- <i class="la la-trash" @click="Delete(index)" id="Action"></i> -->
+                        </p>
                     </md-table-cell>
                 </md-table-row>
                 <md-table-row>
@@ -39,7 +39,7 @@
                     <md-table-head>Lecturer</md-table-head>
                 </md-table-row>
                 <md-table-row>
-                    <md-table-head md-numeric>#</md-table-head>
+                    <md-table-head md-numeric>+</md-table-head>
                     <td>
                         <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
                         </model-select>
@@ -49,9 +49,10 @@
                         </multi-select>
                     </td>
                     <td id="add_course">
-                        <a href="#modal" id="Action" @click="add()" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons">save</i>
-                            <!-- <button id="reset" @click="reset">cancle</button> -->
-                        </a>
+                        <!-- <a href="#modal" id="Action" @click="add()" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons">save</i>
+                            <button id="reset" @click="reset">cancle</button>
+                        </a> -->
+                        <button class="button is-success" id="addSemester" @click="add()">ADD</button>
                     </td>
                 </md-table-row>
 
@@ -78,19 +79,16 @@
         </div>
         <div v-bind:class="{'is-active':isActive}" id="modal" class="modal">
             <div class="modal-background"></div>
-            <div class="modal-card">
-                <div class="modal-card-body">
-                    <h4 class="center-align">Edit</h4>
-                    <div class="row">
-                        <md-field>
-                            <model-select :options="option" v-model="item" placeholder="select course">
-                            </model-select>
-                        </md-field>
-                        <md-field>
-                            <multi-select :options="options" :selected-options="items" placeholder="select item" @select="onSelect">
-                            </multi-select>
-                        </md-field>
-                    </div>
+            <div class="modal-card" id="editCourse">
+                <div class="modal-card-body" id="editCourse">
+                    <md-card-header>
+                        <div class="md-title">EDIT</div>
+                    </md-card-header>
+
+                    <model-select :options="option" v-model="item" placeholder="select course">
+                    </model-select>
+                    <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect">
+                    </multi-select>
                 </div>
                 <footer class="modal-card-foot" id="foot-modal">
                     <md-button class="md-dense md-raised md-primary" href="#!" @click="update(editInput.indexCouse)">Update</md-button>
@@ -171,7 +169,6 @@ export default {
             showLec: [],
             removed: '',
             options: [],
-            searchText: [],
             items: [],
             lastSelectItem: {},
             option: [],
@@ -181,7 +178,6 @@ export default {
         }
     },
     async mounted() {
-        console.log("all course : ", this.storeCourse)
         const {
             data
         } = await axios.get('https://www.sit-acc.nruf.in.th/course/courseSemester')
@@ -245,13 +241,11 @@ export default {
 
         var result = onlyInCourse.concat(onlyInHave);
 
-        console.log("all course  : ", onlyInCourse)
-        console.log("have this course : ", onlyInHave)
         // console.log("course  : ", result)
 
         for (let i = 0; i < result.length; i++) {
             this.option.push({
-                text: result[i].course_code + ' | ' + result[i].course_name,
+                text: result[i].course_code + ' ' + result[i].course_name,
                 value: result[i].course_id
             })
         }
@@ -273,15 +267,7 @@ export default {
             this.items = []
             this.item = {}
         },
-        selectFromParentComponent() {
-            this.items = _.unionWith(this.items, [this.options[0]], _.isEqual)
-        },
-        selectFromParentComponent1() {
-            this.item = this.option[0]
-        },
         async add() {
-            console.log("store", this.storeLecturer)
-            console.log('term : ', this.get_semester.course[0].academic_term_id)
 
             for (let i = 0; i < this.items.length; i++) {
                 this.storeLecturer.push({
@@ -324,9 +310,21 @@ export default {
         edit: function (index) {
             this.isActive = true
             this.editInput.indexCouse = index
-            this.item = this.get_semester.course[this.editInput.indexCouse].course
-            console.log('item : ', this.item)
-
+            this.option.push({
+                text: this.get_semester.course[this.editInput.indexCouse].course,
+                value: this.get_semester.course[this.editInput.indexCouse].course_id
+            })
+            this.item = this.option[this.option.length - 1]
+            // ---------------------
+            console.log('lecturer : ', this.get_semester.course[this.editInput.indexCouse].lecturers)
+            console.log('options : ', this.options)
+            var haveLecturer = this.get_semester.course[this.editInput.indexCouse].lecturers
+            for (let i = 0; i < haveLecturer.length; i++) {
+                this.items.push({
+                    text: haveLecturer[i].lecturer_name,
+                    value: haveLecturer[i].lecturer_id
+                })
+            }
         },
         //function to send data to bin
         Delete: function (index) {
@@ -335,6 +333,7 @@ export default {
             this.bin.sort(ordonner);
             this.delIndex = index
             this.deleteActive = true
+            console.log('index del : ', this.delIndex)
         },
         //function to restore data
         restore: function (index) {
@@ -344,46 +343,54 @@ export default {
         },
         //function to update data
         update(index) {
-            try {
-                axios.patch('https://www.sit-acc.nruf.in.th/course/courseSemester', {
-                    // academic_term_id: this.get_semester.course[this.delIndex].academic_term_id,
-                    course_id: this.get_course[this.selectedIndex].id,
-                    lecturers: [{
-                        lecturer_id: this.get_lecturer[this.selectedIndex].lecturer_id
-                    }]
-                }).then(function (res) {
-                    console.log(res);
+            for (let i = 0; i < this.items.length; i++) {
+                this.storeLecturer.push({
+                    "lecturer_id": this.items[i].value
                 })
-                this.message = " uploaded complete";
-                this.file = " ";
-                this.error = false;
-                this.persons.splice(index, 1);
-                console.log(this.persons[index].name + "couse")
-                this.persons.push({
-                    course: this.editInput.course,
-                });
-                for (var key in this.editInput) {
-                    this.editInput[key] = '';
+            }
+            console.log('lecturer', this.storeLecturer)
+            if (this.get_semester.course[0].academic_term_id) {
+                try {
+                    axios.patch('https://www.sit-acc.nruf.in.th/course/courseSemester', {
+                        academic_term_id: this.get_semester.course[0].academic_term_id,
+                        course_id: this.item.value,
+                        lecturers: this.storeLecturer
+                    }).then(function (res) {
+                        console.log(res);
+                    })
+                    this.message = " uploaded complete";
+                    this.file = " ";
+                    this.error = false;
+                    this.persons.splice(index, 1);
+                    console.log(this.persons[index].name + "couse")
+                    this.persons.push({
+                        course: this.editInput.course,
+                    });
+                    for (var key in this.editInput) {
+                        this.editInput[key] = '';
+                    }
+                    this.persons.sort(ordonner);
+                    this.isActive = false;
+                } catch (err) {
+                    console.log('FAILURE!!' + err)
+                    this.message = "Something went wrong";
+                    this.error = true;
+                    console.log(this.persons[index])
                 }
-                this.persons.sort(ordonner);
-                this.isActive = false;
-            } catch (err) {
-                console.log('FAILURE!!' + err)
-                this.message = "Something went wrong";
-                this.error = true;
-                console.log(this.persons[index])
+            } else {
+                console.log("err some thing")
             }
         },
         //function to defintely delete data 
+        //ยังลบไม่ได้นะ 
         deplete(delIndex) {
-            let academic_term_id = this.get_semester.course[this.delIndex].academic_term_id
-            let course_id = this.get_course[this.delIndex].id
+            let course_id = this.get_semester.course[this.delIndex].course_id
             console.log("____")
             try {
                 axios
                     .delete("https://www.sit-acc.nruf.in.th/course/courseSemester", {
                         data: {
-                            academic_term_id: academic_term_id,
+                            academic_term_id: this.get_semester.course[0].academic_term_id,
                             course_id: course_id
                         }
                     }).then(function (res) {
@@ -396,8 +403,11 @@ export default {
                 this.error = true;
             }
         },
-        close: function () {
+        close: function (index) {
             this.isActive = false;
+            this.option.splice(this.option.length - 1, 1)
+            this.items = []
+            this.item = {}
         },
         async getSemester(indexSem) {
             try {
@@ -464,9 +474,11 @@ var ordonner = function (a, b) {
     justify-content: center;
 }
 
-#add {
-    font-size: 10px;
-    color: grey;
+#addSemester {
+    font-size: 14px;
+    color: white;
+    height: 35px;
+    margin-top: -4px
 }
 
 #semester {
@@ -494,5 +506,9 @@ var ordonner = function (a, b) {
 #add_course {
     padding: 15px;
     font-size: 14px;
+}
+
+#editCourse {
+    height: 500px;
 }
 </style>
