@@ -1,5 +1,8 @@
 <template>
 <div class="body" id="ProjectDetail-bg">
+    <div class="vld-parent">
+        <loading :active="isLoading" :can-cancel="true" :on-cancel="onCancel" :is-full-page="fullPage" :width="200" :height="200" ></loading>
+    </div>
     <div id="TitleName">
         <p id="TitleName_eg">{{header.TitleName}}</p>
         <p id="TitleName_th">{{header.TitleName_TH}}</p>
@@ -37,10 +40,12 @@
         </div>
         <div class="columns">
             <div class="column is-four-fifths">
-                <div v-if="this.access == true">
-                    <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
-                    <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
-                    <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
+                <div v-if="this.project_status != 'Approve'">
+                    <div v-if="this.access == true">
+                        <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
+                        <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
+                        <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
+                    </div>
                 </div>
                 <div v-if="GET_ISAPPROVER == true">
                     <approveAssignmentProject></approveAssignmentProject>
@@ -99,7 +104,7 @@
                 </div>
                 <div class="card lecturerCard" id="Documents" v-else-if="EditProject">
                     <header class="card-header">
-                        <p class="card-header-title" id="cardHeader">Videp</p>
+                        <p class="card-header-title" id="cardHeader">Video</p>
                     </header>
                     <div class="card-content">
                         <div class="content">
@@ -163,7 +168,8 @@ import {
     mapActions,
     mapMutations
 } from 'vuex'
-
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import Abstract from './Abstract';
 import Detail from './Detail';
 import achievements from './achievements';
@@ -235,7 +241,8 @@ export default {
         editImg,
         tag,
         approveAssignmentProject,
-        adminApprover
+        adminApprover,
+        Loading
     },
 
     data() {
@@ -292,7 +299,10 @@ export default {
             haveAssignment: false,
             academic_term: '',
             lecturer: [],
-            isClap: true
+            isClap: true,
+            project_status: '',
+            isLoading: false,
+            fullPage: true
         }
     },
 
@@ -318,16 +328,16 @@ export default {
         } = await axios.get(
             this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
-        // "http://localhost:7000/projects/" + this.$route.params.pId
+            console.log('Token : ',this.GET_CONFIG)
         console.log('data : ', data)
-
         if (data.project_detail.assignment_detail.assignment_id != null) {
             console.log("have assignment")
             // this.header.TitleName = data.project_detail.assignment_detail.assignment_name,
             this.academic_term = data.project_detail.assignment_detail.academic_term
             // this.header.TitleName_TH = data.project_detail.assignment_detail.course_name
             this.setPID(data.project_detail.assignment_detail.assignment_id)
-
+            this.project_status = data.project_detail.assignment_detail.project_status
+            console.log('status : ', this.project_status)
             for (var i = 0; i < data.project_detail.assignment_detail.lecturers.length; i++) {
                 this.lecturer.push(data.project_detail.assignment_detail.lecturers[i])
             }
@@ -445,7 +455,6 @@ export default {
 
         ]),
         save() {
-            this.EditProject = false;
             this.setEditProject(this.EditProject)
             var vdo_pathname = this.GET_VDO_PATHNAME
             var data = {
@@ -518,6 +527,8 @@ export default {
                         console.log("res : ", res)
                         if (res.status == 200) {
                             this.EditProject = false;
+                            alert('File has been update')
+                            console.log(' Tags : ', this.getTag)
                         }
                     })
 
@@ -527,6 +538,7 @@ export default {
             } catch (err) {
                 console.log("FAILURE!!" + err);
                 this.error = true;
+                this.EditProject = false;
             }
         },
         cancel() {
@@ -557,12 +569,28 @@ export default {
                 console.log('can not clap')
             }
         },
+        doAjax() {
+            this.isLoading = true;
+            // simulate AJAX
+            setTimeout(() => {
+                this.isLoading = false
+            }, 5000)
+        },
+        onCancel() {
+            console.log('User cancelled the loader.')
+        }
     },
     beforeDestroy() {
         this.setImage([])
         this.setFile(this.noPic.cover)
         this.setMember('')
         this.setNonMember('')
+    },
+    beforeMount() {
+        this.isLoading = true;
+        setTimeout(() => {
+            this.isLoading = false
+        }, 4000)
     }
 };
 </script>

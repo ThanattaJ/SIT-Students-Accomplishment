@@ -1,7 +1,7 @@
 <template>
 <div>
     <vue-tags-input v-model="tag" :tags="tags" :autocomplete-items="filteredItems" @tags-changed="newTags => tags = newTags" />
-    <div>{{tag}}</div>
+    <!-- <div>{{tag}}</div> -->
 </div>
 </template>
 
@@ -43,11 +43,9 @@ export default {
     },
     mounted() {
         for (let i = 0; i < this.getTag.length; i++) {
-            // this.storeTags[i] = this.getTag[i].tag_name
             this.tags.push({
                 text: this.getTag[i].tag_name
             })
-            // console.log(this.storeTags[i])
         }
     },
     methods: {
@@ -57,7 +55,6 @@ export default {
     },
     watch: {
         async tag(newVal) {
-            // console.log(this.tag.length)
             if (this.tag.length === 0) {
                 this.autocompleteItems = []
                 console.log("ไม่มีค่า tag")
@@ -78,7 +75,7 @@ export default {
             this.arrayTags.reduce((unique,item)=>{
                 return this.arrayTags = unique.includes(item) ? unique : [...unique,item]
             },[])
-            console.log("auto ; ",this.arrayTags)
+            // console.log("storeTags ; ",this.storeTags)
         },
         tags() {
             // this.autocompleteItems = []
@@ -90,7 +87,7 @@ export default {
                     })
                 }
                 this.setTag(this.storeTags)
-                // console.log("getTag : ", this.getTag)
+                console.log("getTag : ", this.getTag)
             } else {
                 this.storeTags = []
                 this.setTag(this.storeTags)
