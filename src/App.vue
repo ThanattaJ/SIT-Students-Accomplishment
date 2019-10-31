@@ -152,6 +152,11 @@ export default {
 </script>
 
 <style>
+.columns{
+    margin-left: -0.75rem !important;
+    margin-right: -0.75rem !important;
+    margin-top: -0.75rem !important;
+}
 .projectCard{
     box-shadow: none !important;
 }

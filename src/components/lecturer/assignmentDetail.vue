@@ -41,7 +41,7 @@
                             <span>Projects</span>
                             <ul>
                                 <li id="navApprove" class="navTitle navCanClick" @click="show('approve','navApprove')">Approved<span class="countProjectStatus approved">{{countProject.approve}}</span></li>
-                                <li id="navRequest" class="navTitle navCanClick" @click="show('waiting','navRequest')">Request<span class="countProjectStatus request">{{countProject.request}}</span></li>
+                                <li id="navRequest" class="navTitle navCanClick" @click="show('waiting','navRequest')">Waiting<span class="countProjectStatus request">{{countProject.request}}</span></li>
                                 <li id="navDenied" class="navTitle navCanClick" @click="show('reject','navDenied')">Denied<span class="countProjectStatus denied">{{countProject.denied}}</span></li>
                             </ul>
                         </li>
@@ -150,7 +150,7 @@
                                     <div class="card-content cardSize">
                                         <div class="columns" v-for="(project,index) in requestProject" v-bind:key="index">
                                             <div class="column is-two-thirds courseName" @click="routeToProjectDetail(project.project_id,project.status_name)">{{index+1}}) {{project.project_name_en}}</div>
-                                            <div class="column countAssign"><span class="projectStatus request">Request</span></div>
+                                            <div class="column countAssign"><span class="projectStatus request">Waiting</span></div>
                                             <div class="column countAssign">
                                                 <i class="la la-comment" v-if="project.comment == null" style="color:#CCCCCC"></i>
                                                 <i class="la la-comment haveComment" v-else @click="showComment(project.comment)" style="color:#265080"></i>
