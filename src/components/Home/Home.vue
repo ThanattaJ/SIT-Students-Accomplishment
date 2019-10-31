@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-    <vueper-slides autoplay :dragging-distance="50" prevent-y-scroll :arrows="false"  fixed-height="680px" :bullets-outside="true">
+    <vueper-slides autoplay :dragging-distance="50" prevent-y-scroll :arrows="false"  fixed-height="600px" :bullets-outside="true">
       <vueper-slide 
         v-for="(project,i) in projects" 
           :key="i" 
@@ -114,15 +114,16 @@
 
 <style>
   .vueperslides__bullet {
-    background-color: rgba(0, 0, 0, 0.3);
-    border: none;
-    box-shadow: none;
-    transition: 0.3s;
-    width: 20px;
-    height: 20px;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border: none !important;
+    box-shadow: none !important;
+    transition: 0.3s !important;
+    width: 20px !important;
+    height: 20px !important;
   }
 
   .vueperslides__bullet--active {
-    background-color: #265080;
+    background-color: #265080 !important;
   }
+
 </style>
