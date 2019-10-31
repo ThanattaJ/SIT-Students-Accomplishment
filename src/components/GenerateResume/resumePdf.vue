@@ -12,31 +12,31 @@
                     />
                     <p style="font-size:22px;font-weight:bold">{{GET_FIRSTNAME}}</p>
                     <p style="font-size:18px;font-weight:bold">{{GET_LASTNAME}}</p>
-                    <p v-if="GET_NICKNAME.length > 0">( {{GET_NICKNAME}} )</p>
+                    <p v-if="GET_NICKNAME != null">( {{GET_NICKNAME}} )</p>
                 </div>
 
                 <div class="contact_topic">
-                    <p class="topic_resume" v-if="GET_STREET.length > 0 || GET_SUBDISTRICT.length > 0 || GET_DISTRICT.length > 0 || GET_PROVINCE.length > 0 && GET_ZIPCODE.length > 0 || GET_BIRTHDAY != null || GET_PHONENO.length > 0 || GET_EMAIL.length > 0">CONTACT</p>
-                    <p class="contact" v-if="GET_STREET.length > 0 || GET_SUBDISTRICT.length > 0 || GET_DISTRICT.length > 0 || GET_PROVINCE.length > 0 && GET_ZIPCODE.length > 0">
+                    <p class="topic_resume" v-if="GET_STREET != null|| GET_SUBDISTRICT != null || GET_DISTRICT != null || GET_PROVINCE != null && GET_ZIPCODE != null || GET_BIRTHDAY != null || GET_PHONENO != null || GET_EMAIL != null">CONTACT</p>
+                    <p class="contact" v-if="GET_STREET != null || GET_SUBDISTRICT != null || GET_DISTRICT != null || GET_PROVINCE != null && GET_ZIPCODE != null">
                         <img src="./../../assets/placeholder.png" class="contact_icon" />
                         ADDRESS
                     </p>
                     <p class="contact_detail">
                         {{GET_STREET}}
-                        <span v-if="GET_STREET.length > 0">,</span>
+                        <span v-if="GET_STREET != null">,</span>
                         {{GET_SUBDISTRICT}}
-                        <span v-if="GET_SUBDISTRICT.length > 0">,</span>
+                        <span v-if="GET_SUBDISTRICT != null">,</span>
                         {{GET_DISTRICT}}
-                        <span v-if="GET_DISTRICT.length > 0">,</span>
+                        <span v-if="GET_DISTRICT != null">,</span>
                         {{GET_PROVINCE}}
-                        <span v-if="GET_PROVINCE.length > 0 && GET_ZIPCODE.length > 0">,</span>
+                        <span v-if="GET_PROVINCE != null && GET_ZIPCODE != null">,</span>
                         {{GET_ZIPCODE}}
                     </p>
                     <p class="contact" v-if="GET_BIRTHDAY != null"><img src="./../../assets/cake (2).png" class="contact_icon" />DATE OF BIRTH</p>
                     <p class="contact_detail">{{GET_BIRTHDAY}}</p>
-                    <p class="contact" v-if="GET_PHONENO.length > 0"><img src="./../../assets/phone.png" class="contact_icon" />PHONE</p>
+                    <p class="contact" v-if="GET_PHONENO != null"><img src="./../../assets/phone.png" class="contact_icon" />PHONE</p>
                     <p class="contact_detail">{{GET_PHONENO}}</p>
-                    <p class="contact" v-if="GET_EMAIL.length > 0"><img src="./../../assets/gmail.png" class="contact_icon" />E-MAIL</p>
+                    <p class="contact" v-if="GET_EMAIL != null"><img src="./../../assets/gmail.png" class="contact_icon" />E-MAIL</p>
                     <p class="contact_detail">{{GET_EMAIL}}</p>
 
                     <!-- <div> -->
@@ -189,6 +189,18 @@ export default {
     mounted() {
         this.LOAD_RESUME_DATA()
         console.log("GET_RESUME_DATA : ",GET_RESUME_DATA)
+        console.log("GET_NICKNAME : ",GET_NICKNAME)
+        console.log("GET_BIOGRAPHY : ",GET_BIOGRAPHY)
+        console.log("GET_STREET : ",GET_STREET)
+        console.log("GET_SUBDISTRICT : ",GET_SUBDISTRICT)
+        console.log("GET_DISTRICT : ",GET_DISTRICT)
+        console.log("GET_PROVINCE : ",GET_PROVINCE)
+        console.log("GET_ZIPCODE : ",GET_ZIPCODE)
+        console.log("GET_EMAIL : ",GET_EMAIL)
+        console.log("GET_PHONENO : ",GET_PHONENO)
+        console.log("GET_BIRTHDAY : ",GET_BIRTHDAY)
+        console.log("GET_SOCIAL : ",GET_SOCIAL)
+        console.log("GET_EDUCATION_DATA : ",GET_EDUCATION_DATA)
     },
     methods: {
         getImgUrl(pic) {
