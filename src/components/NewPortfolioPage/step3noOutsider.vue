@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import './../../../node_modules/bulma/css/bulma.css';
+// import './../../../node_modules/bulma/css/bulma.css';
 import './../css/form.css';
 import vueStep from 'vue-step';
 import { MultiSelect } from 'vue-search-select'

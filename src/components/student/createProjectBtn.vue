@@ -18,7 +18,7 @@
 <script src="print.js"></script>
 
 <script>
-import './../../../node_modules/bulma/css/bulma.css';
+// import './../../../node_modules/bulma/css/bulma.css';
 import './../css/studentProjectTab.css';
 import chooseProjectTypeModal from './chooseProjectTypeModal';
 import {

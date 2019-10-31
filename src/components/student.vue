@@ -153,7 +153,7 @@
 <script src="print.js"></script>
 
 <script>
-import './../../node_modules/bulma/css/bulma.css';
+// import './../../node_modules/bulma/css/bulma.css';
 import './css/studentProjectTab.css';
 import './css/visitor.css';
 import createProjectBtn from './student/createProjectBtn'
