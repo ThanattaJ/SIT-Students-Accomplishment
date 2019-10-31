@@ -16,7 +16,8 @@ export const projectStore = {
             const { data } = await axios.get(
                 URL
             );
-            console.log("====== LOAD_ALL_PROJECT_VISITORVIEW ======")
+            console.log("=== LOAD_ALL_PROJECT_VISITORVIEW ===")
+            console.log("",data.projects)
             if(type == 'all'){
                 commit('SET_ALL_PROJECT_VISITORVIEW', data.projects)
             }

@@ -31,9 +31,18 @@
 
 <script>
 import axios from 'axios';
+import {
+    mapActions,
+    mapGetters,
+    mapMutations
+} from 'vuex';
 export default {
+    computed: {
+        ...mapGetters([
+            'GET_PATHNAME'
+        ]),
+    },
     name: "Lecturer",
-    components: {},
     data() {
         return {
             columns: ['#', 'Name', 'Position', 'Actions '],
@@ -48,9 +57,10 @@ export default {
         }
     },
     async mounted() {
+
         const {
             data
-        } = await axios.get(this.GET_PATHNAME+'/users/list_lecturer');
+        } = await axios.get(`https://www.sit-acc.nruf.in.th/users/list_lecturer`);
         for (let i = 0; i < data.length; i++) {
             this.persons.push(data[i])
             this.persons[i].fName = data[i].firstname
