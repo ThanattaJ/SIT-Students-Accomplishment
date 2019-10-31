@@ -60,14 +60,14 @@ export const loginStore = {
               localStorage.setItem('Authen_token', res.data.token);
               localStorage.setItem('usernameSIT', username);
               localStorage.setItem('loginStatus', true);
-              if(res.data.isAdmin){
-                router.push('/course')
-                location.reload()
-              }
-              else{
-                router.push('/student')
-                location.reload()
-              }
+              location.reload()
+              // if(res.data.isAdmin){
+              //   router.push('/course')
+              // }
+              // else{
+              //   location.reload()
+              //   // router.push('/student')
+              // }
             }
           })
           .catch(err => {
