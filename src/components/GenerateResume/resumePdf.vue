@@ -188,6 +188,7 @@ export default {
     },
     mounted() {
         this.LOAD_RESUME_DATA()
+        console.log("GET_RESUME_DATA : ",GET_RESUME_DATA)
     },
     methods: {
         getImgUrl(pic) {

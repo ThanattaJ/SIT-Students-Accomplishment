@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import 'bulma/css/bulma.css';
 import login from './components/auth/login'
 import {
     mapGetters,
