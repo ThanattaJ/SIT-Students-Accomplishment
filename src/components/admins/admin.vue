@@ -2,10 +2,10 @@
 <div id="admin">
      <div id="bodyBg">
         <div class="buttons has-addons is-centered " style="font-weight:bold">
-            <span class="button menuBar" @click="allCourse()" style="color: #265080 " id="box" >Project</span>
-            <span class="button menuBar" @click="lecturer()" style="color: #265080 " id="box">Lecturer</span>
+            <span class="button menuBar" @click="allCourse()" style="color: #265080 " id="box" >Courses</span>
+            <span class="button menuBar" @click="lecturer()" style="color: #265080 " id="box">Lecturers</span>
             <span class="button menuBar" @click="courseSemester()" style="color: #265080 " id="box">Course Semester</span>
-             <span class="button menuBar" @click="ManageEditRequest()" style="color: #265080 " id="box"> Manage Request</span>
+             <span class="button menuBar" @click="ManageEditRequest()" style="color: #265080 " id="box">Manage Requests</span>
         </div>
     </div>
     <!-- <div class="tabs" id="header_admin">
