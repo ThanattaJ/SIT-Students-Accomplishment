@@ -21,7 +21,7 @@
                     <div class="column">Position</div>
                 </div>
             </div>
-            <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in lecturer" v-bind:key="index">
+            <div class="card lecturerCard lecturerName" v-for="(person,index) in lecturer" v-bind:key="index">
                 <div class="card-content cardSize">
                     <div class="columns">
                         <div class="column is-4 courseName">{{index+1}}) {{person.fName}} {{person.lName}}</div>
@@ -102,3 +102,10 @@ var ordonner = function (a, b) {
 
 };
 </script>
+
+<style  scoped>
+.lecturerName{
+    height: 60px !important;
+    margin-bottom: 15px;
+}
+</style>

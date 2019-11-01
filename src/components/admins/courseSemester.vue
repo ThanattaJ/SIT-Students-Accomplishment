@@ -1,16 +1,11 @@
 <template>
 <div id="bodyBg">
-
-    <!-- <aside class="menu" id="aside">
-        <p class="menu-label">
-            General
-        </p>
-        <ul class="menu-list" v-for="(year,indexSem) in semesters" v-bind:key="indexSem">
-            <li><a @click="getSemester(indexSem)" id="year">{{year.academic_term}}</a></li>
-        </ul>
-    </aside> -->
-
-    <div class="columns" style="margin-top:40px">
+    <div class="columns">
+        <div class="column countAll">
+            <button class="button createBtn" @click="openCreateAssignmentModal()">+ Add course ...</button>
+        </div>
+    </div>
+    <div class="columns">
         <!-- nav bar -->
         <div class="column is-1">
             <aside class="menu navAssignDetail">
@@ -25,82 +20,80 @@
                     <div class="card-content cardSize colName">
                         <div class="columns">
                             <div class="column is-6">Course</div>
-                            <div class="column countAssign">Lecturer</div>
+                            <!-- <div class="column countAssign">Lecturer</div> -->
                             <div class="column countAssign">Action</div>
                         </div>
                     </div>
                     <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_semester.course" v-bind:key="index">
                         <div class="card-content cardSize">
                             <div class="columns">
-                                <div class="column is-6 courseName" @click="showDetail(index)">{{index+1}}) {{person.course}}</div>
-                                <div class="column countAssign">
-                                    <p v-for="(nameLec,index) in get_semester.course[index].lecturers" v-bind:key="index">{{nameLec.lecturer_name}}</p>
-                                </div>
+                                <div class="column is-6 courseName" @click="showLecturer(index)">{{index+1}}) {{person.course}}</div>
+                                <!-- <div class="column countAssign">
+                                    <div v-for="(nameLec,index) in get_semester.course[index].lecturers" v-bind:key="index">{{nameLec.lecturer_name}}</div>
+                                </div> -->
                                 <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
                             </div>
                         </div>
                     </div>
                     <div class="columns">
-                        <div class="column"><model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
-                        </model-select></div>
-                        <div class="column"><multi-select :options="options" :selected-options="items" placeholder="select item" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px">
-                        </multi-select></div>
-                        <div class="column"><button class="button is-success" id="addSemester" @click="add()">ADD</button></div>
+                        <div class="column">
+                            <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
+                            </model-select>
+                        </div>
+                        <div class="column">
+                            <multi-select :options="options" :selected-options="items" placeholder="select item" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px">
+                            </multi-select>
+                        </div>
+                        <div class="column"><button class="button is-success" id="addSemester" @click="add()">Add</button></div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     </div>
 
+    <modal name="lecturer">
+        <md-card-header>
+            <md-card-header-text>
+                <div class="md-title" id="title">{{courseName}}</div>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content v-if="allLecturers.length == 0">
+            No lecturer
+        </md-card-content>
+        <md-card-content v-else>
+            <b>Lecturer</b>
+            <div v-for="(lecturer,index) in allLecturers" v-bind:key="index">
+                {{index+1}}) {{lecturer.lecturer_name}}
+            </div>
+        </md-card-content>
+        <md-card-content>
+            <span class="addBtn">
+                <a class="button addCommentBtn" @click="hideLecturer">Close</a>
+            </span>
+        </md-card-content>
+    </modal>
+
+    <!-- <modal name="edit">
+        <md-card-header>
+            <md-card-header-text>
+                <div class="md-title" id="title">Edit</div>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <model-select :options="option" v-model="item" placeholder="select course"></model-select>
+            <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" style="max-height: 122px;overflow-y: auto;"></multi-select>
+        </md-card-content>
+        <md-card-content>
+            <span class="addBtn">
+                <a class="button cancelCommentBtn"><span class="courseName" @click="hideEdit">Cancel</span></a>
+                <a class="button addCommentBtn" @click="update(editInput.indexCouse)">Update</a>
+            </span>
+        </md-card-content>
+    </modal> -->
+
     <div id="bodyBg">
         <div class="container" id="semester">
-            <md-table>
-                <!-- <md-table-row>
-                    <md-table-head md-numeric>#</md-table-head>
-                    <md-table-head>Course</md-table-head>
-                    <md-table-head>Lecturer</md-table-head>
-                    <md-table-head>Action</md-table-head>
-                </md-table-row>
-                <md-table-row v-for="(person,index) in get_semester.course" v-bind:key="index">
-                    <md-table-cell md-numeric>{{index+1}}</md-table-cell>
-                    <md-table-cell> {{person.course}}</md-table-cell>
-                    <md-table-cell>
-                        <md-table-row v-for="(nameLec,index) in get_semester.course[index].lecturers" v-bind:key="index">
-                            {{nameLec.lecturer_name}}
-                        </md-table-row>
-                    </md-table-cell>
-                    <md-table-cell id="barAction">
-                        <p class="control">
-                            <i class="la la-edit" @click="edit(index)" id="Action"></i>
-                            <i class="la la-trash" @click="Delete(index)" id="Action"></i>
-                        </p>
-                    </md-table-cell>
-                </md-table-row>
-                <md-table-row>
-                    <md-table-head md-numeric>#</md-table-head>
-                    <md-table-head>Course</md-table-head>
-                    <md-table-head>Lecturer</md-table-head>
-                </md-table-row> -->
-                <!-- <md-table-row>
-                    <md-table-head md-numeric>+</md-table-head>
-                    <td>
-                        <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
-                        </model-select>
-                    </td>
-                    <td>
-                        <multi-select :options="options" :selected-options="items" placeholder="select item" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px">
-                        </multi-select>
-                    </td>
-                    <td id="add_course"> -->
-                        <!-- <a href="#modal" id="Action" @click="add()" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons">save</i>
-                            <button id="reset" @click="reset">cancle</button>
-                        </a> -->
-                        <!-- <button class="button is-success" id="addSemester" @click="add()">ADD</button>
-                    </td>
-                </md-table-row> -->
-
-            </md-table>
             <div class="modal" v-show="bin.length" v-bind:class="{'is-active':deleteActive}" id="alert">
                 <div class="modal-background"></div>
                 <div class="modal-content">
@@ -134,10 +127,14 @@
                     <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect">
                     </multi-select>
                 </div>
-                <footer class="modal-card-foot" id="foot-modal">
+                <!-- <footer class="modal-card-foot" id="foot-modal">
                     <md-button class="md-dense md-raised md-primary" href="#!" @click="update(editInput.indexCouse)">Update</md-button>
                     <md-button class="md-dense md-primary" href="#!" @click="close">Cancle</md-button>
-                </footer>
+                </footer> -->
+                <span class="addBtn">
+                    <a class="button cancelCommentBtn"><span class="courseName" @click="close">Cancel</span></a>
+                    <a class="button addCommentBtn" @click="update(editInput.indexCouse)">Update</a>
+                </span>
             </div>
         </div>
     </div>
@@ -219,7 +216,10 @@ export default {
             option: [],
             item: {},
             storeLecturer: [],
-            storeCourse: []
+            storeCourse: [],
+
+            courseName: '',
+            allLecturers: []
         }
     },
     async mounted() {
@@ -297,6 +297,14 @@ export default {
 
     },
     methods: {
+        showLecturer(index) {
+            this.courseName = this.get_semester.course[index].course
+            this.allLecturers = this.get_semester.course[index].lecturers
+            this.$modal.show('lecturer')
+        },
+        hideLecturer() {
+            this.$modal.hide('lecturer')
+        },
         ...mapActions([
             'set_semester',
             'set_lecturer',
@@ -370,6 +378,9 @@ export default {
                     value: haveLecturer[i].lecturer_id
                 })
             }
+        },
+        hideEdit() {
+            this.$modal.hide('edit')
         },
         //function to send data to bin
         Delete: function (index) {
