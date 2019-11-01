@@ -141,7 +141,6 @@ export default {
             } else {
                 this.getProjectFilterByCourse()
             }
-
         },
         async getProjectFilterByCourse(course_id) {
             try {

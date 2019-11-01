@@ -2,10 +2,10 @@
 <div id="admin">
      <div id="bodyBg">
         <div class="buttons has-addons is-centered " style="font-weight:bold">
-            <span class="button menuBar" @click="allCourse()" style="color: #265080 " id="box" >Courses</span>
-            <span class="button menuBar" @click="lecturer()" style="color: #265080 " id="box">Lecturers</span>
-            <span class="button menuBar" @click="courseSemester()" style="color: #265080 " id="box">Course Semester</span>
-             <span class="button menuBar" @click="ManageEditRequest()" style="color: #265080 " id="box">Manage Requests</span>
+            <span class="button adminMenu" @click="allCourse()" style="color: #265080 " id="box" >Courses</span>
+            <span class="button adminMenu" @click="lecturer()" style="color: #265080 " id="box">Lecturers</span>
+            <span class="button adminMenu" @click="courseSemester()" style="color: #265080 " id="box">Course Semester</span>
+             <span class="button adminMenu" @click="ManageEditRequest()" style="color: #265080 " id="box">Manage Requests</span>
         </div>
     </div>
     <!-- <div class="tabs" id="header_admin">
@@ -82,6 +82,28 @@ span:active{
     font-size: 16px;
     width: 20%;
 }
+.adminMenu{
+    padding: 1.7% 12.4% 1.7% 12.4% !important
+  }
+  
+  @media screen and (max-width: 1024px){
+    .adminMenu{
+      padding: 1.7% 5.1% 1.7% 5.1% !important;
+    }
+  }
+  
+  @media screen and (max-width: 800px){
+    .adminMenu{
+      padding: 1.7% 3.5% 1.7% 3.5% !important;
+    }
+  }
+  
+  @media screen and (max-width: 500px){
+    .adminMenu{
+      width: 100% !important;
+      border-radius: 5px !important;
+    }
+  }
 
 
 </style>

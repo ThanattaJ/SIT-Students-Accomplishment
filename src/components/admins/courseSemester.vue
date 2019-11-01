@@ -1,18 +1,62 @@
 <template>
-<div id="courseSemester">
+<div id="bodyBg">
 
-    <aside class="menu" id="aside">
+    <!-- <aside class="menu" id="aside">
         <p class="menu-label">
             General
         </p>
         <ul class="menu-list" v-for="(year,indexSem) in semesters" v-bind:key="indexSem">
             <li><a @click="getSemester(indexSem)" id="year">{{year.academic_term}}</a></li>
         </ul>
-    </aside>
-    <div id="body">
+    </aside> -->
+
+    <div class="columns" style="margin-top:40px">
+        <!-- nav bar -->
+        <div class="column is-1">
+            <aside class="menu navAssignDetail">
+                <ul id="navAssignment" class="menu-list navTopic navCanClick" v-for="(year,indexSem) in semesters" v-bind:key="indexSem">
+                    <li @click="getSemester(indexSem)" id="year">{{year.academic_term}}</li>
+                </ul>
+            </aside>
+        </div>
+        <div class="column">
+            <div class="columns">
+                <div class="column">
+                    <div class="card-content cardSize colName">
+                        <div class="columns">
+                            <div class="column is-6">Course</div>
+                            <div class="column countAssign">Lecturer</div>
+                            <div class="column countAssign">Action</div>
+                        </div>
+                    </div>
+                    <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_semester.course" v-bind:key="index">
+                        <div class="card-content cardSize">
+                            <div class="columns">
+                                <div class="column is-6 courseName" @click="showDetail(index)">{{index+1}}) {{person.course}}</div>
+                                <div class="column countAssign">
+                                    <p v-for="(nameLec,index) in get_semester.course[index].lecturers" v-bind:key="index">{{nameLec.lecturer_name}}</p>
+                                </div>
+                                <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column"><model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
+                        </model-select></div>
+                        <div class="column"><multi-select :options="options" :selected-options="items" placeholder="select item" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px">
+                        </multi-select></div>
+                        <div class="column"><button class="button is-success" id="addSemester" @click="add()">ADD</button></div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="bodyBg">
         <div class="container" id="semester">
             <md-table>
-                <md-table-row>
+                <!-- <md-table-row>
                     <md-table-head md-numeric>#</md-table-head>
                     <md-table-head>Course</md-table-head>
                     <md-table-head>Lecturer</md-table-head>
@@ -29,7 +73,7 @@
                     <md-table-cell id="barAction">
                         <p class="control">
                             <i class="la la-edit" @click="edit(index)" id="Action"></i>
-                            <!-- <i class="la la-trash" @click="Delete(index)" id="Action"></i> -->
+                            <i class="la la-trash" @click="Delete(index)" id="Action"></i>
                         </p>
                     </md-table-cell>
                 </md-table-row>
@@ -37,8 +81,8 @@
                     <md-table-head md-numeric>#</md-table-head>
                     <md-table-head>Course</md-table-head>
                     <md-table-head>Lecturer</md-table-head>
-                </md-table-row>
-                <md-table-row>
+                </md-table-row> -->
+                <!-- <md-table-row>
                     <md-table-head md-numeric>+</md-table-head>
                     <td>
                         <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
@@ -48,13 +92,13 @@
                         <multi-select :options="options" :selected-options="items" placeholder="select item" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px">
                         </multi-select>
                     </td>
-                    <td id="add_course">
+                    <td id="add_course"> -->
                         <!-- <a href="#modal" id="Action" @click="add()" class="btn waves-effect waves-light yellow darken-2"><i class="material-icons">save</i>
                             <button id="reset" @click="reset">cancle</button>
                         </a> -->
-                        <button class="button is-success" id="addSemester" @click="add()">ADD</button>
+                        <!-- <button class="button is-success" id="addSemester" @click="add()">ADD</button>
                     </td>
-                </md-table-row>
+                </md-table-row> -->
 
             </md-table>
             <div class="modal" v-show="bin.length" v-bind:class="{'is-active':deleteActive}" id="alert">
@@ -181,7 +225,7 @@ export default {
     async mounted() {
         const {
             data
-        } = await axios.get(this.GET_PATHNAME+'/course/courseSemester')
+        } = await axios.get(this.GET_PATHNAME + '/course/courseSemester')
         this.set_semester(data)
         for (let i = 0; i < data.course.length; i++) {
             this.set_course(data.course[i])
@@ -203,7 +247,7 @@ export default {
         this.semesters.length = data.semester.length
 
         var lecturer
-        await axios.get(this.GET_PATHNAME+'/users/list_lecturer').then(response => lecturer = response.data)
+        await axios.get(this.GET_PATHNAME + '/users/list_lecturer').then(response => lecturer = response.data)
         for (let i = 0; i < lecturer.length; i++) {
             this.set_lecturer(lecturer)
         }
@@ -211,7 +255,7 @@ export default {
         // ------------------
 
         var course
-        await axios.get(this.GET_PATHNAME+'/course').then(response => course = response.data)
+        await axios.get(this.GET_PATHNAME + '/course').then(response => course = response.data)
 
         for (let i = 0; i < course.length; i++) {
             this.set_course(course)
@@ -278,7 +322,7 @@ export default {
             console.log('lecturer', this.storeLecturer)
             if (this.get_semester.course[0].academic_term_id) {
                 try {
-                    await axios.post(this.GET_PATHNAME+'/course/courseSemester', {
+                    await axios.post(this.GET_PATHNAME + '/course/courseSemester', {
                         academic_term_id: this.get_semester.course[0].academic_term_id,
                         course_id: this.item.value,
                         lecturers: this.storeLecturer
@@ -352,7 +396,7 @@ export default {
             console.log('lecturer', this.storeLecturer)
             if (this.get_semester.course[0].academic_term_id) {
                 try {
-                    axios.patch(this.GET_PATHNAME+'/course/courseSemester', {
+                    axios.patch(this.GET_PATHNAME + '/course/courseSemester', {
                         academic_term_id: this.get_semester.course[0].academic_term_id,
                         course_id: this.item.value,
                         lecturers: this.storeLecturer
@@ -389,7 +433,7 @@ export default {
             console.log("____")
             try {
                 axios
-                    .delete(this.GET_PATHNAME+"/course/courseSemester", {
+                    .delete(this.GET_PATHNAME + "/course/courseSemester", {
                         data: {
                             academic_term_id: this.get_semester.course[0].academic_term_id,
                             course_id: course_id
@@ -414,7 +458,7 @@ export default {
             try {
                 const {
                     data
-                } = await axios.get(this.GET_PATHNAME+'/course/courseSemester?semester_id=' + this.semesters[indexSem].academic_term_id)
+                } = await axios.get(this.GET_PATHNAME + '/course/courseSemester?semester_id=' + this.semesters[indexSem].academic_term_id)
                 console.log("semester : ", data)
 
                 for (let i = 0; i < data.course.length; i++) {

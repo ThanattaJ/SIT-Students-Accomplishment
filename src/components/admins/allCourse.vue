@@ -1,47 +1,122 @@
 <template>
-<div id="allCourse">
-
-    <aside class="menu" id="aside">
-        <div id="search">
-            <p class="control">
-                <input id="searchText" class="input" type="text" v-model="search" placeholder="Search Course ..." style="font-size: 16px !important;margin-top: px !important;border-bottom: 1px solid #DBDBDB !important; width:200px !important">
-            </p>
+<div id="bodyBg">
+    <div class="columns">
+        <div class="column is-narrow">
+            <div class="field">
+                <p class="control has-icons-left">
+                    <input class="input" type="text" v-model="search" placeholder="Search Course ...">
+                    <span class="icon is-small is-left">
+                        <i class="la la-search"></i>
+                    </span>
+                </p>
+            </div>
         </div>
-        <ul class="menu-list">
-            <li>
-                <md-button id="manu" @click="all">All</md-button>
-            </li>
-            <li>
-                <md-button id="manu" @click="information">Information Technology</md-button>
-            </li>
-            <li>
-                <md-button id="manu" @click="comSci">Computer Science</md-button>
-            </li>
-            <li>
-                <md-button id="manu" @click="Dsi">Digital Service Innovation</md-button>
-            </li>
-        </ul>
-    </aside>
+        <div class="column countAll">
+            <button class="button createBtn" @click="showAddCourseModal()">+ Add Course ..</button>
+        </div>
+    </div>
+
+    <div class="columns" style="margin-top:40px">
+        <!-- nav bar -->
+        <div class="column is-2">
+            <aside class="menu navAssignDetail">
+                <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('')">All</ul>
+                <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('INT')">Information Technology</ul>
+                <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('CSC')">Computer Science</ul>
+                <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('DSI')">Digital Service Innovation</ul>
+            </aside>
+        </div>
+        <div class="column" style="padding-left:100px;">
+            <div class="columns">
+                <div class="column">
+                    <div class="card-content cardSize colName">
+                        <div class="columns">
+                            <div class="column is-two-thirds">Name</div>
+                            <div class="column countAssign">Action</div>
+                        </div>
+                    </div>
+                    <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_course " v-bind:key="index">
+                        <div class="card-content cardSize">
+                            <div class="columns">
+                                <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course}} | {{person.name}}</div>
+                                <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <modal name="showCourseDetail">
+        <md-card-header>
+            <md-card-header-text>
+                <div class="md-title" id="title">Course detail</div>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content v-if="courseDetail == null">
+            No detail
+        </md-card-content>
+        <md-card-content v-else>
+            {{courseDetail}}
+        </md-card-content>
+        <md-card-content>
+            <span class="addBtn">
+                <a class="button addCommentBtn" @click="closeCourseDetail">Close</a>
+            </span>
+        </md-card-content>
+    </modal>
+
+    <modal name="editCourseDetail">
+        <md-card-header>
+            <md-card-header-text>
+                <div class="md-title" id="title">Course detail</div>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <md-field>
+                <label>Edit Course Detail</label>
+                <md-textarea v-model="editInput.course_detail" md-autogrow></md-textarea>
+            </md-field>
+        </md-card-content>
+        <md-card-content>
+            <span class="addBtn">
+                <a class="button addCommentBtn" @click="close">Cancel</a>
+                <a class="button addCommentBtn" @click="update(editInput.indexCouse)">Update</a>
+            </span>
+        </md-card-content>
+    </modal>
+
+    <modal name="addCourse">
+        <md-card-header>
+            <md-card-header-text>
+                <div class="md-title" id="title">Add Course</div>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <md-field :class="messageClass">
+                <label>Course ID</label>
+                <md-textarea v-model="addInput.course" md-autogrow required></md-textarea>
+                <span class="md-error" id="error">There is an error</span>
+            </md-field>
+            <md-field>
+                <label>Course Name</label>
+                <md-textarea v-model="addInput.name" md-autogrow></md-textarea>
+            </md-field>
+            <md-field>
+                <label>Course Detail</label>
+                <md-textarea v-model="addInput.course_detail" md-autogrow></md-textarea>
+            </md-field>
+        </md-card-content>
+        <md-card-content>
+            <span class="addBtn">
+                <a class="button addCommentBtn" @click="closeAddCourseModal">Cancel</a>
+                <a class="button addCommentBtn" @click="add">Add</a>
+            </span>
+        </md-card-content>
+    </modal>
 
     <div>
-        <div id="co">
-            <md-table v-show="persons.length">
-                <md-table-row>
-                    <md-table-head md-numeric>#</md-table-head>
-                    <md-table-head>Name</md-table-head>
-                    <md-table-head>Action</md-table-head>
-                </md-table-row>
-                <md-table-row v-for="(person,index) in get_course " v-bind:key="index">
-                    <md-table-cell md-numeric>{{index+1}}</md-table-cell>
-                    <md-table-cell @click="showDetail(index)">
-                        {{person.course}} | {{person.name}}</md-table-cell>
-                    <md-table-cell id="barAction">
-                        <i class="la la-edit" id="Action" @click="edit(index)"></i>
-                    </md-table-cell>
-                </md-table-row>
-                <td><a href="#!" @click="modalAvtive()" class="btn btn-waves green darken-2"><i class="material-icons" id="addCourse">+ Add Course ...</i></a></td>
-            </md-table>
-        </div>
         <div class="modal" v-show="bin.length" v-bind:class="{'is-active':deleteActive}" id="alert">
             <div class="modal-background"></div>
             <div class="modal-content">
@@ -65,85 +140,6 @@
             </div>
         </div>
     </div>
-    <div v-bind:class="{'is-active':isActive}" class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-card" id="editmodal">
-            <div class="modal-card-body">
-                <md-card-header>
-                    <div class="md-title">EDIT</div>
-                </md-card-header>
-                <div class="row" id="bodymodal">
-                    <form class="col s12">
-                        <div class="row">
-                            <md-field :class="editMessage">
-                                <label>Course Number</label>
-                                <md-textarea v-model="editInput.course" md-autogrow required></md-textarea>
-                                <span class="md-error" id="error">Must have 6 digit</span>
-                            </md-field>
-                            <md-field>
-                                <label>Course Name</label>
-                                <md-textarea v-model="editInput.name" md-autogrow></md-textarea>
-                            </md-field>
-                            <md-field>
-                                <label>Course Detail</label>
-                                <md-textarea v-model="editInput.course_detail" md-autogrow></md-textarea>
-                            </md-field>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <footer class="modal-card-foot" id="foot-modal">
-                <md-button class="md-dense md-raised md-primary" href="#!" @click="update(editInput.indexCouse)">Update</md-button>
-                <md-button class="md-accent" href="#!" @click="close">Cancle</md-button>
-            </footer>
-        </div>
-    </div>
-    <div v-bind:class="{'is-active':addActive}" class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-card" id="addModal">
-            <div class="modal-card-body">
-                <md-card-header>
-                    <div class="md-title">ADD COURSE</div>
-                </md-card-header>
-                <form class="col s12">
-                    <div class="row" id="bodymodal">
-                        <md-field :class="messageClass">
-                            <label>Course Number</label>
-                            <md-textarea v-model="addInput.course" md-autogrow required></md-textarea>
-                            <span class="md-error" id="error">There is an error</span>
-                        </md-field>
-                        <md-field>
-                            <label>Course Name</label>
-                            <md-textarea v-model="addInput.name" md-autogrow></md-textarea>
-                        </md-field>
-                        <md-field>
-                            <label>Course Detail</label>
-                            <md-textarea v-model="addInput.course_detail" md-autogrow></md-textarea>
-                        </md-field>
-                    </div>
-                </form>
-            </div>
-            <footer class="modal-card-foot" id="foot-modal">
-                <md-button class="md-dense md-raised md-primary" href="#!" @click="add">ADD COURSE</md-button>
-                <md-button class="md-accent" href="#!" @click="close">Cancle</md-button>
-            </footer>
-        </div>
-    </div>
-    <div id="detailActive">
-        <md-dialog :md-active.sync="detailActive" v-if="persons[detailIndex]">
-            <md-card-header>
-                <div class="md-title">{{persons[detailIndex].name}}</div>
-                <div class="md-subhead">{{persons[detailIndex].course}}</div>
-            </md-card-header>
-            <md-card-content>
-                {{persons[detailIndex].detail}}
-            </md-card-content>
-            <md-dialog-actions>
-                <md-button class="md-primary" @click="detailActive = false">Close</md-button>
-            </md-dialog-actions>
-        </md-dialog>
-    </div>
-
 </div>
 </template>
 
@@ -182,25 +178,55 @@ export default {
             }
         },
         editMessage() {
-            if ( this.editMessages === false) {
+            if (this.editMessages === false) {
                 console.log(' A1')
             } else {
-                console.log('A2',this.editMessages)
+                console.log('A2', this.editMessages)
                 return {
                     'md-invalid': this.editMessages
                 }
             }
 
         },
-        get_course:function() {
-            if (this.search != " ") {
+        get_course() {
+            if (this.faculty == "") {
+                if (this.search != "") {
+                    return this.persons.filter(
+                        items =>
+                        items.course.toLowerCase().includes(this.search.toLowerCase()) ||
+                        items.name.toLowerCase().includes(this.search.toLowerCase())
+                    )
+                }
+                return this.persons
+            } else if (this.faculty == "DSI") {
+                var ssc = "SSC"
+                if (this.search != "") {
+                    return this.persons.filter(
+                        items =>
+                        (items.course.toLowerCase().includes(this.search.toLowerCase()) ||
+                            items.name.toLowerCase().includes(this.search.toLowerCase())) &&
+                        (items.course_code.toLowerCase().includes(this.faculty.toLowerCase()) ||
+                            items.course_code.toLowerCase().includes(ssc.toLowerCase()))
+                    )
+                }
                 return this.persons.filter(
                     items =>
-                    items.course.toLowerCase().includes(this.search.toLowerCase()) ||
-                    items.name.toLowerCase().includes(this.search.toLowerCase())
+                    items.course_code.toLowerCase().includes(this.faculty.toLowerCase()) ||
+                    items.course_code.toLowerCase().includes(ssc.toLowerCase())
                 )
             } else {
-                return this.persons
+                if (this.search != "") {
+                    return this.persons.filter(
+                        items =>
+                        (items.course.toLowerCase().includes(this.search.toLowerCase()) ||
+                            items.name.toLowerCase().includes(this.search.toLowerCase())) &&
+                        items.course_code.toLowerCase().includes(this.faculty.toLowerCase())
+                    )
+                }
+                return this.persons.filter(
+                    items =>
+                    items.course_code.toLowerCase().includes(this.faculty.toLowerCase())
+                )
             }
         }
     },
@@ -217,24 +243,25 @@ export default {
             addInput: {},
             isActive: false,
             deleteActive: false,
-            detailActive: false,
             info: null,
             addActive: false,
             delIndex: null,
-            detailIndex: null,
             int: [],
             cs: [],
             dsi: [],
             search: "",
             hasMessages: true,
-            editMessages: false
+            editMessages: false,
+
+            courseDetail: '', //gib
+            faculty: ''
         }
     },
 
     async mounted() {
         const {
             data
-        } = await axios.get(this.GET_PATHNAME+'/course')
+        } = await axios.get(this.GET_PATHNAME + '/course')
         this.set_course(data)
         for (let i = 0; i < data.length; i++) {
             this.persons.push(data[i])
@@ -245,14 +272,23 @@ export default {
             this.persons[i].course_detail = data[i].course_detail
         }
         this.persons.length = data.length
-        console.log('data',this.persons)
+        console.log('data', this.persons)
     },
     methods: {
+        filterByFaculty(faculty) {
+            this.faculty = faculty
+        },
         ...mapActions([
             'set_course',
             'push_course'
         ]),
-        modalAvtive: function (index) {
+        showAddCourseModal() {
+            this.$modal.show('addCourse')
+        },
+        closeAddCourseModal() {
+            this.$modal.hide('addCourse')
+        },
+        modalActive: function (index) {
             this.addActive = true
             for (var key in this.addInput) {
                 this.addInput[key] = '';
@@ -261,7 +297,7 @@ export default {
         async add() {
             if (!this.hasMessages) {
                 try {
-                    axios.post(this.GET_PATHNAME+'/course', {
+                    axios.post(this.GET_PATHNAME + '/course', {
                         code: this.addInput.course,
                         name: this.addInput.name,
                     }).then(function (res) {
@@ -296,6 +332,7 @@ export default {
             this.editInput = this.persons[index];
             this.isActive = true
             this.editInput.indexCouse = index
+            this.$modal.show('editCourseDetail')
 
         },
         //function to send data to bin
@@ -318,7 +355,7 @@ export default {
                 console.log("if : ", this.editInput.course.length)
                 JSON.stringify(this.persons[index])
                 try {
-                    axios.patch(this.GET_PATHNAME+'/course?id=' + this.persons[index].course_id, {
+                    axios.patch(this.GET_PATHNAME + '/course?id=' + this.persons[index].course_id, {
                         code: this.editInput.course,
                         name: this.editInput.name,
                         detail: this.editInput.course_detail
@@ -342,9 +379,9 @@ export default {
                     this.error = true;
                 }
             } else {
-             
+
                 this.editMessages = true
-                console.log('message : ',this.editMessages)
+                console.log('message : ', this.editMessages)
             }
         },
         //function to defintely delete data 
@@ -372,61 +409,15 @@ export default {
         close: function () {
             this.isActive = false;
             this.addActive = false;
+            this.$modal.hide('editCourseDetail')
         },
         showDetail(index) {
-            this.detailActive = true
-            this.detailIndex = index
-            console.log("")
-            //detailIndex = index someone
-
+            this.courseDetail = this.get_course[index].course_detail
+            this.$modal.show('showCourseDetail')
         },
-        information() {
-            this.dsi = []
-            this.cs = []
-            this.int = []
-            this.set_course(this.persons)
-            for (let i = 0; i < this.persons.length; i++) {
-                if (this.get_course[i].course_code.substring(0,3) === "INT") {
-                    this.int.push(this.get_course[i])
-                }
-            }
-            // console.log("int :",this.int)
-            this.set_course(this.int)
-            // console.log("get_course",this.get_course.length)
-        },
-        comSci() {
-            this.int = []
-            this.cs = []
-            this.dsi = []
-            this.set_course(this.persons)
-            for (let i = 0; i < this.persons.length; i++) {
-                if (this.get_course[i].course_code.substring(0, 3) === "CSC") {
-                    this.cs.push(this.get_course[i])
-                }
-            }
-            console.log(this.get_course.length)
-            this.set_course(this.cs)
-        },
-        Dsi() {
-            this.int = []
-            this.cs = []
-            this.dsi = []
-            this.set_course(this.persons)
-            for (let i = 0; i < this.persons.length; i++) {
-                if (this.get_course[i].course_code.substring(0, 3) === "DSI" || this.get_course[i].course_code.substring(0, 3) === "SSC") {
-                    this.dsi.push(this.get_course[i])
-                }
-            }
-            console.log(this.get_course.length)
-            this.set_course(this.dsi)
-        },
-        all() {
-            this.int = []
-            this.cs = []
-            this.dsi = []
-            this.set_course(this.persons)
-        },
-
+        closeCourseDetail() {
+            this.$modal.hide('showCourseDetail')
+        }
     },
 
 };
@@ -441,49 +432,8 @@ var ordonner = function (a, b) {
 </script>
 
 <style>
-#allCourse {
-    width: 90%;
-    margin-left: 150px;
-    max-width: 75%;
-    margin-top: 50px !important;
-
-}
-
 #Action {
     color: #265080 !important
-}
-
-#foot-modal {
-    justify-content: center;
-}
-
-#addCourse {
-    font-size: 10px;
-    color: grey;
-}
-
-#action_bar {
-    color: #265080 !important
-}
-
-#co {
-    margin-top: -200px !important;
-    margin-left: 250px !important;
-
-}
-
-#barAction {
-    max-width: 50px !important;
-}
-
-#editmodal,
-#addModal {
-    height: 340px;
-}
-
-#bodymodal {
-    margin-top: -20px;
-    height: 90px;
 }
 
 #error {
