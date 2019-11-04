@@ -24,7 +24,7 @@
         <!-- assignment topic -->
         <div class="columns">
             <div class="column topicAboutAssignment">{{course_name}}</div>
-            <div class="column countAll">All course 1 - {{countAssignment}} out of {{countAssignment}} results</div>
+            <!-- <div class="column countAll">All course 1 - {{countAssignment}} out of {{countAssignment}} results</div> -->
         </div>
         <!-- หัวตาราง assignment -->
         <div class="card-content cardSize colName">

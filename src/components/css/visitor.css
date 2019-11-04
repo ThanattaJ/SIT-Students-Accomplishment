@@ -8,7 +8,7 @@
     border-color: none !important;
     box-shadow: none !important;
 }
-.img-text {
+/* .img-text {
     position: absolute;
     bottom: 0px;
     right: 0px;
@@ -20,13 +20,27 @@
     visibility: hidden;
     -webkit-transition: visibility 0s, opacity 0.3s linear;
     transition: visibility 0s, opacity 0.3s linear;
-}
-.content_img:hover .img-text {
-    padding: 8px 15px;
+} */
+.img-text {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    background: rgba(255, 255, 255, .9);
+    border-top-left-radius: .3em;
+    border-bottom-right-radius: .3em;
+    color: white;
+    padding: 4px 9px;
     visibility: visible;
     opacity: 1;
     max-width: 80%;
 }
+
+/* .content_img:hover .img-text {
+    padding: 8px 15px;
+    visibility: visible;
+    opacity: 1;
+    max-width: 80%;
+} */
 .image:hover{
     background-color: Black;
     border-radius: .5em;

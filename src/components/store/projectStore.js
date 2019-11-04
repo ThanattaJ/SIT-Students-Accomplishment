@@ -3,6 +3,7 @@ import axios from "axios";
 export const projectStore = {
     state: {
         data: {},
+        profiles: {},
         courses: [],
         years: [],
 
@@ -10,17 +11,26 @@ export const projectStore = {
 
     },
     actions: {
-        LOAD_ALL_PROJECT_VISITORVIEW: async function ({ commit, state, rootState }, {type, year}) {
-            const URL = rootState.pathStore.pathName+"/projects/"+type+"?year="+year
+        LOAD_ALL_PROJECT_VISITORVIEW: async function ({ commit, state, rootState }, {type, year, searchBy, searchText}) {
+            var URL = rootState.pathStore.pathName+"/projects/"+type;
+            if(type == 'all'){
+                URL += "?year="+year
+            }else if(type == 'search'){
+                URL += "?by="+searchBy+"&search="+searchText
+            }else if(type == 'profile'){
+                URL += "?search="+searchText
+            }
             console.log("URL : "+URL)
             const { data } = await axios.get(
                 URL
             );
-            console.log("=== LOAD_ALL_PROJECT_VISITORVIEW ===")
-            console.log("",data.projects)
-            if(type == 'all'){
+            console.log("data : ",data)
+            if(type == 'all' || type == 'search'){
                 commit('SET_ALL_PROJECT_VISITORVIEW', data.projects)
             }
+            else if(type == 'profile'){
+                commit('SET_ALL_PROFILE', data.profile)                
+        }
             else if(type == 'assignment'){
                 commit('SET_ALL_COURSE_PROJECT', data.courses)                
             }
@@ -44,6 +54,9 @@ export const projectStore = {
         SET_ALL_PROJECT_VISITORVIEW: function (state, projects) {
             state.data = projects
         },
+        SET_ALL_PROFILE: function (state, profiles) {
+            state.profiles = profiles
+        },
         SET_ALL_COURSE_PROJECT: function (state, courses) {
             state.courses = courses
         },
@@ -57,6 +70,9 @@ export const projectStore = {
     getters: {
         GET_ALL_PROJECT_VISITORVIEW: function (state) {
             return state.data
+        },
+        GET_ALL_PROFILE: function (state) {
+            return state.profiles
         },
         GET_ALL_COURSE_PROJECT: function (state) {
             return state.courses

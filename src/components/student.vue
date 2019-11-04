@@ -16,9 +16,9 @@
             <div class="columns" style="padding: 15px 0 15px 0;">
                 <div class="column is-3 picture" style="position: relative;">
                     <img class="profileImg StdImgPage" v-if="profile.profile_picture != null" :src="profile.profile_picture" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg">
-                    <img class="profileImg StdImgPage" v-else src="./../assets/girl.png" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg">
+                    <img class="profileImg StdImgPage" v-else src="./../assets/noProfilePicture.png" id="profilePic" @mouseover="showUploadImg" @mouseout="hideUploadImg">
                     <div id="textBlock" class="text-block" style="display:flex" v-if="access == true"><i class="la la-camera-retro"></i>Update</div>
-                    <input type="file" ref="profileImg" @change="uploadProfileImg" class="file-input profileInput" accept=".jpg, .png" @mouseover="showUploadImg" @mouseout="hideUploadImg" />
+                    <input type="file" ref="profileImg" v-if="access == true" @change="uploadProfileImg" class="file-input profileInput" accept=".jpg, .png" @mouseover="showUploadImg" @mouseout="hideUploadImg" />
                 </div>
                 <div class="column is-three-fifths" id="information">
                     <br>
@@ -118,7 +118,7 @@
                     <div class="card projectCard content_img">
                         <div class="card-image" v-if="allProject.cover_path != null">
                             <figure class="image is-4by2">
-                                <img src="./../assets/gold-medal.png" width="17px" v-if="allProject.achievement" style="z-index:2;position:absolute;width:40px;">
+                                <!-- <img src="./../assets/gold-medal.png" width="17px" v-if="allProject.achievement" style="z-index:2;position:absolute;width:40px;"> -->
                                 <img :src="allProject.cover_path" alt="Placeholder image" style="height: 156.22px !important;border-radius: 5px;">
                                 <div class="img-text">
                                     <img src="./../assets/visibility-button.png" style="width:15px;display: inline;">
