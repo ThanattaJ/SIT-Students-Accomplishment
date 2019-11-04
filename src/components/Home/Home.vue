@@ -95,7 +95,7 @@
       async mounted() {
         const {
             data
-        } = await axios.get('https://www.sit-acc.nruf.in.th/projects/Top-Project');
+        } = await axios.get(`${this.GET_PATHNAME}/projects/Top-Project`);
           console.log('data', data);
           console.log('data', data.length);
           console.log('projects', this.projects)
