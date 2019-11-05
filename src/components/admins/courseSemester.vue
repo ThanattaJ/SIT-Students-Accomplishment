@@ -28,25 +28,10 @@
                         <div class="card-content cardSize">
                             <div class="columns">
                                 <div class="column is-6 courseName" @click="showLecturer(index)">{{index+1}}) {{person.course}}</div>
-                                <!-- <div class="column countAssign">
-                                    <div v-for="(nameLec,index) in get_semester.course[index].lecturers" v-bind:key="index">{{nameLec.lecturer_name}}</div>
-                                </div> -->
                                 <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
                             </div>
                         </div>
                     </div>
-                    <div class="columns">
-                        <div class="column">
-                            <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
-                            </model-select>
-                        </div>
-                        <div class="column">
-                            <multi-select :options="options" :selected-options="items" placeholder="select item" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px">
-                            </multi-select>
-                        </div>
-                        <div class="column"><button class="button is-success" id="addSemester" @click="add()">Add</button></div>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -73,47 +58,7 @@
             </span>
         </md-card-content>
     </modal>
-
-    <!-- <modal name="edit">
-        <md-card-header>
-            <md-card-header-text>
-                <div class="md-title" id="title">Edit</div>
-            </md-card-header-text>
-        </md-card-header>
-        <md-card-content>
-            <model-select :options="option" v-model="item" placeholder="select course"></model-select>
-            <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" style="max-height: 122px;overflow-y: auto;"></multi-select>
-        </md-card-content>
-        <md-card-content>
-            <span class="addBtn">
-                <a class="button cancelCommentBtn"><span class="courseName" @click="hideEdit">Cancel</span></a>
-                <a class="button addCommentBtn" @click="update(editInput.indexCouse)">Update</a>
-            </span>
-        </md-card-content>
-    </modal> -->
-
     <div id="bodyBg">
-        <div class="container" id="semester">
-            <div class="modal" v-show="bin.length" v-bind:class="{'is-active':deleteActive}" id="alert">
-                <div class="modal-background"></div>
-                <div class="modal-content">
-                    <md-card class="md-accent" md-with-hover v-for="(person,index) in bin" v-bind:key="index">
-                        <md-ripple>
-                            <md-card-header>
-                                <div class="md-title"> {{person.course}}</div>
-                                <div class="md-subhead" v-for="(nameLec,lecturers) in person.lecturer" v-bind:key="lecturers">Lecturer : {{nameLec.name}}</div>
-                                <div class="md-subhead">index : {{delIndex+1}}</div>
-
-                            </md-card-header>
-                            <md-card-actions>
-                                <md-button href="#!" @click="restore(index)">cancle</md-button>
-                                <md-button href="#!" @click="deplete(index)">delete</md-button>
-                            </md-card-actions>
-                        </md-ripple>
-                    </md-card>
-                </div>
-            </div>
-        </div>
         <div v-bind:class="{'is-active':isActive}" id="modal" class="modal">
             <div class="modal-background"></div>
             <div class="modal-card" id="editCourse">
@@ -127,10 +72,6 @@
                     <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect">
                     </multi-select>
                 </div>
-                <!-- <footer class="modal-card-foot" id="foot-modal">
-                    <md-button class="md-dense md-raised md-primary" href="#!" @click="update(editInput.indexCouse)">Update</md-button>
-                    <md-button class="md-dense md-primary" href="#!" @click="close">Cancle</md-button>
-                </footer> -->
                 <span class="addBtn">
                     <a class="button cancelCommentBtn"><span class="courseName" @click="close">Cancel</span></a>
                     <a class="button addCommentBtn" @click="update(editInput.indexCouse)">Update</a>
@@ -138,6 +79,23 @@
             </div>
         </div>
     </div>
+    <modal name="add">
+        <div class="modal-card-body" id="editCourse">
+            <md-card-header>
+                <div class="md-title">Add Course</div>
+            </md-card-header>
+            <div class="column">
+                <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
+                </model-select>
+                <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px; margin-left:50%">
+                </multi-select>
+            </div>
+        </div>
+        <span class="addBtn">
+            <a class="button cancelCommentBtn"><span class="courseName" @click="hideAdd">Cancel</span></a>
+            <a class="button addCommentBtn" @click="add">ADD</a>
+        </span>
+    </modal>
 </div>
 </template>
 
@@ -216,6 +174,7 @@ export default {
             option: [],
             item: {},
             storeLecturer: [],
+            storeLecName: [],
             storeCourse: [],
 
             courseName: '',
@@ -251,16 +210,14 @@ export default {
         for (let i = 0; i < lecturer.length; i++) {
             this.set_lecturer(lecturer)
         }
-        // console.log('lec : ', this.get_lecturer)
+        console.log('lec : ', this.get_lecturer)
         // ------------------
 
         var course
         await axios.get(this.GET_PATHNAME + '/course').then(response => course = response.data)
+        this.set_course(course.course)
 
-        for (let i = 0; i < course.length; i++) {
-            this.set_course(course)
-        }
-        // console.log('cos ', this.get_course)
+        console.log('cos ', course.course)
         // ---------------
 
         for (let i = 0; i < this.get_lecturer.length; i++) {
@@ -284,17 +241,13 @@ export default {
         var onlyInCourse = allCouse.filter(comparer(haveCouse));
         var onlyInHave = haveCouse.filter(comparer(allCouse));
 
-        var result = onlyInCourse.concat(onlyInHave);
-
-        // console.log("course  : ", result)
-
+        var result = onlyInCourse
         for (let i = 0; i < result.length; i++) {
             this.option.push({
                 text: result[i].course_code + ' ' + result[i].course_name,
                 value: result[i].course_id
             })
         }
-
     },
     methods: {
         showLecturer(index) {
@@ -304,6 +257,12 @@ export default {
         },
         hideLecturer() {
             this.$modal.hide('lecturer')
+        },
+        openCreateAssignmentModal() {
+            this.$modal.show('add')
+        },
+        hideAdd() {
+            this.$modal.hide('add')
         },
         ...mapActions([
             'set_semester',
@@ -321,27 +280,31 @@ export default {
             this.item = {}
         },
         async add() {
-
+            for (let i = 0; i < this.items.length; i++) {
+                this.storeLecName.push({
+                    lecturer_name: this.items[i].text
+                })
+            }
             for (let i = 0; i < this.items.length; i++) {
                 this.storeLecturer.push({
                     "lecturer_id": this.items[i].value
                 })
             }
-            console.log('lecturer', this.storeLecturer)
             if (this.get_semester.course[0].academic_term_id) {
                 try {
                     await axios.post(this.GET_PATHNAME + '/course/courseSemester', {
                         academic_term_id: this.get_semester.course[0].academic_term_id,
                         course_id: this.item.value,
                         lecturers: this.storeLecturer
-
                     }).then((res) => {
                         console.log(res);
-                        this.add_semester({
-                            course: this.get_course[this.selectedIndex],
-                            lecturer: this.get_lecturer[this.selectedIndex]
+                        console.log('get_course', this.get_semester.course)
+
+                        this.get_semester.course.push({
+                            course: this.item.text,
+                            lecturers: this.storeLecName
                         })
-                        this.item = ''
+                        // this.item = ''
                         this.items = []
                         this.storeLecturer = []
 
@@ -354,7 +317,6 @@ export default {
                     this.error = true;
                     this.storeLecturer = []
                 }
-
             } else {
                 console.log("err something")
             }
@@ -369,8 +331,8 @@ export default {
             })
             this.item = this.option[this.option.length - 1]
             // ---------------------
-            console.log('lecturer : ', this.get_semester.course[this.editInput.indexCouse].lecturers)
-            console.log('options : ', this.options)
+            // console.log('lecturer : ', this.get_semester.course[this.editInput.indexCouse].lecturers)
+            console.log('options : ', this.option)
             var haveLecturer = this.get_semester.course[this.editInput.indexCouse].lecturers
             for (let i = 0; i < haveLecturer.length; i++) {
                 this.items.push({
@@ -400,6 +362,7 @@ export default {
         //function to update data
         update(index) {
             for (let i = 0; i < this.items.length; i++) {
+                console.log('lecturer : ', this.get_lecturer)
                 this.storeLecturer.push({
                     "lecturer_id": this.items[i].value
                 })
@@ -411,14 +374,16 @@ export default {
                         academic_term_id: this.get_semester.course[0].academic_term_id,
                         course_id: this.item.value,
                         lecturers: this.storeLecturer
-                    }).then(function (res) {
-                        console.log(res);
+                    }).then(res => {
+                        console.log("res : ", res)
+                        if (res.status == 200) {
+                            this.$modal.hide('lecturer')
+                        }
                     })
                     this.message = " uploaded complete";
                     this.file = " ";
                     this.error = false;
                     this.persons.splice(index, 1);
-                    console.log(this.persons[index].name + "couse")
                     this.persons.push({
                         course: this.editInput.course,
                     });
@@ -435,28 +400,6 @@ export default {
                 }
             } else {
                 console.log("err some thing")
-            }
-        },
-        //function to defintely delete data 
-        //ยังลบไม่ได้นะ 
-        deplete(delIndex) {
-            let course_id = this.get_semester.course[this.delIndex].course_id
-            console.log("____")
-            try {
-                axios
-                    .delete(this.GET_PATHNAME + "/course/courseSemester", {
-                        data: {
-                            academic_term_id: this.get_semester.course[0].academic_term_id,
-                            course_id: course_id
-                        }
-                    }).then(function (res) {
-                        console.log(res);
-                    })
-                // this.persons.splice(index, 1);
-            } catch (err) {
-                console.log('FAILURE!!' + err)
-                this.message = "Something went wrong";
-                this.error = true;
             }
         },
         close: function (index) {

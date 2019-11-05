@@ -21,6 +21,7 @@
         <div class="column is-2">
             <aside class="menu navAssignDetail">
                 <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('')">All</ul>
+                <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="showNoInCourse('noInCourse')">วิชาที่ไม่มีในหลักสูตร</ul>
                 <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('INT')">Information Technology</ul>
                 <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('CSC')">Computer Science</ul>
                 <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('DSI')">Digital Service Innovation</ul>
@@ -28,11 +29,12 @@
         </div>
         <div class="column" style="padding-left:100px;">
             <div class="columns">
-                <div class="column">
+                <div class="column" v-if="this.noInCourse === false">
                     <div class="card-content cardSize colName">
                         <div class="columns">
                             <div class="column is-two-thirds">Name</div>
-                            <div class="column countAssign">Action</div>
+                            <div class="column countAssign">Edit</div>
+                            <div class="column countAssign">Remove</div>
                         </div>
                     </div>
                     <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_course " v-bind:key="index">
@@ -40,6 +42,24 @@
                             <div class="columns">
                                 <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course}} | {{person.name}}</div>
                                 <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
+                                <div class="column countAssign"><i class="la la-trash" id="Action" @click="deleteCourse(index)"></i></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column" v-if="this.noInCourse === true">
+                    <div class="card-content cardSize colName">
+                        <div class="columns">
+                            <div class="column is-two-thirds">Name</div>
+                            <div class="column countAssign">ADD</div>
+                        </div>
+                    </div>
+                    <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_notInCourse " v-bind:key="index">
+                        <div class="card-content cardSize">
+                            <div class="columns">
+                                <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course_code}} | {{person.course_name}}</div>
+                                <div class="column countAssign"><i class="la la-edit" id="Action" @click="addOrRe(index)"></i></div>
                             </div>
                         </div>
                     </div>
@@ -157,7 +177,8 @@ export default {
         ...mapGetters([
             'get_course',
             'get_lecturer',
-            'GET_PATHNAME'
+            'GET_PATHNAME',
+            'get_notInCourse'
         ]),
         messageClass() {
             if (this.addInput.course != null) {
@@ -252,6 +273,8 @@ export default {
             search: "",
             hasMessages: true,
             editMessages: false,
+            isDelete: true,
+            noInCourse: false,
 
             courseDetail: '', //gib
             faculty: ''
@@ -259,28 +282,35 @@ export default {
     },
 
     async mounted() {
+
         const {
             data
         } = await axios.get(this.GET_PATHNAME + '/course')
-        this.set_course(data)
-        for (let i = 0; i < data.length; i++) {
-            this.persons.push(data[i])
+        this.set_course(data.course)
+        this.set_notInCourse(data.courseIsDelete)
+        console.log(this.get_notInCourse, "course delete")
+        for (let i = 0; i < data.course.length; i++) {
+            this.persons.push(data.course[i])
             JSON.stringify(this.persons[i])
-            this.persons[i].course = data[i].course_code
-            this.persons[i].name = data[i].course_name
-            this.persons[i].course_id = data[i].course_id
-            this.persons[i].course_detail = data[i].course_detail
+            this.persons[i].course = data.course[i].course_code
+            this.persons[i].name = data.course[i].course_name
+            this.persons[i].course_id = data.course[i].course_id
+            this.persons[i].course_detail = data.course[i].course_detail
         }
-        this.persons.length = data.length
-        console.log('data', this.persons)
+        this.persons.length = data.course.length
     },
     methods: {
         filterByFaculty(faculty) {
             this.faculty = faculty
+            this.noInCourse = false
+        },
+        showNoInCourse() {
+            this.noInCourse = true
         },
         ...mapActions([
             'set_course',
-            'push_course'
+            'push_course',
+            'set_notInCourse'
         ]),
         showAddCourseModal() {
             this.$modal.show('addCourse')
@@ -300,12 +330,14 @@ export default {
                     axios.post(this.GET_PATHNAME + '/course', {
                         code: this.addInput.course,
                         name: this.addInput.name,
-                    }).then(function (res) {
-                        console.log(res);
-
+                    }).then(res => {
+                        console.log("res : ", res)
+                        if (res.status == 200) {
+                            this.addActive = false
+                        }
                         console.log('เข้า try')
-                        this.push_course({
-                            course_code: this.addInput.course,
+                        this.get_courses.push({
+                            course: this.addInput.course,
                             name: this.addInput.name,
                             course_detail: this.addInput.course_detail
                         })
@@ -315,7 +347,7 @@ export default {
                     this.message = " uploaded complete";
                     this.file = " ";
                     this.error = false;
-                    this.addActive = false
+
                 } catch (err) {
                     console.log('FAILURE!!' + err)
                     this.message = "Something went wrong";
@@ -335,15 +367,6 @@ export default {
             this.$modal.show('editCourseDetail')
 
         },
-        //function to send data to bin
-        // Delete: function (index) {
-        //     this.bin.push(this.persons[index]);
-        //     this.delIndex = index
-        //     console.log("index : " , this.get_course[this.delIndex].course_id)
-        //     this.bin.sort(ordonner);
-        //     this.deleteActive = true
-
-        // },
         //function to restore data
         restore: function (index) {
             this.bin.splice(index, 1);
@@ -359,20 +382,18 @@ export default {
                         code: this.editInput.course,
                         name: this.editInput.name,
                         detail: this.editInput.course_detail
-                    }).then(function (res) {
-                        console.log(res);
+                    }).then(res => {
+                        console.log("res : ", res)
+                        if (res.status == 200) {
+                            this.isActive = false;
+                            this.editMessages = false
+                        }
                     })
+
                     this.message = " uploaded complete";
                     this.file = " ";
                     this.error = false;
-                    this.set_course({
-                        course_code: this.editInput.course,
-                        name: this.editInput.name,
-                        detail: this.editInput.course_detail
-                    });
-                    this.isActive = false;
-                    this.editMessages = false
-                    // this.persons.splice(index, 1);
+
                 } catch (err) {
                     console.log('FAILURE!!' + err)
                     this.message = "Something went wrong";
@@ -384,28 +405,7 @@ export default {
                 console.log('message : ', this.editMessages)
             }
         },
-        //function to defintely delete data 
-        // deplete: function (delIndex) {
-        //     // this.delIndex = index
-        //     console.log("delIndex : ", this.delIndex)
-        //     try {
-        //         axios.delete('https://www.sit-acc.nruf.in.th/course?id=' + this.get_course[this.delIndex].course_id)
-        //             .then(function (res) {
-        //                 console.log(res);
-        //             })
-        //         this.message = " uploaded complete";
-        //         this.file = " ";
-        //         this.error = false;
-        //         // JSON.stringify(this.persons[delIndex])
-        //         this.bin.splice(delIndex, 1);
-        //         this.persons.splice(delIndex, 1);
-        //         console.log("delete : " + this.persons[delIndex].course_id)
-        //     } catch (err) {
-        //         console.log('FAILURE!!' + err)
-        //         this.message = "Something went wrong";
-        //         this.error = true;
-        //     }
-        // },
+
         close: function () {
             this.isActive = false;
             this.addActive = false;
@@ -417,7 +417,45 @@ export default {
         },
         closeCourseDetail() {
             this.$modal.hide('showCourseDetail')
+        },
+        addOrRe(index) {
+            if (this.noInCourse) {
+                this.isDelete = false
+            }
+            if ((confirm('Do you want to add ? '))) {
+                try {
+                    axios.patch(this.GET_PATHNAME + '/course?id=' + this.persons[index].course_id, {
+                        code: this.get_notInCourse[index].course_code,
+                        name: this.get_notInCourse[index].course_name,
+                        isDelete: this.isDelete
+                    }).then(res => {
+                        console.log("res : ", res)
+                        if (res.status == 200) {
+                            this.isActive = false;
+                            this.editMessages = false
+                        }
+                    })
+                } catch (err) {
+                    console.log('FAILURE!!' + err)
+                }
+            }
+        },
+        deleteCourse(index) {
+            try {
+                axios.delete(this.GET_PATHNAME + '/course?id=' + this.persons[index].course_id, {
+                    code: this.get_course[index].course,
+                }).then(res => {
+                    console.log("res : ", res)
+                    if (res.status == 200) {
+                        this.isActive = false;
+                        this.editMessages = false
+                    }
+                })
+            } catch (err) {
+
+            }
         }
+
     },
 
 };
