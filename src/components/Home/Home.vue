@@ -84,9 +84,14 @@
   import './../css/Home.css';
   import axios from 'axios'
   import { VueperSlides, VueperSlide } from 'vueperslides'
-
+  import { mapGetters } from 'vuex'
   export default {
       components: { VueperSlides, VueperSlide },
+      computed: {
+        ...mapGetters([
+            'GET_PATHNAME'
+        ])
+      },
       data(){
         return {
             projects: []
