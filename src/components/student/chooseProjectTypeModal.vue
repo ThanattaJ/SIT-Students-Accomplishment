@@ -1,37 +1,38 @@
 <template>
 <div>
-    <!-- <modal name="chooseProjectType"> -->
     <div>
         <md-card-header>
             <md-card-header-text>
-                <div class="md-title" id="title">Do you want to create which project type ?</div>
+                <div class="md-title" id="title">Do you want to create assignment project or not ?</div>
             </md-card-header-text>
         </md-card-header>
         <md-card-content>
             <div class="columns">
                 <div class="column">
                     <div class="createPortPage" @click="routeToCreatePortPage(true, '')">
-                        <div class="textCreate">External Project</div>
+                        <div class="textCreate">No, I don't</div>
                     </div>
                 </div>
                 <div class="column">
                     <div class="createPortPage" @click="routeToCreatePortPage(false, '')">
-                        <div class="textCreate">Assignment Project</div>
+                        <div class="textCreate">Yes, I do.</div>
                     </div>
                 </div>
             </div>
         </md-card-content>
     </div>
-    <!-- </modal> -->
+
     <!-- modal assignmentList -->
     <modal name="assignmentList">
         <div>
             <md-card-header>
                 <md-card-header-text>
-                    <div class="md-title" id="title">Choose the assignment that you want to add project</div>
+                    <div class="md-title" id="title">Choose the assignment that you want to add project
+                        <span class="plus" v-if="assignments.length > 0" @click="joinAssignmentModal(true)">+</span>
+                    </div>
                 </md-card-header-text>
             </md-card-header>
-            <md-card-content style="max-height: 200px; overflow-y: auto">
+            <md-card-content style="max-height: 200px; overflow-y: auto" v-if="assignments.length > 0">
                 <div class="card-content cardSize colName">
                     <div class="columns">
                         <div class="column is-three-fifths">Assignment</div>
@@ -52,6 +53,35 @@
                     </div>
                 </div>
             </md-card-content>
+            <md-card-content style="max-height: 200px; overflow-y: auto" v-else>
+                <div class="column" style="text-align:center">
+                    All of your assignments have a project. Please JOIN new assignment.
+                </div>
+                <div class="column" style="text-align:center">
+                    <button class="button createBtn" @click="joinAssignmentModal(true)">+ Join assignment ...</button>
+                </div>
+            </md-card-content>
+        </div>
+    </modal>
+    <!-- joinAssignmentModal -->
+    <modal name="joinAssignmentModal">
+        <md-card-header>
+            <md-card-header-text>
+                <div class="md-title" id="title">Join Assignment</div>
+            </md-card-header-text>
+        </md-card-header>
+        <div class="grey-text">
+            <md-card-content>
+                <md-field>
+                    <label>Code join ...</label>
+                    <md-input v-model="code_join" md-autofocus></md-input>
+                </md-field>
+            </md-card-content>
+            <span class="addBtn">
+                <a class="button cancelCommentBtn" @click="joinAssignmentModal(false)"><span class="courseName">Cancel</span></a>
+                <a class="button addCommentBtn cannotClick" v-if="code_join == '' || code_join == null">Add</a>
+                <a class="button addCommentBtn" v-else @click.prevent="addAssignment">Add</a>
+            </span>
         </div>
     </modal>
     <!-- addOrCreate modal -->
@@ -59,14 +89,16 @@
         <div>
             <md-card-header>
                 <md-card-header-text>
-                    <div class="md-title" id="title">Do you want to add existing project to assignment or create new assingment project ?</div>
+                    <div class="md-title" id="title">
+                        Do you want to add exist project or create new one?
+                    </div>
                 </md-card-header-text>
             </md-card-header>
             <md-card-content>
                 <div class="columns">
                     <div class="column">
                         <div class="createPortPage">
-                            <div class="textCreate" @click="showProjectList">Add external project to assignment</div>
+                            <div class="textCreate" @click="showProjectList">Add project to assignment</div>
                         </div>
                     </div>
                     <div class="column">
@@ -136,7 +168,8 @@ export default {
             isGroup: true,
             projects: [],
             project_id: 0,
-            project_name: ''
+            project_name: '',
+            code_join: ''
         }
     },
     computed: {
@@ -163,9 +196,9 @@ export default {
             this.SET_PROJECTTYPE(externalProjectOrNot)
             if (externalProjectOrNot) {
                 router.push('/createPortPage')
-            } else if(externalProjectOrNot == false && goTo4Step == true){
+            } else if (externalProjectOrNot == false && goTo4Step == true) {
                 router.push('/createPortPage')
-            } else if(externalProjectOrNot == false && goTo4Step == ''){
+            } else if (externalProjectOrNot == false && goTo4Step == '') {
                 this.getAllAssignment()
                 this.$modal.show('assignmentList');
             }
@@ -176,20 +209,26 @@ export default {
             this.assignment_name = assignment_name
             this.SET_ASSIGNMENTID(assignment_id)
             this.SET_ISGROUP(isGroup)
-            this.$modal.hide('assignmentList');
-            this.$modal.show('addOrCreate');
+
+            this.getAllProject()
         },
         showProjectList() {
-            this.getAllProject()
             this.$modal.hide('addOrCreate');
             this.$modal.show('projectList');
         },
         async getAllProject() {
+            console.log('this.isGroup : ', this.isGroup)
             await axios.get(
                     this.URL + '/projects/group-Project?isGroup=' + this.isGroup, this.config
                 ).then(res => {
                     console.log("res : ", res)
                     this.projects = res.data
+                    if (this.projects.length == 0) {
+                        this.routeToCreatePortPage(false, true)
+                    } else {
+                        this.$modal.hide('assignmentList');
+                        this.$modal.show('addOrCreate');
+                    }
                 })
                 .catch(err => {
                     console.error("error : " + err);
@@ -207,15 +246,35 @@ export default {
         },
         async addExternalProjectToAssignment() {
             await axios.post(
-                    this.URL + '/projects/add-external-to-assignment?project_id=' + this.project_id + '&assignment_id=' + this.assignment_id, "",this.config
+                    this.URL + '/projects/add-external-to-assignment?project_id=' + this.project_id + '&assignment_id=' + this.assignment_id, "", this.config
                 ).then(res => {
                     console.log("res : ", res)
-                    console.log("====== success!!! addExternalProjectToAssignment ======")
+                    router.push(`/studentAssignmentDetail/${this.assignment_id}`)
                 })
                 .catch(err => {
                     console.error("error : " + err);
                 });
-        }
+        },
+        joinAssignmentModal(value) {
+            this.code_join = null
+            if (value) {
+                this.$modal.show('joinAssignmentModal');
+            } else {
+                this.$modal.hide('joinAssignmentModal');
+            }
+        },
+        async addAssignment() {
+            await axios.post(
+                    this.URL + '/assignment/join-assignment/?join_code=' + this.code_join, "", this.config
+                ).then(res => {
+                    console.log("res : ", res)
+                    this.getAllAssignment()
+                    this.joinAssignmentModal(false)
+                })
+                .catch(err => {
+                    console.error("error : " + err);
+                });
+        },
 
     }
 }

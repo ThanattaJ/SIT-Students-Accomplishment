@@ -121,7 +121,7 @@ export default {
             setTimeout(() => {
                 this.nav(0)
                 this.showAcademicTerm(0)
-            }, 500)
+            }, 1000)
         },
         async getAllCourses() {
             try {

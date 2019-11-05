@@ -273,3 +273,14 @@ svg{
   color: #9a1313;
   font-size: 13px;
 }
+
+.plus{
+  float:right;
+  color:white;
+  background-color:#265080;
+  border-radius:50%;
+  padding:0px 6px;
+}
+.plus:hover{
+  cursor: pointer;
+}

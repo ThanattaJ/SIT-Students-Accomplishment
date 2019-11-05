@@ -170,7 +170,6 @@ export default {
                     console.log("res : ", res)
                     this.getAllAssignment()
                     this.joinAssignmentModal(false)
-                    // 48W93Y
                 })
                 .catch(err => {
                     console.error("error : " + err);
