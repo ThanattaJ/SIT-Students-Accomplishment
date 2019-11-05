@@ -2,29 +2,37 @@
 <div>
     <div id="bodyBg">
         <div class="buttons has-addons is-centered is-fullwidth" style="font-weight:bold">
-            <span class="button visitorMenu is-info is-selected" @click="filterByFaculty('')">ALL</span>
-            <span class="button visitorMenu" style="color:#265080 !important" @click="filterByFaculty('INT');nav(0)">IT</span>
-            <span class="button visitorMenu" style="color:#265080 !important" @click="filterByFaculty('CSC');nav(0)">CS</span>
-            <span class="button visitorMenu" style="color:#265080 !important" @click="filterByFaculty('DSI');nav(0)">DSI</span>
+            <!-- <span class="button menuBar is-info is-selected" @click="filterByFaculty('')">ALL</span> -->
+            <span class="button facultyMenu is-info is-selected" @click="filterByFaculty('INT')">Information Technology</span>
+            <span class="button facultyMenu" style="color:#265080 !important" @click="filterByFaculty('CSC')">Computer Science</span>
+            <span class="button facultyMenu" style="color:#265080 !important" @click="filterByFaculty('DSI')">Digital Service Innovation</span>
         </div>
     </div>
     <div id="bodyBg">
         <!-- <search -->
-        <div class="field has-addons">
+        <!-- <div class="field has-addons">
             <p class="control">
                 <input id="searchText" class="input" type="text" v-model="search" placeholder="Looking for?" style="font-size: 16px !important;margin-top: 0px !important;border-bottom: 1px solid #DBDBDB !important;">
             </p>
-        </div>
-        <!-- All projects -->
+        </div> -->
+        <!-- All course -->
         <div class="columns">
             <div class="column is-3">
                 <aside class="menu navAssignDetail" v-for="(course,index) in courses" v-bind:key="index">
-                    <ul :id="'navAssignment navCourse'+index" class="menu-list navTopic navCanClick" @click="getProjectFilterByCourse(course.course_id);nav(index)">
-                        <span>{{course.course_code}}</span><br>
-                        {{course.course_name}}
+                    <ul class="menu-list">
+                        <li>
+                            <a :id="'navAssignment navCourse'+index" class="menu-list navTopic navCanClick" @click="nav(index);showAcademicTerm(index)">
+                                <span :id="'courseName'+index" style="color:#4A4A4A">{{course.course_code}}<br>
+                                    {{course.course_name}}</span>
+                            </a>
+                            <ul :id="'academic_term'+index" style="display:none">
+                                <li v-for="(term,index) in course.term" v-bind:key="index" @click="chooseTerm(course.course_id,term.academic_term_id)"><a><span style="color:#265080">{{term.academic_term}}</span></a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </aside>
             </div>
+            <!-- All projects -->
             <div class="columns is-multiline">
                 <div class="column is-one-third" v-for="(allProject,index) in allProjects" v-bind:key="index">
                     <router-link :to="`/ProjectDetail/${allProject.id}`">
@@ -78,20 +86,18 @@ export default {
     data() {
         return {
             search: '',
-            faculty: '',
-            allProjects: []
+            faculty: 'INT',
+            allProjects: [],
+            allProjectCourse: []
         }
     },
     computed: {
         ...mapGetters({
             URL: 'GET_PATHNAME',
-            config: 'GET_CONFIG',
-            allProjectCourse: 'GET_ALL_COURSE_PROJECT',
+            config: 'GET_CONFIG'
         }),
         courses() {
-            if (this.faculty == "") {
-                return this.allProjectCourse
-            } else if (this.faculty == "DSI") {
+            if (this.faculty == "DSI") {
                 var ssc = "SSC"
                 return this.allProjectCourse.filter(
                     items =>
@@ -107,45 +113,37 @@ export default {
         }
     },
     mounted() {
-        this.LOAD_ALL_PROJECT_VISITORVIEW({
-            type: "assignment",
-            year: "present"
-        })
-        this.getProjectFilterByCourse(this.courses[0].course_id)
-        this.nav(0)
+        this.fetchData()
     },
     methods: {
-        nav(index) {
-            if (this.courses.length > 0) {
-                for (var n = 0; n < this.courses.length; n++) {
-                    var navStyle = document.getElementById('navAssignment navCourse' + n).style
-                    navStyle.backgroundColor = 'transparent'
-                    navStyle.color = '#4A4A4A'
-                    navStyle.padding = '0px 0px'
-                    navStyle.borderRadius = '6px'
-                }
-                console.log("index >>> ", index)
-                var navStyle = document.getElementById('navAssignment navCourse' + index).style
-                navStyle.backgroundColor = '#265080'
-                navStyle.color = 'white'
-                navStyle.padding = '3px 5px'
-                navStyle.borderRadius = '6px'
-            }
+        fetchData() {
+            this.getAllCourses()
+            setTimeout(() => {
+                this.nav(0)
+                this.showAcademicTerm(0)
+            }, 500)
         },
-        ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW']),
-        filterByFaculty(faculty) {
-            this.faculty = faculty
-            if (this.courses.length > 0) {
-                console.log("abc : ", this.courses[0].course_id)
-                this.getProjectFilterByCourse(this.courses[0].course_id)
-            } else {
-                this.getProjectFilterByCourse()
-            }
-        },
-        async getProjectFilterByCourse(course_id) {
+        async getAllCourses() {
             try {
                 await axios
-                    .get(this.URL + '/projects/assignment?' + 'course_id=' + course_id, this.config)
+                    .get(this.URL + '/projects/assignment', this.config)
+                    .then((res) => {
+                        console.log("success! : ", res);
+                        this.allProjectCourse = res.data.courses
+                    })
+                    .catch((err) => {
+                        console.error("err : " + err);
+                    });
+            } catch (err) {
+                console.log("FAILURE!!" + err);
+            }
+        },
+        async chooseTerm(course_id, academic_term_id) {
+            console.log('course_id : ', course_id)
+            console.log('academic_term_id : ', academic_term_id)
+            try {
+                await axios
+                    .get(this.URL + '/projects/assignment?' + 'academic_term_id=' + academic_term_id + '&course_id=' + course_id, this.config)
                     .then((res) => {
                         console.log("success! : ", res);
                         this.allProjects = res.data.projects
@@ -157,6 +155,63 @@ export default {
                 console.log("FAILURE!!" + err);
             }
         },
+        showAcademicTerm(index) {
+            if (this.courses.length > 0) {
+                for (var n = 0; n < this.courses.length; n++) {
+                    document.getElementById('academic_term' + n).style.display = 'none'
+                }
+            }
+            document.getElementById('academic_term' + index).style.display = 'block'
+        },
+        nav(index) {
+            console.log('index : ',index)
+            if (this.courses.length > 0) {
+                for (var n = 0; n < this.courses.length; n++) {
+                    var navStyle = document.getElementById('navAssignment navCourse' + n).style
+                    var courseName = document.getElementById('courseName' + n).style
+                    navStyle.backgroundColor = 'transparent'
+                    courseName.color = '#4A4A4A'
+                    navStyle.padding = '0px 0px'
+                    navStyle.borderRadius = '6px'
+                }
+                var navStyle = document.getElementById('navAssignment navCourse' + index).style
+                var courseName = document.getElementById('courseName' + index).style
+                navStyle.backgroundColor = '#265080'
+                courseName.color = 'white'
+                navStyle.padding = '3px 5px'
+                navStyle.borderRadius = '6px'
+            }
+this.showAcademicTerm(0)
+        },
+        ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW']),
+        filterByFaculty(faculty) {
+            this.faculty = faculty
+        }
     }
 }
 </script>
+
+<style>
+.facultyMenu {
+    padding: 1.7% 9.25% 1.7% 9.25% !important
+}
+
+@media screen and (max-width: 1024px) {
+    .facultyMenu {
+        padding: 1.7% 5.1% 1.7% 5.1% !important;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .facultyMenu {
+        padding: 1.7% 3.5% 1.7% 3.5% !important;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .facultyMenu {
+        width: 100% !important;
+        border-radius: 5px !important;
+    }
+}
+</style>

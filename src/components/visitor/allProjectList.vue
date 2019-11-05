@@ -1,53 +1,9 @@
 <template>
 <div id="list-project of student">
-    <!-- <div id="bodyBg">
-        <div class="field has-addons">
-            <p class="control">
-                <span class="select">
-                    <select id="typeOfSearch" class="selectInSearch" style="font-size: 16px !important; ">
-                        <option value="all">All Projects</option>
-                        <option value="achievement">All Achievement</option>
-                        <option value="assignment">All Assignment</option>
-                    </select>
-                </span>
-            </p>
-            <p class="control">
-                <input id="searchText" class="input" type="text" placeholder="Looking for?" style="font-size: 16px !important;margin-top: 0px !important;border-bottom: 1px solid #DBDBDB !important;">
-            </p>
-            <p class="control">
-                <span class="select">
-                    <select id="searchBy" class="selectInSearch" style="font-size: 16px !important;">
-                        <option value="projects">Search by Project</option>
-                        <option value="tags">Search by Tag</option>
-                    </select>
-                </span>
-            </p>
-            <p class="control">
-                <span class="select">
-                    <select id="year" class="selectInSearch" style="font-size: 16px !important;">
-                        <option value="present">Present</option>
-                        <option>2018</option>
-                        <option>2017</option>
-                    </select>
-                </span>
-            </p>
-            <p class="control" @click="search">
-                <a class="button" style="color: rebeccapurple !important;">
-                    <i class="la la-search"></i>
-                </a>
-            </p>
-        </div>
-    </div> -->
-    <!-- <div id="bodyBg">
-        <a class="button cancelCommentBtn" @click="searchBy('projects')"><span class="courseName">Projects</span></a>
-        <a class="button cancelCommentBtn" @click="searchBy('tags')"><span class="courseName">Tags</span></a>
-        <a class="button cancelCommentBtn" @click="searchBy('profile')"><span class="courseName">Profiles</span></a>
-    </div> -->
     <div id="bodyBg">
         <div class="field has-addons">
             <p class="control">
                 <span class="select">
-                    <!-- <select id="selectSearchBy" @change="searchBy"> -->
                     <select id="selectSearchBy" @change="canClickYear">
                         <option value="projects">Project Name</option>
                         <option value="tags">Tag</option>
@@ -101,8 +57,6 @@
                 </div>
             </div>
         </div>
-        <!-- <autocomplete :search="searchTag"></autocomplete> -->
-
     </div>
     <!-- All projects -->
     <div id="bodyBg" v-if="type == false">
@@ -172,7 +126,6 @@
 </template>
 
 <script>
-import Autocomplete from '@trevoreyre/autocomplete-vue'
 import router from '../../router/index'
 import './../css/visitor.css';
 import './../css/studentProjectTab.css';
@@ -195,9 +148,6 @@ export default {
             allTags: []
         }
     },
-    components: {
-        Autocomplete
-    },
     computed: {
         ...mapGetters({
             allProjectPresent: 'GET_ALL_PROJECT_VISITORVIEW',
@@ -215,26 +165,6 @@ export default {
                 return this.allTags
             }
         }
-
-        // allProjects() {
-        //     var searchBy;
-        //     if (document.getElementById('selectSearchBy') != null) {
-        //         searchBy = document.getElementById('selectSearchBy').value
-        //     }else{
-        //         searchBy = 'projects'
-        //     }
-
-        //     // if (this.search != "" && searchBy == 'projects') {
-        //     if (this.search != "") {
-        //         console.log('aaa')
-        //         return this.allProjectPresent.filter(
-        //             items =>
-        //             items.project_name_en.toLowerCase().includes(this.search.toLowerCase())
-        //         )
-        //     } else {
-        //         return this.allProjectPresent
-        //     }
-        // }
     },
     watch: {
         searchTagText: function (val) {

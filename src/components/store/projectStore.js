@@ -24,7 +24,7 @@ export const projectStore = {
             const { data } = await axios.get(
                 URL
             );
-            console.log("data : ",data)
+            // console.log("data : ",data)
             if(type == 'all' || type == 'search'){
                 commit('SET_ALL_PROJECT_VISITORVIEW', data.projects)
             }
@@ -61,6 +61,7 @@ export const projectStore = {
             state.profiles = profiles
         },
         SET_ALL_COURSE_PROJECT: function (state, courses) {
+            console.log('store set course')
             state.courses = courses
         },
         SET_YEARS: function (state, years) {
