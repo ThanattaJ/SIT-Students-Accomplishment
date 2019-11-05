@@ -1,17 +1,16 @@
 import axios from "axios";
+import { stat } from "fs";
 
 export const adminStore = {
+
     state: {
-        course:[{
-            course_code:'',
-            name:'',
-            course_detail:''
-        }],
+        course:[],
         lecturers:[],
         semester:[],
         thisShow:false,
         selectLecturer:[],
         isApprover: false,
+        notInCourse:[]
     },
     mutations: {
         set_course:(state,course)=>{
@@ -40,7 +39,7 @@ export const adminStore = {
         set_select_lecturer(state,lecturer){
             state.lecturers.push(lecturer)
         },
-        set_put_semester:(state,semester)=>{
+        set_put_semester(state,semester){
             state.semester.push(semester) 
         },
         set_semester:(state,semester)=>{
@@ -51,6 +50,9 @@ export const adminStore = {
         },
         set_approver:(state,isApprover)=>{
             state.isApprover = isApprover
+        },
+        set_notInCourse:(state,notInCourse)=>{
+            state.notInCourse =notInCourse
         }
     },
     actions: {
@@ -75,6 +77,7 @@ export const adminStore = {
             commit('set_select_lecturer',lecturer)
         },
         add_semester:({commit},semester)=>{
+            console.log("semester",semester)
             commit('set_put_semester',semester)
         },
         set_semester:({commit},semester)=>{
@@ -85,6 +88,9 @@ export const adminStore = {
         },
         set_approver:({commit},isApprover)=>{
             commit('set_approver',isApprover)
+        },
+        set_notInCourse:({commit},notInCourse)=>{
+            commit('set_notInCourse',notInCourse)
         }
     },
     getters: {
@@ -92,7 +98,6 @@ export const adminStore = {
             return state.course
         },
         get_lecturer(state){
-            // console.log("lecturer : ",state.lecturers)
             return state.lecturers
         },
         get_select_lecturer(state){
@@ -106,6 +111,10 @@ export const adminStore = {
         },
         get_approver(state){
             return state.isApprover
+        },
+        get_notInCourse(state){
+            return state.notInCourse
         }
+
     }
 }
