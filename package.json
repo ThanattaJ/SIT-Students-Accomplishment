@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@johmun/vue-tags-input": "^2.1.0",
-    "@trevoreyre/autocomplete-vue": "^2.0.2",
+    "@trevoreyre/autocomplete-vue": "^2.0.3",
     "air-datepicker": "^2.2.3",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",

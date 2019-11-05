@@ -24,6 +24,11 @@ Vue.use(TrendChart);
 import vmodal from 'vue-js-modal'
 Vue.use(vmodal)
 
+import Autocomplete from '@trevoreyre/autocomplete-vue'
+import '@trevoreyre/autocomplete-vue/dist/style.css'
+
+Vue.use(Autocomplete)
+
 Vue.config.productionTip = false
 
 // Vue.prototype.$http = Axios;
