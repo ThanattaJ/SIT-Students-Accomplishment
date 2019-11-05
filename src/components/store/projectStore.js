@@ -38,6 +38,9 @@ export const projectStore = {
                 commit('SET_YEARS', data.years) 
              }
         },
+        SET_ALL_PROJECT_VISITORVIEW: function ({ commit }, projects) {
+            commit('SET_ALL_PROJECT_VISITORVIEW', projects)
+        },
         LOAD_PROJECT_BY_SEARCH: async function ({ commit, rootState }, {searchText, searchBy}) {
             const URL = rootState.pathStore.pathName+"/projects/search?by="+searchBy+"&search="+searchText
             console.log("URL : "+URL)

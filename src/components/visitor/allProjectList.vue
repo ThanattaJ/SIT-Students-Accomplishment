@@ -83,8 +83,7 @@
                 <div class="dropdown-trigger">
                     <div class="field">
                         <p class="control is-expanded has-icons-left">
-                            <input class="input" v-model="searchTagText" type="search" placeholder="Looking for?" 
-                            style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;"/>
+                            <input class="input" v-model="searchTagText" type="search" placeholder="Looking for?" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;" />
                             <span class="icon is-small is-left"><i class="la la-search"></i></span>
                         </p>
                     </div>
@@ -290,7 +289,7 @@ export default {
             this.search = tag_name
             this.searchBy()
         },
-        ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW', 'LOAD_PROJECT_BY_SEARCH', 'LOAD_OTHER_STUDENT_DATA']),
+        ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW', 'LOAD_PROJECT_BY_SEARCH', 'LOAD_OTHER_STUDENT_DATA', 'SET_ALL_PROJECT_VISITORVIEW']),
         selectYear() {
             var selectYear = document.getElementById("selectYear").value == null ? 'present' : document.getElementById('selectYear').value
             console.log("selectYear : " + selectYear)
@@ -330,13 +329,11 @@ export default {
 
             if (searchBy == 'projects') {
                 if (this.search != "") {
-                    console.log('aaa')
-                    var para = {
-                        type: "search",
-                        searchBy: "projects",
-                        searchText: this.search
-                    }
-                    this.LOAD_ALL_PROJECT_VISITORVIEW(para)
+                    var pro = this.allProjectPresent.filter(
+                        items =>
+                        items.project_name_en.toLowerCase().includes(this.search.toLowerCase())
+                    )
+                    this.SET_ALL_PROJECT_VISITORVIEW(pro)
                 } else {
                     var selectYear = document.getElementById("selectYear") == null ? 'present' : document.getElementById('selectYear').value
                     var para = {
@@ -345,8 +342,7 @@ export default {
                     }
                     this.LOAD_ALL_PROJECT_VISITORVIEW(para)
                 }
-            }
-            if (searchBy == 'tags' && this.search != '') {
+            } else if (searchBy == 'tags' && this.search != '') {
                 var para = {
                     type: "search",
                     searchBy: "tags",
