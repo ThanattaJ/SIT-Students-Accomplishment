@@ -21,17 +21,18 @@ export default {
     data() {
         return {
             myUrl: "",
-            link: "",
-            showIframe: false,
-            src: "",
-            a: ""
+            showIframe: false
         }
     },
     computed: {
         ...mapGetters(['GET_VDO_PATHNAME']),
     },
     mounted() {
-        this.myUrl = 'https://youtu.be/' + this.GET_VDO_PATHNAME
+        if (this.GET_VDO_PATHNAME == '') {
+            this.myUrl == ''
+        } else {
+            this.myUrl = 'https://youtu.be/' + this.GET_VDO_PATHNAME
+        }
     },
     methods: {
         ...mapActions(['SET_VDO_PATHNAME']),
@@ -46,12 +47,12 @@ export default {
             }
         },
         callIframe() {
-            console.log("callIframe")
-            var myId = this.getId(this.myUrl);
-            if (myId != '' || myId == null) {
+            if (this.myUrl != '') {
                 // document.getElementById('myCode').innerHTML = '<iframe width="560" height="315" src="//www.youtube.com/embed/' + myId + '" frameborder="0" allowfullscreen></iframe>'
+                var myId = this.getId(this.myUrl);
                 this.SET_VDO_PATHNAME(myId)
-                console.log("myId : ", myId)
+            } else {
+                this.SET_VDO_PATHNAME('')
             }
         }
     }

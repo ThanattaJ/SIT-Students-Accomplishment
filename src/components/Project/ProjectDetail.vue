@@ -75,6 +75,7 @@
         </div>
     </div>
     <Abstract />
+    {{GET_VDO_PATHNAME}}
     <div id="body-project">
         <div class="columns">
             <div class="column is-6">
@@ -97,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="Details" v-if="video_pathname != null && EditProject == false">
+                <div id="Details" v-if="video_pathname != '' && EditProject == false">
                     <div class="resp-container">
                         <iframe width="560" height="315" :src="'//www.youtube.com/embed/' + GET_VDO_PATHNAME " frameborder="0" allowfullscreen></iframe>
                     </div>
@@ -139,7 +140,6 @@
                     <div class="card-content">
                         <div class="content" style="color: #265080 !important " v-for="(doc,index) in files" v-bind:key="index">
                             <a :href="doc.document_path"><span style="color:#265080">{{doc.document_name}}</span></a>
-
                         </div>
                     </div>
                 </div>
@@ -527,8 +527,9 @@ export default {
                         console.log("res : ", res)
                         if (res.status == 200) {
                             this.EditProject = false;
-                            alert('File has been update')
+                            // alert('File has been update')
                             console.log(' Tags : ', this.getTag)
+                            this.loadDocumentToShow()
                         }
                     })
 
