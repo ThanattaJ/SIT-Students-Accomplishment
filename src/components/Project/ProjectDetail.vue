@@ -1,8 +1,8 @@
 <template>
 <div class="body" id="ProjectDetail-bg">
-    <div class="vld-parent">
+    <!-- <div class="vld-parent">
         <loading :active="isLoading" :can-cancel="true" :on-cancel="onCancel" :is-full-page="fullPage" :width="200" :height="200" ></loading>
-    </div>
+    </div> -->
     <div id="TitleName">
         <p id="TitleName_eg">{{header.TitleName}}</p>
         <p id="TitleName_th">{{header.TitleName_TH}}</p>
@@ -40,7 +40,24 @@
         </div>
         <div class="columns">
             <div class="column is-four-fifths">
-                <div v-if="this.project_status != 'Approve'">
+                <div v-if="this.project_status === 'Waiting'">
+                    <div v-if="this.access == true">
+                        <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
+                        <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
+                        <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
+                    </div>
+                </div>
+                <div v-if="this.project_status === 'Approve'">
+                    <div v-if="this.access == true">
+                        <button class="button createBtn" @click="sendRequest()">Request Edit</button>
+                    </div>
+                </div>
+                <div v-if="this.project_status === 'Request'">
+                    <div v-if="this.access == true">
+                        <span class="button createBtn">Wait Approve</span>
+                    </div>
+                </div>
+                <div v-if="!this.project_status">
                     <div v-if="this.access == true">
                         <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
                         <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
@@ -54,13 +71,13 @@
                     <adminApprover />
                 </div>
                 <div>
-                    <md-switch v-model="show" v-if="EditProject">{{show}}</md-switch>
+                    <md-switch v-model="show" v-if="EditProject">Public</md-switch>          
                 </div>
             </div>
             <div v-if="this.clap">
-                <md-button class="md-icon-button md-accent" style="margin-top:12px" @click="clapProject">
-                    <img class="image" src="../.././assets/clap.png">
-                </md-button>
+                <div @click="clapProject()" id="claps">
+                    <vue-clap-button icon="good" maxClick="10" colorActive="#265080" />
+                </div>
             </div>
             <div v-else>
                 <md-button class="md-icon-button" disabled style="margin-top:12px">
@@ -186,6 +203,8 @@ import "./../css/ProjectDetail.css";
 import showImg from "./showImg"
 import approveAssignmentProject from "./../lecturer/approveAssignmentProject"
 import adminApprover from "./../admins/adminApprover"
+import vueClapButton from 'vue-clap-button'
+Vue.use(vueClapButton);
 export default {
 
     namePro: "ProjectDetail",
@@ -213,7 +232,7 @@ export default {
             'getPic',
             'getNonMember',
             'getClap',
-            'GET_PATHNAME',
+            'getPID',
             //admin
             'get_approver',
 
@@ -296,6 +315,7 @@ export default {
             show: true,
             access: true,
             haveAssignment: false,
+            assignment_id: '',
             academic_term: '',
             lecturer: [],
             isClap: true,
@@ -306,7 +326,6 @@ export default {
     },
 
     async mounted() {
-        
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -320,21 +339,20 @@ export default {
             this.style.height = "auto";
             this.style.height = this.scrollHeight + "px";
         }
-
         // get data
         const {
             data
         } = await axios.get(
             this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
-            console.log('Token : ',this.GET_CONFIG)
+        console.log('Token : ', this.GET_CONFIG)
         console.log('data : ', data)
         if (data.project_detail.assignment_detail.assignment_id != null) {
             console.log("have assignment")
             // this.header.TitleName = data.project_detail.assignment_detail.assignment_name,
             this.academic_term = data.project_detail.assignment_detail.academic_term
             // this.header.TitleName_TH = data.project_detail.assignment_detail.course_name
-            this.setPID(data.project_detail.assignment_detail.assignment_id)
+            this.assignment_id = data.project_detail.assignment_detail.assignment_id
             this.project_status = data.project_detail.assignment_detail.project_status
             console.log('status : ', this.project_status)
             for (var i = 0; i < data.project_detail.assignment_detail.lecturers.length; i++) {
@@ -343,11 +361,10 @@ export default {
             this.haveAssignment = true
 
         } else {
-
-            this.setPID(data.project_detail.id)
             this.haveAssignment = false
         }
         console.log("  this.header.TitleName : ", data.project_detail.assignment_detail.assignment_name)
+        this.setPID(data.project_detail.id)
         this.header.TitleName = data.project_detail.project_name_en;
         this.header.TitleName_TH = data.project_detail.project_name_th;
         this.viewer = data.project_detail.count_viewer
@@ -549,7 +566,6 @@ export default {
             this.setTool(this.Tools)
             this.setRef(this.References)
         },
-
         Edit: function () {
             this.EditProject = true
             this.setEditProject(this.EditProject)
@@ -578,6 +594,23 @@ export default {
         },
         onCancel() {
             console.log('User cancelled the loader.')
+        },
+        sendRequest() {
+            console.log('request :', this.getPID, this.assignment_id)
+            try {
+                axios.patch(this.GET_PATHNAME + `/assignment/projects`, {
+                    assignment_id: this.assignment_id,
+                    project_id: this.getPID,
+                    status: "Request"
+                }, this.GET_CONFIG).then(res => {
+                    console.log("res : ", res)
+                    if (res.status == 200) {
+                        console.log("send request")
+                    }
+                })
+            } catch (err) {
+
+            }
         }
     },
     beforeDestroy() {
@@ -603,5 +636,9 @@ export default {
 
 .md-button.md-theme-default.md-accent {
     color: #265080;
+}
+
+#claps {
+    margin-top: 10px
 }
 </style>

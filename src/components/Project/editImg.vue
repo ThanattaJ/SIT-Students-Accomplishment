@@ -41,7 +41,7 @@
         </md-dialog>
     </div>
 
-    <md-button class="md-raised md-primary" id="add" v-if="getEditProject === true" @click="active = true">Add Image</md-button>
+    <md-button class="md-raised md-primary" id="addImage" v-if="getEditProject === true" @click="active = true">Add Image</md-button>
 
 </div>
 </template>

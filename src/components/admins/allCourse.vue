@@ -419,17 +419,20 @@ export default {
             this.$modal.hide('showCourseDetail')
         },
         addOrRe(index) {
+            console.log("course_id",this.get_notInCourse[index].course_id);
+            
             if (this.noInCourse) {
                 this.isDelete = false
             }
             if ((confirm('Do you want to add ? '))) {
                 try {
-                    axios.patch(this.GET_PATHNAME + '/course?id=' + this.persons[index].course_id, {
+                    axios.patch(this.GET_PATHNAME + '/course?id=' + this.get_notInCourse[index].course_id, {
                         code: this.get_notInCourse[index].course_code,
                         name: this.get_notInCourse[index].course_name,
                         isDelete: this.isDelete
                     }).then(res => {
                         console.log("res : ", res)
+                        this.get_notInCourse.splice(index,1)
                         if (res.status == 200) {
                             this.isActive = false;
                             this.editMessages = false
@@ -445,6 +448,7 @@ export default {
                 axios.delete(this.GET_PATHNAME + '/course?id=' + this.persons[index].course_id, {
                     code: this.get_course[index].course,
                 }).then(res => {
+                    this.get_course.splice(index,1)
                     console.log("res : ", res)
                     if (res.status == 200) {
                         this.isActive = false;
@@ -452,10 +456,8 @@ export default {
                     }
                 })
             } catch (err) {
-
             }
         }
-
     },
 
 };
