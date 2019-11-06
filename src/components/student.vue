@@ -103,7 +103,7 @@
             <div class="column" style="padding: 8px 8px;">
                 <div class="tags">
                     <span class="tag profileTag" @click="filterByTag(tag.tag_name)" v-for="(tag,index) in tags" v-bind:key="index">
-                        <vc-donut :sections="[{ value: (tag.total_tag*100/projects.length), color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut>
+                        <vc-donut :sections="[{ value: (tag.total_tag*100/numberOfProjects), color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut>
                         <span style="padding-left:5px">{{tag.tag_name}} </span>
                     </span>
                 </div>
@@ -172,7 +172,8 @@ export default {
             info: 'Bachelor of Science Programme in Information Technology',
             year: '3rd year SIT Student',
             clickEditEmail: false,
-            search: ''
+            search: '',
+            numberOfProjects: 0
         }
     },
     components: {
@@ -202,8 +203,9 @@ export default {
             }
         }
     },
-    mounted() {
+    created() {
         this.LOAD_OWN_STUDENT_DATA()
+        this.numberOfProjects = this.projects.length
     },
     methods: {
         ...mapActions(['LOAD_OWN_STUDENT_DATA', 'LOAD_OTHER_STUDENT_DATA', 'UPDATE_FIELD', 'SET_EMAIL', 'SET_STUDENT_PROJECT']),
