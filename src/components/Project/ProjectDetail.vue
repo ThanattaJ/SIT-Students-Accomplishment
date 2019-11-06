@@ -75,7 +75,6 @@
         </div>
     </div>
     <Abstract />
-    {{GET_VDO_PATHNAME}}
     <div id="body-project">
         <div class="columns">
             <div class="column is-6">
@@ -98,7 +97,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="Details" v-if="video_pathname != '' && EditProject == false">
+                <div id="Details" v-if="GET_VDO_PATHNAME != '' && EditProject == false">
                     <div class="resp-container">
                         <iframe width="560" height="315" :src="'//www.youtube.com/embed/' + GET_VDO_PATHNAME " frameborder="0" allowfullscreen></iframe>
                     </div>
