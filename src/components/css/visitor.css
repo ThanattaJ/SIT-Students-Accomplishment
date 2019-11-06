@@ -41,11 +41,11 @@
     opacity: 1;
     max-width: 80%;
 } */
-.image:hover{
+.coverImg:hover{
     background-color: Black;
     border-radius: .5em;
 }
-.image img:hover{
+.coverImg img:hover{
     opacity: 0.8;
 }
 

@@ -99,13 +99,13 @@
                 <router-link :to="`/ProjectDetail/${assignmentDetail.project_id}`">
                     <div class="card projectCard content_img">
                         <div class="card-image" v-if="assignmentDetail.cover_path != null">
-                            <figure class="image is-4by2">
+                            <figure class="image coverImg is-4by2">
                                 <!-- <img src="./../../assets/gold-medal.png" width="17px" v-if="assignmentDetail.achievement" style="z-index:2;position:absolute;width:40px;"> -->
                                 <img :src="assignmentDetail.cover_path" alt="Placeholder image" style="height: 156.22px !important;border-radius: 5px;">
                             </figure>
                         </div>
                         <div class="card-image" v-else>
-                            <figure class="image is-4by2">
+                            <figure class="image coverImg is-4by2">
                                 <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;">
                             </figure>
                         </div>

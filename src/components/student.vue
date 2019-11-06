@@ -117,7 +117,7 @@
                 <router-link :to="`/ProjectDetail/${allProject.id}`">
                     <div class="card projectCard content_img">
                         <div class="card-image" v-if="allProject.cover_path != null">
-                            <figure class="image is-4by2">
+                            <figure class="image coverImg is-4by2">
                                 <!-- <img src="./../assets/gold-medal.png" width="17px" v-if="allProject.achievement" style="z-index:2;position:absolute;width:40px;"> -->
                                 <img :src="allProject.cover_path" alt="Placeholder image" style="height: 156.22px !important;border-radius: 5px;">
                                 <div class="img-text">
@@ -129,7 +129,7 @@
                             </figure>
                         </div>
                         <div class="card-image" v-else>
-                            <figure class="image is-4by2">
+                            <figure class="image coverImg is-4by2">
                                 <img src="./../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;">
                                 <div class="img-text">
                                     <img src="./../assets/visibility-button.png" style="width:15px;display: inline;">

@@ -65,7 +65,7 @@
                 <router-link :to="`/ProjectDetail/${project.id}`">
                     <div class="card projectCard content_img">
                         <div class="card-image" v-if="project.cover_path != null">
-                            <figure class="image is-4by2">
+                            <figure class="image coverImg is-4by2">
                                 <!-- <img src="./../../assets/gold-medal.png" width="17px" v-if="project.achievement" style="z-index:2;position:absolute;width:40px;"> -->
                                 <img :src="project.cover_path" alt="Placeholder image" style="height: 156.22px !important;border-radius: 5px;">
                                 <div class="img-text">
@@ -77,7 +77,7 @@
                             </figure>
                         </div>
                         <div class="card-image" v-else>
-                            <figure class="image is-4by2">
+                            <figure class="image coverImg is-4by2">
                                 <!-- <img src="./../../assets/gold-medal.png" width="17px" v-if="project.achievement" style="z-index:2;position:absolute;width:40px;"> -->
                                 <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;">
                                 <div class="img-text">
@@ -103,12 +103,12 @@
                 <!-- <router-link :to="`/student/${profile.student_id}`"> -->
                 <div class="card projectCard content_img" @click="goToStudentProfile(profile.student_id)">
                     <div class="card-image" v-if="profile.profile_picture != null">
-                        <figure class="image" style="height: 159px;width: 120px">
+                        <figure class="image coverImg" style="height: 159px;width: 120px">
                             <img :src="profile.profile_picture" alt="Placeholder image" style="border-radius: 5px;">
                         </figure>
                     </div>
                     <div class="card-image" v-else>
-                        <figure class="image" style="height: 159px;width: 120px">
+                        <figure class="image coverImg" style="height: 159px;width: 120px">
                             <img src="./../../assets/noProfilePicture.png" style="border-radius: 5px;">
                         </figure>
                     </div>
