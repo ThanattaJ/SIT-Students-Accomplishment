@@ -70,8 +70,10 @@
                 <div v-if="get_approver == true">
                     <adminApprover />
                 </div>
-                <div>
-                    <md-switch v-model="show" v-if="EditProject">Public</md-switch>          
+            </div>
+            <div>
+                <div v-if="this.access == true">
+                    <md-switch v-model="show">Public</md-switch>
                 </div>
             </div>
             <div v-if="this.clap">
@@ -326,6 +328,7 @@ export default {
     },
 
     async mounted() {
+        console.log('------Project Detail !!-------')
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -345,10 +348,10 @@ export default {
         } = await axios.get(
             this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
-        console.log('Token : ', this.GET_CONFIG)
-        console.log('data : ', data)
+        // console.log('Token : ', this.GET_CONFIG)
+        // console.log('data : ', data)
         if (data.project_detail.assignment_detail.assignment_id != null) {
-            console.log("have assignment")
+            // console.log("have assignment")
             // this.header.TitleName = data.project_detail.assignment_detail.assignment_name,
             this.academic_term = data.project_detail.assignment_detail.academic_term
             // this.header.TitleName_TH = data.project_detail.assignment_detail.course_name
@@ -363,7 +366,7 @@ export default {
         } else {
             this.haveAssignment = false
         }
-        console.log("  this.header.TitleName : ", data.project_detail.assignment_detail.assignment_name)
+        // console.log("  this.header.TitleName : ", data.project_detail.assignment_detail.assignment_name)
         this.setPID(data.project_detail.id)
         this.header.TitleName = data.project_detail.project_name_en;
         this.header.TitleName_TH = data.project_detail.project_name_th;
@@ -423,8 +426,8 @@ export default {
             }
         }
         // ------------- clap -------------
-        console.log('GET_USERNAME : ', this.GET_USERNAME)
-        console.log('Member :', this.getMember)
+        // console.log('GET_USERNAME : ', this.GET_USERNAME)
+        // console.log('Member :', this.getMember)
         for (let i = 0; i < this.getMember.length; i++) {
             if (this.getMember[i].student_id === this.GET_USERNAME) {
                 this.clap = false

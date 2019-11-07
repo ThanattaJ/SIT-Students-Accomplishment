@@ -419,8 +419,8 @@ export default {
             this.$modal.hide('showCourseDetail')
         },
         addOrRe(index) {
-            console.log("course_id",this.get_notInCourse[index].course_id);
-            
+            console.log("course_id", this.get_notInCourse[index].course_id);
+
             if (this.noInCourse) {
                 this.isDelete = false
             }
@@ -432,7 +432,7 @@ export default {
                         isDelete: this.isDelete
                     }).then(res => {
                         console.log("res : ", res)
-                        this.get_notInCourse.splice(index,1)
+                        this.get_notInCourse.splice(index, 1)
                         if (res.status == 200) {
                             this.isActive = false;
                             this.editMessages = false
@@ -448,15 +448,14 @@ export default {
                 axios.delete(this.GET_PATHNAME + '/course?id=' + this.persons[index].course_id, {
                     code: this.get_course[index].course,
                 }).then(res => {
-                    this.get_course.splice(index,1)
+                    this.get_course.splice(index, 1)
                     console.log("res : ", res)
                     if (res.status == 200) {
                         this.isActive = false;
                         this.editMessages = false
                     }
                 })
-            } catch (err) {
-            }
+            } catch (err) {}
         }
     },
 

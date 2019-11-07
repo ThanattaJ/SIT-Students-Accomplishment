@@ -66,9 +66,29 @@
                     <md-card-header>
                         <div class="md-title">EDIT</div>
                     </md-card-header>
-
-                    <model-select :options="option" v-model="item" placeholder="select course">
-                    </model-select>
+                    <div class="column">
+                        <div class="card-content cardSize colName">
+                            <div class="columns">
+                                <div class="column is-6">Course</div>
+                                <div class="column countAssign">Lecturer</div>
+                            </div>
+                        </div>
+                        <div class="card lecturerCard ">
+                            <div class="columns">
+                                <div class="column is-6" style="margin-left: 20px;" id="title">{{this.item.text}}</div>
+                                <md-card-content v-if="allLecturers.length == 0">
+                                    No lecturer
+                                </md-card-content>
+                                <md-card-content v-else>
+                                    <div v-for="(lecturers,index) in allLecturers" v-bind:key="index">
+                                        {{index+1}}) {{lecturers.lecturer_name}}
+                                    </div>
+                                </md-card-content>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <model-select :options="option" v-model="item" placeholder="select course">
+                    </model-select> -->
                     <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect">
                     </multi-select>
                 </div>
@@ -205,31 +225,15 @@ export default {
         }
         this.semesters.length = data.semester.length
 
-        var lecturer
-        await axios.get(this.GET_PATHNAME + '/users/list_lecturer').then(response => lecturer = response.data)
-        for (let i = 0; i < lecturer.length; i++) {
-            this.set_lecturer(lecturer)
-        }
-        console.log('lec : ', this.get_lecturer)
-        // ------------------
-
         var course
         await axios.get(this.GET_PATHNAME + '/course').then(response => course = response.data)
         this.set_course(course.course)
-
-        console.log('cos ', course.course)
+        console.log('all course : ', course)
         // ---------------
 
-        for (let i = 0; i < this.get_lecturer.length; i++) {
-            this.options.push({
-                text: this.get_lecturer[i].firstname + " " + this.get_lecturer[i].lastname,
-                value: this.get_lecturer[i].text
-            })
-        }
-        // console.log('ops ', this.options)
-        // -----------------
         const allCouse = this.get_course;
         const haveCouse = this.get_semester.course
+        console.log("semester :", this.get_semester)
 
         function comparer(otherArray) {
             return function (current) {
@@ -248,6 +252,8 @@ export default {
                 value: result[i].course_id
             })
         }
+        console.log('option : ', this.option)
+
     },
     methods: {
         showLecturer(index) {
@@ -298,8 +304,6 @@ export default {
                         lecturers: this.storeLecturer
                     }).then((res) => {
                         console.log(res);
-                        console.log('get_course', this.get_semester.course)
-
                         this.get_semester.course.push({
                             course: this.item.text,
                             lecturers: this.storeLecName
@@ -322,24 +326,29 @@ export default {
             }
         },
         // function to handle data edition
-        edit: function (index) {
+        async edit(index) {
+
             this.isActive = true
             this.editInput.indexCouse = index
+
             this.option.push({
                 text: this.get_semester.course[this.editInput.indexCouse].course,
                 value: this.get_semester.course[this.editInput.indexCouse].course_id
             })
             this.item = this.option[this.option.length - 1]
             // ---------------------
-            // console.log('lecturer : ', this.get_semester.course[this.editInput.indexCouse].lecturers)
-            console.log('options : ', this.option)
-            var haveLecturer = this.get_semester.course[this.editInput.indexCouse].lecturers
-            for (let i = 0; i < haveLecturer.length; i++) {
-                this.items.push({
-                    text: haveLecturer[i].lecturer_name,
-                    value: haveLecturer[i].lecturer_id
+            this.allLecturers = this.get_semester.course[index].lecturers
+            var lecturer
+            await axios.get(this.GET_PATHNAME + `/users/list_lecturer/?academic_term_id=${this.get_semester.course[0].academic_term_id}&courses_id=${this.get_semester.course[index].course_id}`)
+                .then(response => lecturer = response.data)
+            for (let i = 0; i < lecturer.length; i++) {
+                this.options.push({
+                    text: lecturer[i].firstname + ' ' + lecturer[i].lastname,
+                    value: lecturer[i].lecturer_id
                 })
+                console.log('options : ', this.options)
             }
+
         },
         hideEdit() {
             this.$modal.hide('edit')
@@ -362,12 +371,15 @@ export default {
         //function to update data
         update(index) {
             for (let i = 0; i < this.items.length; i++) {
-                console.log('lecturer : ', this.get_lecturer)
+                this.storeLecName.push(
+                    this.items[i].text
+                )
+            }
+            for (let i = 0; i < this.items.length; i++) {
                 this.storeLecturer.push({
                     "lecturer_id": this.items[i].value
                 })
             }
-            console.log('lecturer', this.storeLecturer)
             if (this.get_semester.course[0].academic_term_id) {
                 try {
                     axios.patch(this.GET_PATHNAME + '/course/courseSemester', {
@@ -375,6 +387,14 @@ export default {
                         course_id: this.item.value,
                         lecturers: this.storeLecturer
                     }).then(res => {
+                        for (let i = 0; i < this.items.length; i++) {
+                            this.allLecturers.push({
+                                lecturer_name: this.items[i].text
+                            })
+                        }
+                        this.items = []
+                        this.options = []
+                        this.storeLecturer =[]
                         console.log("res : ", res)
                         if (res.status == 200) {
                             this.$modal.hide('lecturer')
@@ -382,7 +402,6 @@ export default {
                     })
                     this.message = " uploaded complete";
                     this.file = " ";
-                    this.error = false;
                     this.persons.splice(index, 1);
                     this.persons.push({
                         course: this.editInput.course,
@@ -394,9 +413,6 @@ export default {
                     this.isActive = false;
                 } catch (err) {
                     console.log('FAILURE!!' + err)
-                    this.message = "Something went wrong";
-                    this.error = true;
-                    console.log(this.persons[index])
                 }
             } else {
                 console.log("err some thing")

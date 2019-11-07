@@ -1,7 +1,7 @@
 <template>
 <div>
     Status :
-    <a id='Waiting' class="button statusBtn" @click="setStatus('Waiting');openAskModal()"><span id='WaitingText' class="courseName">Waiting</span></a>
+    <!-- <a id='Waiting' class="button statusBtn" @click="setStatus('Waiting');openAskModal()"><span id='WaitingText' class="courseName">Waiting</span></a> -->
     <a id='Approve' class="button statusBtn" @click="setStatus('Approve');openAskModal()"><span id='ApproveText' class="courseName">Approve</span></a>
     <modal name="askForSure">
         <md-card-header>
