@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div v-if="pending" class="center-div"><img src="../../assets/Rolling-2s-200px.svg" ></div>
+  <div v-else>
     <div>
     <vueper-slides autoplay :dragging-distance="50" prevent-y-scroll :arrows="false"  fixed-height="600px" :bullets-outside="true">
       <vueper-slide 
@@ -82,18 +83,21 @@
 
 <script>
   import './../css/Home.css';
+  import './../css/Loading.css';
   import axios from 'axios'
   import { VueperSlides, VueperSlide } from 'vueperslides'
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
   export default {
       components: { VueperSlides, VueperSlide },
       computed: {
         ...mapGetters([
-            'GET_PATHNAME'
-        ])
+          'GET_PATHNAME'
+        ]
+        )
       },
       data(){
         return {
+            pending: true,
             projects: []
         }
       },
@@ -113,7 +117,8 @@
             }
             this.projects.push(project)
         }
-    },
+        this.pending = false
+    }
   }
 </script>
 
