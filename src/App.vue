@@ -25,10 +25,10 @@
                         </a>
                     </router-link>
                 </span>
-                <span class="navbar-item">
+                <span class="navbar-item"  v-if="loginStatus">
                     <router-link to="/Faculty">
                         <a class="navbar-item menuName">
-                            <!-- <img src="./assets/folder.png" style="max-height: 30px !important; margin-right: 10px"> -->
+                            <img src="./assets/building.png" style="max-height: 30px !important; margin-right: 10px">
                             Faculty
                         </a>
                     </router-link>

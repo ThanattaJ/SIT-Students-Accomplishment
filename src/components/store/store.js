@@ -17,6 +17,7 @@ import { coverStore } from './coverStore'
 import { imgStore } from './imgStore'
 import { detailStore } from './detailStore'
 import { pathStore } from './pathStore'
+import { loadingStore } from './loadingStore'
 
 
 export const store = new Vuex.Store({
@@ -35,6 +36,7 @@ export const store = new Vuex.Store({
         coverStore,
         imgStore,
         detailStore,
-        pathStore
+        pathStore,
+        loadingStore
     }
 })

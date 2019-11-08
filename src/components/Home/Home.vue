@@ -1,5 +1,5 @@
 <template>
-  <div v-if="pending" class="center-div"><img src="../../assets/Rolling-2s-200px.svg" ></div>
+  <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
   <div v-else>
     <div>
     <vueper-slides autoplay :dragging-distance="50" prevent-y-scroll :arrows="false"  fixed-height="600px" :bullets-outside="true">
@@ -75,7 +75,7 @@
     <footer id="footer">
         <span class="footerContent">SIT STUDENTS ACCOMPLISHMENT &copy;2019</span>   
         <span class="footerContent footerRight">View More Projects 
-          <router-link to="/Projects"><md-button class="buttonToViewProject"> Click </md-button></router-link>
+          <router-link to="/Projects"><md-button class="buttonToViewProject" @click="loadingStatus"> Click </md-button></router-link>
         </span>
     </footer>
   </div>
@@ -86,25 +86,27 @@
   import './../css/Loading.css';
   import axios from 'axios'
   import { VueperSlides, VueperSlide } from 'vueperslides'
-  import { mapGetters, mapActions } from 'vuex'
+  import {
+    mapGetters,
+    mapActions
+  } from 'vuex'
   export default {
       components: { VueperSlides, VueperSlide },
       computed: {
-        ...mapGetters([
-          'GET_PATHNAME'
-        ]
-        )
+        ...mapGetters({
+            URL: 'GET_PATHNAME',
+            loading: 'GET_LOADING'
+        })
       },
       data(){
         return {
-            pending: true,
             projects: []
         }
       },
       async mounted() {
         const {
             data
-        } = await axios.get(`${this.GET_PATHNAME}/projects/Top-Project`);
+        } = await axios.get(`${this.URL}/projects/Top-Project`);
           console.log('data', data);
           console.log('data', data.length);
           console.log('projects', this.projects)
@@ -117,7 +119,13 @@
             }
             this.projects.push(project)
         }
-        this.pending = false
+        this.SET_LOADING_STATUS(false)
+    },
+    methods: {
+        ...mapActions(['SET_LOADING_STATUS']),
+        loadingStatus() {
+          this.SET_LOADING_STATUS(true)
+        }
     }
   }
 </script>
