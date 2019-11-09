@@ -9,7 +9,7 @@
                         <md-icon>X</md-icon>
                     </md-button>
                 </md-card-header>
-                <div >
+                <div>
                     <div id="upload">
                         <h5>{{messageUpload}}</h5>
                         <input type="file" ref="file" @change="selectFile" class="file-input" accept=".jpg, .png, .gif" id="inputCovr" />
@@ -25,17 +25,13 @@
                 <md-card-content>
                     <div class="columns" style="  display: flex; flex-wrap: wrap;">
                         <div v-for="(picture,index) in getImages" v-bind:key="index" class="column is-one-third" style="box-sizing: border-box; padding: 1em; width: 33.3%;">
-                            {{index}}
+                            <md-button id="delete" class="md-fab md-mini " @click="deletePicture(index)">
+                                <md-icon>-</md-icon>
+                            </md-button>
                             <img :src="picture.path" />
                         </div>
                     </div>
                 </md-card-content>
-                <!-- <md-button id="delete" class="md-fab md-mini md-plain md-fab-bottom-center md-dense" v-if="getEditProject" @click="deletePicture(index)">
-                            <md-icon>-</md-icon>
-                        </md-button> -->
-                <!-- <md-card-actions md-alignment="left">
-                    <md-button class="md-accent" @click="close" i="close">Close</md-button>
-                </md-card-actions> -->
             </md-card>
         </md-dialog>
     </div>
@@ -219,8 +215,8 @@ export default {
 }
 
 #delete {
-    margin-left: 38px;
-    margin-bottom: 15px
+    margin-bottom: -25%;
+    margin-left: 90%;
 }
 
 #editImg {
