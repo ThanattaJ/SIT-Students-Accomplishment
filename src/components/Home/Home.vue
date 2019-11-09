@@ -2,15 +2,25 @@
   <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
   <div v-else>
     <div>
-    <vueper-slides autoplay :dragging-distance="50" prevent-y-scroll :arrows="false"  fixed-height="600px" :bullets-outside="true">
-      <vueper-slide 
-        v-for="(project,i) in projects" 
-          :key="i" 
-          :project_id="projects[i].project_id"
-          :image="projects[i].cover_path"
-          :link="`https://accomplishment-sit.netlify.com/ProjectDetail/${projects[i].project_id}`">
-      </vueper-slide>
-    </vueper-slides>
+    <carousel perPage="1" 
+      adjustableHeight="true" 
+      paginationSize="20" 
+      paginationActiveColor="#265080" 
+      autoplay="true" 
+      loop="true">
+      <slide  v-for="(project,i) in projects" :key="i">
+        <div class="grid">
+          <a :href="`https://accomplishment-sit.netlify.com/ProjectDetail/${projects[i].project_id}`">
+            <figure class="effect-zoe">
+              <img :src=project.cover_path >
+                <figcaption>
+                  <h2><span>{{project.name_en}}</span></h2>
+                </figcaption>			
+            </figure>
+          </a>
+        </div>
+      </slide>
+    </carousel>
     </div>
     <div id="block">
         <div class="row">
@@ -85,13 +95,14 @@
   import './../css/Home.css';
   import './../css/Loading.css';
   import axios from 'axios'
+  import { Carousel, Slide } from 'vue-carousel';
   import { VueperSlides, VueperSlide } from 'vueperslides'
   import {
     mapGetters,
     mapActions
   } from 'vuex'
   export default {
-      components: { VueperSlides, VueperSlide },
+      components: { VueperSlides, VueperSlide, Carousel, Slide },
       computed: {
         ...mapGetters({
             URL: 'GET_PATHNAME',
@@ -129,19 +140,3 @@
     }
   }
 </script>
-
-<style>
-  .vueperslides__bullet {
-    background-color: rgba(0, 0, 0, 0.3) !important;
-    border: none !important;
-    box-shadow: none !important;
-    transition: 0.3s !important;
-    width: 20px !important;
-    height: 20px !important;
-  }
-
-  .vueperslides__bullet--active {
-    background-color: #265080 !important;
-  }
-
-</style>
