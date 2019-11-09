@@ -7,9 +7,9 @@
                     <span class="file">
                         <div class="container">
                             <div class="content has-text-centered">
-                                <p class="control">
-                                    <button v-on:click="launch" class="button is-primary" id="uploadCover">Upload Cover</button>
-                                </p>
+
+                                <button v-on:click="launch" class="button " id="upCover">Upload Cover</button>
+
                             </div>
                             <div class="modal" v-bind:class="{'is-active':isActive}" id="modalCover">
                                 <form @submit="onSubmit">
@@ -59,7 +59,7 @@ import {
     mapGetters
 } from 'vuex';
 export default {
-    computed:{
+    computed: {
         ...mapGetters([
             'GET_PATHNAME'
         ])
@@ -104,19 +104,19 @@ export default {
             try {
                 const {
                     data
-                } = await axios.post(this.GET_PATHNAME+'/files/image', formData)
-                //https://www.sit-acc.nruf.in.th
-                .then(res => {
-                    console.log("res : ", res)
-                    if (res.status == 200) {
-                         this.isActive = false;
-                    }
-                })
+                } = await axios.post(this.GET_PATHNAME + '/files/image', formData)
+                    //https://www.sit-acc.nruf.in.th
+                    .then(res => {
+                        console.log("res : ", res)
+                        if (res.status == 200) {
+                            this.isActive = false;
+                        }
+                    })
                 this.message = "File has been uploaded";
                 this.error = false;
                 console.log(data)
                 this.setFile(data.url)
-               
+
                 // this.setFile(data.status)
 
             } catch (err) {
@@ -171,10 +171,6 @@ export default {
     border: none
 }
 
-/* .columns {
-    margin-top: 2%;
-} */
-
 #cover {
     margin-left: -20%;
     margin-top: -2%;
@@ -191,8 +187,10 @@ export default {
     max-height: 500px;
 }
 
-#uploadCover {
-    height: 55px;
+#upCover {
+    margin-right: 50%;
+    color: white;
+    background-color: #265080 !important;
 }
 
 .modal {

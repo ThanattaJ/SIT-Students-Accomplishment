@@ -1,7 +1,7 @@
 <template>
-<div id="editImg">
+<div>
     <div id="card lecturerCard">
-        <md-dialog :md-active.sync="active">
+        <md-dialog :md-active.sync="active" id="editImg">
             <md-card>
                 <md-card-header>
                     <div class="md-title" id="title">Edit Image</div>
@@ -9,39 +9,37 @@
                         <md-icon>X</md-icon>
                     </md-button>
                 </md-card-header>
-                <div id="upload">
-                    <h5>{{messageUpload}}</h5>
-                    <input type="file" ref="file" @change="selectFile" class="file-input" accept=".jpg, .png, .gif" id="inputCovr" />
-                    <img v-if="url" :src="url" id="Img" />
-                </div>
-                <span>&nbsp;</span>
-                <span v-if="file" class="file-name">{{file.name}}</span>
-                <p id="update">{{message}}</p>
-                <div class="column" id="update">
-                    <md-button class="md-raised md-primary" @click="sendFile" @submit="onSubmit" id="Bottom">Upload</md-button>
+                <div >
+                    <div id="upload">
+                        <h5>{{messageUpload}}</h5>
+                        <input type="file" ref="file" @change="selectFile" class="file-input" accept=".jpg, .png, .gif" id="inputCovr" />
+                        <img v-if="url" :src="url" id="Img" />
+                    </div>
+                    <span>&nbsp;</span>
+                    <span v-if="file" class="file-name" id="fileName"> {{file.name}}</span>
+                    <p id="fileName">{{message}}</p>
+                    <div class="column" id="update">
+                        <button class="button" @click="sendFile" @submit="onSubmit" id="Bottom">Upload</button>
+                    </div>
                 </div>
                 <md-card-content>
-                    <div class="columns is-gapless is-multiline">
-                        <div class="column is-2" v-for="(picture,index) in getImages" v-bind:key="index">
-                            <div class="image is-128x128">
-                                <md-button id="delete" class="md-fab md-mini md-plain md-fab-bottom-center md-dense" v-if="getEditProject" @click="deletePicture(index)">
-                                    <md-icon>-</md-icon>
-                                </md-button>
-                                <table id="table">
-                                    <tr><img :src="picture.path" id="imgShow" /></tr>
-                                </table>
-                            </div>
+                    <div class="columns" style="  display: flex; flex-wrap: wrap;">
+                        <div v-for="(picture,index) in getImages" v-bind:key="index" class="column is-one-third" style="box-sizing: border-box; padding: 1em; width: 33.3%;">
+                            {{index}}
+                            <img :src="picture.path" />
                         </div>
                     </div>
                 </md-card-content>
+                <!-- <md-button id="delete" class="md-fab md-mini md-plain md-fab-bottom-center md-dense" v-if="getEditProject" @click="deletePicture(index)">
+                            <md-icon>-</md-icon>
+                        </md-button> -->
                 <!-- <md-card-actions md-alignment="left">
-                    <md-button class="md-accent" @click="close" id="close">Close</md-button>
+                    <md-button class="md-accent" @click="close" i="close">Close</md-button>
                 </md-card-actions> -->
             </md-card>
         </md-dialog>
     </div>
-
-    <md-button class="md-raised md-primary" id="addImage" v-if="getEditProject === true" @click="active = true">Add Image</md-button>
+    <span class="button " id="addImage" v-if="getEditProject === true" @click="active = true">Edit Image</span>
 
 </div>
 </template>
@@ -101,7 +99,7 @@ export default {
 
             try {
                 axios
-                    .delete(this.GET_PATHNAME+"/files/image", {
+                    .delete(this.GET_PATHNAME + "/files/image", {
                         //.delete("http://localhost:7000/files/image", {
                         data: {
                             path_name: this.getImages[index].path
@@ -118,6 +116,7 @@ export default {
         close: function () {
             this.active = false;
             this.url = ''
+            this.file = ''
         },
         async sendFile() {
             const formData = new FormData();
@@ -129,21 +128,21 @@ export default {
                     'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2ODcxNzYxNzI0NH0.Vn_kGau8dG9DBQIqm7_NOQVTKfK4ZjlfUKGmrZK0NzU'
                 }
             }
-            // "false"
             try {
                 const {
                     data
-                } = await axios.post(this.GET_PATHNAME+'/files/imageMul', formData, this.GET_CONFIG)
+                } = await axios.post(this.GET_PATHNAME + '/files/imageMul', formData, this.GET_CONFIG)
 
                 this.message = "File has been uploaded";
                 this.error = false;
                 this.addImage({
                     path: data.url[0].path_name
                 })
-                // console.log("upload image : ", data.url[0].path_name)
+                console.log('get', this.getImages)
+                this.url = ''
+                this.file = ''
+                console.log(data.url[0].path_name, "path")
                 this.isActive = false;
-                // this.setPic({ path :data.url[0].path_name})
-
             } catch (err) {
                 console.log('FAILURE!!' + err)
                 this.message = "Something went wrong";
@@ -186,13 +185,18 @@ export default {
     margin-left: 20%;
     margin-top: 5%;
     color: white;
+    background-color: #265080 !important;
 }
 
 #Img {
     max-width: 250px;
     max-height: 250px;
-    margin-right: -120px;
-    margin-top: 10px
+    margin-top: 10px;
+    margin-left: -70px
+}
+
+#fileName {
+    margin-left: 320px;
 }
 
 #upload {
@@ -205,7 +209,9 @@ export default {
 }
 
 #Bottom {
-    margin-left: 40%;
+    margin-left: 80%;
+    color: white;
+    background-color: #265080 !important;
 }
 
 #table {
@@ -215,5 +221,14 @@ export default {
 #delete {
     margin-left: 38px;
     margin-bottom: 15px
+}
+
+#editImg {
+    background-color: white !important;
+    width: 800px !important;
+}
+
+.ti-tag {
+    background-color: #265080 !important;
 }
 </style>

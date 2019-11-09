@@ -63,6 +63,24 @@
                         <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
                         <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
                     </div>
+                    <div>
+                        <p v-if="this.show == true">
+                            Status : Public
+                        </p>
+                        <p v-else>
+                            Status : Private
+                        </p>
+                    </div>
+                    <div v-if="EditProject" id="public">
+                        <md-switch v-model="show">
+                            <p v-if="this.show == true">
+                                Public
+                            </p>
+                            <p v-else>
+                                Private
+                            </p>
+                        </md-switch>
+                    </div>
                 </div>
                 <div v-if="GET_ISAPPROVER == true">
                     <approveAssignmentProject></approveAssignmentProject>
@@ -71,14 +89,9 @@
                     <adminApprover />
                 </div>
             </div>
-            <div>
-                <div v-if="this.access == true">
-                    <md-switch v-model="show">Public</md-switch>
-                </div>
-            </div>
             <div v-if="this.clap">
                 <div @click="clapProject()" id="claps">
-                    <vue-clap-button icon="good" maxClick="10" colorActive="#265080" />
+                    <vue-clap-button icon="good" maxClick="50" colorActive="#265080" />
                 </div>
             </div>
             <div v-else>
@@ -206,6 +219,7 @@ import showImg from "./showImg"
 import approveAssignmentProject from "./../lecturer/approveAssignmentProject"
 import adminApprover from "./../admins/adminApprover"
 import vueClapButton from 'vue-clap-button'
+import 'vue-material/dist/theme/default.css'
 Vue.use(vueClapButton);
 export default {
 
@@ -262,7 +276,7 @@ export default {
         tag,
         approveAssignmentProject,
         adminApprover,
-        Loading
+        Loading,
     },
 
     data() {
@@ -348,8 +362,8 @@ export default {
         } = await axios.get(
             this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
-        // console.log('Token : ', this.GET_CONFIG)
-        // console.log('data : ', data)
+            // console.log('Token : ', this.GET_CONFIG.headers.Authorization)
+            
         if (data.project_detail.assignment_detail.assignment_id != null) {
             // console.log("have assignment")
             // this.header.TitleName = data.project_detail.assignment_detail.assignment_name,
@@ -387,7 +401,7 @@ export default {
         this.access = data.access
 
         // console.log("-----------")
-        console.log("acess : ", this.access)
+        console.log("acess : ", data.access)
 
         this.Abstract.content_Abstract = data.project_detail.project_abstract
         this.Detail.content_eg = data.project_detail.project_detail
@@ -642,6 +656,10 @@ export default {
 }
 
 #claps {
-    margin-top: 10px
+    margin-top: 12px
+}
+
+#public {
+    margin-left: 20px
 }
 </style>

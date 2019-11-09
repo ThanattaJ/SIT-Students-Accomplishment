@@ -1,7 +1,6 @@
 <template>
 <div>
     Status :
-    <!-- <a id='Waiting' class="button statusBtn" @click="setStatus('Waiting');openAskModal()"><span id='WaitingText' class="courseName">Waiting</span></a> -->
     <a id='Approve' class="button statusBtn" @click="setStatus('Approve');openAskModal()"><span id='ApproveText' class="courseName">Approve</span></a>
     <modal name="askForSure">
         <md-card-header>
@@ -52,14 +51,12 @@ export default {
             this.statusTmp = status
             console.log('status : ',this.statusTmp)
             document.getElementById('Approve').className = 'button statusBtn'
-            document.getElementById('Waiting').className = 'button statusBtn'
+    
             document.getElementById('ApproveText').className = 'courseName'
-            document.getElementById('WaitingText').className = 'courseName'
+            
 
             if (status == 'Approve') {
                 document.getElementById('Approve').className = 'button statusBtn approved'
-            } else if (status == 'Waiting') {
-                document.getElementById('Waiting').className = 'button statusBtn request'
             } 
             document.getElementById(status + 'Text').className = 'white'
             document.getElementById(status).className += ' white'

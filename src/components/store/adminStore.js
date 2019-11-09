@@ -16,7 +16,7 @@ export const adminStore = {
         set_course:(state,course)=>{
             state.course = course
         },
-        push_course:(state,course)=>{
+        set_push_course:(state,course)=>{
             state.course.push(course)
         },
         set_lecturers:(state,lecturer)=>{
@@ -53,6 +53,9 @@ export const adminStore = {
         },
         set_notInCourse:(state,notInCourse)=>{
             state.notInCourse =notInCourse
+        },
+        set_push_noInCourse:(state,notInCourse)=>{
+            state.notInCourse.push(notInCourse)
         }
     },
     actions: {
@@ -60,7 +63,7 @@ export const adminStore = {
             commit('set_course',course)
         },
         push_course:({commit},course)=>{
-            commit('push_course',course)
+            commit('set_push_course',course)
         },
         set_lecturers:({commit},lecturer)=>{
             commit('set_lecturers',lecturer)
@@ -71,7 +74,6 @@ export const adminStore = {
                 'https://www.sit-acc.nruf.in.th/users/list_lecturer'
             );
             commit('set_lecturer',data)
-            // console.log("rer" , data)
         },
         set_select_lecturer: function ({commit},lecturer){
             commit('set_select_lecturer',lecturer)
@@ -91,6 +93,9 @@ export const adminStore = {
         },
         set_notInCourse:({commit},notInCourse)=>{
             commit('set_notInCourse',notInCourse)
+        },
+        push_notInCourse:({commit},notInCourse)=>{
+            commit('set_push_noInCourse',notInCourse)
         }
     },
     getters: {

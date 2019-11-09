@@ -1,5 +1,5 @@
 <template>
-<vueper-slides class="no-shadow"  transition-speed="450" :touchable="false" :slide-ratio="1/2" fixed-height="300px" :arrowsOutside="true">
+<vueper-slides class="no-shadow"  transition-speed="450" :touchable="false" :slide-ratio="1/2" fixed-height="400px" :arrowsOutside="true">
     <vueper-slide v-for="(pic,i) in getImages" :key="i" :image="pic.path">
     </vueper-slide>
 </vueper-slides>
@@ -26,7 +26,6 @@ export default {
     computed: {
         ...mapGetters([
             'getImages',
-            'getPic'
         ])
     },
     data: () => ({

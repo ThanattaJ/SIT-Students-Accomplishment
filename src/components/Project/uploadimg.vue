@@ -138,15 +138,15 @@ export default {
 
 <style>
 #update {
-    margin-right: 60%;
+    margin-right: 60% !important;
 }
 
 #button_update {
-    height: 54px;
+    height: 54px !important;
 }
 
 #button_choose {
-    height: 20px;
+    height: 20px !important;
 }
 
 .file-name {

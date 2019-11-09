@@ -21,10 +21,10 @@
         <div class="column is-2">
             <aside class="menu navAssignDetail">
                 <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('')">All</ul>
-                <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="showNoInCourse('noInCourse')">วิชาที่ไม่มีในหลักสูตร</ul>
                 <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('INT')">Information Technology</ul>
                 <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('CSC')">Computer Science</ul>
                 <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('DSI')">Digital Service Innovation</ul>
+                <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="showNoInCourse('noInCourse')">วิชาที่ไม่มีในหลักสูตร</ul>
             </aside>
         </div>
         <div class="column" style="padding-left:100px;">
@@ -32,9 +32,9 @@
                 <div class="column" v-if="this.noInCourse === false">
                     <div class="card-content cardSize colName">
                         <div class="columns">
-                            <div class="column is-two-thirds">Name</div>
-                            <div class="column countAssign">Edit</div>
-                            <div class="column countAssign">Remove</div>
+                            <div class="column is-two-thirds">Course Name</div>
+                            <div class="column countAssign">Edit Detail</div>
+                            <div class="column countAssign">Remove Course</div>
                         </div>
                     </div>
                     <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_course " v-bind:key="index">
@@ -51,15 +51,15 @@
                 <div class="column" v-if="this.noInCourse === true">
                     <div class="card-content cardSize colName">
                         <div class="columns">
-                            <div class="column is-two-thirds">Name</div>
-                            <div class="column countAssign">ADD</div>
+                            <div class="column is-two-thirds">Course Name</div>
+                            <div class="column countAssign">Add Course</div>
                         </div>
                     </div>
                     <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_notInCourse " v-bind:key="index">
                         <div class="card-content cardSize">
                             <div class="columns">
                                 <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course_code}} | {{person.course_name}}</div>
-                                <div class="column countAssign"><i class="la la-edit" id="Action" @click="addOrRe(index)"></i></div>
+                                <div class="column countAssign"><i  id="Action" @click="addCourse(index)">+</i></div>
                             </div>
                         </div>
                     </div>
@@ -298,6 +298,7 @@ export default {
             this.persons[i].course_detail = data.course[i].course_detail
         }
         this.persons.length = data.course.length
+        console.log('persons : ', this.persons)
     },
     methods: {
         filterByFaculty(faculty) {
@@ -310,9 +311,11 @@ export default {
         ...mapActions([
             'set_course',
             'push_course',
-            'set_notInCourse'
+            'set_notInCourse',
+            'push_notInCourse'
         ]),
         showAddCourseModal() {
+            console.log('allcourse : ', this.get_course)
             this.$modal.show('addCourse')
         },
         closeAddCourseModal() {
@@ -326,6 +329,7 @@ export default {
         },
         async add() {
             if (!this.hasMessages) {
+
                 try {
                     axios.post(this.GET_PATHNAME + '/course', {
                         code: this.addInput.course,
@@ -335,13 +339,15 @@ export default {
                         if (res.status == 200) {
                             this.addActive = false
                         }
-                        console.log('เข้า try')
-                        this.get_courses.push({
+                        this.persons.push({
                             course: this.addInput.course,
+                            course_code: this.addInput.course,
                             name: this.addInput.name,
                             course_detail: this.addInput.course_detail
                         })
-                        // console.log("getCourse : ", this.get_course)
+
+                        this.$modal.hide('addCourse')
+                        console.log("getCourse : ", this.get_course)
 
                     })
                     this.message = " uploaded complete";
@@ -418,8 +424,11 @@ export default {
         closeCourseDetail() {
             this.$modal.hide('showCourseDetail')
         },
-        addOrRe(index) {
-            console.log("course_id", this.get_notInCourse[index].course_id);
+        addCourse(index) {
+            console.log(index)
+            console.log("allcourse : ", this.get_course);
+
+            console.log("course_id", this.get_notInCourse[index].course_name);
 
             if (this.noInCourse) {
                 this.isDelete = false
@@ -432,11 +441,17 @@ export default {
                         isDelete: this.isDelete
                     }).then(res => {
                         console.log("res : ", res)
-                        this.get_notInCourse.splice(index, 1)
                         if (res.status == 200) {
                             this.isActive = false;
                             this.editMessages = false
                         }
+                        this.persons.push({
+                            course_code: this.get_notInCourse[index].course_code,
+                            course: this.get_notInCourse[index].course_code,
+                            name: this.get_notInCourse[index].course_name,
+                        })
+                        console.log("--", this.get_notInCourse[index].course_code, "\\", this.get_notInCourse[index].course_name)
+                        this.get_notInCourse.splice(index, 1)
                     })
                 } catch (err) {
                     console.log('FAILURE!!' + err)
@@ -444,18 +459,26 @@ export default {
             }
         },
         deleteCourse(index) {
-            try {
-                axios.delete(this.GET_PATHNAME + '/course?id=' + this.persons[index].course_id, {
-                    code: this.get_course[index].course,
-                }).then(res => {
-                    this.get_course.splice(index, 1)
-                    console.log("res : ", res)
-                    if (res.status == 200) {
-                        this.isActive = false;
-                        this.editMessages = false
-                    }
-                })
-            } catch (err) {}
+            if ((confirm('Do you want to remove ? '))) {
+                try {
+                    axios.delete(this.GET_PATHNAME + '/course?id=' + this.persons[index].course_id, {
+                        code: this.get_course[index].course,
+                    }).then(res => {
+
+                        console.log("res : ", res)
+                        if (res.status == 200) {
+                            this.isActive = false;
+                            this.editMessages = false
+                        }
+                        this.push_notInCourse({
+                            course_code: this.get_course[index].course,
+                            course_detail: this.get_course[index].course_detail,
+                            course_name:this.get_course[index].course_name,
+                        })
+                        this.get_course.splice(index, 1)
+                    })
+                } catch (err) {}
+            }
         }
     },
 

@@ -17,7 +17,7 @@
         <div class="column">
             <div class="card-content cardSize colName">
                 <div class="columns">
-                    <div class="column is-4">Name</div>
+                    <div class="column is-4">Lecturer Name</div>
                     <div class="column">Position</div>
                 </div>
             </div>

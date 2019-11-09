@@ -65,8 +65,10 @@
     color: #F9F9F9 ;
     height: 40px;
     border: none; 
+    margin-left: 60%;
   }
   #save{
+    margin-left: 55%;
     width: 150px !important;
     margin-right: 2%;
     height: 40px;

@@ -19,9 +19,9 @@
                 <div class="column">
                     <div class="card-content cardSize colName">
                         <div class="columns">
-                            <div class="column is-6">Course</div>
+                            <div class="column is-6">Course Name</div>
                             <!-- <div class="column countAssign">Lecturer</div> -->
-                            <div class="column countAssign">Action</div>
+                            <div class="column countAssign">Add Lecturer</div>
                         </div>
                     </div>
                     <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_semester.course" v-bind:key="index">
@@ -64,7 +64,7 @@
             <div class="modal-card" id="editCourse">
                 <div class="modal-card-body" id="editCourse">
                     <md-card-header>
-                        <div class="md-title">EDIT</div>
+                        <div class="md-title">Add Lecturer</div>
                     </md-card-header>
                     <div class="column">
                         <div class="card-content cardSize colName">
@@ -89,7 +89,10 @@
                     </div>
                     <!-- <model-select :options="option" v-model="item" placeholder="select course">
                     </model-select> -->
-                    <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect">
+                    <md-card-content v-if="this.options.length == 0">
+                        No lecturer can be added
+                    </md-card-content>
+                    <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" v-else>
                     </multi-select>
                 </div>
                 <span class="addBtn">
@@ -107,8 +110,10 @@
             <div class="column">
                 <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
                 </model-select>
-                <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px; margin-left:50%">
-                </multi-select>
+                <div v-if="item.text">
+                    <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px; margin-left:50%">
+                    </multi-select>
+                </div>
             </div>
         </div>
         <span class="addBtn">
@@ -308,6 +313,7 @@ export default {
                             course: this.item.text,
                             lecturers: this.storeLecName
                         })
+                        this.$modal.hide('add')
                         // this.item = ''
                         this.items = []
                         this.storeLecturer = []
@@ -394,7 +400,7 @@ export default {
                         }
                         this.items = []
                         this.options = []
-                        this.storeLecturer =[]
+                        this.storeLecturer = []
                         console.log("res : ", res)
                         if (res.status == 200) {
                             this.$modal.hide('lecturer')
@@ -457,7 +463,25 @@ export default {
 
         }
     },
+    watch: {
+        async item() {
+            try {
+                console.log('item', this.item.value, this.get_semester.course[0].academic_term_id)
+                var lecturer
+                await axios.get(this.GET_PATHNAME + `/users/list_lecturer/?academic_term_id=${this.get_semester.course[0].academic_term_id}&courses_id=${this.item.value}`)
+                    .then(response => lecturer = response.data)
+                console.log('data ; ', lecturer)
+                for (let i = 0; i < lecturer.length; i++) {
+                    this.options.push({
+                        text: lecturer[i].firstname + ' ' + lecturer[i].lastname,
+                        value: lecturer[i].lecturer_id
+                    })
+                }
+            } catch (err) {
 
+            }
+        }
+    }
 };
 var ordonner = function (a, b) {
     return (a.course > b.course);

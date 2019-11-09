@@ -8,48 +8,14 @@
 
             <div class="card-content">
                 <div v-for="(ach,index) in achievement " v-bind:key="index">
-                    <div class="content">
-                        <p class="control" style="width:45%;word-break: break-all; color: #265080;font-size: 18px;">
-                            {{ach.achievement_name}}
-                        </p>
-                    </div>
-                    <div class="content" v-if="ach.achievement_detail">
-                        <p class="control" style="text-indent: 3em; font-size: 14px; color: #265080;">
-                            {{ach.achievement_detail}}
-                        </p>
-                    </div>
-                    <div v-else class="content">
-                        <p class="control" style="text-indent: 3em; font-size: 14px; color: #265080;">
-                            ไม่มีรายละเอียด...
-                        </p>
-                    </div>
-                    <div class="field has-addons" v-if="ach.organize_by">
-                        <p class="control is-expanded" style="word-break: break-all; width:50%;font-size: 12px; color: #265080;">
-                            Organize by : {{ach.organize_by}}
-                        </p>
-                    </div>
-                    <div class="field has-addons" v-else>
-                        <p class="control is-expanded" style="word-break: break-all; width:50%;font-size: 12px; color: #265080;">
-                            Organize by : -
-                        </p>
-                    </div>
-                    <div class="field has-addons">
-                        <div class="field has-addons" v-if="ach.date_of_event">
-                            <p class="control is-expanded" style="word-break: break-all; font-size: 12px; color: #265080;">
-                                Date of event: {{ach.date_of_event}}
-                            </p>
-                        </div>
-                        <div class="field has-addons" v-else>
-                            <p class="control is-expanded" style="word-break: break-all; font-size: 12px; color: #265080;">
-                                Date of event: -
-                            </p>
+                    <div class="card lecturerCard lecturerCourseCard" @click="showAchivement(index)">
+                        <div class="card-content cardSize">
+                            <div class="columns">
+                                <div class="column  courseName"> {{ach.achievement_name}}</div>
+                                <div class="column" style="font-size:10px">organize_by :{{ach.organize_by}}</div>
+                            </div>
                         </div>
                     </div>
-                    <!-- <p class="control" style="margin-left:80%" v-if="getEditProject === true">
-                        <i class="la la-edit" @click="editAchievementDialog = !editAchievementDialog;editArchievement(index)"></i>
-                        <i :id="'trash'+index" class="la la-trash" @click="removeArchievement(index)"></i>
-                    </p> -->
-                    <hr>
                 </div>
             </div>
         </div>
@@ -105,6 +71,32 @@
             </div>
         </div>
     </div>
+    <modal name="showDetails">
+        <md-card-header>
+            <md-card-header-text>
+                <div class="md-title" id="title"> {{this.achievement_name}}</div>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content v-if="this.achievement_detail == null">
+            <p style="text-indent: 2.5em;"> No detail </p>
+        </md-card-content>
+        <md-card-content v-else>
+            <p style="text-indent: 2.5em;">{{this.achievement_detail}}</p>
+        </md-card-content>
+        <md-card-content v-if="this.organize_by">
+            <p style="text-indent: 20em; margin-top:10%">Organize by : {{this.organize_by}}</p>
+        </md-card-content>
+        <md-card-content v-else>
+            <p style="text-indent: 20em; margin-top:10%">Organize by : -</p>
+        </md-card-content>
+        <md-card-content v-if="this.date_of_event">
+            <p style="text-indent: 20em;">Date of event : {{this.date_of_event}}</p>
+        </md-card-content>
+        <md-card-content v-else>
+            <p style="text-indent: 20em;">Date of event : -</p>
+        </md-card-content>
+
+    </modal>
 
     <div v-if="editAchievementDialog==true">
         <div class="modal is-active">
@@ -246,7 +238,7 @@ export default {
             this.organize_by = null
             this.date_of_event = null
         },
-       
+
         editArchievement(index) {
             this.achievement_name = this.getAchievements[index].achievement_name
             this.achievement_detail = this.getAchievements[index].achievement_detail
@@ -264,9 +256,17 @@ export default {
                 date_of_event: this.date_of_event
             })
             this.clearInputValue()
+        },
+        showAchivement(index) {
+            console.log(this.achievement)
+            this.achievement_name = this.achievement[index].achievement_name
+            this.achievement_detail = this.achievement[index].achievement_detail
+            this.organize_by = this.achievement[index].organize_by
+            this.date_of_event = this.achievement[index].date_of_event
+            this.$modal.show('showDetails')
         }
     },
-    mounted(){
+    mounted() {
         // console.log('SET_ACHIEVEMENT',this.achievement)
     }
     //  beforeDestroy() {
@@ -279,5 +279,11 @@ export default {
 #addAchievementDialog {
     margin-right: 35%;
     margin-top: 20px;
+    color: white;
+    background-color: #265080 !important;
+}
+
+#title {
+    color: #265080;
 }
 </style>
