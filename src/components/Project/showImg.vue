@@ -88,4 +88,10 @@ export default {
     font-size: 7em;
     opacity: 0.7;
 }
+.vueperslides__arrows--outside .vueperslides__arrow--next {
+    right: -30px;
+}
+.vueperslides__arrows--outside .vueperslides__arrow--prev {
+    left: -30px;
+}
 </style>
