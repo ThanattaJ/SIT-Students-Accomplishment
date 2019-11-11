@@ -2,12 +2,12 @@
   <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
   <div v-else>
     <div>
-    <carousel perPage="1" 
-      adjustableHeight="true" 
-      paginationSize="20" 
+    <carousel :perPage="1" 
+      :adjustableHeight="true" 
+      :paginationSize="20" 
       paginationActiveColor="#265080" 
-      autoplay="true" 
-      loop="true">
+      :autoplay="true" 
+      :loop="true">
       <slide  v-for="(project,i) in projects" :key="i">
         <div class="grid">
           <a :href="`https://accomplishment-sit.netlify.com/ProjectDetail/${projects[i].project_id}`">

@@ -76,7 +76,8 @@
             </modal>
         </div>
     </nav>
-    <router-view />
+    <router-view v-if="loadNav == true">
+    </router-view>
 </div>
 </template>
 
@@ -100,6 +101,7 @@ export default {
             username: null,
             user_role: null,
             isAdmin: null,
+            loadNav: false
         }
     },
     computed: {
@@ -115,6 +117,7 @@ export default {
         this.user_role = localStorage.getItem('user_role')
         this.isAdmin = localStorage.getItem('isAdmin')
         if (this.Authen_token && this.username && this.user_role) {
+            console.log('in app.vue');
             this.SET_ALL_LOGIN_DATA({
                 token: localStorage.getItem('Authen_token'),
                 username: localStorage.getItem('usernameSIT')
@@ -127,6 +130,7 @@ export default {
         } else {
             this.SET_LOGIN_STATUS(false);  
         }
+        this.loadNav = true
     },
     methods: {
         ...mapActions(['SET_ALL_LOGIN_DATA', 'SET_LOGIN_STATUS', 'LOAD_OWN_STUDENT_DATA', 'LOAD_RESUME_DATA', 'LOGOUT']),
