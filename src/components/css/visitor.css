@@ -62,12 +62,13 @@
     color: #265080 !important;
     background-color: white !important;
     border: 1px solid #E8E8E8 !important;
+    box-shadow: 0 1px 2px 0 rgba(25,25,25,.16);
 }
 
 .viewBtn:hover , .activeBtn{
     color: white !important;
     background-color: #265080 !important;
-    border: 1px solid white !important;
+    border: 1px solid #265080 !important;
 }
 
 .activeBtn{
