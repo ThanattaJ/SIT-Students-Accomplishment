@@ -74,6 +74,10 @@ export default {
       background-color: white !important;
       border: none !important;
       font-size: 16px !important;
+      overflow: hidden;
+    padding: 0;
+    outline: none;
+     height: auto;
     }
 
 </style>

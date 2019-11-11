@@ -48,7 +48,7 @@ export default {
                 this.$store.commit('setDetail', value)
             }
         },
-        async mounted() {
+        mounted() {
 
             var sizeArea = document.getElementsByTagName("textarea");
             for (var i = 0; i < sizeArea.length; i++) {
@@ -75,5 +75,8 @@ export default {
     background-color: white !important;
     border: none !important;
     font-size: 16px !important;
+    padding: 0;
+    outline: none;
+    height: 100%;
 }
 </style>

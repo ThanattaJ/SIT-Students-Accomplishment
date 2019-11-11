@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <md-button class="md-raised md-primary" id="addAchievementDialog" v-if="getEditProject === true" @click="addAchievementDialog = !addAchievementDialog">Add Achievement</md-button>
+    <md-button class="md-raised md-primary" id="addAchievementDialog" v-if="getEditProject" @click="addAchievementDialog = !addAchievementDialog">Add Achievement</md-button>
 
     <div v-if="addAchievementDialog==true">
         <div class="modal is-active">

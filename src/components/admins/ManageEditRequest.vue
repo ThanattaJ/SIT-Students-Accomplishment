@@ -59,17 +59,6 @@ export default {
         ...mapActions([
             'set_approver'
         ]),
-        clickRequest() {
-            // try {
-            //     axios
-            //         .patch(`https://www.sit-acc.nruf.in.th/assignment/projects`, {
-            //             project_id: '',
-            //             status: ''
-            //         })
-            // } catch (err) {
-
-            // }
-        }
     },
 }
 </script>

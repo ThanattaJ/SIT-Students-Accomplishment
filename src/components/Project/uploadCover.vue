@@ -8,7 +8,7 @@
                         <div class="container">
                             <div class="content has-text-centered">
 
-                                <button v-on:click="launch" class="button " id="upCover">Upload Cover</button>
+                                <button v-on:click="launch" class="button " id="upCover">Select New Image</button>
 
                             </div>
                             <div class="modal" v-bind:class="{'is-active':isActive}" id="modalCover">
@@ -190,7 +190,10 @@ export default {
 #upCover {
     margin-right: 50%;
     color: white;
-    background-color: #265080 !important;
+    background-color: #EB5656 !important;
+    border: 2px solid #EB5656;
+    box-sizing: border-box;
+    border-radius: 6px;
 }
 
 .modal {

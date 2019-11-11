@@ -65,10 +65,9 @@
     color: #F9F9F9 ;
     height: 40px;
     border: none; 
-    margin-left: 60%;
+    margin-left: 28%;
   }
   #save{
-    margin-left: 55%;
     width: 150px !important;
     margin-right: 2%;
     height: 40px;
@@ -76,10 +75,12 @@
   }
   #cancel{
     width: 120px;
-    color: #F9F9F9 ; 
-    background:#FF0000;
     height: 40px;
-    border: none;
+    color: white;
+    background-color: #EB5656 !important;
+    border: 2px solid #EB5656;
+    box-sizing: border-box;
+    border-radius: 6px;
   }
   #student_id,#mail{
       margin-left: 10%;

@@ -1,12 +1,10 @@
 <template>
 <div class="body" id="ProjectDetail-bg">
-    <!-- <div class="vld-parent">
-        <loading :active="isLoading" :can-cancel="true" :on-cancel="onCancel" :is-full-page="fullPage" :width="200" :height="200" ></loading>
-    </div> -->
     <div id="TitleName">
         <p id="TitleName_eg">{{header.TitleName}}</p>
         <p id="TitleName_th">{{header.TitleName_TH}}</p>
     </div>
+    <hr style="margin-top:20px!important;;">
     <div class="section" id="imgCover">
         <div v-if="this.getFile">
             <img :src="this.getFile" id="coverI">
@@ -16,94 +14,115 @@
         </div>
     </div>
     <div id="EditProjects">
-        <uploadCover v-if="EditProject" id="uploadCover" />
-        <div>
-            <div id="term" v-if="this.haveAssignment">
-                <div style="margin-left:80%; color: #949494 ; font-size: 12px;">Academic Term: {{this.academic_term}}</div>
+        <div class="columns">
+            <div class="column is-three-quarters" style="padding: 8px 8px;">
+                <div class="tags">
+                    <span class="tag profileTag" v-for="(tag,index) in getTag" v-bind:key="index">
+                        <span style="padding-left:5px">{{tag.tag_name}} </span>
+                    </span>
+                </div>
+                <div id="tag" v-if="EditProject">
+                    <tag />
+                </div>
             </div>
-            <div id="create">
-                <div style="margin-left:80%; color: #949494 ; font-size: 12px;">Created at: {{this.create}}</div>
-            </div>
-            <div id="end">
-                <div style="margin-left:80%; color: #949494; font-size: 12px;">Updated at: {{this.update}}</div>
-            </div>
-        </div>
-        <div class="column" style="padding: 8px 8px;">
-            <div class="tags">
-                <span class="tag profileTag" v-for="(tag,index) in getTag" v-bind:key="index">
-                    <span style="padding-left:5px">{{tag.tag_name}} </span>
-                </span>
-            </div>
-            <div id="tag" v-if="EditProject">
-                <tag />
+            <div class="column" style="margin-left:-28%">
+                <uploadCover v-if="EditProject" id="uploadCover" />
             </div>
         </div>
         <div class="columns">
-            <div class="column is-four-fifths">
-                <div v-if="this.project_status === 'Waiting'">
-                    <div v-if="this.access == true">
-                        <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
-                        <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
-                        <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
-                    </div>
+            <div id="create" class="column is-three-fifths" style="margin-top:30px;margin-left:1%">
+                <div style=" color: #949494 ; font-size: 12px;">Created Project: {{this.create}}</div>
+                <div id="term" v-if="this.haveAssignment">
+                    <div style="color: #949494 ; font-size: 12px;">Academic Term: {{this.academic_term}}</div>
                 </div>
-                <div v-if="this.project_status === 'Approve'">
-                    <div v-if="this.access == true">
-                        <button class="button createBtn" @click="sendRequest()">Request Edit</button>
-                    </div>
-                </div>
-                <div v-if="this.project_status === 'Request'">
-                    <div v-if="this.access == true">
-                        <span class="button createBtn">Wait Approve</span>
-                    </div>
-                </div>
-                <div v-if="!this.project_status">
-                    <div v-if="this.access == true">
-                        <span class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Project</span>
-                        <span class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</span>
-                        <span class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</span>
-                    </div>
-                    <div>
-                        <p v-if="this.show == true">
-                            Status : Public
-                        </p>
-                        <p v-else>
-                            Status : Private
-                        </p>
-                    </div>
-                    <div v-if="EditProject" id="public">
-                        <md-switch v-model="show">
-                            <p v-if="this.show == true">
-                                Public
-                            </p>
-                            <p v-else>
-                                Private
-                            </p>
-                        </md-switch>
-                    </div>
-                </div>
-                <div v-if="GET_ISAPPROVER == true">
-                    <approveAssignmentProject></approveAssignmentProject>
-                </div>
-                <div v-if="get_approver == true">
-                    <adminApprover />
-                </div>
-            </div>
-            <div v-if="this.clap">
-                <div @click="clapProject()" id="claps">
-                    <vue-clap-button icon="good" maxClick="50" colorActive="#265080" />
-                </div>
-            </div>
-            <div v-else>
-                <md-button class="md-icon-button" disabled style="margin-top:12px">
-                    <img class="image" src="../.././assets/clap.png">
-                </md-button>
-            </div>
-            <div style="margin-top:24px">:{{this.getClap}}</div>
 
-            <img class="image is-32x32" src="../.././assets/visibility-button.png" style=" margin-left: 30px;
-            margin-top:20px">
-            <div style="margin-top:25px ; margin-left:5px">: {{this.viewer}}</div>
+                <div id="end">
+                    <div style=" color: #949494; font-size: 12px;">Updated at: {{this.update}}</div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="column">
+                    <div class="columns">
+                        <div class="column is-two-fifths" style="margin-left: 40px;margin-top:10px">
+                            <p v-if="this.show == true" style="margin-left:-80px">
+                                {{this.status}}
+                                <h id="status">: Public</h>
+                            </p>
+                            <p v-else style="margin-left:-80px">
+                                {{this.status}}
+                                <h id="status">: Not Public</h>
+                            </p>
+                        </div>
+                        <div v-if="this.access == false" class="column is-2">
+                            <div @click="clapProject()" id="claps" style="margin-top:-20%">
+                                <vue-clap-button icon="good" maxClick="50" colorActive="#265080" />
+                                <!-- maxClick="50" -->
+                            </div>
+                        </div>
+                        <div v-else class="column is-2 ">
+                            <md-button class="md-icon-button" disabled>
+                                <img class="image" src="../.././assets/clap.png">
+                            </md-button>
+                        </div>
+                        <div class="column is-1" style="margin-top:2%;margin-left: -4%;">{{this.getClap}}</div>
+
+                        <div class="column  is-2">
+                            <img class="image is-32x32" src="../.././assets/visibility-button.png"></div>
+                        <div class="column  is-1 " style="margin-top:2%;margin-left: -5%;">{{this.viewer}}</div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column is-two-fifths">
+
+                        <div v-if="EditProject" id="public" style="margin-left: -30px">
+                            <md-switch v-model="show">
+                                <p v-if="this.show == true">
+                                    Public
+                                </p>
+                                <p v-else>
+                                    Private
+                                </p>
+                            </md-switch>
+                        </div>
+                    </div>
+                    <div id="ed" class="column is-full" style="margin-left: -80px">
+                        <div v-if="this.project_status === 'Waiting'">
+                            <div v-if="this.access == true">
+                                 <button class="button createBtn" id="waitimg">Wait Approve</button>
+                            </div>
+                        </div>
+                        <div v-if="this.project_status === 'Approve'">
+                            <div v-if="this.access == true">
+                                <div v-if="!this.statusRequest">
+                                    <button class="button" @click="sendRequest()" id="request">Request Edit</button>
+                                </div>
+                                <div v-else>
+                                    <button class="button createBtn" id="waitimg">Wait Approve</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="this.project_status === 'Request'">
+                            <div v-if="this.access == true">
+                                <span class="button createBtn" id="waitimg">Wait Approve</span>
+                            </div>
+                        </div>
+                        <div v-if="!this.project_status">
+                            <div v-if="this.access == true">
+                                <button class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Portfolio Page</button>
+                                <button class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</button>
+                                <button class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</button>
+                            </div>
+                        </div>
+                        <div v-if="GET_ISAPPROVER == true">
+                            <approveAssignmentProject></approveAssignmentProject>
+                        </div>
+                        <div v-if="get_approver == true">
+                            <adminApprover />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <Abstract />
@@ -119,7 +138,7 @@
                 <div id="image">
                     <div id="container">
                         <div v-if="this.pictures[0]">
-                            <showImg />
+                            <carousel />
                         </div>
                         <div v-else>
                             <!-- no more pic -->
@@ -154,9 +173,12 @@
                         <header class="card-header">
                             <p class="card-header-title" id="cardHeader">Lecturer</p>
                         </header>
-                        <div class="card-content">
+                        <div class="card-content" style="margin-top: 20px">
                             <div class="content" style="color: #265080 !important " v-for='(lecturer,index) in lecturer' v-bind:key="index">
-                                {{lecturer.lecturers_name}}
+                                <div class="columns" >
+                                    <div class="column is-one-quarter" style="margin-top:-20px">{{lecturer.fname}}</div>
+                                    <div class="column" style="margin-top:-20px">{{lecturer.lname}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -215,11 +237,11 @@ import editImg from "./editImg"
 import Document from "./../NewPortfolioPage/Document.vue";
 import Video from "./Video.vue";
 import "./../css/ProjectDetail.css";
-import showImg from "./showImg"
 import approveAssignmentProject from "./../lecturer/approveAssignmentProject"
 import adminApprover from "./../admins/adminApprover"
 import vueClapButton from 'vue-clap-button'
 import 'vue-material/dist/theme/default.css'
+import carousel from './carousel'
 Vue.use(vueClapButton);
 export default {
 
@@ -271,12 +293,12 @@ export default {
         member,
         tool,
         ref,
-        showImg,
         editImg,
         tag,
         approveAssignmentProject,
         adminApprover,
         Loading,
+        carousel,
     },
 
     data() {
@@ -337,7 +359,9 @@ export default {
             isClap: true,
             project_status: '',
             isLoading: false,
-            fullPage: true
+            fullPage: true,
+            status: 'Status',
+            statusRequest: false
         }
     },
 
@@ -362,8 +386,8 @@ export default {
         } = await axios.get(
             this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
-            // console.log('Token : ', this.GET_CONFIG.headers.Authorization)
-            
+        // console.log('Token : ', this.GET_CONFIG.headers.Authorization)
+
         if (data.project_detail.assignment_detail.assignment_id != null) {
             // console.log("have assignment")
             // this.header.TitleName = data.project_detail.assignment_detail.assignment_name,
@@ -373,14 +397,21 @@ export default {
             this.project_status = data.project_detail.assignment_detail.project_status
             console.log('status : ', this.project_status)
             for (var i = 0; i < data.project_detail.assignment_detail.lecturers.length; i++) {
-                this.lecturer.push(data.project_detail.assignment_detail.lecturers[i])
+                // this.lecturer.push(data.project_detail.assignment_detail.lecturers[i])
+                var name = data.project_detail.assignment_detail.lecturers[i].lecturers_name;
+                name = name.split(" ")
+                this.lecturer.push({
+                    fname: name[0],
+                    lname: name[1]
+                })
+                console.log('lecturer : ', name[1]);
+
             }
             this.haveAssignment = true
 
         } else {
             this.haveAssignment = false
         }
-        // console.log("  this.header.TitleName : ", data.project_detail.assignment_detail.assignment_name)
         this.setPID(data.project_detail.id)
         this.header.TitleName = data.project_detail.project_name_en;
         this.header.TitleName_TH = data.project_detail.project_name_th;
@@ -391,12 +422,15 @@ export default {
         this.setDetail(data.project_detail.project_detail)
         this.SET_ACHIEVEMENT_STATE(data.achievements)
         this.setMember(data.students)
-        this.setNonMember(data.outsiders)
+        if (data.outsiders) {
+            if (data.outsiders.length != 0) {
+                this.setNonMember(data.outsiders)
+            }
+        }
         this.setRef(data.project_detail.references)
         this.setTool(data.project_detail.tool_techniq_detail)
         this.setTag(data.tags)
         this.setClap(data.project_detail.count_clap)
-        // this.addTag(data.tags)
         this.show = data.project_detail.isShow
         this.access = data.access
 
@@ -488,6 +522,7 @@ export default {
 
         ]),
         save() {
+            console.log('vdo', this.GET_VDO_PATHNAME)
             this.setEditProject(this.EditProject)
             var vdo_pathname = this.GET_VDO_PATHNAME
             var data = {
@@ -501,15 +536,6 @@ export default {
                     isShow: this.show,
                     tool_techniq_detail: this.getTool === " " ? null : this.getTool,
                     references: this.getRef === " " ? null : this.getRef,
-                    // count_viewer: 0,
-                    // count_clap: this.clap,
-                    start_month: 2,
-                    start_year_th: 2562,
-                    start_year_en: 2019,
-                    "end_month": 5,
-                    "end_year_th": 2562,
-                    "end_year_en": 2019,
-                    project_type_name: "External"
                 },
                 students: this.getMember,
                 achievements: this.GET_ACHIEVEMENT,
@@ -559,9 +585,11 @@ export default {
                     .then(res => {
                         console.log("res : ", res)
                         if (res.status == 200) {
-                            this.EditProject = false;
-                            // alert('File has been update')
-                            console.log(' Tags : ', this.getTag)
+                            if (res.data.message == "Validate Error") {
+                                alert('File has been Error')
+                            } else {
+                                alert('File has been update')
+                            }
                             this.loadDocumentToShow()
                         }
                     })
@@ -569,6 +597,7 @@ export default {
                 this.message = "File has been update";
                 this.getEditProject
                 this.video_pathname = vdo_pathname
+                this.EditProject = false;
             } catch (err) {
                 console.log("FAILURE!!" + err);
                 this.error = true;
@@ -586,7 +615,6 @@ export default {
         Edit: function () {
             this.EditProject = true
             this.setEditProject(this.EditProject)
-            // console.log("2",this.getEditProject)
         },
         clapProject() {
             try {
@@ -602,16 +630,6 @@ export default {
                 console.log('can not clap')
             }
         },
-        doAjax() {
-            this.isLoading = true;
-            // simulate AJAX
-            setTimeout(() => {
-                this.isLoading = false
-            }, 5000)
-        },
-        onCancel() {
-            console.log('User cancelled the loader.')
-        },
         sendRequest() {
             console.log('request :', this.getPID, this.assignment_id)
             try {
@@ -622,9 +640,14 @@ export default {
                 }, this.GET_CONFIG).then(res => {
                     console.log("res : ", res)
                     if (res.status == 200) {
-                        console.log("send request")
+                        if (res.data.message == "Validate Error") {
+                            alert('Request Error')
+                        } else {
+                            this.statusRequest = true
+                        }
                     }
                 })
+
             } catch (err) {
 
             }
@@ -637,10 +660,7 @@ export default {
         this.setNonMember('')
     },
     beforeMount() {
-        this.isLoading = true;
-        setTimeout(() => {
-            this.isLoading = false
-        }, 4000)
+        this.setEditProject(this.EditProject)
     }
 };
 </script>
@@ -655,11 +675,30 @@ export default {
     color: #265080;
 }
 
+#status {
+    color: #265080;
+}
+
 #claps {
     margin-top: 12px
 }
 
 #public {
-    margin-left: 20px
+    margin-left: 20px;
+
+}
+
+#request {
+    color: white;
+    background-color: #265080 !important;
+    border: none;
+    margin-left: 50%;
+}
+
+#waitimg {
+    background: #F8C441;
+    color: white;
+    border: none;
+    margin-left: 50%;
 }
 </style>
