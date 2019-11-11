@@ -13,12 +13,12 @@
             <!-- <p class="control" style="width:100%"> -->
             <input id="search searchExpand" style="font-size: 30px;width: 5%;max-width:100%;border: none;box-shadow: none;text-align:center" class="input" type="text" v-model="search" v-on:keyup.enter="searchBy();blur(false)" placeholder="Search ... ">
             <!-- </p> -->
-            <i class="la la-times delSearch" @click="search = '';searchBy()"></i>
+            <i class="la la-times delSearch" @click="clearSearchInput();searchBy()"></i>
         </div>
         <div style="text-align:center">
-            <button id="projects" class="button is-light viewBtn" style="z-index:1" @click="canClickYear('projects')">Projects</button>
-            <button id="tags" class="button is-light viewBtn" style="margin:0px 30px;z-index: 1;" @click="canClickYear('tags')">Tags</button>
-            <button id="stdProfile" class="button is-light viewBtn" style="z-index:1" @click="canClickYear('stdProfile')">Students</button>
+            <button id="projects" class="button is-light viewBtn" style="z-index:1" @click="canClickYear('projects');haveTag = false">Projects</button>
+            <button id="tags" class="button is-light viewBtn" style="margin:0px 30px;z-index: 1;" @click="filterByTag('All','');canClickYear('tags');haveTag = true">Tags</button>
+            <button id="stdProfile" class="button is-light viewBtn" style="z-index:1" @click="canClickYear('stdProfile');haveTag = false">Students</button>
         </div>
     </div>
     <div id="bodyBg">
@@ -33,9 +33,12 @@
         </p>
     </div>
     <div id="bodyBg" class="tags" v-if="searchInput == false">
-        <span class="tag profileTag" @click="filterByTag(tag.tag_name)" v-for="(tag,index) in tags" v-bind:key="index">
+        <span id='allTag' class="tag profileTag" @click="filterByTag('All','')">
+            All
+        </span>
+        <span :id="'tag'+index" class="tag profileTag" @click="filterByTag(tag.tag_name,index)" v-for="(tag,index) in tags" v-bind:key="index">
             <!-- <vc-donut :sections="[{ value: (tag.total_tag*100/numberOfProjects), color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut> -->
-            <span style="padding-left:5px">{{tag.tag_name}} </span>
+            {{tag.tag_name}}
         </span>
     </div>
     <div style="height: 1px;background-color: #E8E8E8;position: absolute;top: 227px;width: 100%;z-index: 0;"></div>
@@ -187,6 +190,8 @@ export default {
             showYear: true,
             search: "",
             searchInput: true,
+            haveTag: false,
+            searchByTag: false,
             typeOfSearch: "",
             searchTagText: "",
             tagInputEmpty: true,
@@ -214,30 +219,33 @@ export default {
     watch: {
         searchTagText: function (val) {
             if (val == "") {
-                console.log('1')
                 this.hideDropdown()
             } else if (this.tagInputEmpty == false) {
-                console.log('2')
                 this.hideDropdown()
                 this.tagInputEmpty = true
             } else {
-                console.log('3')
                 this.showDropdown()
             }
         },
         search: function (val) {
+
             if (val != "") {
-                if (document.getElementById('search searchExpand') != null) {
-                    document.getElementById('search searchExpand').style.width = (this.search.length + 7) + '%'
-                } else {
+                if (this.searchByTag) {
                     setTimeout(() => {
-                        console.log('focus')
-                        document.getElementById('search searchExpand').focus()
-                    }, 10)
+                        document.getElementById('search searchExpand').style.width = (this.search.length + 7) + '%'
+                    }, 5)
+                } else {
+                    if (document.getElementById('search searchExpand') != null) {
+                        document.getElementById('search searchExpand').style.width = (this.search.length + 7) + '%'
+                    } else {
+                        setTimeout(() => {
+                            document.getElementById('search searchExpand').focus()
+                        }, 5)
+                    }
                 }
+                this.searchByTag = false
             } else {
                 setTimeout(() => {
-                    console.log('focus')
                     document.getElementById('search').focus()
                 }, 10)
             }
@@ -295,7 +303,7 @@ export default {
             this.search = tag_name
             this.searchBy()
         },
-        
+
         blur(isDefault) {
             if (isDefault) {
                 document.getElementById("search").blur();
@@ -369,14 +377,48 @@ export default {
                 this.LOAD_ALL_PROJECT_VISITORVIEW(para)
             }
         },
-        filterByTag(tag_name) {
-            this.search = tag_name
-            var para = {
-                type: "search",
-                searchBy: "tags",
-                searchText: tag_name
+        filterByTag(tag_name, index) {
+            this.searchByTag = true
+            var para;
+
+            setTimeout(() => {
+                for (var n = 0; n < this.tags.length; n++) {
+                    document.getElementById('tag' + n).className = "tag profileTag"
+                }
+                document.getElementById('allTag').className = "tag borderTag"
+            }, 5)
+
+            if (tag_name == 'All') {
+                this.search = ''
+                para = {
+                    type: "all",
+                    year: "all"
+                }
+                setTimeout(() => {
+                    document.getElementById('allTag').className = "tag borderTag"
+                }, 5)
+            } else {
+                this.search = tag_name
+                para = {
+                    type: "search",
+                    searchBy: "tags",
+                    searchText: tag_name
+                }
+                setTimeout(() => {
+                    document.getElementById('allTag').className = "tag profileTag"
+                    document.getElementById('tag' + index).className = "tag borderTag"
+                }, 5)
             }
             this.LOAD_ALL_PROJECT_VISITORVIEW(para)
+        },
+        clearSearchInput() {
+            this.search = ''
+            if (this.haveTag) {
+                setTimeout(() => {
+                    document.getElementById("search").blur();
+                }, 100)
+                this.filterByTag('All')
+            }
         }
     }
 }
@@ -388,8 +430,6 @@ export default {
 }
 
 .profile {
-    /* border: 1px solid black !important; */
-    /* background-color:black !important; */
     margin-bottom: 10px !important;
     padding: 20px 20px 20px 20px !important;
     border-radius: 5px !important;
@@ -398,13 +438,19 @@ export default {
 .profile:hover {
     cursor: pointer;
     box-shadow: 0px 0px 6px 0px rgba(130, 130, 130, 1);
-    /* background-color:rgba(58, 140, 187, 0.151) !important; */
 }
 
 .profileName {
     font-size: 18px !important;
     font-weight: 600 !important;
-    /* margin-bottom: -2px !important; */
     color: #265080 !important;
+}
+
+.borderTag {
+    border-radius: 9px !important;
+    background-color: rgba(95, 174, 184, 0.164) !important;
+    border: 0.5px #5FAEB8 solid !important;
+    color: #265080 !important;
+    font-weight: 700 !important;
 }
 </style>
