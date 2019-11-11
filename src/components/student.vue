@@ -110,16 +110,16 @@
             </div>
         </div>
         <div class="columns is-multiline">
-            <div class="column is-one-quarter" v-if="access == true">
+            <div class="column is-one-third" v-if="access == true">
                 <createProjectBtn />
             </div>
-            <div class="column is-one-quarter" v-for="(allProject,index) in allProjects" v-bind:key="index">
+            <div class="column is-one-third" v-for="(allProject,index) in allProjects" v-bind:key="index">
                 <router-link :to="`/ProjectDetail/${allProject.id}`">
                     <div class="card projectCard content_img">
                         <div class="card-image" v-if="allProject.cover_path != null">
                             <figure class="image coverImg is-4by2">
                                 <!-- <img src="./../assets/gold-medal.png" width="17px" v-if="allProject.achievement" style="z-index:2;position:absolute;width:40px;"> -->
-                                <img :src="allProject.cover_path" alt="Placeholder image" style="height: 156.22px !important;border-radius: 5px;">
+                                <img :src="allProject.cover_path" alt="Placeholder image" style="height: 271px !important;border-radius: 5px;">
                                 <div class="img-text">
                                     <img src="./../assets/visibility-button.png" style="width:15px;display: inline;">
                                     <span class="countText">{{allProject.count_viewer}} </span>
@@ -130,7 +130,7 @@
                         </div>
                         <div class="card-image" v-else>
                             <figure class="image coverImg is-4by2">
-                                <img src="./../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;">
+                                <img src="./../assets/noCoverImg.png" style="height: 271px !important;border-radius: 5px;">
                                 <div class="img-text">
                                     <img src="./../assets/visibility-button.png" style="width:15px;display: inline;">
                                     <span class="countText">{{allProject.count_viewer}} </span>

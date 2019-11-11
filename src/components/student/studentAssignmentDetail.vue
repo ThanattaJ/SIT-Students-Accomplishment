@@ -19,14 +19,14 @@
                 Status :
                 <span v-if="assignmentDetail.status_name == 'Approve'" class="projectStatus approved">{{assignmentDetail.status_name}}</span>
                 <span v-else-if="assignmentDetail.status_name == 'Waiting'" class="projectStatus request">{{assignmentDetail.status_name}}</span>
-                <span v-else class="projectStatus denied">{{assignmentDetail.status_name}}</span>
+                <span v-else class="projectStatus denied">Reject</span>
             </div>
         </div>
         <div class="columns" style="margin-top:5%">
             <!-- <div class="column is-one-quarter" v-if="assignmentDetail.project_id == null">
                 <createProjectBtn />
             </div> -->
-            <div class="column is-one-quarter" v-if="assignmentDetail.project_id == null">
+            <div class="column is-one-third" v-if="assignmentDetail.project_id == null">
                 <div class="createPortPage"  @click="getAllProject">
                     <div class="textCreate" style="font-size:30px !important">+</div>
                     <div class="textCreate" style="padding-top:10px">Add or Create Project</div>
@@ -95,18 +95,18 @@
                 </modal>
             </div>
 
-            <div class="column is-one-quarter" v-else>
+            <div class="column is-one-third" v-else>
                 <router-link :to="`/ProjectDetail/${assignmentDetail.project_id}`">
                     <div class="card projectCard content_img">
                         <div class="card-image" v-if="assignmentDetail.cover_path != null">
                             <figure class="image coverImg is-4by2">
                                 <!-- <img src="./../../assets/gold-medal.png" width="17px" v-if="assignmentDetail.achievement" style="z-index:2;position:absolute;width:40px;"> -->
-                                <img :src="assignmentDetail.cover_path" alt="Placeholder image" style="height: 156.22px !important;border-radius: 5px;">
+                                <img :src="assignmentDetail.cover_path" alt="Placeholder image" style="height: 271px !important;border-radius: 5px;">
                             </figure>
                         </div>
                         <div class="card-image" v-else>
                             <figure class="image coverImg is-4by2">
-                                <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;">
+                                <img src="./../../assets/noCoverImg.png" style="height: 271pxpx !important;border-radius: 5px;">
                             </figure>
                         </div>
                         <div class="card-content projectInfo">

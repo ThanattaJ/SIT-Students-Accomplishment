@@ -55,3 +55,21 @@
     font-weight: 600;
     font-size: 12px
 }
+
+.viewBtn{
+    width: 120px !important;
+    height: 50px !important;
+    color: #265080 !important;
+    background-color: white !important;
+    border: 1px solid #E8E8E8 !important;
+}
+
+.viewBtn:hover , .activeBtn{
+    color: white !important;
+    background-color: #265080 !important;
+    border: 1px solid white !important;
+}
+
+.activeBtn{
+    font-weight: bold;
+}

@@ -48,9 +48,9 @@
                         <div class="column countAssign">{{assignment.join_code}}</div>
                         <div class="column countAssign">
                             <span class="projectStatus approved" v-if="assignment.status_name == 'Approve'">{{assignment.status_name}}</span>
-                            <span class="projectStatus request" v-else-if="assignment.status_name == 'Waiting'">{{assignment.status_name}}</span>
+                            <span class="projectStatus request" v-else-if="assignment.status_name == 'Request'">{{assignment.status_name}}</span>
                             <span class="projectStatus denied" v-else-if="assignment.status_name == 'Reject'">{{assignment.status_name}}</span>
-                            <span style="color: red" v-else-if="(assignment.status_name != 'Approve' || assignment.status_name != 'Waiting' || assignment.status_name != 'Reject') && assignment.time_up == true">Missing</span>
+                            <span style="color: red" v-else-if="(assignment.status_name != 'Approve' || assignment.status_name != 'Request' || assignment.status_name != 'Reject') && assignment.time_up == true">Missing</span>
                             <span v-else>Not submit</span>
                         </div>
                         <div class="column countAssign">

@@ -7,12 +7,12 @@
     <modal name="askForSure">
         <md-card-header>
             <md-card-header-text>
-                <div class="md-title" id="title">Are you sure to {{project_status}} project ?</div>
+                <div class="md-title" id="title">Are you sure to {{this.statusTmp}} project ?</div>
             </md-card-header-text>
         </md-card-header>
         <md-card-content>
             <span class="addBtn">
-                <a class="button cancelCommentBtn" @click="closeAskModal"><span class="courseName">No</span></a>
+                <a class="button cancelCommentBtn" @click="closeAskModal();setCssToDefault();setBeforeStatus()"><span class="courseName">No</span></a>
                 <a class="button addCommentBtn" @click="openComment">Yes</a>
             </span>
         </md-card-content>
@@ -55,6 +55,7 @@ import axios from 'axios'
 export default {
     data() {
         return {
+            statusBefore: '',
             statusTmp: '',
             commentText: null
         }
@@ -70,19 +71,23 @@ export default {
     },
     mounted() {
         this.setStatus(this.project_status)
+        this.statusBefore = this.project_status
     },
     methods: {
         ...mapActions(['SET_PROJECT_STATUS']),
         setStatus(status) {
+            this.statusBefore = this.statusTmp
             this.statusTmp = status
+            this.setCssToDefault()
             // this.SET_PROJECT_STATUS(status)
-            document.getElementById('Approve').className = 'button statusBtn'
-            document.getElementById('Waiting').className = 'button statusBtn'
-            document.getElementById('Reject').className = 'button statusBtn'
-            document.getElementById('ApproveText').className = 'courseName'
-            document.getElementById('WaitingText').className = 'courseName'
-            document.getElementById('RejectText').className = 'courseName'
-
+            // document.getElementById('Approve').className = 'button statusBtn'
+            // document.getElementById('Waiting').className = 'button statusBtn'
+            // document.getElementById('Reject').className = 'button statusBtn'
+            // document.getElementById('ApproveText').className = 'courseName'
+            // document.getElementById('WaitingText').className = 'courseName'
+            // document.getElementById('RejectText').className = 'courseName'
+            console.log("before : ", this.statusBefore)
+            console.log("after : ", this.statusTmp)
             if (status == 'Approve') {
                 document.getElementById('Approve').className = 'button statusBtn approved'
             } else if (status == 'Waiting') {
@@ -93,6 +98,19 @@ export default {
             document.getElementById(status + 'Text').className = 'white'
             document.getElementById(status).className += ' white'
         },
+        setCssToDefault() {
+            document.getElementById('Approve').className = 'button statusBtn'
+            document.getElementById('Waiting').className = 'button statusBtn'
+            document.getElementById('Reject').className = 'button statusBtn'
+            document.getElementById('ApproveText').className = 'courseName'
+            document.getElementById('WaitingText').className = 'courseName'
+            document.getElementById('RejectText').className = 'courseName'
+        },
+        setBeforeStatus(){
+            this.statusTmp = this.statusBefore
+            this.setStatus(this.statusTmp)
+            console.log("after : ", this.statusTmp)
+        },
         openAskModal(status) {
             this.$modal.show('askForSure')
         },
@@ -102,7 +120,7 @@ export default {
         openComment() {
             if (this.statusTmp == 'Reject') {
                 this.$modal.show('commentModal');
-            }else{
+            } else {
                 this.addComment()
             }
             // document.getElementById("inputComment").focus()
@@ -115,7 +133,9 @@ export default {
                 assignment_id: this.assignment_id,
                 project_id: this.project_id,
                 status: this.statusTmp,
-                comment: this.commentText
+            }
+            if(this.commentText != null){
+                data['comment'] = this.commentText
             }
             console.log("data :", data)
             await axios.patch(

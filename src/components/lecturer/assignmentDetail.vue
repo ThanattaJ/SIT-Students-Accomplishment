@@ -42,7 +42,7 @@
                             <ul>
                                 <li id="navApprove" class="navTitle navCanClick" @click="show('approve','navApprove')">Approved<span class="countProjectStatus approved">{{countProject.approve}}</span></li>
                                 <li id="navRequest" class="navTitle navCanClick" @click="show('waiting','navRequest')">Waiting<span class="countProjectStatus request">{{countProject.request}}</span></li>
-                                <li id="navDenied" class="navTitle navCanClick" @click="show('reject','navDenied')">Denied<span class="countProjectStatus denied">{{countProject.denied}}</span></li>
+                                <li id="navDenied" class="navTitle navCanClick" @click="show('reject','navDenied')">Reject<span class="countProjectStatus denied">{{countProject.denied}}</span></li>
                             </ul>
                         </li>
                     </ul>
@@ -119,9 +119,9 @@
                                 <div class="column countAssign">Comment</div>
                             </div>
                         </div>
-                        <div class="card lecturerCard lecturerCourseCard">
+                        <div class="card lecturerCard lecturerCourseCard" v-for="(project,index) in approveProject" v-bind:key="index">
                             <div class="card-content cardSize">
-                                <div class="columns" v-for="(project,index) in approveProject" v-bind:key="index">
+                                <div class="columns">
                                     <div class="column is-two-thirds courseName" @click="routeToProjectDetail(project.project_id,project.status_name)">{{index+1}}) {{project.project_name_en}}</div>
                                     <div class="column countAssign"><span class="projectStatus approved">Approve</span></div>
                                     <div class="column countAssign">
@@ -146,9 +146,9 @@
                                         <div class="column countAssign">Comment</div>
                                     </div>
                                 </div>
-                                <div class="card lecturerCard lecturerCourseCard">
+                                <div class="card lecturerCard lecturerCourseCard" v-for="(project,index) in requestProject" v-bind:key="index">
                                     <div class="card-content cardSize">
-                                        <div class="columns" v-for="(project,index) in requestProject" v-bind:key="index">
+                                        <div class="columns">
                                             <div class="column is-two-thirds courseName" @click="routeToProjectDetail(project.project_id,project.status_name)">{{index+1}}) {{project.project_name_en}}</div>
                                             <div class="column countAssign"><span class="projectStatus request">Waiting</span></div>
                                             <div class="column countAssign">
@@ -164,7 +164,7 @@
                 </div>
                 <!-- Denied -->
                 <div id="reject">
-                    <div v-if="deniedProject.length == 0">no request project</div>
+                    <div v-if="deniedProject.length == 0">no reject project</div>
                     <div v-else>
                         <div class="card-content cardSize colName">
                             <div class="columns">
@@ -173,9 +173,9 @@
                                 <div class="column countAssign">Comment</div>
                             </div>
                         </div>
-                        <div class="card lecturerCard lecturerCourseCard">
+                        <div class="card lecturerCard lecturerCourseCard" v-for="(project,index) in deniedProject" v-bind:key="index">
                             <div class="card-content cardSize">
-                                <div class="columns" v-for="(project,index) in deniedProject" v-bind:key="index">
+                                <div class="columns">
                                     <div class="column is-two-thirds courseName" @click="routeToProjectDetail(project.project_id,project.status_name)">{{index+1}}) {{project.project_name_en}}</div>
                                     <div class="column countAssign"><span class="projectStatus denied">Reject</span></div>
                                     <div class="column countAssign">

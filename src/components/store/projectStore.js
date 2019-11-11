@@ -5,45 +5,45 @@ export const projectStore = {
         data: {},
         profiles: {},
         courses: [],
-        years: [],
+        years: null,
 
         vdo_pathname: ''
 
     },
     actions: {
-        LOAD_ALL_PROJECT_VISITORVIEW: async function ({ commit, state, rootState }, {type, year, searchBy, searchText}) {
-            var URL = rootState.pathStore.pathName+"/projects/"+type;
-            if(type == 'all'){
-                URL += "?year="+year
-            }else if(type == 'search'){
-                URL += "?by="+searchBy+"&search="+searchText
-            }else if(type == 'profile'){
-                URL += "?search="+searchText
+        LOAD_ALL_PROJECT_VISITORVIEW: async function ({ commit, state, rootState }, { type, year, searchBy, searchText }) {
+            var URL = rootState.pathStore.pathName + "/projects/" + type;
+            if (type == 'all') {
+                URL += "?year=" + year
+            } else if (type == 'search') {
+                URL += "?by=" + searchBy + "&search=" + searchText
+            } else if (type == 'profile') {
+                URL += "?search=" + searchText
             }
-            console.log("URL : "+URL)
+            console.log("URL : " + URL)
             const { data } = await axios.get(
                 URL
             );
-            // console.log("data : ",data)
-            if(type == 'all' || type == 'search'){
+            if (type == 'all' || type == 'search') {
+                console.log('เข้า SET_ALL_PROJECT_VISITORVIEW')
                 commit('SET_ALL_PROJECT_VISITORVIEW', data.projects)
             }
-            else if(type == 'profile'){
-                commit('SET_ALL_PROFILE', data.profile)                
-        }
-            else if(type == 'assignment'){
-                commit('SET_ALL_COURSE_PROJECT', data.courses)                
+            else if (type == 'profile') {
+                commit('SET_ALL_PROFILE', data.profile)
             }
-            if(state.years.length == 0) {
-                commit('SET_YEARS', data.years) 
-             }
+            else if (type == 'assignment') {
+                commit('SET_ALL_COURSE_PROJECT', data.courses)
+            }
+            if (state.years == null) {
+                commit('SET_YEARS', data.years)
+            }
         },
         SET_ALL_PROJECT_VISITORVIEW: function ({ commit }, projects) {
             commit('SET_ALL_PROJECT_VISITORVIEW', projects)
         },
-        LOAD_PROJECT_BY_SEARCH: async function ({ commit, rootState }, {searchText, searchBy}) {
-            const URL = rootState.pathStore.pathName+"/projects/search?by="+searchBy+"&search="+searchText
-            console.log("URL : "+URL)
+        LOAD_PROJECT_BY_SEARCH: async function ({ commit, rootState }, { searchText, searchBy }) {
+            const URL = rootState.pathStore.pathName + "/projects/search?by=" + searchBy + "&search=" + searchText
+            console.log("URL : " + URL)
             const { data } = await axios.get(
                 URL
             );
