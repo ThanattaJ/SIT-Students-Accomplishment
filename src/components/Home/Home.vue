@@ -78,7 +78,7 @@
           </div>
           <div class="featuresCol" id="featuresCol">
             <img src="../../assets/home-gen-resume.png" class="imgFeaturers">
-            <p id="contentFetures">Generate Resume</p>
+            <p id="contentFetures">Export yours resume.</p>
           </div>
         </div>
     </div>
