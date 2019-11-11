@@ -28,13 +28,16 @@ export const studentStore = {
                 config = rootState.loginStore.config
             } else {
                 URL = URL + "/users/default?user_role=" + user_role + "&user_id=" + user_id
-                if (rootState.loginStore.config.headers.Authorization == null) {
+                // if (rootState.loginStore.config.headers.Authorization == null) {
+                if (rootState.loginStore.username != user_id) {
+                    console.log('no')
                     config = {
                         'headers': {
                             'Content-Type': 'application/json'
                         }
                     }
-                } else {
+                } else if (rootState.loginStore.username == user_id) {
+                    console.log('yes')
                     config = rootState.loginStore.config
                 }
             }
@@ -56,7 +59,7 @@ export const studentStore = {
         }
     },
     getters: {
-        GET_ACCESS:function (state) {
+        GET_ACCESS: function (state) {
             return state.studentData.access
         },
         GET_STUDENT_PROFILE: function (state) {

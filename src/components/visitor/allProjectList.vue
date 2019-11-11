@@ -138,26 +138,31 @@
     <!-- All profiles -->
     <div id="bodyBg" v-if="isProfileType == true">
         <div class="columns is-multiline">
-            <div class="column is-one-third" v-for="(profile,index) in profiles" v-bind:key="index">
-                <!-- <router-link :to="`/student/${profile.student_id}`"> -->
-                <div class="card projectCard content_img" @click="goToStudentprofile(profile.student_id)">
-                    <div v-if="profile.profile_picture != null">
-                        <figure class="image coverImg" style="height: 170px;width: 120px">
+            <div class="column is-half" v-for="(profile,index) in profiles" v-bind:key="index">
+                <div class="columns card profile" @click="goToStudentProfile(profile.student_id)">
+                    <div v-if="profile.profile_picture != null" style="padding-right:20px">
+                        <figure class="image" style="height: 160px;width: 120px">
                             <img :src="profile.profile_picture" alt="Placeholder image" style="border-radius: 5px;">
                         </figure>
                     </div>
-                    <div v-else>
-                        <figure class="image coverImg" style="height: 170px;width: 120px">
+                    <div v-else style="padding-right:20px">
+                        <figure class="image" style="height: 160px;width: 120px">
                             <img src="./../../assets/noProfilePicture.png" style="border-radius: 5px;">
                         </figure>
                     </div>
-                    <div class="card-content projectInfo">
-                        <p class="projectName" style="height: 22px;overflow: hidden;">{{profile.firstname}}</p>
-                        <p class="projectName" style="height: 22px;overflow: hidden;">{{profile.lastname}}</p>
-                        <p class="projectName" style="height: 22px;overflow: hidden;">{{profile.student_id}}</p>
+                    <div class="card-content projectInfo" style="width:100%;">
+                        <p class="profileName">{{profile.firstname}} {{profile.lastname}}</p>
+                        <!-- <p id="info" style="height: 22px;overflow: hidden;">{{profile.student_id}}</p> -->
+                        <p id="info">Bachelor of Science Programme in <b>{{profile.curriculum_name}}</b></p>
+                        <div style="position:absolute;bottom:20px;" v-if="profile.email != null">
+                            <p id="info"><i class="la la-envelope" style="color:#265080;margin-right:5px"></i>{{profile.email}}</p>
+                        </div>
+                        <div style="position:absolute;bottom:20px;right:20px;">
+                            <img src="./../../assets/visibility-button.png" style="width:20px;display: inline;margin-right:5px">
+                            <p id="info" style="float:right;">{{profile.viewer}}</p>
+                        </div>
                     </div>
                 </div>
-                <!-- </router-link> -->
             </div>
         </div>
     </div>
@@ -247,6 +252,19 @@ export default {
         this.canClickYear('projects')
     },
     methods: {
+        goToStudentProfile(student_id) {
+            console.log(student_id)
+            try {
+                this.LOAD_OTHER_STUDENT_DATA({
+                    user_role: 'student',
+                    user_id: student_id,
+                })
+            } catch (err) {
+                console.log('err', err)
+            }
+            this.$router.push('/student')
+        },
+        ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW', 'LOAD_PROJECT_BY_SEARCH', 'LOAD_OTHER_STUDENT_DATA', 'SET_ALL_PROJECT_VISITORVIEW']),
         showDropdown() {
             document.getElementById('tagInput').className = "dropdown is-active"
         },
@@ -277,18 +295,7 @@ export default {
             this.search = tag_name
             this.searchBy()
         },
-        ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW', 'LOAD_PROJECT_BY_SEARCH', 'LOAD_OTHER_STUDENT_DATA', 'SET_ALL_PROJECT_VISITORVIEW']),
-        goToStudentProfile(student_id) {
-            try {
-                this.LOAD_OTHER_STUDENT_DATA({
-                    user_role: 'student',
-                    user_id: student_id,
-                })
-            } catch (err) {
-                console.log('err', err)
-            }
-            this.$router.push('/student')
-        },
+        
         blur(isDefault) {
             if (isDefault) {
                 document.getElementById("search").blur();
@@ -362,13 +369,13 @@ export default {
                 this.LOAD_ALL_PROJECT_VISITORVIEW(para)
             }
         },
-        filterByTag(tag_name){
+        filterByTag(tag_name) {
             this.search = tag_name
             var para = {
-                    type: "search",
-                    searchBy: "tags",
-                    searchText: tag_name
-                }
+                type: "search",
+                searchBy: "tags",
+                searchText: tag_name
+            }
             this.LOAD_ALL_PROJECT_VISITORVIEW(para)
         }
     }
@@ -378,5 +385,26 @@ export default {
 <style>
 .delSearch:hover {
     cursor: pointer;
+}
+
+.profile {
+    /* border: 1px solid black !important; */
+    /* background-color:black !important; */
+    margin-bottom: 10px !important;
+    padding: 20px 20px 20px 20px !important;
+    border-radius: 5px !important;
+}
+
+.profile:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 6px 0px rgba(130, 130, 130, 1);
+    /* background-color:rgba(58, 140, 187, 0.151) !important; */
+}
+
+.profileName {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    /* margin-bottom: -2px !important; */
+    color: #265080 !important;
 }
 </style>
