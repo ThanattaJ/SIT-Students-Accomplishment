@@ -30,7 +30,6 @@ export const studentStore = {
             const { data } = await axios.get(
                 URL + '/users/default', rootState.loginStore.config
             );
-            console.log('LOAD_OWN_STUDENT_DATA')
             commit('SET_STUDENT_DATA', data)
         },
         LOAD_OTHER_STUDENT_DATA: async function ({ commit, rootState }, { user_role, user_id }) {

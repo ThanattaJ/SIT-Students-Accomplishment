@@ -205,6 +205,17 @@ export default {
             }
         }
     },
+    mounted() {
+        console.log('stdId : ',`${this.$route.params.stdId}`)        
+        if (localStorage.getItem('usernameSIT') == `${this.$route.params.stdId}`) {
+            this.LOAD_OWN_STUDENT_DATA()
+        } else {
+            this.LOAD_OTHER_STUDENT_DATA({
+                user_role: 'student',
+                user_id: `${this.$route.params.stdId}`,
+            })
+        }
+    },
     // updated() {
     //     console.log('profile pic > ', this.profile.profile_picture)
     //     console.log('numberOfProjects > ', this.numberOfProjects)
@@ -212,12 +223,12 @@ export default {
     methods: {
         ...mapActions(['LOAD_OWN_STUDENT_DATA', 'LOAD_OTHER_STUDENT_DATA', 'UPDATE_FIELD', 'SET_EMAIL', 'SET_STUDENT_PROJECT']),
         showUploadImg: function () {
-            if(this.access == true)
-            document.getElementById("textBlock").style.display = "flex"
+            if (this.access == true)
+                document.getElementById("textBlock").style.display = "flex"
         },
         hideUploadImg: function () {
-            if(this.access == true)
-            document.getElementById("textBlock").style.display = "none"
+            if (this.access == true)
+                document.getElementById("textBlock").style.display = "none"
         },
         async saveChange() {
             var newEmail = document.getElementById('email').value

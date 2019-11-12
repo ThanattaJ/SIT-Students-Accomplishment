@@ -61,6 +61,8 @@ export const loginStore = {
               localStorage.setItem('usernameSIT', username);
               localStorage.setItem('loginStatus', true);
               location.reload()
+              // router.push('/student/'+username)')
+
               // if(res.data.isAdmin){
               //   router.push('/course')
               // }

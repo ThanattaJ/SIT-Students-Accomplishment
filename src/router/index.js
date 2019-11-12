@@ -39,7 +39,7 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/student',
+      path: '/student/:stdId',
       name: 'student',
       component: student,
       children: [

@@ -153,30 +153,33 @@
         <div id="bodyBg" v-if="isProfileType == true">
             <div class="columns is-multiline">
                 <div class="column is-half" v-for="(profile,index) in profiles" v-bind:key="index">
-                    <div class="columns card profile" @click="goToStudentProfile(profile.student_id)">
-                        <div v-if="profile.profile_picture != null" style="padding-right:20px">
-                            <figure class="image" style="height: 160px;width: 120px">
-                                <img :src="profile.profile_picture" alt="Placeholder image" style="border-radius: 5px;">
-                            </figure>
-                        </div>
-                        <div v-else style="padding-right:20px">
-                            <figure class="image" style="height: 160px;width: 120px">
-                                <img src="./../../assets/noProfilePicture.png" style="border-radius: 5px;">
-                            </figure>
-                        </div>
-                        <div class="card-content projectInfo" style="width:100%;">
-                            <p class="profileName">{{profile.firstname}} {{profile.lastname}}</p>
-                            <!-- <p id="info" style="height: 22px;overflow: hidden;">{{profile.student_id}}</p> -->
-                            <p id="info">Bachelor of Science Programme in <b>{{profile.curriculum_name}}</b></p>
-                            <div style="position:absolute;bottom:20px;" v-if="profile.email != null">
-                                <p id="info"><i class="la la-envelope" style="color:#265080;margin-right:5px"></i>{{profile.email}}</p>
+                    <router-link :to="`/student/${profile.student_id}`">
+                        <div class="columns card profile">
+                            <!-- <div class="columns card profile" @click="goToStudentProfile(profile.student_id)"> -->
+                            <div v-if="profile.profile_picture != null" style="padding-right:20px">
+                                <figure class="image" style="height: 160px;width: 120px">
+                                    <img :src="profile.profile_picture" alt="Placeholder image" style="border-radius: 5px;">
+                                </figure>
                             </div>
-                            <div style="position:absolute;bottom:20px;right:20px;">
-                                <img src="./../../assets/visibility-button.png" style="width:20px;display: inline;margin-right:5px">
-                                <p id="info" style="float:right;">{{profile.viewer}}</p>
+                            <div v-else style="padding-right:20px">
+                                <figure class="image" style="height: 160px;width: 120px">
+                                    <img src="./../../assets/noProfilePicture.png" style="border-radius: 5px;">
+                                </figure>
+                            </div>
+                            <div class="card-content projectInfo" style="width:100%;">
+                                <p class="profileName">{{profile.firstname}} {{profile.lastname}}</p>
+                                <!-- <p id="info" style="height: 22px;overflow: hidden;">{{profile.student_id}}</p> -->
+                                <p id="info">Bachelor of Science Programme in <b>{{profile.curriculum_name}}</b></p>
+                                <div style="position:absolute;bottom:20px;" v-if="profile.email != null">
+                                    <p id="info"><i class="la la-envelope" style="color:#265080;margin-right:5px"></i>{{profile.email}}</p>
+                                </div>
+                                <div style="position:absolute;bottom:20px;right:20px;">
+                                    <img src="./../../assets/visibility-button.png" style="width:20px;display: inline;margin-right:5px">
+                                    <p id="info" style="float:right;">{{profile.viewer}}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -275,19 +278,19 @@ export default {
         this.canClickYear('projects')
     },
     methods: {
-        goToStudentProfile(student_id) {
-            console.log(student_id)
-            try {
-                this.SET_LOADING_STATUS(true)
-                this.LOAD_OTHER_STUDENT_DATA({
-                    user_role: 'student',
-                    user_id: student_id,
-                })
-            } catch (err) {
-                console.log('err', err)
-            }
-            this.$router.push('/student')
-        },
+        // goToStudentProfile(student_id) {
+        //     console.log(student_id)
+        //     try {
+        //         this.SET_LOADING_STATUS(true)
+        //         this.LOAD_OTHER_STUDENT_DATA({
+        //             user_role: 'student',
+        //             user_id: student_id,
+        //         })
+        //     } catch (err) {
+        //         console.log('err', err)
+        //     }
+        //     this.$router.push('/student')
+        // },
         ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW', 'LOAD_PROJECT_BY_SEARCH', 'LOAD_OTHER_STUDENT_DATA', 'SET_ALL_PROJECT_VISITORVIEW', 'SET_LOADING_STATUS']),
         showDropdown() {
             document.getElementById('tagInput').className = "dropdown is-active"

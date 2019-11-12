@@ -35,12 +35,12 @@
                 </span>
 
                 <span class="navbar-item" v-if="user_role == 'student'">
-                    <!-- <router-link to="/student"> -->
-                    <a class="navbar-item menuName" @click="goToStudentProfile()">
-                        <i class="la la-user"></i>
-                        My Profile
-                    </a>
-                    <!-- </router-link> -->
+                    <router-link :to="'/student/'+usernameFromState">
+                        <a class="navbar-item menuName">
+                            <i class="la la-user"></i>
+                            My Profile
+                        </a>
+                    </router-link>
                 </span>
 
                 <span class="navbar-item" v-if="user_role == 'lecturer'">
@@ -152,10 +152,10 @@ export default {
         showLoginModal() {
             this.$modal.show('loginModal');
         },
-        goToStudentProfile(){
-            this.LOAD_OWN_STUDENT_DATA()
-            this.$router.push('/student')
-        }
+        // goToStudentProfile(){
+        //     this.LOAD_OWN_STUDENT_DATA()
+        //     this.$router.push('/student')
+        // }
     }
 }
 </script>
