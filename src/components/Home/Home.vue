@@ -10,14 +10,14 @@
       :loop="true">
       <slide  v-for="(project,i) in projects" :key="i">
         <div class="grid">
-          <a :href="`https://accomplishment-sit.netlify.com/ProjectDetail/${projects[i].project_id}`">
+           <router-link :to="`/ProjectDetail/${projects[i].project_id}`">
             <figure class="effect-zoe">
               <img :src=project.cover_path >
                 <figcaption>
                   <h2><span>{{project.name_en}}</span></h2>
                 </figcaption>			
             </figure>
-          </a>
+           </router-link>
         </div>
       </slide>
     </carousel>
@@ -85,7 +85,7 @@
     <footer id="footer">
         <span class="footerContent">SIT STUDENTS ACCOMPLISHMENT &copy;2019</span>   
         <span class="footerContent footerRight">View More Projects 
-          <router-link to="/Projects"><md-button class="buttonToViewProject" @click="loadingStatus"> Click </md-button></router-link>
+          <router-link to="/Projects"><md-button class="buttonToViewProject"> Click </md-button></router-link>
         </span>
     </footer>
   </div>
@@ -115,15 +115,16 @@
         }
       },
       async mounted() {
+        console.log('loading!', this.loading);
         const {
-            data
+          data
         } = await axios.get(`${this.URL}/projects/Top-Project`);
           console.log('data', data);
           console.log('data', data.length);
           console.log('projects', this.projects)
         for (let i = 0; i < data.length; i++) {
-            const project = {
-              project_id: data[i].id,
+          const project = {
+            project_id: data[i].id,
               name_en: data[i].project_name_en,
               name_th: data[i].project_name_th,
               cover_path: data[i].cover_path,
@@ -133,10 +134,11 @@
         this.SET_LOADING_STATUS(false)
     },
     methods: {
-        ...mapActions(['SET_LOADING_STATUS']),
-        loadingStatus() {
+      ...mapActions(['SET_LOADING_STATUS']),
+      beforeMount() {
+          this.setEditProject(this.EditProject)
           this.SET_LOADING_STATUS(true)
-        }
+      }
     }
   }
 </script>

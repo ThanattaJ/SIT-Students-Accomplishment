@@ -21,25 +21,31 @@
             <button id="stdProfile" class="button is-light viewBtn" style="z-index:1" @click="canClickYear('stdProfile');haveTag = false">Students</button>
         </div>
     </div>
-    <div id="bodyBg">
-        <p class="control" v-if="showYear == true">
-            Select year : <span class="select">
-                <select id="selectYear" @change="selectYear">
-                    <option :value="year.year" class="navCanClick" v-for="(year,index) in years" v-bind:key="index">
-                        {{year.year}}
-                    </option>
-                </select>
-            </span>
-        </p>
+    <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
+    <div v-else>
+        <div id="bodyBg">
+            <p class="control" v-if="showYear == true">
+                Select year : <span class="select">
+                    <select id="selectYear" @change="selectYear">
+                        <option :value="year.year" class="navCanClick" v-for="(year,index) in years" v-bind:key="index">
+                            {{year.year}}
+                        </option>
+                    </select>
+                </span>
+            </p>
+        </div>
     </div>
-    <div id="bodyBg" class="tags" v-if="searchInput == false">
-        <span id='allTag' class="tag profileTag" @click="filterByTag('All','')">
-            All
-        </span>
-        <span :id="'tag'+index" class="tag profileTag" @click="filterByTag(tag.tag_name,index)" v-for="(tag,index) in tags" v-bind:key="index">
-            <!-- <vc-donut :sections="[{ value: (tag.total_tag*100/numberOfProjects), color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut> -->
-            {{tag.tag_name}}
-        </span>
+    <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
+    <div v-else>
+        <div id="bodyBg" class="tags" v-if="searchInput == false">
+            <span id='allTag' class="tag profileTag" @click="filterByTag('All','')">
+                All
+            </span>
+            <span :id="'tag'+index" class="tag profileTag" @click="filterByTag(tag.tag_name,index)" v-for="(tag,index) in tags" v-bind:key="index">
+                <!-- <vc-donut :sections="[{ value: (tag.total_tag*100/numberOfProjects), color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut> -->
+                {{tag.tag_name}}
+            </span>
+        </div>
     </div>
     <div style="height: 1px;background-color: #E8E8E8;position: absolute;top: 227px;width: 100%;z-index: 0;"></div>
     <!-- <div id="bodyBg">
@@ -101,68 +107,74 @@
         </div>
     </div> -->
     <!-- All projects -->
-    <div id="bodyBg" v-if="isProfileType == false">
-        <div class="columns is-multiline">
-            <div class="column is-one-third" v-for="(project,index) in allProjectPresent" v-bind:key="index">
-                <router-link :to="`/ProjectDetail/${project.id}`">
-                    <div class="card projectCard content_img">
-                        <div v-if="project.cover_path != null">
-                            <figure class="image coverImg is-4by2">
-                                <!-- <img src="./../../assets/gold-medal.png" width="17px" v-if="project.achievement" style="z-index:2;position:absolute;width:40px;"> -->
-                                <img :src="project.cover_path" alt="Placeholder image" style="height: 271px !important;border-radius: 5px;">
-                                <div class="img-text">
-                                    <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
-                                    <span class="countText">{{project.count_viewer}} </span>
-                                    <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
-                                    <span class="countText">{{project.count_clap}} </span>
-                                </div>
-                            </figure>
+    <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
+    <div v-else>
+        <div id="bodyBg" v-if="isProfileType == false">
+            <div class="columns is-multiline">
+                <div class="column is-one-third" v-for="(project,index) in allProjectPresent" v-bind:key="index">
+                    <router-link :to="`/ProjectDetail/${project.id}`">
+                        <div class="card projectCard content_img">
+                            <div v-if="project.cover_path != null">
+                                <figure class="image coverImg is-4by2">
+                                    <!-- <img src="./../../assets/gold-medal.png" width="17px" v-if="project.achievement" style="z-index:2;position:absolute;width:40px;"> -->
+                                    <img :src="project.cover_path" alt="Placeholder image" style="height: 271px !important;border-radius: 5px;">
+                                    <div class="img-text">
+                                        <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
+                                        <span class="countText">{{project.count_viewer}} </span>
+                                        <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
+                                        <span class="countText">{{project.count_clap}} </span>
+                                    </div>
+                                </figure>
+                            </div>
+                            <div v-else>
+                                <figure class="image coverImg is-4by2">
+                                    <!-- <img src="./../../assets/gold-medal.png" width="17px" v-if="project.achievement" style="z-index:2;position:absolute;width:40px;"> -->
+                                    <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;">
+                                    <div class="img-text">
+                                        <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
+                                        <span class="countText">{{project.count_viewer}} </span>
+                                        <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
+                                        <span class="countText">{{project.count_clap}} </span>
+                                    </div>
+                                </figure>
+                            </div>
+                            <div class="card-content projectInfo">
+                                <p class="projectName" style="height: 22px;overflow: hidden;">{{project.project_name_en}}</p>
+                            </div>
                         </div>
-                        <div v-else>
-                            <figure class="image coverImg is-4by2">
-                                <!-- <img src="./../../assets/gold-medal.png" width="17px" v-if="project.achievement" style="z-index:2;position:absolute;width:40px;"> -->
-                                <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;">
-                                <div class="img-text">
-                                    <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
-                                    <span class="countText">{{project.count_viewer}} </span>
-                                    <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
-                                    <span class="countText">{{project.count_clap}} </span>
-                                </div>
-                            </figure>
-                        </div>
-                        <div class="card-content projectInfo">
-                            <p class="projectName" style="height: 22px;overflow: hidden;">{{project.project_name_en}}</p>
-                        </div>
-                    </div>
-                </router-link>
+                    </router-link>
+                </div>
             </div>
         </div>
     </div>
     <!-- All profiles -->
-    <div id="bodyBg" v-if="isProfileType == true">
-        <div class="columns is-multiline">
-            <div class="column is-half" v-for="(profile,index) in profiles" v-bind:key="index">
-                <div class="columns card profile" @click="goToStudentProfile(profile.student_id)">
-                    <div v-if="profile.profile_picture != null" style="padding-right:20px">
-                        <figure class="image" style="height: 160px;width: 120px">
-                            <img :src="profile.profile_picture" alt="Placeholder image" style="border-radius: 5px;">
-                        </figure>
-                    </div>
-                    <div v-else style="padding-right:20px">
-                        <figure class="image" style="height: 160px;width: 120px">
-                            <img src="./../../assets/noProfilePicture.png" style="border-radius: 5px;">
-                        </figure>
-                    </div>
-                    <div class="card-content projectInfo" style="width:100%;">
-                        <p class="profileName">{{profile.firstname}} {{profile.lastname}}</p>
-                        <!-- <p id="info" style="height: 22px;overflow: hidden;">{{profile.student_id}}</p> -->
-                        <p id="info">Bachelor of Science Programme in <b>{{profile.curriculum_name}}</b></p>
-                        <div style="position:absolute;bottom:20px;" v-if="profile.email != null">
-                            <p id="info"><i class="la la-envelope" style="color:#265080;margin-right:5px"></i>{{profile.email}}</p>
+    <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
+    <div v-else>
+        <div id="bodyBg" v-if="isProfileType == true">
+            <div class="columns is-multiline">
+                <div class="column is-half" v-for="(profile,index) in profiles" v-bind:key="index">
+                    <div class="columns card profile" @click="goToStudentProfile(profile.student_id)">
+                        <div v-if="profile.profile_picture != null" style="padding-right:20px">
+                            <figure class="image" style="height: 160px;width: 120px">
+                                <img :src="profile.profile_picture" alt="Placeholder image" style="border-radius: 5px;">
+                            </figure>
                         </div>
-                        <div style="position:absolute;bottom:20px;right:20px;">
-                            <img src="./../../assets/visibility-button.png" style="width:20px;display: inline;margin-right:5px">
-                            <p id="info" style="float:right;">{{profile.viewer}}</p>
+                        <div v-else style="padding-right:20px">
+                            <figure class="image" style="height: 160px;width: 120px">
+                                <img src="./../../assets/noProfilePicture.png" style="border-radius: 5px;">
+                            </figure>
+                        </div>
+                        <div class="card-content projectInfo" style="width:100%;">
+                            <p class="profileName">{{profile.firstname}} {{profile.lastname}}</p>
+                            <!-- <p id="info" style="height: 22px;overflow: hidden;">{{profile.student_id}}</p> -->
+                            <p id="info">Bachelor of Science Programme in <b>{{profile.curriculum_name}}</b></p>
+                            <div style="position:absolute;bottom:20px;" v-if="profile.email != null">
+                                <p id="info"><i class="la la-envelope" style="color:#265080;margin-right:5px"></i>{{profile.email}}</p>
+                            </div>
+                            <div style="position:absolute;bottom:20px;right:20px;">
+                                <img src="./../../assets/visibility-button.png" style="width:20px;display: inline;margin-right:5px">
+                                <p id="info" style="float:right;">{{profile.viewer}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -175,6 +187,7 @@
 <script>
 import router from '../../router/index'
 import './../css/visitor.css';
+import './../css/Loading.css';
 import './../css/studentProjectTab.css';
 import {
     mapGetters,
@@ -203,7 +216,8 @@ export default {
             allProjectPresent: 'GET_ALL_PROJECT_VISITORVIEW',
             profiles: 'GET_ALL_PROFILE',
             years: 'GET_YEARS',
-            path: 'GET_PATHNAME'
+            path: 'GET_PATHNAME',
+            loading: 'GET_LOADING'
         }),
         tags() {
             if (this.searchTagText != "") {
@@ -252,6 +266,7 @@ export default {
         }
     },
     mounted() {
+        console.log('loading', this.loading);
         this.LOAD_ALL_PROJECT_VISITORVIEW({
             type: "all",
             year: "present"
@@ -263,6 +278,7 @@ export default {
         goToStudentProfile(student_id) {
             console.log(student_id)
             try {
+                this.SET_LOADING_STATUS(true)
                 this.LOAD_OTHER_STUDENT_DATA({
                     user_role: 'student',
                     user_id: student_id,
@@ -272,7 +288,7 @@ export default {
             }
             this.$router.push('/student')
         },
-        ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW', 'LOAD_PROJECT_BY_SEARCH', 'LOAD_OTHER_STUDENT_DATA', 'SET_ALL_PROJECT_VISITORVIEW']),
+        ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW', 'LOAD_PROJECT_BY_SEARCH', 'LOAD_OTHER_STUDENT_DATA', 'SET_ALL_PROJECT_VISITORVIEW', 'SET_LOADING_STATUS']),
         showDropdown() {
             document.getElementById('tagInput').className = "dropdown is-active"
         },
@@ -420,6 +436,9 @@ export default {
                 this.filterByTag('All')
             }
         }
+    },
+    beforeMount() {
+        this.SET_LOADING_STATUS(true)
     }
 }
 </script>

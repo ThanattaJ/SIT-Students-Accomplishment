@@ -17,8 +17,8 @@ export const studentStore = {
             const URL = rootState.pathStore.pathName
             const { data } = await axios.get(
                 URL + '/users/default', rootState.loginStore.config
-            );
-            commit('SET_STUDENT_DATA', data)
+                );
+                commit('SET_STUDENT_DATA', data)
         },
         LOAD_OTHER_STUDENT_DATA: async function ({ commit, rootState }, { user_role, user_id }) {
             var URL = rootState.pathStore.pathName
@@ -45,6 +45,8 @@ export const studentStore = {
                 URL, config
             );
             commit('SET_STUDENT_DATA', data)
+            rootState.loadingStore.loading = false
+
         },
         SET_STUDENT_PROJECT: function ({ commit }, projects) {
             commit('SET_STUDENT_PROJECT', projects)

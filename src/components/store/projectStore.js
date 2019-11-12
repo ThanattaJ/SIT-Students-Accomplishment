@@ -37,6 +37,7 @@ export const projectStore = {
             if (state.years == null) {
                 commit('SET_YEARS', data.years)
             }
+            rootState.loadingStore.loading = false
         },
         SET_ALL_PROJECT_VISITORVIEW: function ({ commit }, projects) {
             commit('SET_ALL_PROJECT_VISITORVIEW', projects)

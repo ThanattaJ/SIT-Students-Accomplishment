@@ -1,212 +1,215 @@
 <template>
-<div class="body" id="ProjectDetail-bg">
-    <div id="TitleName">
-        <p id="TitleName_eg">{{header.TitleName}}</p>
-        <p id="TitleName_th">{{header.TitleName_TH}}</p>
-    </div>
-    <hr style="margin-top:20px!important;;">
-    <div class="section" id="imgCover">
-        <div v-if="this.getFile">
-            <img :src="this.getFile" id="coverI">
+<div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
+<div v-else>
+    <div class="body" id="ProjectDetail-bg">
+        <div id="TitleName">
+            <p id="TitleName_eg">{{header.TitleName}}</p>
+            <p id="TitleName_th">{{header.TitleName_TH}}</p>
         </div>
-        <div v-else>
-            <img :src=" this.noPic.cover">
-        </div>
-    </div>
-    <div id="EditProjects">
-        <div class="columns">
-            <div class="column is-three-quarters" style="padding: 8px 8px;">
-                <div class="tags">
-                    <span class="tag profileTag" v-for="(tag,index) in getTag" v-bind:key="index">
-                        <span style="padding-left:5px">{{tag.tag_name}} </span>
-                    </span>
-                </div>
-                <div id="tag" v-if="EditProject">
-                    <tag />
-                </div>
+        <hr style="margin-top:20px!important;;">
+        <div class="section" id="imgCover">
+            <div v-if="this.getFile">
+                <img :src="this.getFile" id="coverI">
             </div>
-            <div class="column" style="margin-left:-28%">
-                <uploadCover v-if="EditProject" id="uploadCover" />
+            <div v-else>
+                <img :src=" this.noPic.cover">
             </div>
         </div>
-        <div class="columns">
-            <div id="create" class="column is-three-fifths" style="margin-top:30px;margin-left:1%">
-                <div style=" color: #949494 ; font-size: 12px;">Created Project: {{this.create}}</div>
-                <div id="term" v-if="this.haveAssignment">
-                    <div style="color: #949494 ; font-size: 12px;">Academic Term: {{this.academic_term}}</div>
+        <div id="EditProjects">
+            <div class="columns">
+                <div class="column is-three-quarters" style="padding: 8px 8px;">
+                    <div class="tags">
+                        <span class="tag profileTag" v-for="(tag,index) in getTag" v-bind:key="index">
+                            <span style="padding-left:5px">{{tag.tag_name}} </span>
+                        </span>
+                    </div>
+                    <div id="tag" v-if="EditProject">
+                        <tag />
+                    </div>
                 </div>
+                <div class="column" style="margin-left:-28%">
+                    <uploadCover v-if="EditProject" id="uploadCover" />
+                </div>
+            </div>
+            <div class="columns">
+                <div id="create" class="column is-three-fifths" style="margin-top:30px;margin-left:1%">
+                    <div style=" color: #949494 ; font-size: 12px;">Created Project: {{this.create}}</div>
+                    <div id="term" v-if="this.haveAssignment">
+                        <div style="color: #949494 ; font-size: 12px;">Academic Term: {{this.academic_term}}</div>
+                    </div>
 
-                <div id="end">
-                    <div style=" color: #949494; font-size: 12px;">Updated at: {{this.update}}</div>
+                    <div id="end">
+                        <div style=" color: #949494; font-size: 12px;">Updated at: {{this.update}}</div>
+                    </div>
                 </div>
-            </div>
-            <div class="column">
                 <div class="column">
-                    <div class="columns">
-                        <div class="column is-two-fifths" style="margin-left: 40px;margin-top:10px">
-                            <p v-if="this.show == true" style="margin-left:-80px">
-                                {{this.status}}
-                                <h id="status">: Public</h>
-                            </p>
-                            <p v-else style="margin-left:-80px">
-                                {{this.status}}
-                                <h id="status">: Not Public</h>
-                            </p>
-                        </div>
-                        <div v-if="this.access == false" class="column is-2">
-                            <div @click="clapProject()" id="claps" style="margin-top:-20%">
-                                <vue-clap-button icon="good" maxClick="50" colorActive="#265080" />
-                                <!-- maxClick="50" -->
-                            </div>
-                        </div>
-                        <div v-else class="column is-2 ">
-                            <md-button class="md-icon-button" disabled>
-                                <img class="image" src="../.././assets/clap.png">
-                            </md-button>
-                        </div>
-                        <div class="column is-1" style="margin-top:2%;margin-left: -4%;">{{this.getClap}}</div>
-
-                        <div class="column  is-2">
-                            <img class="image is-32x32" src="../.././assets/visibility-button.png"></div>
-                        <div class="column  is-1 " style="margin-top:2%;margin-left: -5%;">{{this.viewer}}</div>
-                    </div>
-                </div>
-                <div class="columns">
-                    <div class="column is-two-fifths">
-
-                        <div v-if="EditProject" id="public" style="margin-left: -30px">
-                            <md-switch v-model="show">
-                                <p v-if="this.show == true">
-                                    Public
+                    <div class="column">
+                        <div class="columns">
+                            <div class="column is-two-fifths" style="margin-left: 40px;margin-top:10px">
+                                <p v-if="this.show == true" style="margin-left:-80px">
+                                    {{this.status}}
+                                    <h id="status">: Public</h>
                                 </p>
-                                <p v-else>
-                                    Private
+                                <p v-else style="margin-left:-80px">
+                                    {{this.status}}
+                                    <h id="status">: Not Public</h>
                                 </p>
-                            </md-switch>
-                        </div>
-                    </div>
-                    <div id="ed" class="column is-full" style="margin-left: -80px">
-                        <div v-if="this.project_status === 'Waiting'">
-                            <div v-if="this.access == true">
-                                 <button class="button createBtn" id="waitimg">Wait Approve</button>
                             </div>
-                        </div>
-                        <div v-if="this.project_status === 'Approve'">
-                            <div v-if="this.access == true">
-                                <div v-if="!this.statusRequest">
-                                    <button class="button" @click="sendRequest()" id="request">Request Edit</button>
+                            <div v-if="this.access == false" class="column is-2">
+                                <div @click="clapProject()" id="claps" style="margin-top:-20%">
+                                    <vue-clap-button icon="good" maxClick="50" colorActive="#265080" />
+                                    <!-- maxClick="50" -->
                                 </div>
-                                <div v-else>
+                            </div>
+                            <div v-else class="column is-2 ">
+                                <md-button class="md-icon-button" disabled>
+                                    <img class="image" src="../.././assets/clap.png">
+                                </md-button>
+                            </div>
+                            <div class="column is-1" style="margin-top:2%;margin-left: -4%;">{{this.getClap}}</div>
+
+                            <div class="column  is-2">
+                                <img class="image is-32x32" src="../.././assets/visibility-button.png"></div>
+                            <div class="column  is-1 " style="margin-top:2%;margin-left: -5%;">{{this.viewer}}</div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-two-fifths">
+
+                            <div v-if="EditProject" id="public" style="margin-left: -30px">
+                                <md-switch v-model="show">
+                                    <p v-if="this.show == true">
+                                        Public
+                                    </p>
+                                    <p v-else>
+                                        Private
+                                    </p>
+                                </md-switch>
+                            </div>
+                        </div>
+                        <div id="ed" class="column is-full" style="margin-left: -80px">
+                            <div v-if="this.project_status === 'Waiting'">
+                                <div v-if="this.access == true">
                                     <button class="button createBtn" id="waitimg">Wait Approve</button>
                                 </div>
                             </div>
-                        </div>
-                        <div v-if="this.project_status === 'Request'">
-                            <div v-if="this.access == true">
-                                <span class="button createBtn" id="waitimg">Wait Approve</span>
+                            <div v-if="this.project_status === 'Approve'">
+                                <div v-if="this.access == true">
+                                    <div v-if="!this.statusRequest">
+                                        <button class="button" @click="sendRequest()" id="request">Request Edit</button>
+                                    </div>
+                                    <div v-else>
+                                        <button class="button createBtn" id="waitimg">Wait Approve</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div v-if="!this.project_status">
-                            <div v-if="this.access == true">
-                                <button class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Portfolio Page</button>
-                                <button class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</button>
-                                <button class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</button>
+                            <div v-if="this.project_status === 'Request'">
+                                <div v-if="this.access == true">
+                                    <span class="button createBtn" id="waitimg">Wait Approve</span>
+                                </div>
                             </div>
-                        </div>
-                        <div v-if="GET_ISAPPROVER == true">
-                            <approveAssignmentProject></approveAssignmentProject>
-                        </div>
-                        <div v-if="get_approver == true">
-                            <adminApprover />
+                            <div v-if="!this.project_status">
+                                <div v-if="this.access == true">
+                                    <button class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Portfolio Page</button>
+                                    <button class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</button>
+                                    <button class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</button>
+                                </div>
+                            </div>
+                            <div v-if="GET_ISAPPROVER == true">
+                                <approveAssignmentProject></approveAssignmentProject>
+                            </div>
+                            <div v-if="get_approver == true">
+                                <adminApprover />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-    </div>
-    <Abstract />
-    <div id="body-project">
-        <div class="columns">
-            <div class="column is-6">
-                <div id="Details">
-                    <Detail />
-                </div>
-                <div id="achievement">
-                    <achievements />
-                </div>
-                <div id="image">
-                    <div id="container">
-                        <div v-if="this.pictures[0]">
-                            <carousel />
-                        </div>
-                        <div v-else>
-                            <!-- no more pic -->
-                        </div>
-                        <div class="container" id="edit" v-if="EditProject">
-                            <editImg />
-                        </div>
-                    </div>
-                </div>
-                <div id="Details" v-if="GET_VDO_PATHNAME != '' && EditProject == false">
-                    <div class="resp-container">
-                        <iframe width="560" height="315" :src="'//www.youtube.com/embed/' + GET_VDO_PATHNAME " frameborder="0" allowfullscreen></iframe>
-                    </div>
-                </div>
-                <div class="card lecturerCard" id="Documents" v-else-if="EditProject">
-                    <header class="card-header">
-                        <p class="card-header-title" id="cardHeader">Video</p>
-                    </header>
-                    <div class="card-content">
-                        <div class="content">
-                            <Video />
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div class="column">
-                <div id="Authors">
-                    <member />
-                </div>
-                <div id="lecturer" v-if="this.haveAssignment">
-                    <div class="card lecturerCard" id="Documents">
+        </div>
+        <Abstract />
+        <div id="body-project">
+            <div class="columns">
+                <div class="column is-6">
+                    <div id="Details">
+                        <Detail />
+                    </div>
+                    <div id="achievement">
+                        <achievements />
+                    </div>
+                    <div id="image">
+                        <div id="container">
+                            <div v-if="this.pictures[0]">
+                                <carousel />
+                            </div>
+                            <div v-else>
+                                <!-- no more pic -->
+                            </div>
+                            <div class="container" id="edit" v-if="EditProject">
+                                <editImg />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Details" v-if="GET_VDO_PATHNAME != '' && EditProject == false">
+                        <div class="resp-container">
+                            <iframe width="560" height="315" :src="'//www.youtube.com/embed/' + GET_VDO_PATHNAME " frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="card lecturerCard" id="Documents" v-else-if="EditProject">
                         <header class="card-header">
-                            <p class="card-header-title" id="cardHeader">Lecturer</p>
+                            <p class="card-header-title" id="cardHeader">Video</p>
                         </header>
-                        <div class="card-content" style="margin-top: 20px">
-                            <div class="content" style="color: #265080 !important " v-for='(lecturer,index) in lecturer' v-bind:key="index">
-                                <div class="columns" >
-                                    <div class="column is-one-quarter" style="margin-top:-20px">{{lecturer.fname}}</div>
-                                    <div class="column" style="margin-top:-20px">{{lecturer.lname}}</div>
+                        <div class="card-content">
+                            <div class="content">
+                                <Video />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div id="Authors">
+                        <member />
+                    </div>
+                    <div id="lecturer" v-if="this.haveAssignment">
+                        <div class="card lecturerCard" id="Documents">
+                            <header class="card-header">
+                                <p class="card-header-title" id="cardHeader">Lecturer</p>
+                            </header>
+                            <div class="card-content" style="margin-top: 20px">
+                                <div class="content" style="color: #265080 !important " v-for='(lecturer,index) in lecturer' v-bind:key="index">
+                                    <div class="columns" >
+                                        <div class="column is-one-quarter" style="margin-top:-20px">{{lecturer.fname}}</div>
+                                        <div class="column" style="margin-top:-20px">{{lecturer.lname}}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div id="tool">
-                    <tool />
-                </div>
-                <div class="card lecturerCard" id="Documents" v-if="files.length > 0 && EditProject == false">
-                    <header class="card-header">
-                        <p class="card-header-title" id="cardHeader">Documents</p>
-                    </header>
-                    <div class="card-content">
-                        <div class="content" style="color: #265080 !important " v-for="(doc,index) in files" v-bind:key="index">
-                            <a :href="doc.document_path"><span style="color:#265080">{{doc.document_name}}</span></a>
+                    <div id="tool">
+                        <tool />
+                    </div>
+                    <div class="card lecturerCard" id="Documents" v-if="files.length > 0 && EditProject == false">
+                        <header class="card-header">
+                            <p class="card-header-title" id="cardHeader">Documents</p>
+                        </header>
+                        <div class="card-content">
+                            <div class="content" style="color: #265080 !important " v-for="(doc,index) in files" v-bind:key="index">
+                                <a :href="doc.document_path"><span style="color:#265080">{{doc.document_name}}</span></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card lecturerCard" id="Documents" v-else-if="EditProject">
-                    <header class="card-header">
-                        <p class="card-header-title" id="cardHeader">Documents</p>
-                    </header>
-                    <div class="card-content">
-                        <div class="content">
-                            <uploadFilePond />
+                    <div class="card lecturerCard" id="Documents" v-else-if="EditProject">
+                        <header class="card-header">
+                            <p class="card-header-title" id="cardHeader">Documents</p>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <uploadFilePond />
+                            </div>
                         </div>
                     </div>
+                    <ref />
                 </div>
-                <ref />
             </div>
         </div>
     </div>
@@ -223,6 +226,7 @@ import {
 } from 'vuex'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import './../css/Loading.css';
 import Abstract from './Abstract';
 import Detail from './Detail';
 import achievements from './achievements';
@@ -278,7 +282,8 @@ export default {
             'GET_USERNAME',
 
             //lecturer
-            'GET_ISAPPROVER'
+            'GET_ISAPPROVER',
+            'GET_LOADING'
         ]),
     },
     components: {
@@ -361,7 +366,8 @@ export default {
             isLoading: false,
             fullPage: true,
             status: 'Status',
-            statusRequest: false
+            statusRequest: false,
+            loading: true
         }
     },
 
@@ -483,6 +489,8 @@ export default {
                 this.clap = true
             }
         }
+        this.loading = false
+        this.SET_LOADING_STATUS(false)
     },
     methods: {
         async loadDocumentToShow(document) {
@@ -519,6 +527,7 @@ export default {
             'SET_ACHIEVEMENT_STATE',
             'addTag',
             'setClap',
+            'SET_LOADING_STATUS'
 
         ]),
         save() {
@@ -661,6 +670,7 @@ export default {
     },
     beforeMount() {
         this.setEditProject(this.EditProject)
+        this.SET_LOADING_STATUS(true)
     }
 };
 </script>
