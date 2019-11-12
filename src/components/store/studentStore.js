@@ -26,14 +26,17 @@ export const studentStore = {
     },
     actions: {
         LOAD_OWN_STUDENT_DATA: async function ({ commit, rootState }) {
+            rootState.loadingStore.loading = true
             const URL = rootState.pathStore.pathName
             const { data } = await axios.get(
                 URL + '/users/default', rootState.loginStore.config
             );
-            console.log('LOAD_OWN_STUDENT_DATA')
+            rootState.loadingStore.loading = false
             commit('SET_STUDENT_DATA', data)
         },
         LOAD_OTHER_STUDENT_DATA: async function ({ commit, rootState }, { user_role, user_id }) {
+            rootState.loadingStore.loading = true
+
             var URL = rootState.pathStore.pathName
             var config;
             if (user_id == "") {
@@ -57,9 +60,8 @@ export const studentStore = {
             const { data } = await axios.get(
                 URL, config
             );
-            commit('SET_STUDENT_DATA', data)
             rootState.loadingStore.loading = false
-
+            commit('SET_STUDENT_DATA', data)
         },
         SET_STUDENT_PROJECT: function ({ commit }, projects) {
             commit('SET_STUDENT_PROJECT', projects)

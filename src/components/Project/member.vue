@@ -7,7 +7,8 @@
         <div class="card-content" id="student">
             <div class="columns" v-for="(student,index) in getMember" v-bind:key="index">
                 <div class="column" id="left">
-                    <div class="content" @click="profile(index)" id="student">
+                    <div class="content" id="student">
+                <router-link :to="`/student/${student.student_id}`">
                         <div class="columns">
                             <div class="column">
                                 <a id="student"> {{student.firstname}}</a>
@@ -16,11 +17,12 @@
                                 <a id="student">{{student.lastname}}</a>
                             </div>
                         </div>
+                </router-link>
                     </div>
                 </div>
                 <div class="column">
                     <div class="content">
-                        <div id="student_id" @click="profile(index)">ID : <a id="student">{{student.student_id}}</a></div>
+                        <div id="student_id">ID : <a id="student">{{student.student_id}}</a></div>
                         <div id="mail">{{student.email}}</div>
                     </div>
                 </div>
@@ -106,20 +108,20 @@ export default {
             'setNonMember',
             'LOAD_OTHER_STUDENT_DATA'
         ]),
-        profile(index) {
-            var user_id = this.getMember[index].student_id
-            var user_role = 'student'
-            try {
-                this.LOAD_OTHER_STUDENT_DATA({
-                    user_role: user_role,
-                    user_id: user_id,
-                })
+        // profile(index) {
+        //     var user_id = this.getMember[index].student_id
+        //     var user_role = 'student'
+        //     try {
+        //         this.LOAD_OTHER_STUDENT_DATA({
+        //             user_role: user_role,
+        //             user_id: user_id,
+        //         })
 
-            } catch (err) {
-                console.log('err', err)
-            }
-            this.$router.push('/student')
-        }
+        //     } catch (err) {
+        //         console.log('err', err)
+        //     }
+        //     this.$router.push('/student')
+        // }
     },
     beforeDestroy() {
         this.setMember(" ")
