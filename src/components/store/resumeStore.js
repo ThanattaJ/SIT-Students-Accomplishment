@@ -20,6 +20,7 @@ export const resumeStore = {
             commit('SET_PAGE', page)
         },
         LOAD_RESUME_DATA: async function ({ commit, rootState }) {
+            rootState.loadingStore.loading = true
             const URL = rootState.pathStore.pathName
             const { data } = await axios.get(
                 URL + '/users/generate-resume/' + rootState.loginStore.username, rootState.loginStore.config
@@ -91,6 +92,7 @@ export const resumeStore = {
                     })
                 }
             }
+            rootState.loadingStore.loading = false
             commit('SET_WEBSITE', websiteTmp)
 
         },
