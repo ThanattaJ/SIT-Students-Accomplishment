@@ -65,13 +65,13 @@
     color: #F9F9F9 ;
     height: 40px;
     border: none; 
-    margin-left: 28%;
+    margin-left: 25%;
   }
   #save{
     width: 150px !important;
-    margin-right: 2%;
     height: 40px;
     border: none;
+    margin-left: -28%;
   }
   #cancel{
     width: 120px;
@@ -129,9 +129,6 @@
   #deleteTag{
     color: #6F6F6F !important;
     margin-top: 6px;
-  }
-  #uploadCover{
-      margin-left: 29.5%
   }
   #References{
       height: auto !important;

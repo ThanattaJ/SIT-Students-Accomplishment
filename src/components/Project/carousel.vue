@@ -1,7 +1,7 @@
 <template>
 <div id="carousel">
     <div>
-        <img :src = this.getImages[this.indexImg].path >
+        <img :src = this.getImages[this.indexImg].path id="showImg" >
     </div>
     <div v-if="this.getImages.length > 1">
     <carousel>
@@ -51,6 +51,12 @@ export default {
 <style>
 #imgSize {
     margin-top: 20px;
-    padding: 5px;   
+    padding: 5px; 
+    max-width: 100% !important;
+    max-height: 100px !important ;   
+}
+#showImg{
+    max-width: 100% !important;
+    max-height: 100% !important ; 
 }
 </style>

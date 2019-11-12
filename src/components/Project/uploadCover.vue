@@ -1,16 +1,10 @@
 <template>
 <form @submit.prevent="" enctype="multipart/form-data">
-    <div class="columns" id="cover">
-        <div class="column">
+    <div id="cover">
             <div class="file is-boxed is-primary">
                 <label class="file-label">
                     <span class="file">
-                        <div class="container">
-                            <div class="content has-text-centered">
-
-                                <button v-on:click="launch" class="button " id="upCover">Select New Image</button>
-
-                            </div>
+                            <button v-on:click="launch" class="button " id="upCover">Select New Image</button>
                             <div class="modal" v-bind:class="{'is-active':isActive}" id="modalCover">
                                 <form @submit="onSubmit">
                                     <!-- <header class="modal-card-head">
@@ -38,7 +32,7 @@
                                     <!-- <button @click="close" class="modal-close"></button> -->
                                 </form>
                             </div>
-                        </div>
+                       
                     </span>
                     <!-- <span class="file-cta">
                         <span class="file-label" id="cover_choose" @click="selectFile">
@@ -48,7 +42,6 @@
                 </label>
             </div>
         </div>
-    </div>
 </form>
 </template>
 
@@ -188,7 +181,6 @@ export default {
 }
 
 #upCover {
-    margin-right: 50%;
     color: white;
     background-color: #EB5656 !important;
     border: 2px solid #EB5656;

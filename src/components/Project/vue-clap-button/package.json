@@ -1,0 +1,71 @@
+{
+  "_from": "vue-clap-button",
+  "_id": "vue-clap-button@1.0.5",
+  "_inBundle": false,
+  "_integrity": "sha512-GyyzqVjmnD0joGcF2qEEcH8LAm5ABlHlRPkjKejWdlqTH/G7bT0dtnPn0k0c76i1+tNNMUgjAT7DAs9Kdl9eCA==",
+  "_location": "/vue-clap-button",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "vue-clap-button",
+    "name": "vue-clap-button",
+    "escapedName": "vue-clap-button",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/vue-clap-button/-/vue-clap-button-1.0.5.tgz",
+  "_shasum": "bb7f9e2bd8b11fe9d045fecced8bdc00ca0b0aad",
+  "_spec": "vue-clap-button",
+  "_where": "/Users/sophon/Desktop/KMUTT/SIT-Students-Accomplishment 2",
+  "author": {
+    "name": "hejie2.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "bugs": {
+    "url": "https://github.com/AJLoveChina/vue-clap-button/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "A Medium like clap button👍",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "clean-webpack-plugin": "^1.0.0",
+    "cross-env": "^5.0.5",
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.4",
+    "vue": "^2.5.11",
+    "vue-loader": "^13.0.5",
+    "vue-template-compiler": "^2.4.4",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1",
+    "webpack-merge": "^4.1.4"
+  },
+  "homepage": "https://github.com/AJLoveChina/vue-clap-button#readme",
+  "license": "MIT",
+  "main": "src/index.js",
+  "name": "vue-clap-button",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AJLoveChina/vue-clap-button.git"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot --config webpack.dev.config.js"
+  },
+  "version": "1.0.5"
+}

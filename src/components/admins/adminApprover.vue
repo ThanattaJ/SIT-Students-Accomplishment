@@ -65,7 +65,7 @@ export default {
             URL: 'GET_PATHNAME',
             ID: 'getPID',
             project_status: 'GET_PROJECT_STATUS',
-            assignment_id: 'GET_ASSIGNMENT_ID',
+            assignment_id: 'get_assignment_id',
         })
     },
     mounted() {
@@ -112,8 +112,8 @@ export default {
         },
         async addRequest() {
             var data = {
-                assignment_id: this.ID,
-                project_id: this.$route.params.pId,
+                assignment_id: this.assignment_id,
+                project_id: parseInt(this.$route.params.pId),
                 status: this.statusTmp,
                 comment: this.commentText
             }

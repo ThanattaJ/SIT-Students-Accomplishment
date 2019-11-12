@@ -177,9 +177,8 @@ export default {
     margin-right: 50px;
 }
 
-#addImage {
-    margin-left: 20%;
-    margin-top: 5%;
+#addImage { 
+    margin-top: 3%;
     color: white;
     background-color: #265080 !important;
 }
@@ -199,11 +198,6 @@ export default {
     margin-left: 43%;
     margin-top: 20px
 }
-
-#title {
-    margin-left: 5%;
-}
-
 #Bottom {
     margin-left: 80%;
     color: white;

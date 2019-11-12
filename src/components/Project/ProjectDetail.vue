@@ -27,7 +27,7 @@
                         <tag />
                     </div>
                 </div>
-                <div class="column" style="margin-left:-28%">
+                <div class="column is-3 is-offset-1">
                     <uploadCover v-if="EditProject" id="uploadCover" />
                 </div>
             </div>
@@ -45,23 +45,39 @@
                 <div class="column">
                     <div class="column">
                         <div class="columns">
-                            <div class="column is-two-fifths" style="margin-left: 40px;margin-top:10px">
-                                <p v-if="this.show == true" style="margin-left:-80px">
-                                    {{this.status}}
-                                    <h id="status">: Public</h>
-                                </p>
-                                <p v-else style="margin-left:-80px">
-                                    {{this.status}}
-                                    <h id="status">: Not Public</h>
-                                </p>
+                            <div class="column is-two-fifths" style="margin-left: 40%;margin-top:-2%">
+                                <div v-if="this.access">
+                                    <div v-if="this.EditProject">
+                                        <md-switch v-model="show">
+                                            <p v-if="this.show == true" style="margin-left:-180px">
+                                                {{this.status}}
+                                                <h id="status">: Public</h>
+                                            </p>
+                                            <p v-else style="margin-left:-180px">
+                                                {{this.status}}
+                                                <h id="status">: Not Public</h>
+                                            </p>
+                                        </md-switch>
+                                    </div>
+                                    <div v-else>
+                                        <p v-if="this.get_show == true" style="margin-left:-100px;margin-top:15px">
+                                            {{this.status}}
+                                            <h id="status">: Public</h>
+                                        </p>
+                                        <p v-else style="margin-left:-100px;margin-top:15px">
+                                            {{this.status}}
+                                            <h id="status">: Not Public</h>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <div v-if="this.access == false" class="column is-2">
+                            <div v-if="this.access == false" class="column is-2" style="margin-left:-25%">
                                 <div @click="clapProject()" id="claps" style="margin-top:-20%">
-                                    <vue-clap-button icon="good" maxClick="50" colorActive="#265080" />
+                                    <vue-clap-button icon="good" colorActive="#265080" />
                                     <!-- maxClick="50" -->
                                 </div>
                             </div>
-                            <div v-else class="column is-2 ">
+                            <div v-else class="column is-2 " style="margin-left:-25%">
                                 <md-button class="md-icon-button" disabled>
                                     <img class="image" src="../.././assets/clap.png">
                                 </md-button>
@@ -74,23 +90,12 @@
                         </div>
                     </div>
                     <div class="columns">
-                        <div class="column is-two-fifths">
-
-                            <div v-if="EditProject" id="public" style="margin-left: -30px">
-                                <md-switch v-model="show">
-                                    <p v-if="this.show == true">
-                                        Public
-                                    </p>
-                                    <p v-else>
-                                        Private
-                                    </p>
-                                </md-switch>
-                            </div>
-                        </div>
-                        <div id="ed" class="column is-full" style="margin-left: -80px">
+                        <div id="ed" class="column is-4 is-offset-6">
                             <div v-if="this.project_status === 'Waiting'">
                                 <div v-if="this.access == true">
-                                    <button class="button createBtn" id="waitimg">Wait Approve</button>
+                                    <button class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Portfolio Page</button>
+                                    <button class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</button>
+                                    <button class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</button>
                                 </div>
                             </div>
                             <div v-if="this.project_status === 'Approve'">
@@ -177,7 +182,7 @@
                             </header>
                             <div class="card-content" style="margin-top: 20px">
                                 <div class="content" style="color: #265080 !important " v-for='(lecturer,index) in lecturer' v-bind:key="index">
-                                    <div class="columns" >
+                                    <div class="columns">
                                         <div class="column is-one-quarter" style="margin-top:-20px">{{lecturer.fname}}</div>
                                         <div class="column" style="margin-top:-20px">{{lecturer.lname}}</div>
                                     </div>
@@ -224,9 +229,9 @@ import {
     mapActions,
     mapMutations
 } from 'vuex'
+import './../css/Loading.css';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import './../css/Loading.css';
 import Abstract from './Abstract';
 import Detail from './Detail';
 import achievements from './achievements';
@@ -243,7 +248,7 @@ import Video from "./Video.vue";
 import "./../css/ProjectDetail.css";
 import approveAssignmentProject from "./../lecturer/approveAssignmentProject"
 import adminApprover from "./../admins/adminApprover"
-import vueClapButton from 'vue-clap-button'
+import vueClapButton from './vue-clap-button'
 import 'vue-material/dist/theme/default.css'
 import carousel from './carousel'
 Vue.use(vueClapButton);
@@ -275,6 +280,8 @@ export default {
             'getNonMember',
             'getClap',
             'getPID',
+            'get_assignment_id',
+            'get_show',
             //admin
             'get_approver',
 
@@ -373,6 +380,7 @@ export default {
 
     async mounted() {
         console.log('------Project Detail !!-------')
+
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
@@ -392,25 +400,20 @@ export default {
         } = await axios.get(
             this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
-        // console.log('Token : ', this.GET_CONFIG.headers.Authorization)
+        console.log(data);
 
         if (data.project_detail.assignment_detail.assignment_id != null) {
-            // console.log("have assignment")
-            // this.header.TitleName = data.project_detail.assignment_detail.assignment_name,
             this.academic_term = data.project_detail.assignment_detail.academic_term
-            // this.header.TitleName_TH = data.project_detail.assignment_detail.course_name
             this.assignment_id = data.project_detail.assignment_detail.assignment_id
+            this.set_assignment_id(data.project_detail.assignment_detail.assignment_id)
             this.project_status = data.project_detail.assignment_detail.project_status
-            console.log('status : ', this.project_status)
             for (var i = 0; i < data.project_detail.assignment_detail.lecturers.length; i++) {
-                // this.lecturer.push(data.project_detail.assignment_detail.lecturers[i])
                 var name = data.project_detail.assignment_detail.lecturers[i].lecturers_name;
                 name = name.split(" ")
                 this.lecturer.push({
                     fname: name[0],
                     lname: name[1]
                 })
-                console.log('lecturer : ', name[1]);
 
             }
             this.haveAssignment = true
@@ -438,6 +441,8 @@ export default {
         this.setTag(data.tags)
         this.setClap(data.project_detail.count_clap)
         this.show = data.project_detail.isShow
+        this.set_show(data.project_detail.isShow)
+
         this.access = data.access
 
         // console.log("-----------")
@@ -527,13 +532,18 @@ export default {
             'SET_ACHIEVEMENT_STATE',
             'addTag',
             'setClap',
+            'set_assignment_id',
+            'set_show',
             'SET_LOADING_STATUS'
 
         ]),
         save() {
-            console.log('vdo', this.GET_VDO_PATHNAME)
+            // console.log('vdo', this.GET_VDO_PATHNAME)
             this.setEditProject(this.EditProject)
             var vdo_pathname = this.GET_VDO_PATHNAME
+            if (this.getNonMember) {} else {
+                this.setNonMember([])
+            }
             var data = {
                 project_detail: {
                     id: this.$route.params.pId,
@@ -553,9 +563,9 @@ export default {
                 // document: [],
                 picture: [],
                 video: {
-                    path_name: vdo_pathname
+                    path_name: vdo_pathname === " " ? null : vdo_pathname,
                 },
-                outsiders: this.getNonMember
+                outsiders: this.getNonMember === " " ? null : this.getNonMember
             }
             try {
                 axios
@@ -587,9 +597,9 @@ export default {
                         // document: [],
                         picture: [],
                         video: {
-                            path_name: vdo_pathname
+                            path_name: vdo_pathname === " " ? null : vdo_pathname,
                         },
-                        outsiders: this.getNonMember
+                        outsiders: this.getNonMember === " " ? null : this.getNonMember
                     }, this.GET_CONFIG)
                     .then(res => {
                         console.log("res : ", res)
@@ -615,6 +625,8 @@ export default {
         },
         cancel() {
             this.EditProject = false;
+            console.log('get Show', this.get_show)
+            this.show = this.get_show
             this.setEditProject(this.EditProject)
             this.setAbstract(this.Abstract.content_Abstract)
             this.setDetail(this.Detail.content_eg)
@@ -662,6 +674,7 @@ export default {
             }
         }
     },
+    watch: {},
     beforeDestroy() {
         this.setImage([])
         this.setFile(this.noPic.cover)

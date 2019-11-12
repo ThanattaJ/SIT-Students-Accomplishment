@@ -12,7 +12,8 @@ export const detailStore = {
         tool:'',
         ref:'',
         tag:[],
-        clap:''
+        clap:'',
+        show: [],
     },
     mutations: {
         setPID:(state ,pID)=>{
@@ -51,6 +52,9 @@ export const detailStore = {
         },
         setClap:(state,clap)=>{
             state.clap =clap
+        },
+        set_show:(state,show)=>{
+            state.show = show
         }
     },
     actions: {
@@ -89,6 +93,9 @@ export const detailStore = {
         },
         setClap:({commit},clap)=>{
             commit('setClap',clap)
+        },
+        set_show:({commit},show)=>{
+            commit('set_show',show)
         }
     },
     getters: {
@@ -124,6 +131,10 @@ export const detailStore = {
         },
         getClap(state){
             return state.clap
+        },
+        get_show(state){
+            return state.show
         }
+
     }
 }

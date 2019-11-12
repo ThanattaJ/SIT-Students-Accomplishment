@@ -10,7 +10,8 @@ export const adminStore = {
         thisShow:false,
         selectLecturer:[],
         isApprover: false,
-        notInCourse:[]
+        notInCourse:[],
+        assignment_id:0
     },
     mutations: {
         set_course:(state,course)=>{
@@ -56,6 +57,9 @@ export const adminStore = {
         },
         set_push_noInCourse:(state,notInCourse)=>{
             state.notInCourse.push(notInCourse)
+        },
+        set_assignment_id:(state,assignment_id)=>{
+            state.assignment_id = assignment_id
         }
     },
     actions: {
@@ -96,6 +100,9 @@ export const adminStore = {
         },
         push_notInCourse:({commit},notInCourse)=>{
             commit('set_push_noInCourse',notInCourse)
+        },
+        set_assignment_id:({commit},assignment_id)=>{
+            commit('set_assignment_id',assignment_id)
         }
     },
     getters: {
@@ -119,6 +126,9 @@ export const adminStore = {
         },
         get_notInCourse(state){
             return state.notInCourse
+        },
+        get_assignment_id(state){
+            return state.assignment_id
         }
 
     }

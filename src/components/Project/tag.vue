@@ -81,13 +81,13 @@ export default {
             // this.autocompleteItems = []
             if (this.tags.length != 0) {
                 for (let i = 0; i < this.tags.length; i++) {
-                    console.log("tags : ", this.tags[i].text)
+                    // console.log("tags : ", this.tags[i].text)
                     this.storeTags.push({
                         tag_name: this.tags[i].text
                     })
                 }
                 this.setTag(this.storeTags)
-                console.log("getTag : ", this.getTag)
+                // console.log("getTag : ", this.getTag)
             } else {
                 this.storeTags = []
                 this.setTag(this.storeTags)
