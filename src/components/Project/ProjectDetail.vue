@@ -540,7 +540,7 @@ export default {
         save() {
             // console.log('vdo', this.GET_VDO_PATHNAME)
             this.setEditProject(this.EditProject)
-            var vdo_pathname = this.GET_VDO_PATHNAME == "" ? null : this.GET_VDO_PATHNAME
+            var vdo_pathname = this.GET_VDO_PATHNAME
             var vdo_pathname = this.GET_VDO_PATHNAME
             if (this.getNonMember) {} else {
                 this.setNonMember([])
@@ -564,10 +564,11 @@ export default {
                 // document: [],
                 picture: [],
                 video: {
-                    path_name: vdo_pathname === " " ? null : vdo_pathname,
+                    path_name: vdo_pathname == "" ? null : vdo_pathname,
                 },
                 outsiders: this.getNonMember === " " ? null : this.getNonMember
             }
+            console.log('path : ',data.video)
             try {
                 axios
                     .patch(this.GET_PATHNAME + `/projects/`, {
@@ -598,7 +599,7 @@ export default {
                         // document: [],
                         picture: [],
                         video: {
-                            path_name: vdo_pathname === " " ? null : vdo_pathname,
+                            path_name: vdo_pathname == "" ? null : vdo_pathname,
                         },
                         outsiders: this.getNonMember === " " ? null : this.getNonMember
                     }, this.GET_CONFIG)

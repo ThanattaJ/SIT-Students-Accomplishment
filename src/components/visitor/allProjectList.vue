@@ -131,7 +131,8 @@
                             </div>
                             <div v-else>
                                 <figure class="image coverImg is-4by2">
-                                    <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;">
+                                    <img src="./../../assets/noCoverImg.png" style="height: 200px !important;border-radius: 5px;">
+                                    <!-- <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;"> -->
                                     <div class="img-text">
                                         <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
                                         <span class="countText">{{project.count_viewer}} </span>

@@ -172,8 +172,8 @@ export default {
 .navbar {
     /* height: 100px; */
     background-color: #265080 !important;
-    padding-left: 10% !important;
-    padding-right: 10% !important;
+    padding-left: 5% !important;
+    padding-right: 5% !important;
     width: 100%;
 }
 
