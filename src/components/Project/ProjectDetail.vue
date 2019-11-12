@@ -531,9 +531,9 @@ export default {
 
         ]),
         save() {
-            console.log('vdo', this.GET_VDO_PATHNAME)
+            console.log('vdo : ', this.GET_VDO_PATHNAME)
             this.setEditProject(this.EditProject)
-            var vdo_pathname = this.GET_VDO_PATHNAME
+            var vdo_pathname = this.GET_VDO_PATHNAME == "" ? null : this.GET_VDO_PATHNAME
             var data = {
                 project_detail: {
                     id: this.$route.params.pId,

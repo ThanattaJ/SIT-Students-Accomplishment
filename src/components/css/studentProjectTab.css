@@ -21,7 +21,8 @@
 
 
 #bodyBg{
-  margin: 3% 10% 0 10% !important;
+  margin: 3% 5% 0 5% !important;
+  /* margin: 3% 10% 0 10% !important; */
 }
 #profile-bg{
   height:150px !important;

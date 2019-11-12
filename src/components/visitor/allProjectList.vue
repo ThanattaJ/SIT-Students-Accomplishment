@@ -1,19 +1,21 @@
 <template>
 <div id="list-project of student">
     <div id="bodyBg">
-        <div class="field has-addons has-addons-centered is-narrow" v-if="search == ''">
-            <p class="control has-icons-left" style="margin-left:15% !important">
-                <input id="search" style="font-size: 30px;width: 55%;border: none;box-shadow: none;" class="input" type="text" v-model="search" v-on:keyup.enter="searchBy();blur(true)" placeholder="Search ... ">
-                <span style="font-size: 30px !important;" class="icon is-small is-left">
-                    <i style="font-size: 33px !important;" class="la la-search"></i>
-                </span>
-            </p>
-        </div>
-        <div class="field has-addons has-addons-centered" style="justify-content: center;align-items: center;display: flex;" v-else>
-            <!-- <p class="control" style="width:100%"> -->
-            <input id="search searchExpand" style="font-size: 30px;width: 5%;max-width:100%;border: none;box-shadow: none;text-align:center" class="input" type="text" v-model="search" v-on:keyup.enter="searchBy();blur(false)" placeholder="Search ... ">
-            <!-- </p> -->
-            <i class="la la-times delSearch" @click="clearSearchInput();searchBy()"></i>
+        <div>
+            <div class="field has-addons has-addons-centered is-narrow" v-if="search == ''">
+                <p class="control has-icons-left" style="margin-left:15% !important">
+                    <input id="search" style="font-size: 30px;width: 55%;border: none;box-shadow: none;" class="input" type="text" v-model="search" v-on:keyup.enter="searchBy();blur(true)" placeholder="Search ... ">
+                    <span style="font-size: 30px !important;" class="icon is-small is-left">
+                        <i style="font-size: 33px !important;" class="la la-search"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="field has-addons has-addons-centered" style="justify-content: center;align-items: center;display: flex;" v-else>
+                <!-- <p class="control" style="width:100%"> -->
+                <input id="search searchExpand" style="font-size: 30px;width: 5%;max-width:100%;border: none;box-shadow: none;text-align:center" class="input" type="text" v-model="search" v-on:keyup.enter="searchBy();blur(false)" placeholder="Search ... ">
+                <!-- </p> -->
+                <i class="la la-times delSearch" @click="clearSearchInput();searchBy()"></i>
+            </div>
         </div>
         <div style="text-align:center">
             <button id="projects" class="button is-light viewBtn" style="z-index:1" @click="canClickYear('projects');haveTag = false">Projects</button>
@@ -111,13 +113,14 @@
     <div v-else>
         <div id="bodyBg" v-if="isProfileType == false">
             <div class="columns is-multiline">
-                <div class="column is-one-third" v-for="(project,index) in allProjectPresent" v-bind:key="index">
+                <!-- <div class="column is-one-third" v-for="(project,index) in allProjectPresent" v-bind:key="index"> -->
+                <div class="column is-one-quarter" v-for="(project,index) in allProjectPresent" v-bind:key="index">
                     <router-link :to="`/ProjectDetail/${project.id}`">
                         <div class="card projectCard content_img">
                             <div v-if="project.cover_path != null">
                                 <figure class="image coverImg is-4by2">
-                                    <!-- <img src="./../../assets/gold-medal.png" width="17px" v-if="project.achievement" style="z-index:2;position:absolute;width:40px;"> -->
-                                    <img :src="project.cover_path" alt="Placeholder image" style="height: 271px !important;border-radius: 5px;">
+                                    <img :src="project.cover_path" alt="Placeholder image" style="height: 200px !important;border-radius: 5px;">
+                                    <!-- <img :src="project.cover_path" alt="Placeholder image" style="height: 271px !important;border-radius: 5px;"> -->
                                     <div class="img-text">
                                         <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
                                         <span class="countText">{{project.count_viewer}} </span>
@@ -128,7 +131,6 @@
                             </div>
                             <div v-else>
                                 <figure class="image coverImg is-4by2">
-                                    <!-- <img src="./../../assets/gold-medal.png" width="17px" v-if="project.achievement" style="z-index:2;position:absolute;width:40px;"> -->
                                     <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;">
                                     <div class="img-text">
                                         <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
@@ -140,6 +142,7 @@
                             </div>
                             <div class="card-content projectInfo">
                                 <p class="projectName" style="height: 22px;overflow: hidden;">{{project.project_name_en}}</p>
+                                <p class="" style="font-size:12px;line-height:14px;height: 30px;overflow: hidden;">{{project.project_abstract}}</p>
                             </div>
                         </div>
                     </router-link>
