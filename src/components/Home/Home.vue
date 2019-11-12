@@ -135,10 +135,9 @@
     },
     methods: {
       ...mapActions(['SET_LOADING_STATUS']),
-      beforeMount() {
-          this.setEditProject(this.EditProject)
-          this.SET_LOADING_STATUS(true)
-      }
+    },
+    beforeMount() {
+      this.SET_LOADING_STATUS(true)
     }
   }
 </script>
