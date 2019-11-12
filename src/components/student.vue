@@ -26,7 +26,7 @@
                     <p id="info">Bachelor of Science Programme in {{profile.curriculum_name}}</p>
                     <p id="info"> {{profile.student_id}}</p>
                     <br><br>
-                    <p id="info" v-if="clickEditEmail == false">{{profile.email}} <i class="la la-pencil" @click="clickEditEmail = true"  v-if="access == true"></i></p>
+                    <p id="info" v-if="clickEditEmail == false">{{profile.email}} <i class="la la-pencil" @click="clickEditEmail = true" v-if="access == true"></i></p>
                     <md-field v-if="clickEditEmail == true" style="width: 50%;margin-top: -22px !important;">
                         <!-- <ValidationProvider name=" Email " rules="required"> -->
                         <!-- <div slot-scope="{ errors }"> -->
@@ -103,6 +103,7 @@
             <div class="column" style="padding: 8px 8px;">
                 <div class="tags">
                     <span class="tag profileTag" @click="filterByTag(tag.tag_name)" v-for="(tag,index) in tags" v-bind:key="index">
+                        <!-- <vc-donut :sections="[{ value: (tag.total_tag*100/projects.length), color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut> -->
                         <vc-donut :sections="[{ value: (tag.total_tag*100/numberOfProjects), color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut>
                         <span style="padding-left:5px">{{tag.tag_name}} </span>
                     </span>
@@ -173,7 +174,7 @@ export default {
             year: '3rd year SIT Student',
             clickEditEmail: false,
             search: '',
-            numberOfProjects: 0
+            // numberOfProjects: 0
         }
     },
     components: {
@@ -190,7 +191,8 @@ export default {
             email: 'GET_EMAIL',
             config: 'GET_CONFIG',
             URL: 'GET_PATHNAME',
-            user_id: 'GET_USERNAME'
+            user_id: 'GET_USERNAME',
+            numberOfProjects: 'GET_NUMBEROFPROJECTS'
         }),
         allProjects() {
             if (this.search != "") {
@@ -203,16 +205,18 @@ export default {
             }
         }
     },
-    created() {
-        this.LOAD_OWN_STUDENT_DATA()
-        this.numberOfProjects = this.projects.length
-    },
+    // updated() {
+    //     console.log('profile pic > ', this.profile.profile_picture)
+    //     console.log('numberOfProjects > ', this.numberOfProjects)
+    // },
     methods: {
         ...mapActions(['LOAD_OWN_STUDENT_DATA', 'LOAD_OTHER_STUDENT_DATA', 'UPDATE_FIELD', 'SET_EMAIL', 'SET_STUDENT_PROJECT']),
         showUploadImg: function () {
+            if(this.access == true)
             document.getElementById("textBlock").style.display = "flex"
         },
         hideUploadImg: function () {
+            if(this.access == true)
             document.getElementById("textBlock").style.display = "none"
         },
         async saveChange() {
@@ -261,7 +265,7 @@ export default {
         async filterByTag(tag_name) {
             try {
                 await axios
-                    .get(this.URL + '/users/project?user_id='+this.user_id+'&tag='+tag_name, this.config)
+                    .get(this.URL + '/users/project?user_id=' + this.profile.student_id + '&tag=' + tag_name, this.config)
                     .then((res) => {
                         console.log("success! : ", res);
                         this.SET_STUDENT_PROJECT(res.data)

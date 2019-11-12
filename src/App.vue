@@ -35,12 +35,12 @@
                 </span>
 
                 <span class="navbar-item" v-if="user_role == 'student'">
-                    <router-link to="/student">
-                    <a class="navbar-item menuName">
+                    <!-- <router-link to="/student"> -->
+                    <a class="navbar-item menuName" @click="goToStudentProfile()">
                         <i class="la la-user"></i>
                         My Profile
                     </a>
-                    </router-link>
+                    <!-- </router-link> -->
                 </span>
 
                 <span class="navbar-item" v-if="user_role == 'lecturer'">
@@ -82,6 +82,7 @@
 </template>
 
 <script>
+import router from './router/index'
 import 'bulma/css/bulma.css';
 import login from './components/auth/login'
 import {
@@ -123,7 +124,7 @@ export default {
                 username: localStorage.getItem('usernameSIT')
             })
             this.SET_LOGIN_STATUS(true);
-            this.LOAD_OWN_STUDENT_DATA()
+            // this.LOAD_OWN_STUDENT_DATA()
             if (this.user_role === 'student') {
                 this.LOAD_RESUME_DATA()
             }
@@ -150,6 +151,10 @@ export default {
         },
         showLoginModal() {
             this.$modal.show('loginModal');
+        },
+        goToStudentProfile(){
+            this.LOAD_OWN_STUDENT_DATA()
+            this.$router.push('/student')
         }
     }
 }

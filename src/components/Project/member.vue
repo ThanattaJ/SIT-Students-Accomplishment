@@ -108,7 +108,6 @@ export default {
         ]),
         profile(index) {
             var user_id = this.getMember[index].student_id
-            console.log('user_id ', user_id)
             var user_role = 'student'
             try {
                 this.LOAD_OTHER_STUDENT_DATA({
