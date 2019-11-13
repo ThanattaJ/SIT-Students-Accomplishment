@@ -36,7 +36,7 @@
               <br><br>
               <blockquote style="display: block;">
                 <div style="padding-left:45%"><img class="imgQuote" src="../../assets/left-quotes-sign.png"></div>
-                <p class="quote">Everyone is on the achievement base.<br>We believe that the portfolio is a success.</p>
+                <p class="quote">Everyone is base on achievement.<br>We believe that the portfolio is a success.</p>
                 <p class="quote-footer">SIT Student Accomplishment</p>
               </blockquote>
             </p>
