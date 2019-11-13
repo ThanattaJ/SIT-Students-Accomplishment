@@ -84,16 +84,16 @@
             <p style="text-indent: 2.5em;">{{this.achievement_detail}}</p>
         </md-card-content>
         <md-card-content v-if="this.organize_by">
-            <p style="text-indent: 20em; margin-top:10%">Organize by : {{this.organize_by}}</p>
+            <p style="margin-top:10%">Organize by : {{this.organize_by}}</p>
         </md-card-content>
         <md-card-content v-else>
-            <p style="text-indent: 20em; margin-top:10%">Organize by : -</p>
+            <p style="margin-top:10%">Organize by : -</p>
         </md-card-content>
         <md-card-content v-if="this.date_of_event">
-            <p style="text-indent: 20em;">Date of event : {{this.date_of_event}}</p>
+            <p >Date of event : {{this.date_of_event}}</p>
         </md-card-content>
         <md-card-content v-else>
-            <p style="text-indent: 20em;">Date of event : -</p>
+            <p>Date of event : -</p>
         </md-card-content>
 
     </modal>

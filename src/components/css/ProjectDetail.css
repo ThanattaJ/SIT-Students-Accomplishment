@@ -19,6 +19,8 @@
 #imgCover{
     text-align: center;
     margin-top: -30px;
+    max-width: auto;
+    max-height: 1920px;
 }
 #body-project{
     margin: -1% 0 0 0;
@@ -65,13 +67,13 @@
     color: #F9F9F9 ;
     height: 40px;
     border: none; 
-    margin-left: 25%;
+    margin-left: 58%;
   }
   #save{
     width: 150px !important;
     height: 40px;
     border: none;
-    margin-left: -28%;
+    margin-left: 31%;
   }
   #cancel{
     width: 120px;

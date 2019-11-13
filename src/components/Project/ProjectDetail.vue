@@ -29,6 +29,7 @@
                 </div>
                 <div class="column is-3 is-offset-1">
                     <uploadCover v-if="EditProject" id="uploadCover" />
+                    <p id="poster" v-if="this.EditProject">Poster 1920 x 1080 px</p>
                 </div>
             </div>
             <div class="columns">
@@ -40,6 +41,27 @@
 
                     <div id="end">
                         <div style=" color: #949494; font-size: 12px;">Updated at: {{this.update}}</div>
+                    </div>
+                    <div id="project_status">
+                        <div v-if="this.access">
+                            <div v-if="this.project_status === 'Request'">
+                                <p>Project Status : <span class="projectStatus request">Request</span></p>
+                            </div>
+                            <div v-if="this.project_status === 'Waiting'">
+                                <p>Project Status : <span class="projectStatus request">Request</span></p>
+                            </div>
+                            <div v-if="!this.statusRequest">
+                                <div v-if="this.project_status === 'Approve'">
+                                    <p>Project Status : <span class="projectStatus approved">Request</span></p>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <p>Project Status : <span class="projectStatus request">Request</span></p>
+                            </div>
+                            <div v-if="this.project_status === 'Reject'">
+                                <p>Project Status : <span class="projectStatus denied">Reject</span></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="column">
@@ -72,14 +94,14 @@
                                 </div>
                             </div>
                             <div v-if="this.access == false" class="column is-2" style="margin-left:-25%">
-                                <div @click="clapProject()" id="claps" style="margin-top:-20%">
-                                    <vue-clap-button icon="good" colorActive="#265080" />
+                                <div @click="clapProject()" id="claps" style="margin-top:-38%">
+                                    <vue-clap-button icon="good" maxClick="50" colorActive="#265080" id="claps" />
                                     <!-- maxClick="50" -->
                                 </div>
                             </div>
-                            <div v-else class="column is-2 " style="margin-left:-25%">
+                            <div v-else class="column is-2 " style="margin-left:-28%">
                                 <md-button class="md-icon-button" disabled>
-                                    <img class="image" src="../.././assets/clap.png">
+                                    <img class="image" src="../.././assets/clap-hands.png" style="margin-top:-8px">
                                 </md-button>
                             </div>
                             <div class="column is-1" style="margin-top:2%;margin-left: -4%;">{{this.getClap}}</div>
@@ -90,7 +112,7 @@
                         </div>
                     </div>
                     <div class="columns">
-                        <div id="ed" class="column is-4 is-offset-6">
+                        <div id="ed" class="column">
                             <div v-if="this.project_status === 'Waiting'">
                                 <div v-if="this.access == true">
                                     <button class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Portfolio Page</button>
@@ -360,7 +382,7 @@ export default {
             create: '',
             update: '',
             noPic: {
-                'cover': require('../.././assets/noCoverImg.png')
+                'cover': require('../.././assets/cover_nopic.png')
             },
             show: true,
             access: true,
@@ -568,7 +590,7 @@ export default {
                 },
                 outsiders: this.getNonMember === " " ? null : this.getNonMember
             }
-            console.log('path : ',data.video)
+            console.log('path : ', data.video)
             try {
                 axios
                     .patch(this.GET_PATHNAME + `/projects/`, {
@@ -609,7 +631,8 @@ export default {
                             if (res.data.message == "Validate Error") {
                                 alert('File has been Error')
                             } else {
-                                alert('File has been update')
+                                location.reload();
+                                console.log('tags : ',this.getTag)
                             }
                             this.loadDocumentToShow()
                         }
@@ -717,13 +740,29 @@ export default {
     color: white;
     background-color: #265080 !important;
     border: none;
-    margin-left: 50%;
+    margin-left: 68%;
 }
 
 #waitimg {
     background: #F8C441;
     color: white;
     border: none;
-    margin-left: 50%;
+    margin-left: 68%;
 }
+
+#project_status {
+    margin-top: 3%;
+}
+
+#poster {
+    margin-top: 10px;
+    margin-left: -17%;
+    color: #6F6F6F;
+}
+
+#claps:hover {
+    transform: scale(1.1);
+}
+
+</style
 </style>

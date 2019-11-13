@@ -8,16 +8,16 @@
             <div class="columns" v-for="(student,index) in getMember" v-bind:key="index">
                 <div class="column" id="left">
                     <div class="content" id="student">
-                <router-link :to="`/student/${student.student_id}`">
-                        <div class="columns">
-                            <div class="column">
-                                <a id="student"> {{student.firstname}}</a>
+                        <router-link :to="`/student/${student.student_id}`">
+                            <div class="columns">
+                                <div class="column">
+                                    <a id="student"> {{student.firstname}}</a>
+                                </div>
+                                <div class="column">
+                                    <a id="student">{{student.lastname}}</a>
+                                </div>
                             </div>
-                            <div class="column">
-                                <a id="student">{{student.lastname}}</a>
-                            </div>
-                        </div>
-                </router-link>
+                        </router-link>
                     </div>
                 </div>
                 <div class="column">
@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-    <div v-if=" this.getNonMember.length != 0" >
+    <div v-if=" this.getNonMember.length != 0">
         <div class="card lecturerCard" id="Authors">
             <header class="card-header">
                 <p class="card-header-title" id="cardHeader">Outsiders</p>
@@ -54,9 +54,15 @@
                                 <div class="columns">
                                     <div class="column">
                                         <input class="input" type="text" v-model="out.firstname" id="student">
+                                        <div v-if="out.firstname == 0">
+                                            <p id="warning"> Enter firstname.</p>
+                                        </div>
                                     </div>
                                     <div class="column">
                                         <input class="input" type="text" v-model="out.lastname" id="student">
+                                        <div v-if="out.lastname == 0">
+                                            <p id="warning"> Enter firstname.</p>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -108,20 +114,6 @@ export default {
             'setNonMember',
             'LOAD_OTHER_STUDENT_DATA'
         ]),
-        // profile(index) {
-        //     var user_id = this.getMember[index].student_id
-        //     var user_role = 'student'
-        //     try {
-        //         this.LOAD_OTHER_STUDENT_DATA({
-        //             user_role: user_role,
-        //             user_id: user_id,
-        //         })
-
-        //     } catch (err) {
-        //         console.log('err', err)
-        //     }
-        //     this.$router.push('/student')
-        // }
     },
     beforeDestroy() {
         this.setMember(" ")
@@ -162,5 +154,11 @@ export default {
 
 #lname {
     margin-right: -30px !important;
+}
+
+#warning {
+    font-size: 10px;
+    color: red;
+    margin-left: 5px;
 }
 </style>
