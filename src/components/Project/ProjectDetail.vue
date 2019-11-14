@@ -196,6 +196,7 @@
                 <div class="column">
                     <div id="Authors">
                         <member />
+                        <!-- {{this.nonMembers}} -->
                     </div>
                     <div id="lecturer" v-if="this.haveAssignment">
                         <div class="card lecturerCard" id="Documents">
@@ -299,7 +300,6 @@ export default {
             'GET_STUDENT_TAG',
             'GET_STUDENT_PROJECT',
             'getPic',
-            'getNonMember',
             'getClap',
             'getPID',
             'get_assignment_id',
@@ -353,13 +353,11 @@ export default {
                 lastname: "",
                 mail: ""
             }],
+            nonMembers: [],
             Tools: {},
             Acheivement: [],
             References: " ",
-            // document: [],
             files: [],
-            outsider: [],
-            showDetail: true,
             EditProject: false,
             tags: [],
             video_pathname: '',
@@ -367,16 +365,7 @@ export default {
             cover: {
                 path: null
             },
-            project_id: 1,
             pictures: [],
-            tag: [{
-                name: "Hello"
-            }],
-            seen: true,
-            index: '',
-            Tags: [
-                'Vue.js'
-            ],
             clap: '',
             viewer: '',
             create: '',
@@ -393,7 +382,6 @@ export default {
             isClap: true,
             project_status: '',
             isLoading: false,
-            fullPage: true,
             status: 'Status',
             statusRequest: false,
             loading: true
@@ -422,7 +410,7 @@ export default {
         } = await axios.get(
             this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
-        console.log(data);
+        console.log(data, "data");
 
         if (data.project_detail.assignment_detail.assignment_id != null) {
             this.academic_term = data.project_detail.assignment_detail.academic_term
@@ -436,10 +424,8 @@ export default {
                     fname: name[0],
                     lname: name[1]
                 })
-
             }
             this.haveAssignment = true
-
         } else {
             this.haveAssignment = false
         }
@@ -453,18 +439,20 @@ export default {
         this.setDetail(data.project_detail.project_detail)
         this.SET_ACHIEVEMENT_STATE(data.achievements)
         this.setMember(data.students)
+        // nonMember
         if (data.outsiders) {
             if (data.outsiders.length != 0) {
+                this.nonMembers = data.outsiders
                 this.setNonMember(data.outsiders)
             }
         }
-        this.setRef(data.project_detail.references)
+
+        this.setRef(data.project_detail.references[0])
         this.setTool(data.project_detail.tool_techniq_detail)
         this.setTag(data.tags)
         this.setClap(data.project_detail.count_clap)
         this.show = data.project_detail.isShow
         this.set_show(data.project_detail.isShow)
-
         this.access = data.access
 
         // console.log("-----------")
@@ -507,8 +495,6 @@ export default {
             }
         }
         // ------------- clap -------------
-        // console.log('GET_USERNAME : ', this.GET_USERNAME)
-        // console.log('Member :', this.getMember)
         for (let i = 0; i < this.getMember.length; i++) {
             if (this.getMember[i].student_id === this.GET_USERNAME) {
                 this.clap = false
@@ -588,7 +574,7 @@ export default {
                 video: {
                     path_name: vdo_pathname == "" ? null : vdo_pathname,
                 },
-                outsiders: this.getNonMember === " " ? null : this.getNonMember
+                // outsiders: this.getNonMember === " " ? null : this.getNonMember
             }
             console.log('path : ', data.video)
             try {
@@ -632,8 +618,8 @@ export default {
                                 alert('File has been Error')
                             } else {
                                 location.reload();
-                                console.log('tags : ',this.getTag)
-                                  this.EditProject = false;
+                                console.log('tags : ', this.getTag)
+                                this.EditProject = false;
                             }
                             this.loadDocumentToShow()
                         }
@@ -642,7 +628,7 @@ export default {
                 this.message = "File has been update";
                 this.getEditProject
                 this.video_pathname = vdo_pathname
-              
+
             } catch (err) {
                 console.log("FAILURE!!" + err);
                 this.error = true;
@@ -650,14 +636,17 @@ export default {
             }
         },
         cancel() {
-            this.EditProject = false;
-            console.log('get Show', this.get_show)
             this.show = this.get_show
             this.setEditProject(this.EditProject)
             this.setAbstract(this.Abstract.content_Abstract)
             this.setDetail(this.Detail.content_eg)
             this.setTool(this.Tools)
             this.setRef(this.References)
+
+            console.log(this.nonMembers, "defult");
+            this.setNonMember(this.nonMembers)
+
+            this.EditProject = false;
         },
         Edit: function () {
             this.EditProject = true
@@ -710,7 +699,7 @@ export default {
     beforeMount() {
         this.setEditProject(this.EditProject)
         this.SET_LOADING_STATUS(true)
-    }
+    },
 };
 </script>
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { log } from "util";
 
 export const detailStore = {
     state: {
@@ -8,9 +9,9 @@ export const detailStore = {
         detail:'',
         achievements:'',
         member:'',
-        nonMember:'',
+        nonMember:[],
         tool:'',
-        ref:'',
+        ref:' ',
         tag:[],
         clap:'',
         show: [],

@@ -37,16 +37,19 @@ export default {
         ]),
         filteredItems() {
             return this.arrayTags.filter(i => {
-                return i.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1;
+                return i.text.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1;
             });
         },   
     },
     mounted() {
         for (let i = 0; i < this.getTag.length; i++) {
             this.tags.push({
-                text: this.getTag[i].tag_name
+                value:this.getTag[i].tag_id,
+                text: this.getTag[i].tag_name  
             })
         }
+        // console.log(this.getTag,'tags');
+        
     },
     methods: {
         ...mapActions([
@@ -57,37 +60,35 @@ export default {
         async tag(newVal) {
             if (this.tag.length === 0) {
                 this.autocompleteItems = []
-                console.log("ไม่มีค่า tag")
+                // console.log("ไม่มีค่า tag")
             }
             const {
                 data
             } = await axios.get(this.GET_PATHNAME+`/tags/${this.tag}`)
-            // console.log(data)
             data.forEach(tag => {
                 this.autocompleteItems.push({
-                    text: tag.tag_name
+                    text: tag.tag_name,
+                    value: tag.id
                 })
             })
-
+            // console.log(this.arrayTags,'Items')
             for(let i = 0 ;i<this.autocompleteItems.length;i++){
-                this.arrayTags.push(this.autocompleteItems[i].text)
+                this.arrayTags.push(this.autocompleteItems[i])
             }
             this.arrayTags.reduce((unique,item)=>{
                 return this.arrayTags = unique.includes(item) ? unique : [...unique,item]
             },[])
-            // console.log("storeTags ; ",this.storeTags)
         },
         tags() {
-            // this.autocompleteItems = []
             if (this.tags.length != 0) {
                 for (let i = 0; i < this.tags.length; i++) {
-                    // console.log("tags : ", this.tags[i].text)
                     this.storeTags.push({
+                        tag_id:this.tags[i].value,
                         tag_name: this.tags[i].text
                     })
                 }
                 this.setTag(this.storeTags)
-                // console.log("getTag : ", this.getTag)
+                console.log(this.getTag,'getTags...');
             } else {
                 this.storeTags = []
                 this.setTag(this.storeTags)
