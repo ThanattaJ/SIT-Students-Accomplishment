@@ -52,11 +52,11 @@
                             </div>
                             <div v-if="!this.statusRequest">
                                 <div v-if="this.project_status === 'Approve'">
-                                    <p>Project Status : <span class="projectStatus approved">Request</span></p>
+                                    <p>Project Status : <span class="projectStatus approved">Approved</span></p>
                                 </div>
                             </div>
                             <div v-else>
-                                <p>Project Status : <span class="projectStatus request">Request</span></p>
+                                <p>Project Status : <span class="projectStatus request">Request Approved</span></p>
                             </div>
                             <div v-if="this.project_status === 'Reject'">
                                 <p>Project Status : <span class="projectStatus denied">Reject</span></p>
@@ -633,6 +633,7 @@ export default {
                             } else {
                                 location.reload();
                                 console.log('tags : ',this.getTag)
+                                  this.EditProject = false;
                             }
                             this.loadDocumentToShow()
                         }
@@ -641,7 +642,7 @@ export default {
                 this.message = "File has been update";
                 this.getEditProject
                 this.video_pathname = vdo_pathname
-                this.EditProject = false;
+              
             } catch (err) {
                 console.log("FAILURE!!" + err);
                 this.error = true;
