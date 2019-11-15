@@ -1,26 +1,30 @@
 <template>
-<div id="ManageEditRequest">
-    <div class="card-content cardSize colName">
-        <div class="columns">
-            <div class="column is-two-thirds">Project</div>
-            <div class="column countAssign">Status</div>
-        </div>
-    </div>
-    <div class="card lecturerCard lecturerCourseCard" v-for="(project,index) in request" v-bind:key="index">
-        <router-link :to="`/ProjectDetail/${project.project_id}`">
-            <div class="card-content cardSize">
-                <div class="columns">
-                    <div class="column is-two-thirds courseName">{{index+1}}) {{project.project_name_en}}</div>
-                    <div class="column countAssign"><span class="projectStatus request">Request</span></div>
-                </div>
+<div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
+<div v-else>
+    <div id="ManageEditRequest">
+        <div class="card-content cardSize colName">
+            <div class="columns">
+                <div class="column is-two-thirds">Project</div>
+                <div class="column countAssign">Status</div>
             </div>
-        </router-link>
+        </div>
+        <div class="card lecturerCard lecturerCourseCard" v-for="(project,index) in request" v-bind:key="index">
+            <router-link :to="`/ProjectDetail/${project.project_id}`">
+                <div class="card-content cardSize">
+                    <div class="columns">
+                        <div class="column is-two-thirds courseName">{{index+1}}) {{project.project_name_en}}</div>
+                        <div class="column countAssign"><span class="projectStatus request">Request</span></div>
+                    </div>
+                </div>
+            </router-link>
+        </div>
     </div>
 </div>
 </template>
 
 <script>
 import axios from 'axios';
+import './../css/Loading.css';
 import {
     mapGetters,
     mapActions
@@ -39,7 +43,8 @@ export default {
             projectName: [{
                 name: "John Smith"
             }],
-            request: []
+            request: [],
+            loading: true
         }
     },
     async mounted() {
@@ -53,6 +58,7 @@ export default {
         this.request = data
         console.log("data : ", this.request)
         // console.log('all project ',this.GET_ALL_PROJECT_VISITORVIEW)
+        this.loading = false
 
     },
     methods: {

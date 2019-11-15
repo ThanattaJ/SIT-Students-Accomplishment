@@ -1,162 +1,165 @@
 <template>
-<div id="bodyBg">
-    <div class="columns">
-        <div class="column is-narrow">
-            <div class="field">
-                <p class="control has-icons-left">
-                    <input class="input" type="text" v-model="search" placeholder="Search Course ...">
-                    <span class="icon is-small is-left">
-                        <i class="la la-search"></i>
-                    </span>
-                </p>
+<div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
+<div v-else>
+    <div id="bodyBg">
+        <div class="columns">
+            <div class="column is-narrow">
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" type="text" v-model="search" placeholder="Search Course ...">
+                        <span class="icon is-small is-left">
+                            <i class="la la-search"></i>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="column countAll">
+                <button class="button createBtn" @click="showAddCourseModal()">+ Add Course ..</button>
             </div>
         </div>
-        <div class="column countAll">
-            <button class="button createBtn" @click="showAddCourseModal()">+ Add Course ..</button>
-        </div>
-    </div>
 
-    <div class="columns" style="margin-top:40px">
-        <!-- nav bar -->
-        <div class="column is-2">
-            <aside class="menu navAssignDetail">
-                <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('')">All</ul>
-                <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('INT')">Information Technology</ul>
-                <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('CSC')">Computer Science</ul>
-                <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('DSI')">Digital Service Innovation</ul>
-                <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="showNoInCourse('noInCourse')">วิชาที่ไม่มีในหลักสูตร</ul>
-            </aside>
-        </div>
-        <div class="column" style="padding-left:100px;">
-            <div class="columns">
-                <div class="column" v-if="this.noInCourse === false">
-                    <div class="card-content cardSize colName">
-                        <div class="columns">
-                            <div class="column is-two-thirds">Course Name</div>
-                            <div class="column countAssign">Edit Detail</div>
-                            <div class="column countAssign">Remove Course</div>
+        <div class="columns" style="margin-top:40px">
+            <!-- nav bar -->
+            <div class="column is-2">
+                <aside class="menu navAssignDetail">
+                    <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('')">All</ul>
+                    <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('INT')">Information Technology</ul>
+                    <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('CSC')">Computer Science</ul>
+                    <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('DSI')">Digital Service Innovation</ul>
+                    <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="showNoInCourse('noInCourse')">วิชาที่ไม่มีในหลักสูตร</ul>
+                </aside>
+            </div>
+            <div class="column" style="padding-left:100px;">
+                <div class="columns">
+                    <div class="column" v-if="this.noInCourse === false">
+                        <div class="card-content cardSize colName">
+                            <div class="columns">
+                                <div class="column is-two-thirds">Course Name</div>
+                                <div class="column countAssign">Edit Detail</div>
+                                <div class="column countAssign">Remove Course</div>
+                            </div>
+                        </div>
+                        <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_course " v-bind:key="index">
+                            <div class="card-content cardSize">
+                                <div class="columns">
+                                    <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course}} | {{person.name}}</div>
+                                    <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
+                                    <div class="column countAssign"><i class="la la-trash" id="Action" @click="deleteCourse(index)"></i></div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_course " v-bind:key="index">
-                        <div class="card-content cardSize">
+                    <div class="column" v-if="this.noInCourse === true">
+                        <div class="card-content cardSize colName">
                             <div class="columns">
-                                <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course}} | {{person.name}}</div>
-                                <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
-                                <div class="column countAssign"><i class="la la-trash" id="Action" @click="deleteCourse(index)"></i></div>
-
+                                <div class="column is-two-thirds">Course Name</div>
+                                <div class="column countAssign">Add Course</div>
+                            </div>
+                        </div>
+                        <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_notInCourse " v-bind:key="index">
+                            <div class="card-content cardSize">
+                                <div class="columns">
+                                    <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course_code}} | {{person.course_name}}</div>
+                                    <div class="column countAssign"><i  id="Action" @click="addCourse(index)">+</i></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="column" v-if="this.noInCourse === true">
-                    <div class="card-content cardSize colName">
-                        <div class="columns">
-                            <div class="column is-two-thirds">Course Name</div>
-                            <div class="column countAssign">Add Course</div>
-                        </div>
-                    </div>
-                    <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_notInCourse " v-bind:key="index">
-                        <div class="card-content cardSize">
-                            <div class="columns">
-                                <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course_code}} | {{person.course_name}}</div>
-                                <div class="column countAssign"><i  id="Action" @click="addCourse(index)">+</i></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-    </div>
 
-    <modal name="showCourseDetail">
-        <md-card-header>
-            <md-card-header-text>
-                <div class="md-title" id="title">Course detail</div>
-            </md-card-header-text>
-        </md-card-header>
-        <md-card-content v-if="courseDetail == null">
-            No detail
-        </md-card-content>
-        <md-card-content v-else>
-            {{courseDetail}}
-        </md-card-content>
-        <md-card-content>
-            <span class="addBtn">
-                <a class="button addCommentBtn" @click="closeCourseDetail">Close</a>
-            </span>
-        </md-card-content>
-    </modal>
+        <modal name="showCourseDetail">
+            <md-card-header>
+                <md-card-header-text>
+                    <div class="md-title" id="title">Course detail</div>
+                </md-card-header-text>
+            </md-card-header>
+            <md-card-content v-if="courseDetail == null">
+                No detail
+            </md-card-content>
+            <md-card-content v-else>
+                {{courseDetail}}
+            </md-card-content>
+            <md-card-content>
+                <span class="addBtn">
+                    <a class="button addCommentBtn" @click="closeCourseDetail">Close</a>
+                </span>
+            </md-card-content>
+        </modal>
 
-    <modal name="editCourseDetail">
-        <md-card-header>
-            <md-card-header-text>
-                <div class="md-title" id="title">Course detail</div>
-            </md-card-header-text>
-        </md-card-header>
-        <md-card-content>
-            <md-field>
-                <label>Edit Course Detail</label>
-                <md-textarea v-model="editInput.course_detail" md-autogrow></md-textarea>
-            </md-field>
-        </md-card-content>
-        <md-card-content>
-            <span class="addBtn">
-                <a class="button addCommentBtn" @click="close">Cancel</a>
-                <a class="button addCommentBtn" @click="update(editInput.indexCouse)">Update</a>
-            </span>
-        </md-card-content>
-    </modal>
+        <modal name="editCourseDetail">
+            <md-card-header>
+                <md-card-header-text>
+                    <div class="md-title" id="title">Course detail</div>
+                </md-card-header-text>
+            </md-card-header>
+            <md-card-content>
+                <md-field>
+                    <label>Edit Course Detail</label>
+                    <md-textarea v-model="editInput.course_detail" md-autogrow></md-textarea>
+                </md-field>
+            </md-card-content>
+            <md-card-content>
+                <span class="addBtn">
+                    <a class="button addCommentBtn" @click="close">Cancel</a>
+                    <a class="button addCommentBtn" @click="update(editInput.indexCouse)">Update</a>
+                </span>
+            </md-card-content>
+        </modal>
 
-    <modal name="addCourse">
-        <md-card-header>
-            <md-card-header-text>
-                <div class="md-title" id="title">Add Course</div>
-            </md-card-header-text>
-        </md-card-header>
-        <md-card-content>
-            <md-field :class="messageClass">
-                <label>Course ID</label>
-                <md-textarea v-model="addInput.course" md-autogrow required></md-textarea>
-                <span class="md-error" id="error">There is an error</span>
-            </md-field>
-            <md-field>
-                <label>Course Name</label>
-                <md-textarea v-model="addInput.name" md-autogrow></md-textarea>
-            </md-field>
-            <md-field>
-                <label>Course Detail</label>
-                <md-textarea v-model="addInput.course_detail" md-autogrow></md-textarea>
-            </md-field>
-        </md-card-content>
-        <md-card-content>
-            <span class="addBtn">
-                <a class="button addCommentBtn" @click="closeAddCourseModal">Cancel</a>
-                <a class="button addCommentBtn" @click="add">Add</a>
-            </span>
-        </md-card-content>
-    </modal>
+        <modal name="addCourse">
+            <md-card-header>
+                <md-card-header-text>
+                    <div class="md-title" id="title">Add Course</div>
+                </md-card-header-text>
+            </md-card-header>
+            <md-card-content>
+                <md-field :class="messageClass">
+                    <label>Course ID</label>
+                    <md-textarea v-model="addInput.course" md-autogrow required></md-textarea>
+                    <span class="md-error" id="error">There is an error</span>
+                </md-field>
+                <md-field>
+                    <label>Course Name</label>
+                    <md-textarea v-model="addInput.name" md-autogrow></md-textarea>
+                </md-field>
+                <md-field>
+                    <label>Course Detail</label>
+                    <md-textarea v-model="addInput.course_detail" md-autogrow></md-textarea>
+                </md-field>
+            </md-card-content>
+            <md-card-content>
+                <span class="addBtn">
+                    <a class="button addCommentBtn" @click="closeAddCourseModal">Cancel</a>
+                    <a class="button addCommentBtn" @click="add">Add</a>
+                </span>
+            </md-card-content>
+        </modal>
 
-    <div>
-        <div class="modal" v-show="bin.length" v-bind:class="{'is-active':deleteActive}" id="alert">
-            <div class="modal-background"></div>
-            <div class="modal-content">
-                <md-card class="md-accent" md-with-hover v-for="(person,index) in bin" v-bind:key="index">
-                    <md-ripple>
-                        <md-card-header>
-                            <div class="md-title"> {{person.course}} | {{person.name}}</div>
-                            <div class="md-subhead">index : {{delIndex+1}}</div>
-                        </md-card-header>
+        <div>
+            <div class="modal" v-show="bin.length" v-bind:class="{'is-active':deleteActive}" id="alert">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <md-card class="md-accent" md-with-hover v-for="(person,index) in bin" v-bind:key="index">
+                        <md-ripple>
+                            <md-card-header>
+                                <div class="md-title"> {{person.course}} | {{person.name}}</div>
+                                <div class="md-subhead">index : {{delIndex+1}}</div>
+                            </md-card-header>
 
-                        <md-card-content>
-                            {{person.detail}}
-                        </md-card-content>
+                            <md-card-content>
+                                {{person.detail}}
+                            </md-card-content>
 
-                        <md-card-actions>
-                            <md-button href="#!" @click="restore(index)">cancel</md-button>
-                            <md-button href="#!" @click="deplete(index)">delete</md-button>
-                        </md-card-actions>
-                    </md-ripple>
-                </md-card>
+                            <md-card-actions>
+                                <md-button href="#!" @click="restore(index)">cancel</md-button>
+                                <md-button href="#!" @click="deplete(index)">delete</md-button>
+                            </md-card-actions>
+                        </md-ripple>
+                    </md-card>
+                </div>
             </div>
         </div>
     </div>
@@ -166,6 +169,8 @@
 <script>
 import axios from 'axios';
 import Vue from "vue";
+import './../css/Loading.css';
+
 import {
     mapGetters,
     mapActions,
@@ -178,7 +183,8 @@ export default {
             'get_course',
             'get_lecturer',
             'GET_PATHNAME',
-            'get_notInCourse'
+            'get_notInCourse',
+            'GET_LOADING'
         ]),
         messageClass() {
             if (this.addInput.course != null) {
@@ -277,12 +283,12 @@ export default {
             noInCourse: false,
 
             courseDetail: '', //gib
-            faculty: ''
+            faculty: '',
+            loading: true
         }
     },
 
     async mounted() {
-
         const {
             data
         } = await axios.get(this.GET_PATHNAME + '/course')
@@ -299,6 +305,7 @@ export default {
         }
         this.persons.length = data.course.length
         console.log('persons : ', this.persons)
+        this.loading = false
     },
     methods: {
         filterByFaculty(faculty) {
@@ -480,7 +487,7 @@ export default {
                 } catch (err) {}
             }
         }
-    },
+    }
 
 };
 

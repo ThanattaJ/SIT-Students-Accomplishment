@@ -1,132 +1,136 @@
 <template>
-<div id="bodyBg">
-    <div class="columns">
-        <div class="column countAll">
-            <button class="button createBtn" @click="openCreateAssignmentModal()">+ Add course ...</button>
-        </div>
-    </div>
-    <div class="columns">
-        <!-- nav bar -->
-        <div class="column is-1">
-            <aside class="menu navAssignDetail">
-                <ul id="navAssignment" class="menu-list navTopic navCanClick" v-for="(year,indexSem) in semesters" v-bind:key="indexSem">
-                    <li @click="getSemester(indexSem)" id="year">{{year.academic_term}}</li>
-                </ul>
-            </aside>
-        </div>
-        <div class="column">
-            <div class="columns">
-                <div class="column">
-                    <div class="card-content cardSize colName">
-                        <div class="columns">
-                            <div class="column is-6">Course Name</div>
-                            <!-- <div class="column countAssign">Lecturer</div> -->
-                            <div class="column countAssign">Add Lecturer</div>
-                        </div>
-                    </div>
-                    <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_semester.course" v-bind:key="index">
-                        <div class="card-content cardSize">
-                            <div class="columns">
-                                <div class="column is-6 courseName" @click="showLecturer(index)">{{index+1}}) {{person.course}}</div>
-                                <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <modal name="lecturer">
-        <md-card-header>
-            <md-card-header-text>
-                <div class="md-title" id="title">{{courseName}}</div>
-            </md-card-header-text>
-        </md-card-header>
-        <md-card-content v-if="allLecturers.length == 0">
-            No lecturer
-        </md-card-content>
-        <md-card-content v-else>
-            <b>Lecturer</b>
-            <div v-for="(lecturer,index) in allLecturers" v-bind:key="index">
-                {{index+1}}) {{lecturer.lecturer_name}}
-            </div>
-        </md-card-content>
-        <md-card-content>
-            <span class="addBtn">
-                <a class="button addCommentBtn" @click="hideLecturer">Close</a>
-            </span>
-        </md-card-content>
-    </modal>
+<div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
+<div v-else>
     <div id="bodyBg">
-        <div v-bind:class="{'is-active':isActive}" id="modal" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card" id="editCourse">
-                <div class="modal-card-body" id="editCourse">
-                    <md-card-header>
-                        <div class="md-title">Add Lecturer</div>
-                    </md-card-header>
+        <div class="columns">
+            <div class="column countAll">
+                <button class="button createBtn" @click="openCreateAssignmentModal()">+ Add course ...</button>
+            </div>
+        </div>
+        <div class="columns">
+            <!-- nav bar -->
+            <div class="column is-1">
+                <aside class="menu navAssignDetail">
+                    <ul id="navAssignment" class="menu-list navTopic navCanClick" v-for="(year,indexSem) in semesters" v-bind:key="indexSem">
+                        <li @click="getSemester(indexSem)" id="year">{{year.academic_term}}</li>
+                    </ul>
+                </aside>
+            </div>
+            <div class="column">
+                <div class="columns">
                     <div class="column">
                         <div class="card-content cardSize colName">
                             <div class="columns">
-                                <div class="column is-6">Course</div>
-                                <div class="column countAssign">Lecturer</div>
+                                <div class="column is-6">Course Name</div>
+                                <!-- <div class="column countAssign">Lecturer</div> -->
+                                <div class="column countAssign">Add Lecturer</div>
                             </div>
                         </div>
-                        <div class="card lecturerCard ">
-                            <div class="columns">
-                                <div class="column is-6" style="margin-left: 20px;" id="title">{{this.item.text}}</div>
-                                <md-card-content v-if="allLecturers.length == 0">
-                                    No lecturer
-                                </md-card-content>
-                                <md-card-content v-else>
-                                    <div v-for="(lecturers,index) in allLecturers" v-bind:key="index">
-                                        {{index+1}}) {{lecturers.lecturer_name}}
-                                    </div>
-                                </md-card-content>
+                        <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_semester.course" v-bind:key="index">
+                            <div class="card-content cardSize">
+                                <div class="columns">
+                                    <div class="column is-6 courseName" @click="showLecturer(index)">{{index+1}}) {{person.course}}</div>
+                                    <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- <model-select :options="option" v-model="item" placeholder="select course">
-                    </model-select> -->
-                    <md-card-content v-if="this.options.length == 0">
-                        No lecturer can be added
-                    </md-card-content>
-                    <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" v-else>
-                    </multi-select>
                 </div>
-                <span class="addBtn">
-                    <a class="button cancelCommentBtn"><span class="courseName" @click="close">Cancel</span></a>
-                    <a class="button addCommentBtn" @click="update(editInput.indexCouse)">Update</a>
-                </span>
             </div>
         </div>
-    </div>
-    <modal name="add">
-        <div class="modal-card-body" id="editCourse">
+
+        <modal name="lecturer">
             <md-card-header>
-                <div class="md-title">Add Course</div>
+                <md-card-header-text>
+                    <div class="md-title" id="title">{{courseName}}</div>
+                </md-card-header-text>
             </md-card-header>
-            <div class="column">
-                <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
-                </model-select>
-                <div v-if="item.text">
-                    <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px; margin-left:50%">
-                    </multi-select>
+            <md-card-content v-if="allLecturers.length == 0">
+                No lecturer
+            </md-card-content>
+            <md-card-content v-else>
+                <b>Lecturer</b>
+                <div v-for="(lecturer,index) in allLecturers" v-bind:key="index">
+                    {{index+1}}) {{lecturer.lecturer_name}}
+                </div>
+            </md-card-content>
+            <md-card-content>
+                <span class="addBtn">
+                    <a class="button addCommentBtn" @click="hideLecturer">Close</a>
+                </span>
+            </md-card-content>
+        </modal>
+        <div id="bodyBg">
+            <div v-bind:class="{'is-active':isActive}" id="modal" class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-card" id="editCourse">
+                    <div class="modal-card-body" id="editCourse">
+                        <md-card-header>
+                            <div class="md-title">Add Lecturer</div>
+                        </md-card-header>
+                        <div class="column">
+                            <div class="card-content cardSize colName">
+                                <div class="columns">
+                                    <div class="column is-6">Course</div>
+                                    <div class="column countAssign">Lecturer</div>
+                                </div>
+                            </div>
+                            <div class="card lecturerCard ">
+                                <div class="columns">
+                                    <div class="column is-6" style="margin-left: 20px;" id="title">{{this.item.text}}</div>
+                                    <md-card-content v-if="allLecturers.length == 0">
+                                        No lecturer
+                                    </md-card-content>
+                                    <md-card-content v-else>
+                                        <div v-for="(lecturers,index) in allLecturers" v-bind:key="index">
+                                            {{index+1}}) {{lecturers.lecturer_name}}
+                                        </div>
+                                    </md-card-content>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <model-select :options="option" v-model="item" placeholder="select course">
+                        </model-select> -->
+                        <md-card-content v-if="this.options.length == 0">
+                            No lecturer can be added
+                        </md-card-content>
+                        <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" v-else>
+                        </multi-select>
+                    </div>
+                    <span class="addBtn">
+                        <a class="button cancelCommentBtn"><span class="courseName" @click="close">Cancel</span></a>
+                        <a class="button addCommentBtn" @click="update(editInput.indexCouse)">Update</a>
+                    </span>
                 </div>
             </div>
         </div>
-        <span class="addBtn">
-            <a class="button cancelCommentBtn"><span class="courseName" @click="hideAdd">Cancel</span></a>
-            <a class="button addCommentBtn" @click="add">ADD</a>
-        </span>
-    </modal>
+        <modal name="add">
+            <div class="modal-card-body" id="editCourse">
+                <md-card-header>
+                    <div class="md-title">Add Course</div>
+                </md-card-header>
+                <div class="column">
+                    <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
+                    </model-select>
+                    <div v-if="item.text">
+                        <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px; margin-left:50%">
+                        </multi-select>
+                    </div>
+                </div>
+            </div>
+            <span class="addBtn">
+                <a class="button cancelCommentBtn"><span class="courseName" @click="hideAdd">Cancel</span></a>
+                <a class="button addCommentBtn" @click="add">ADD</a>
+            </span>
+        </modal>
+    </div>
 </div>
 </template>
 
 <script>
 import axios from 'axios';
 import _ from 'lodash'
+import './../css/Loading.css';
 import {
     mapGetters,
     mapActions,
@@ -203,7 +207,8 @@ export default {
             storeCourse: [],
 
             courseName: '',
-            allLecturers: []
+            allLecturers: [],
+            loading: true
         }
     },
     async mounted() {
@@ -258,7 +263,7 @@ export default {
             })
         }
         console.log('option : ', this.option)
-
+        this.loading = false
     },
     methods: {
         showLecturer(index) {

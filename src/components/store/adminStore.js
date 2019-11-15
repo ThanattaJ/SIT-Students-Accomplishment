@@ -36,6 +36,7 @@ export const adminStore = {
                     lastname:lecLastname[i]
                 });
             }
+            this.SET_LOADING_STATUS(false)
         },
         set_select_lecturer(state,lecturer){
             state.lecturers.push(lecturer)

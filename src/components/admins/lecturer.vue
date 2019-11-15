@@ -1,31 +1,34 @@
 <template>
-<div id="bodyBg">
-    <div class="columns">
-        <div class="column is-narrow">
-            <div class="field">
-                <p class="control has-icons-left">
-                    <input class="input" type="text" v-model="search" placeholder="Search Lecturer ...">
-                    <span class="icon is-small is-left">
-                        <i class="la la-search"></i>
-                    </span>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="columns">
-        <div class="column">
-            <div class="card-content cardSize colName">
-                <div class="columns">
-                    <div class="column is-4">Lecturer Name</div>
-                    <div class="column">Position</div>
+<div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
+<div v-else>
+    <div id="bodyBg">
+        <div class="columns">
+            <div class="column is-narrow">
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" type="text" v-model="search" placeholder="Search Lecturer ...">
+                        <span class="icon is-small is-left">
+                            <i class="la la-search"></i>
+                        </span>
+                    </p>
                 </div>
             </div>
-            <div class="card lecturerCard lecturerName" v-for="(person,index) in lecturer" v-bind:key="index">
-                <div class="card-content cardSize">
+        </div>
+
+        <div class="columns">
+            <div class="column">
+                <div class="card-content cardSize colName">
                     <div class="columns">
-                        <div class="column is-4 courseName">{{index+1}}) {{person.fName}} {{person.lName}}</div>
-                        <div class="column">{{person.position}}</div>
+                        <div class="column is-4">Lecturer Name</div>
+                        <div class="column">Position</div>
+                    </div>
+                </div>
+                <div class="card lecturerCard lecturerName" v-for="(person,index) in lecturer" v-bind:key="index">
+                    <div class="card-content cardSize">
+                        <div class="columns">
+                            <div class="column is-4 courseName">{{index+1}}) {{person.fName}} {{person.lName}}</div>
+                            <div class="column">{{person.position}}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -36,17 +39,13 @@
 
 <script>
 import axios from 'axios';
+import './../css/Loading.css';
 import {
     mapActions,
     mapGetters,
     mapMutations
 } from 'vuex';
 export default {
-    computed: {
-        ...mapGetters([
-            'GET_PATHNAME'
-        ]),
-    },
     name: "Lecturer",
     data() {
         return {
@@ -58,14 +57,15 @@ export default {
             }, ],
             bin: [],
             isActive: false,
-            search: ""
+            search: "",
         }
     },
     async mounted() {
-
+        console.log(this.URL);
         const {
             data
-        } = await axios.get(`https://www.sit-acc.nruf.in.th/users/list_lecturer`);
+        } = await axios.get(`${this.URL}/users/list_lecturer`);
+        console.log(data);
         for (let i = 0; i < data.length; i++) {
             this.persons.push(data[i])
             this.persons[i].fName = data[i].firstname
@@ -73,14 +73,23 @@ export default {
             this.persons[i].position = data[i].position_name
         }
         this.persons.length = data.length
+        this.SET_LOADING_STATUS(false)
     },
     methods: {
+        ...mapActions(['SET_LOADING_STATUS']),
         //function to add data to table
         close: function () {
             this.isActive = false;
         },
     },
+    beforeMount() {
+      this.SET_LOADING_STATUS(true)
+    },
     computed: {
+        ...mapGetters({
+            URL: 'GET_PATHNAME',
+            loading: 'GET_LOADING'
+        }),
         lecturer() {
             if (this.search != "") {
                 return this.persons.filter(

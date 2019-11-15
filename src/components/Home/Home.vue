@@ -115,7 +115,6 @@
         }
       },
       async mounted() {
-        console.log('loading!', this.loading);
         const {
           data
         } = await axios.get(`${this.URL}/projects/Top-Project`);
