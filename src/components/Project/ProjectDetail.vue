@@ -48,7 +48,7 @@
                                 <p>Project Status : <span class="projectStatus request">Request</span></p>
                             </div>
                             <div v-if="this.project_status === 'Waiting'">
-                                <p>Project Status : <span class="projectStatus request">Request</span></p>
+                                <p>Project Status : <span class="projectStatus request">Waiting</span></p>
                             </div>
                             <div v-if="!this.statusRequest">
                                 <div v-if="this.project_status === 'Approve'">
@@ -113,7 +113,7 @@
                     </div>
                     <div class="columns">
                         <div id="ed" class="column">
-                            <div v-if="this.project_status === 'Waiting'">
+                            <div v-if="this.project_status === 'Waiting' ||this.project_status === 'Reject'">
                                 <div v-if="this.access == true">
                                     <button class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Portfolio Page</button>
                                     <button class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</button>
@@ -417,6 +417,8 @@ export default {
             this.assignment_id = data.project_detail.assignment_detail.assignment_id
             this.set_assignment_id(data.project_detail.assignment_detail.assignment_id)
             this.project_status = data.project_detail.assignment_detail.project_status
+            console.log('status Project : ', this.project_status);
+
             for (var i = 0; i < data.project_detail.assignment_detail.lecturers.length; i++) {
                 var name = data.project_detail.assignment_detail.lecturers[i].lecturers_name;
                 name = name.split(" ")
@@ -442,12 +444,14 @@ export default {
         // nonMember
         if (data.outsiders) {
             if (data.outsiders.length != 0) {
-                this.nonMembers = data.outsiders
                 this.setNonMember(data.outsiders)
+                this.nonMembers = data.outsiders
             }
         }
-        if(data.project_detail.references !=null){
-            if(data.project_detail.references.length){
+        console.log(this.nonMembers,'non members');
+        
+        if (data.project_detail.references != null) {
+            if (data.project_detail.references.length) {
                 this.setRef(data.project_detail.references[0])
             }
         }
@@ -615,20 +619,6 @@ export default {
                         },
                         outsiders: this.getNonMember === " " ? null : this.getNonMember
                     }, this.GET_CONFIG)
-                    .then(res => {
-                        console.log("res : ", res)
-                        if (res.status == 200) {
-                            if (res.data.message == "Validate Error") {
-                                alert('File has been Error')
-                            } else {
-                                location.reload();
-                                console.log('tags : ', this.getTag)
-                                this.EditProject = false;
-                            }
-                            this.loadDocumentToShow()
-                        }
-                    })
-
                 this.message = "File has been update";
                 this.getEditProject
                 this.video_pathname = vdo_pathname
@@ -640,6 +630,7 @@ export default {
             }
         },
         cancel() {
+            this.EditProject = false;
             this.show = this.get_show
             this.setEditProject(this.EditProject)
             this.setAbstract(this.Abstract.content_Abstract)
@@ -647,10 +638,9 @@ export default {
             this.setTool(this.Tools)
             this.setRef(this.References)
 
-            console.log(this.nonMembers, "defult");
+            // console.log(this.nonMembers, "defult");
             this.setNonMember(this.nonMembers)
 
-            this.EditProject = false;
         },
         Edit: function () {
             this.EditProject = true
@@ -693,7 +683,6 @@ export default {
             }
         }
     },
-    watch: {},
     beforeDestroy() {
         this.setImage([])
         this.setFile(this.noPic.cover)

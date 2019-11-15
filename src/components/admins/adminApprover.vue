@@ -3,8 +3,8 @@
     <div id="approve_bar">
     Status :
     <a id='Waiting' class="button statusBtn" @click="setStatus('Waiting');openAskModal()"><span id='WaitingText' class="courseName">Waiting</span></a>
-    <a id='Approve' class="button statusBtn" @click="setStatus('Approve');openAskModal()"><span id='ApproveText' class="courseName">Approve</span></a>
-    <a id='Reject' class="button statusBtn" @click="setStatus('Reject');openAskModal()"><span id='RejectText' class="courseName">Reject</span></a>
+    <a id='Approve' class="button statusBtn" @click="setStatus('Waiting');openAskModal()"><span id='ApproveText' class="courseName">Approve</span></a>
+    <a id='Reject' class="button statusBtn" @click="setStatus('Approve');openAskModal()"><span id='RejectText' class="courseName">Reject</span></a>
     </div>
     <modal name="askForSure">
         <md-card-header>
