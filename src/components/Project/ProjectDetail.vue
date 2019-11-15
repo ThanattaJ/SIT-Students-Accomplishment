@@ -45,10 +45,10 @@
                     <div id="project_status">
                         <div v-if="this.access">
                             <div v-if="this.project_status === 'Request'">
-                                <p>Project Status : <span class="projectStatus request">Request</span></p>
+                                <p>Project Status : <span class="projectStatus request">Waiting for edit project</span></p>
                             </div>
                             <div v-if="this.project_status === 'Waiting'">
-                                <p>Project Status : <span class="projectStatus request">Waiting</span></p>
+                                <p>Project Status : <span class="projectStatus request">Waiting for approve project</span></p>
                             </div>
                             <div v-if="!this.statusRequest">
                                 <div v-if="this.project_status === 'Approve'">
@@ -126,14 +126,10 @@
                                         <button class="button" @click="sendRequest()" id="request">Request Edit</button>
                                     </div>
                                     <div v-else>
-                                        <button class="button createBtn" id="waitimg">Wait Approve</button>
                                     </div>
                                 </div>
                             </div>
                             <div v-if="this.project_status === 'Request'">
-                                <div v-if="this.access == true">
-                                    <span class="button createBtn" id="waitimg">Wait Approve</span>
-                                </div>
                             </div>
                             <div v-if="!this.project_status">
                                 <div v-if="this.access == true">
@@ -445,11 +441,8 @@ export default {
         if (data.outsiders) {
             if (data.outsiders.length != 0) {
                 this.setNonMember(data.outsiders)
-                this.nonMembers = data.outsiders
             }
         }
-        console.log(this.nonMembers,'non members');
-        
         if (data.project_detail.references != null) {
             if (data.project_detail.references.length) {
                 this.setRef(data.project_detail.references[0])
@@ -638,13 +631,15 @@ export default {
             this.setTool(this.Tools)
             this.setRef(this.References)
 
-            // console.log(this.nonMembers, "defult");
-            this.setNonMember(this.nonMembers)
+            console.log(this.nonMembers, "defult");
+            
+            this.setNonMember(this.getNonMember)
 
         },
         Edit: function () {
             this.EditProject = true
             this.setEditProject(this.EditProject)
+            this.nonMembers = this.getNonMember
         },
         clapProject() {
             try {
