@@ -110,11 +110,11 @@
     </div> -->
     <!-- All projects -->
     <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
-    <div v-else>
+    <div>
         <div id="bodyBg" v-if="isProfileType == false">
-            <div class="columns is-multiline">
+            <div v-if="allProjectPresent.length > 0" class="columns is-multiline">
                 <div class="column is-one-third" v-for="(project,index) in allProjectPresent" v-bind:key="index">
-                <!-- <div class="column is-one-quarter" v-for="(project,index) in allProjectPresent" v-bind:key="index"> -->
+                    <!-- <div class="column is-one-quarter" v-for="(project,index) in allProjectPresent" v-bind:key="index"> -->
                     <router-link :to="`/ProjectDetail/${project.id}`">
                         <div class="card projectCard content_img">
                             <div v-if="project.cover_path != null">
@@ -149,13 +149,20 @@
                     </router-link>
                 </div>
             </div>
+            <div id="bodyBg" v-else style="text-align:center">
+                <img src="./../../assets/empty.png" style="height: 350px !important;">
+                <div>
+                    <b style="font-size:20px">No results found</b>
+                </div>
+            </div>
         </div>
     </div>
+
     <!-- All profiles -->
     <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
-    <div v-else>
+    <div>
         <div id="bodyBg" v-if="isProfileType == true">
-            <div class="columns is-multiline">
+            <div v-if="profiles.length > 0" class="columns is-multiline">
                 <div class="column is-half" v-for="(profile,index) in profiles" v-bind:key="index">
                     <router-link :to="`/student/${profile.student_id}`">
                         <div class="columns card profile">
@@ -186,8 +193,15 @@
                     </router-link>
                 </div>
             </div>
+            <div id="bodyBg" v-else style="text-align:center">
+                <img src="./../../assets/empty.png" style="height: 350px !important;">
+                <div>
+                    <b style="font-size:20px">No results found</b>
+                </div>
+            </div>
         </div>
     </div>
+
 </div>
 </template>
 
@@ -349,7 +363,7 @@ export default {
                 this.showYear = false
                 if (searchBy == 'tags') {
                     this.searchInput = false
-                }else if(searchBy == 'stdProfile'){
+                } else if (searchBy == 'stdProfile') {
                     this.search = ''
                 }
             }
