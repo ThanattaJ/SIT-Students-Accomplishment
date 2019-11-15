@@ -45,10 +45,10 @@
                     <div id="project_status">
                         <div v-if="this.access">
                             <div v-if="this.project_status === 'Request'">
-                                <p>Project Status : <span class="projectStatus request">Request</span></p>
+                                <p>Project Status : <span class="projectStatus request">Waiting for edit project</span></p>
                             </div>
                             <div v-if="this.project_status === 'Waiting'">
-                                <p>Project Status : <span class="projectStatus request">Request</span></p>
+                                <p>Project Status : <span class="projectStatus request">Waiting for approve project</span></p>
                             </div>
                             <div v-if="!this.statusRequest">
                                 <div v-if="this.project_status === 'Approve'">
@@ -113,7 +113,7 @@
                     </div>
                     <div class="columns">
                         <div id="ed" class="column">
-                            <div v-if="this.project_status === 'Waiting'">
+                            <div v-if="this.project_status === 'Waiting' ||this.project_status === 'Reject'">
                                 <div v-if="this.access == true">
                                     <button class="button" id="Edit" @click="Edit" v-if="!EditProject">Edit Portfolio Page</button>
                                     <button class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</button>
@@ -126,14 +126,10 @@
                                         <button class="button" @click="sendRequest()" id="request">Request Edit</button>
                                     </div>
                                     <div v-else>
-                                        <button class="button createBtn" id="waitimg">Wait Approve</button>
                                     </div>
                                 </div>
                             </div>
                             <div v-if="this.project_status === 'Request'">
-                                <div v-if="this.access == true">
-                                    <span class="button createBtn" id="waitimg">Wait Approve</span>
-                                </div>
                             </div>
                             <div v-if="!this.project_status">
                                 <div v-if="this.access == true">
@@ -198,6 +194,7 @@
                 <div class="column">
                     <div id="Authors">
                         <member />
+                        {{this.nonMembers}}
                     </div>
                     <div id="lecturer" v-if="this.haveAssignment">
                         <div class="card lecturerCard" id="Documents">
@@ -301,7 +298,6 @@ export default {
             'GET_STUDENT_TAG',
             'GET_STUDENT_PROJECT',
             'getPic',
-            'getNonMember',
             'getClap',
             'getPID',
             'get_assignment_id',
@@ -355,13 +351,11 @@ export default {
                 lastname: "",
                 mail: ""
             }],
+            nonMembers: [],
             Tools: {},
             Acheivement: [],
             References: " ",
-            // document: [],
             files: [],
-            outsider: [],
-            showDetail: true,
             EditProject: false,
             tags: [],
             video_pathname: '',
@@ -369,16 +363,7 @@ export default {
             cover: {
                 path: null
             },
-            project_id: 1,
             pictures: [],
-            tag: [{
-                name: "Hello"
-            }],
-            seen: true,
-            index: '',
-            Tags: [
-                'Vue.js'
-            ],
             clap: '',
             viewer: '',
             create: '',
@@ -395,7 +380,6 @@ export default {
             isClap: true,
             project_status: '',
             isLoading: false,
-            fullPage: true,
             status: 'Status',
             statusRequest: false,
             loading: true
@@ -424,13 +408,15 @@ export default {
         } = await axios.get(
             this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`,
             this.GET_CONFIG)
-        console.log(data);
+        console.log(data, "data");
 
         if (data.project_detail.assignment_detail.assignment_id != null) {
             this.academic_term = data.project_detail.assignment_detail.academic_term
             this.assignment_id = data.project_detail.assignment_detail.assignment_id
             this.set_assignment_id(data.project_detail.assignment_detail.assignment_id)
             this.project_status = data.project_detail.assignment_detail.project_status
+            console.log('status Project : ', this.project_status);
+
             for (var i = 0; i < data.project_detail.assignment_detail.lecturers.length; i++) {
                 var name = data.project_detail.assignment_detail.lecturers[i].lecturers_name;
                 name = name.split(" ")
@@ -438,10 +424,8 @@ export default {
                     fname: name[0],
                     lname: name[1]
                 })
-
             }
             this.haveAssignment = true
-
         } else {
             this.haveAssignment = false
         }
@@ -455,18 +439,23 @@ export default {
         this.setDetail(data.project_detail.project_detail)
         this.SET_ACHIEVEMENT_STATE(data.achievements)
         this.setMember(data.students)
+        // nonMember
         if (data.outsiders) {
             if (data.outsiders.length != 0) {
                 this.setNonMember(data.outsiders)
             }
         }
-        this.setRef(data.project_detail.references)
+        if (data.project_detail.references != null) {
+            if (data.project_detail.references.length) {
+                this.setRef(data.project_detail.references[0])
+            }
+        }
+        // this.setRef(data.project_detail.references[0])
         this.setTool(data.project_detail.tool_techniq_detail)
         this.setTag(data.tags)
         this.setClap(data.project_detail.count_clap)
         this.show = data.project_detail.isShow
         this.set_show(data.project_detail.isShow)
-
         this.access = data.access
 
         // console.log("-----------")
@@ -509,8 +498,6 @@ export default {
             }
         }
         // ------------- clap -------------
-        // console.log('GET_USERNAME : ', this.GET_USERNAME)
-        // console.log('Member :', this.getMember)
         for (let i = 0; i < this.getMember.length; i++) {
             if (this.getMember[i].student_id === this.GET_USERNAME) {
                 this.clap = false
@@ -590,7 +577,7 @@ export default {
                 video: {
                     path_name: vdo_pathname == "" ? null : vdo_pathname,
                 },
-                outsiders: this.getNonMember === " " ? null : this.getNonMember
+                // outsiders: this.getNonMember === " " ? null : this.getNonMember
             }
             console.log('path : ', data.video)
             try {
@@ -627,24 +614,10 @@ export default {
                         },
                         outsiders: this.getNonMember === " " ? null : this.getNonMember
                     }, this.GET_CONFIG)
-                    .then(res => {
-                        console.log("res : ", res)
-                        if (res.status == 200) {
-                            if (res.data.message == "Validate Error") {
-                                alert('File has been Error')
-                            } else {
-                                location.reload();
-                                console.log('tags : ',this.getTag)
-                                  this.EditProject = false;
-                            }
-                            this.loadDocumentToShow()
-                        }
-                    })
-
                 this.message = "File has been update";
                 this.getEditProject
                 this.video_pathname = vdo_pathname
-              
+
             } catch (err) {
                 console.log("FAILURE!!" + err);
                 this.error = true;
@@ -653,17 +626,22 @@ export default {
         },
         cancel() {
             this.EditProject = false;
-            console.log('get Show', this.get_show)
             this.show = this.get_show
             this.setEditProject(this.EditProject)
             this.setAbstract(this.Abstract.content_Abstract)
             this.setDetail(this.Detail.content_eg)
             this.setTool(this.Tools)
             this.setRef(this.References)
+
+            console.log(this.nonMembers, "defult");
+            
+            this.setNonMember(this.getNonMember)
+
         },
         Edit: function () {
             this.EditProject = true
             this.setEditProject(this.EditProject)
+            this.nonMembers = this.getNonMember
         },
         clapProject() {
             try {
@@ -702,17 +680,17 @@ export default {
             }
         }
     },
-    watch: {},
     beforeDestroy() {
         this.setImage([])
         this.setFile(this.noPic.cover)
         this.setMember('')
         this.setNonMember('')
+        this.setRef('')
     },
     beforeMount() {
         this.setEditProject(this.EditProject)
         this.SET_LOADING_STATUS(true)
-    }
+    },
 };
 </script>
 

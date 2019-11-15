@@ -4,7 +4,7 @@
         <header class="card-header">
             <p class="card-header-title" id="cardHeader">Members</p>
         </header>
-        <div class="card-content" id="student">
+        <div class="card-content" >
             <div class="columns" v-for="(student,index) in getMember" v-bind:key="index">
                 <div class="column" id="left">
                     <div class="content" id="student">
@@ -23,26 +23,18 @@
                 <div class="column">
                     <div class="content">
                         <div id="student_id">ID : <a id="student">{{student.student_id}}</a></div>
-                        <div id="mail">{{student.email}}</div>
+                        <div id="mail" >{{student.email}}</div>
                     </div>
                 </div>
                 <md-tooltip md-direction="bottom">Click on the name/id to go to the profile.</md-tooltip>
             </div>
-        </div>
-    </div>
-    <div v-if=" this.getNonMember.length != 0">
-        <div class="card lecturerCard" id="Authors">
-            <header class="card-header">
-                <p class="card-header-title" id="cardHeader">Outsiders</p>
-            </header>
-            <div class="card-content" id="student">
-                <div v-for=" (out,index) in getNonMember" v-bind:key="`${index}-${out.id}`" id="outsider">
-                    <!-- <div class="column"> -->
+            <div v-if=" this.getNonMember.length != 0">
+                <div class="columns" v-for=" (out,index) in getNonMember" v-bind:key="index">
+                    <div class="column">
                         <div class="content">
-
                             <div v-if="!getEditProject">
-                                <div class="columns">
-                                    <div class="column">
+                                <div class="columns" id="nonMember">
+                                    <div class="column">                                        
                                         {{out.firstname}}
                                     </div>
                                     <div class="column">
@@ -53,22 +45,21 @@
                             <div v-else>
                                 <div class="columns">
                                     <div class="column">
-                                        <input class="input" type="text" v-model="out.firstname" id="student">
+                                        <input class="input" type="text" v-model="out.firstname" id="nonMember">
                                         <div v-if="out.firstname == 0">
                                             <p id="warning"> Enter firstname.</p>
                                         </div>
                                     </div>
                                     <div class="column">
-                                        <input class="input" type="text" v-model="out.lastname" id="student">
+                                        <input class="input" type="text" v-model="out.lastname" id="nonMember">
                                         <div v-if="out.lastname == 0">
                                             <p id="warning"> Enter firstname.</p>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
-                        <!-- </div> -->
+                        </div>
                     </div>
                     <!-- <div class="column">
                         <div class="content">
@@ -78,9 +69,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div v-else></div>
 
+    </div>
 </div>
 </template>
 
@@ -93,7 +83,6 @@ import {
 export default {
     data() {
         return {
-            fullname: '',
             user_role: "student"
         }
     },
@@ -105,15 +94,9 @@ export default {
             'GET_STUDENT_PROFILE'
         ])
     },
-    mounted() {
-        console.log('out : ', this.getNonMember.length)
-    },
+    mounted() {},
     methods: {
-        ...mapActions([
-            'setMember',
-            'setNonMember',
-            'LOAD_OTHER_STUDENT_DATA'
-        ]),
+        ...mapActions([]),
     },
     beforeDestroy() {
         this.setMember(" ")
@@ -128,7 +111,6 @@ export default {
     margin-bottom: 20px;
     margin-top: -10px;
 }
-
 #student,
 #student_id {
     color: #265080 !important;
@@ -136,6 +118,12 @@ export default {
     border: none !important;
     font-size: 15px !important;
     margin-top: 2px !important;
+}
+#nonMember{
+    color: #265080 !important;
+    background-color: white !important;
+    border: none !important;
+    font-size: 15px !important;
 }
 
 #mail {
@@ -160,5 +148,17 @@ export default {
     font-size: 10px;
     color: red;
     margin-left: 5px;
+}
+
+#student:hover {
+    font-weight:bold;
+}
+#student::after {
+    display: block;
+    content: attr(title);
+    font-weight: bold;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
 }
 </style>
