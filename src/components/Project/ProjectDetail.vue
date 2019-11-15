@@ -142,9 +142,11 @@
                                     <button class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</button>
                                 </div>
                             </div>
+                            lecturer : {{GET_ISAPPROVER}} <br>
                             <div v-if="GET_ISAPPROVER == true">
                                 <approveAssignmentProject></approveAssignmentProject>
                             </div>
+                            admin : {{get_approver}} <br>
                             <div v-if="get_approver == true">
                                 <adminApprover />
                             </div>

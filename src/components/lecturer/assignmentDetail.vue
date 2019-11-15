@@ -1,10 +1,10 @@
 <template>
 <div>
     <div id="bodyBg">
-        <div class="columns">
+        <div class="columns" style="margin-bottom: 40px;">
             <router-link to="/course"><span style="color:#4A4A4A">Course</span></router-link> /
             <router-link :to="`/allassignment/${courseId}`"><span style="color:#4A4A4A">Assignment</span></router-link> /
-            <span style="color:#265080">Details</span>
+            <span style="color:#265080"><b>Details</b></span>
         </div>
         <!-- assignment topic -->
         <div class="columns">
@@ -403,6 +403,7 @@ export default {
             }
         },
         routeToProjectDetail(project_id,status_name){
+            console.log("project_id: ",project_id," ///// status_name: ",status_name)
             this.SET_PROJECT_STATUS(status_name)
             this.SET_PROJECT_ID(project_id)
             router.push(`/ProjectDetail/${project_id}`)

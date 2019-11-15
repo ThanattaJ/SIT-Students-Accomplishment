@@ -1,9 +1,9 @@
 <template>
 <div>
     <div id="bodyBg">
-        <div class="columns">
+        <div class="columns" style="margin-bottom: 40px;">
             <router-link :to="`/assignment`"><span style="color:#4A4A4A">Assignment</span></router-link> /
-            <span style="color:#265080">Details</span>
+            <span style="color:#265080"><b>Details</b></span>
         </div>
         <!-- assignment topic -->
         <div class="columns">
@@ -17,9 +17,12 @@
             </div>
             <div class="column countAll" v-if="assignmentDetail.status_name != null">
                 Status :
-                <span v-if="assignmentDetail.status_name == 'Approve'" class="projectStatus approved">{{assignmentDetail.status_name}}</span>
-                <span v-else-if="assignmentDetail.status_name == 'Waiting'" class="projectStatus request">{{assignmentDetail.status_name}}</span>
-                <span v-else class="projectStatus denied">Reject</span>
+                <span class="projectStatus approved" v-if="assignmentDetail.status_name == 'Approve'">Approved</span>
+                <span class="projectStatus request" v-else-if="assignmentDetail.status_name == 'Waiting'">Waiting for approve project</span>
+                <span class="projectStatus request" v-else-if="assignmentDetail.status_name == 'Request'">Waiting for edit project</span>
+                <span class="projectStatus denied" v-else-if="assignmentDetail.status_name == 'Reject'">Rejected</span>
+                <span style="color: red" v-else-if="(assignmentDetail.status_name != 'Approve' || assignmentDetail.status_name != 'Waiting' || assignmentDetail.status_name != 'Reject' || assignmentDetail.status_name != 'Request') && assignmentDetail.time_up == true">Missing</span>
+                <span v-else>Not submit</span>
             </div>
         </div>
         <div class="columns" style="margin-top:5%">
@@ -27,7 +30,7 @@
                 <createProjectBtn />
             </div> -->
             <div class="column is-one-third" v-if="assignmentDetail.project_id == null">
-                <div class="createPortPage"  @click="getAllProject">
+                <div class="createPortPage" @click="getAllProject">
                     <div class="textCreate" style="font-size:30px !important">+</div>
                     <div class="textCreate" style="padding-top:10px">Add or Create Project</div>
                 </div>
@@ -164,9 +167,9 @@ export default {
                 ).then(res => {
                     console.log("res : ", res)
                     this.assignmentDetail = res.data
-                    console.log('assignment_id : '+this.assignmentDetail.assignment_id)
-                    console.log('course_id : '+this.assignmentDetail.course_id)
-                    console.log('isGroup : '+this.assignmentDetail.isGroup)
+                    console.log('assignment_id : ' + this.assignmentDetail.assignment_id)
+                    console.log('course_id : ' + this.assignmentDetail.course_id)
+                    console.log('isGroup : ' + this.assignmentDetail.isGroup)
                 })
                 .catch(err => {
                     console.error("error : " + err);

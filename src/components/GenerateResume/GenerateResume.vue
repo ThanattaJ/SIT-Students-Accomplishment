@@ -4,8 +4,7 @@
         <section class="column is-one-quarter resumeForm">
             <div v-if="GET_SHOWPAGE == 1">
                 <div style="text-align:center">
-                    <!-- <i class="la la-angle-left"></i> -->
-                    <router-link to="/student"><i class="la la-angle-left"></i></router-link>
+                    <router-link :to="'/student/'+GET_USERNAME"><i class="la la-angle-left"></i></router-link>
                     <span class="titleText">Generate Resume</span>
                     <label for="file-input">
                         <img src="./../../assets/upload.png" class="uploadImg" alt="Smiley face" height="22" width="22">

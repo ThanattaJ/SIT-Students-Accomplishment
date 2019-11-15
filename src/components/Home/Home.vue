@@ -39,7 +39,7 @@
                 <p class="quote">Everyone is base on achievement.<br>We believe that the portfolio is a success.</p>
                 <p class="quote-footer">SIT Student Accomplishment</p>
               </blockquote>
-            </p>
+            <!-- </p> -->
           </div>
         </div>
     </div>

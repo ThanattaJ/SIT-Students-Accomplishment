@@ -36,8 +36,8 @@
                 <p class="card-header-title" id="cardHeader">Outsiders</p>
             </header>
             <div class="card-content" id="student">
-                <div class="columns" v-for=" (out,index) in getNonMember" v-bind:key="`${index}-${out.id}`" id="outsider">
-                    <div class="column">
+                <div v-for=" (out,index) in getNonMember" v-bind:key="`${index}-${out.id}`" id="outsider">
+                    <!-- <div class="column"> -->
                         <div class="content">
 
                             <div v-if="!getEditProject">
@@ -68,13 +68,13 @@
 
                             </div>
 
-                        </div>
+                        <!-- </div> -->
                     </div>
-                    <div class="column">
+                    <!-- <div class="column">
                         <div class="content">
                             <div id="mail">{{out.email}}</div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -135,7 +135,7 @@ export default {
     background-color: white !important;
     border: none !important;
     font-size: 15px !important;
-    margin-top: 10px !important;
+    margin-top: 2px !important;
 }
 
 #mail {

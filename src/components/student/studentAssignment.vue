@@ -1,102 +1,100 @@
 <template>
-<div>
-    <div id="bodyBg">
-        <div class="buttons has-addons is-centered is-fullwidth" style="font-weight:bold">
-            <span class="button menuBar" style="color:#265080 !important">
-                <router-link to="student" style="color:#265080 !important">Project</router-link>
-            </span>
-            <span class="button menuBar is-info is-selected">Assignment</span>
-            <span class="button menuBar">
-                <router-link to="GenerateResume" style="color:#265080 !important">Generate Resume</router-link>
-            </span>
+<div id="bodyBg">
+    <div class="buttons has-addons is-centered is-fullwidth" style="font-weight:bold">
+        <span @click="goToProfile" class="button menuBar" style="color:#265080 !important">
+            Project
+        </span>
+        <span class="button menuBar is-info is-selected">Assignment</span>
+        <span @click="goToGenerateResume" class="button menuBar" style="color:#265080 !important">
+            Generate Resume
+        </span>
+    </div>
+    <!-- <search -->
+    <div class="columns">
+        <div class="column is-narrow">
+            <div class="field">
+                <p class="control has-icons-left">
+                    <input class="input" type="text" v-model="search" placeholder="Search Assignment ...">
+                    <span class="icon is-small is-left">
+                        <i class="la la-search"></i>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="column countAll">
+            <button class="button createBtn" @click="joinAssignmentModal(true)">+ Join assignment ...</button>
         </div>
     </div>
-    <div id="bodyBg">
-        <!-- <search -->
+    <!-- หัวตาราง assignment -->
+    <div class="card-content cardSize colName" style="padding-top:0px">
         <div class="columns">
-            <div class="column is-narrow">
-                <div class="field">
-                    <p class="control has-icons-left">
-                        <input class="input" type="text" v-model="search" placeholder="Search Assignment ...">
-                        <span class="icon is-small is-left">
-                            <i class="la la-search"></i>
-                        </span>
-                    </p>
-                </div>
-            </div>
-            <div class="column countAll">
-                <button class="button createBtn" @click="joinAssignmentModal(true)">+ Join assignment ...</button>
-            </div>
+            <div class="column is-two-fifths">Assignment</div>
+            <div class="column countAssign">Code Join</div>
+            <div class="column is-one-fifth countAssign">Status</div>
+            <div class="column countAssign">Comment</div>
+            <div class="column countAssign">Due date</div>
+            <div class="column countAssign">Type</div>
         </div>
-        <!-- หัวตาราง assignment -->
-        <div class="card-content cardSize colName">
-            <div class="columns">
-                <div class="column is-half">Assignment</div>
-                <div class="column countAssign">Code Join</div>
-                <div class="column countAssign">Status</div>
-                <div class="column countAssign">Comment</div>
-                <div class="column countAssign">Due date</div>
-                <div class="column countAssign">Type</div>
-            </div>
-        </div>
-        <!-- All assignment -->
-        <div class="overflowY" style="height: 455px;">
-            <div class="card lecturerCard lecturerCourseCard" v-for="(assignment,index) in allAssignments" v-bind:key="index">
-                <div class="card-content cardSize">
-                    <div class="columns">
-                        <div class="column is-half courseName" @click="routeToAssignmentDetail(assignment.assignment_id)">{{index+1}}) {{assignment.assignment_name}}</div>
-                        <div class="column countAssign">{{assignment.join_code}}</div>
-                        <div class="column countAssign">
-                            <span class="projectStatus approved" v-if="assignment.status_name == 'Approve'">{{assignment.status_name}}</span>
-                            <span class="projectStatus request" v-else-if="assignment.status_name == 'Request'">{{assignment.status_name}}</span>
-                            <span class="projectStatus denied" v-else-if="assignment.status_name == 'Reject'">{{assignment.status_name}}</span>
-                            <span style="color: red" v-else-if="(assignment.status_name != 'Approve' || assignment.status_name != 'Request' || assignment.status_name != 'Reject') && assignment.time_up == true">Missing</span>
-                            <span v-else>Not submit</span>
-                        </div>
-                        <div class="column countAssign">
-                            <i class="la la-comment" v-if="assignment.comment == null" style="color:#CCCCCC"></i>
-                            <i class="la la-comment haveComment" v-else @click="showComment(assignment.comment)" style="color:#265080"></i>
-                        </div>
-                        <div class="column countAssign">{{assignment.close_date}}</div>
-                        <div class="column countAssign">
-                            <img src="./../../assets/group.png" style="height: 22px;" v-if="assignment.isGroup == true" />
-                            <img src="./../../assets/person.png" style="height: 22px;" v-else />
-                        </div>
+    </div>
+    <!-- All assignment -->
+    <div class="overflowY" style="height: 475px;">
+        <div class="card lecturerCard lecturerCourseCard" v-for="(assignment,index) in allAssignments" v-bind:key="index">
+            <div class="card-content cardSize">
+                <div class="columns">
+                    <div class="column is-two-fifths courseName" @click="routeToAssignmentDetail(assignment.assignment_id)">{{index+1}}) {{assignment.assignment_name}}</div>
+                    <div class="column countAssign">{{assignment.join_code}}</div>
+                    <div class="column is-one-fifth countAssign">
+                        <!-- {{assignment.status_name}} -->
+                        <span class="projectStatus approved" v-if="assignment.status_name == 'Approve'">Approved</span>
+                        <span class="projectStatus request" v-else-if="assignment.status_name == 'Waiting'">Waiting for approve project</span>
+                        <span class="projectStatus request" v-else-if="assignment.status_name == 'Request'">Waiting for edit project</span>
+                        <span class="projectStatus denied" v-else-if="assignment.status_name == 'Reject'">Rejected</span>
+                        <span style="color: red" v-else-if="(assignment.status_name != 'Approve' || assignment.status_name != 'Waiting' || assignment.status_name != 'Reject' || assignment.status_name != 'Request') && assignment.time_up == true">Missing</span>
+                        <span v-else>Not submit</span>
+                    </div>
+                    <div class="column countAssign">
+                        <i class="la la-comment" v-if="assignment.comment == null" style="color:#CCCCCC"></i>
+                        <i class="la la-comment haveComment" v-else @click="showComment(assignment.comment)" style="color:#265080"></i>
+                    </div>
+                    <div class="column countAssign">{{assignment.close_date}}</div>
+                    <div class="column countAssign">
+                        <img src="./../../assets/group.png" style="height: 22px;" v-if="assignment.isGroup == true" />
+                        <img src="./../../assets/person.png" style="height: 22px;" v-else />
                     </div>
                 </div>
             </div>
         </div>
-        <modal name="commentModal">
-            <md-card-header>
-                <md-card-header-text>
-                    <div class="md-title" id="title">Comment</div>
-                </md-card-header-text>
-            </md-card-header>
-            <md-card-content style="max-height: 200px; overflow-y: auto">
-                {{commentText}}
-            </md-card-content>
-        </modal>
-        <modal name="joinAssignmentModal">
-            <md-card-header>
-                <md-card-header-text>
-                    <div class="md-title" id="title">Join Assignment</div>
-                </md-card-header-text>
-            </md-card-header>
-            <div class="grey-text">
-                <md-card-content>
-                    <md-field>
-                        <label>Code join ...</label>
-                        <md-input v-model="code_join" md-autofocus></md-input>
-                    </md-field>
-                </md-card-content>
-                <span class="addBtn">
-                    <a class="button cancelCommentBtn" @click="joinAssignmentModal(false)"><span class="courseName">Cancel</span></a>
-                    <a class="button addCommentBtn cannotClick" v-if="code_join == '' || code_join == null">Add</a>
-                    <a class="button addCommentBtn" v-else @click.prevent="addAssignment">Add</a>
-                </span>
-            </div>
-        </modal>
     </div>
+    <modal name="commentModal">
+        <md-card-header>
+            <md-card-header-text>
+                <div class="md-title" id="title">Comment</div>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content style="max-height: 200px; overflow-y: auto">
+            {{commentText}}
+        </md-card-content>
+    </modal>
+    <modal name="joinAssignmentModal">
+        <md-card-header>
+            <md-card-header-text>
+                <div class="md-title" id="title">Join Assignment</div>
+            </md-card-header-text>
+        </md-card-header>
+        <div class="grey-text">
+            <md-card-content>
+                <md-field>
+                    <label>Code join ...</label>
+                    <md-input v-model="code_join" md-autofocus></md-input>
+                </md-field>
+            </md-card-content>
+            <span class="addBtn">
+                <a class="button cancelCommentBtn" @click="joinAssignmentModal(false)"><span class="courseName">Cancel</span></a>
+                <a class="button addCommentBtn cannotClick" v-if="code_join == '' || code_join == null">Add</a>
+                <a class="button addCommentBtn" v-else @click.prevent="addAssignment">Add</a>
+            </span>
+        </div>
+    </modal>
 </div>
 </template>
 
@@ -122,7 +120,8 @@ export default {
     computed: {
         ...mapGetters({
             URL: 'GET_PATHNAME',
-            config: 'GET_CONFIG'
+            config: 'GET_CONFIG',
+            usernameFromState: 'GET_USERNAME'
         }),
         allAssignments() {
             if (this.search != "") {
@@ -177,6 +176,12 @@ export default {
         },
         routeToAssignmentDetail(assignment_id) {
             router.push(`/studentAssignmentDetail/${assignment_id}`)
+        },
+        goToProfile() {
+            this.$router.push('/student/' + this.usernameFromState)
+        },
+        goToGenerateResume() {
+            this.$router.push('/GenerateResume')
         }
     }
 }
