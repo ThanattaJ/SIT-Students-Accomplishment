@@ -34,19 +34,19 @@ export default {
     data() {
         return {
             indexImg: 0,
+            loopIndex: 0
         }
     },
     mounted() {
-        console.log('img :', this.getImages)
+        console.log('img :', this.getImages.length)
 
     },
     methods: {
         focusImg(index) {
             this.indexImg = index
             console.log(index);
-        }
+        },
     },
-
 }
 </script>
 
@@ -66,6 +66,7 @@ export default {
     margin-right: auto;
     overflow: hidden;
 }
+
 #showImg.pointer {
     cursor: pointer;
 }
