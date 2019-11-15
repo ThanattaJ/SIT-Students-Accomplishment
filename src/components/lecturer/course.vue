@@ -23,11 +23,14 @@
             </div> -->
         </div>
         <!-- All courses -->
-        <div class="card-content cardSize colName">
-            <div class="columns">
-                <div class="column is-two-thirds">Course</div>
-                <div class="column countAssign"># Assignment</div>
-                <!-- <div class="column"></div> -->
+        <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
+        <div v-else>
+            <div class="card-content cardSize colName">
+                <div class="columns">
+                    <div class="column is-two-thirds">Course</div>
+                    <div class="column countAssign"># Assignment</div>
+                    <!-- <div class="column"></div> -->
+                </div>
             </div>
         </div>
         <div  class="overflowY" style="height: 540px;">
@@ -52,6 +55,7 @@
 import './../css/visitor.css';
 import './../css/studentProjectTab.css';
 import './../css/lecturer.css';
+import './../css/Loading.css';
 import {
     mapGetters,
     mapActions
@@ -69,7 +73,8 @@ export default {
     computed: {
         ...mapGetters({
             config: 'GET_CONFIG',
-            URL: 'GET_PATHNAME'
+            URL: 'GET_PATHNAME',
+            loading: 'GET_LOADING'
         }),
         allCourse() {
             if (this.search != "") {
@@ -93,9 +98,10 @@ export default {
                 console.error("error : " + err);
             });
         this.defaultCourse = this.courses[0]
+        this.SET_LOADING_STATUS(false)
     },
     methods: {
-        ...mapActions(['SET_COURSENAME', 'SET_ACADEMIC_TERM_ID']),
+        ...mapActions(['SET_COURSENAME', 'SET_ACADEMIC_TERM_ID', 'SET_LOADING_STATUS']),
         chooseTerm() {
             var chooseTerm = document.getElementById("chooseTerm").value
             for (var n = 0; n < this.courses.length; n++) {
@@ -105,6 +111,9 @@ export default {
                 }
             }
         }
+    },
+    beforeMount() {
+      this.SET_LOADING_STATUS(true)
     }
 }
 </script>
