@@ -2,7 +2,7 @@
 <div>
     <div id="bodyBg">
         <div class="columns">
-            <div class="column">
+            <div class="column" style="margin-bottom: -55px;">
                 <div class="field has-addons">
                     <p class="control">
                         <span class="select">

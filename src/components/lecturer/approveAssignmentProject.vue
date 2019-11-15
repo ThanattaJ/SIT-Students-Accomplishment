@@ -1,9 +1,15 @@
 <template>
 <div>
     Status :
-    <a id='Waiting' class="button statusBtn" @click="setStatus('Waiting');openAskModal()"><span id='WaitingText' class="courseName">Waiting</span></a>
-    <a id='Approve' class="button statusBtn" @click="setStatus('Approve');openAskModal()"><span id='ApproveText' class="courseName">Approve</span></a>
-    <a id='Reject' class="button statusBtn" @click="setStatus('Reject');openAskModal()"><span id='RejectText' class="courseName">Reject</span></a>
+    <span v-if="project_status == 'Waiting'">
+        <a id='Waiting' class="button statusBtn" @click="setStatus('Waiting');openAskModal()"><span id='WaitingText' class="courseName">Waiting</span></a>
+        <a id='Approve' class="button statusBtn" @click="setStatus('Approve');openAskModal()"><span id='ApproveText' class="courseName">Approve</span></a>
+        <a id='Reject' class="button statusBtn" @click="setStatus('Reject');openAskModal()"><span id='RejectText' class="courseName">Reject</span></a>
+    </span>
+    <span class="projectStatus approved" v-else-if="project_status == 'Approve'">Approved</span>
+    <span class="projectStatus request" v-else-if="project_status == 'Request'">Waiting for edit project</span>
+    <span class="projectStatus denied" v-else-if="project_status == 'Reject'">Rejected</span>
+
     <modal name="askForSure">
         <md-card-header>
             <md-card-header-text>
@@ -76,16 +82,10 @@ export default {
     methods: {
         ...mapActions(['SET_PROJECT_STATUS']),
         setStatus(status) {
+            console.log("status_name: ", status)
             this.statusBefore = this.statusTmp
             this.statusTmp = status
             this.setCssToDefault()
-            // this.SET_PROJECT_STATUS(status)
-            // document.getElementById('Approve').className = 'button statusBtn'
-            // document.getElementById('Waiting').className = 'button statusBtn'
-            // document.getElementById('Reject').className = 'button statusBtn'
-            // document.getElementById('ApproveText').className = 'courseName'
-            // document.getElementById('WaitingText').className = 'courseName'
-            // document.getElementById('RejectText').className = 'courseName'
             console.log("before : ", this.statusBefore)
             console.log("after : ", this.statusTmp)
             if (status == 'Approve') {
@@ -106,7 +106,7 @@ export default {
             document.getElementById('WaitingText').className = 'courseName'
             document.getElementById('RejectText').className = 'courseName'
         },
-        setBeforeStatus(){
+        setBeforeStatus() {
             this.statusTmp = this.statusBefore
             this.setStatus(this.statusTmp)
             console.log("after : ", this.statusTmp)
@@ -134,7 +134,7 @@ export default {
                 project_id: this.project_id,
                 status: this.statusTmp,
             }
-            if(this.commentText != null){
+            if (this.commentText != null) {
                 data['comment'] = this.commentText
             }
             console.log("data :", data)
@@ -143,6 +143,7 @@ export default {
                 ).then(res => {
                     console.log("res : ", res)
                     if (res.status == 200) {
+                        this.SET_PROJECT_STATUS(data.status)
                         this.closeAskModal()
                         this.closeComment()
                     }

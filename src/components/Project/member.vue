@@ -58,13 +58,14 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
-                    <div class="column">
+                    <!-- <div class="column">
                         <div class="content">
                             <div id="mail">{{out.email}}</div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -116,7 +117,7 @@ export default {
     background-color: white !important;
     border: none !important;
     font-size: 15px !important;
-    margin-top: 10px !important;
+    margin-top: 2px !important;
 }
 #nonMember{
     color: #265080 !important;

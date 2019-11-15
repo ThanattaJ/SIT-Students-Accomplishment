@@ -1,11 +1,12 @@
 <template>
 <div>
+    <!-- {{allProjects}} -->
     <div id="bodyBg">
         <div class="buttons has-addons is-centered is-fullwidth" style="font-weight:bold">
             <!-- <span class="button menuBar is-info is-selected" @click="filterByFaculty('')">ALL</span> -->
-            <span class="button facultyMenu is-info is-selected" @click="filterByFaculty('INT')">Information Technology</span>
-            <span class="button facultyMenu" style="color:#265080 !important" @click="filterByFaculty('CSC')">Computer Science</span>
-            <span class="button facultyMenu" style="color:#265080 !important" @click="filterByFaculty('DSI')">Digital Service Innovation</span>
+            <span id="INTbtn" class="button facultyMenu is-info is-selected" @click="filterByFaculty('INT')">Information Technology</span>
+            <span id="CSCbtn" class="button facultyMenu" style="color:#265080 !important" @click="filterByFaculty('CSC')">Computer Science</span>
+            <span id="DSIbtn" class="button facultyMenu" style="color:#265080 !important" @click="filterByFaculty('DSI')">Digital Service Innovation</span>
         </div>
     </div>
     <div id="bodyBg">
@@ -119,9 +120,11 @@ export default {
         fetchData() {
             this.getAllCourses()
             setTimeout(() => {
-                this.nav(0)
-                this.showAcademicTerm(0)
-            }, 300)
+                if (this.allProjectCourse.length != 0) {
+                    this.nav(0)
+                    this.showAcademicTerm(0)
+                }
+            }, 2000)
         },
         async getAllCourses() {
             try {
@@ -164,7 +167,7 @@ export default {
             document.getElementById('academic_term' + index).style.display = 'block'
         },
         nav(index) {
-            console.log('index : ',index)
+            console.log('index : ', index)
             if (this.courses.length > 0) {
                 for (var n = 0; n < this.courses.length; n++) {
                     var navStyle = document.getElementById('navAssignment navCourse' + n).style
@@ -181,11 +184,20 @@ export default {
                 navStyle.padding = '3px 5px'
                 navStyle.borderRadius = '6px'
             }
-this.showAcademicTerm(0)
+            this.showAcademicTerm(0)
         },
         ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW']),
         filterByFaculty(faculty) {
             this.faculty = faculty
+            var btn = ['INT','DSI','CSC']
+            for(var n = 0; n < btn.length; n++){
+                document.getElementById(btn[n]+'btn').className = "button facultyMenu"                
+                document.getElementById(btn[n]+'btn').style.color = "#265080"                
+            }
+            document.getElementById(faculty+'btn').className = "button facultyMenu is-info is-selected"
+            document.getElementById(faculty+'btn').style.color = "white"  
+            
+            this.allProjects = []
         }
     }
 }

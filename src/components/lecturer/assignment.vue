@@ -1,9 +1,8 @@
 <template>
-<div>
     <div id="bodyBg">
-        <div class="columns">
+        <div class="columns" style="margin-bottom: 40px;">
             <router-link to="/course"><span style="color:#4A4A4A">Course</span></router-link> /
-            <span style="color:#265080">Assignment</span>
+            <span style="color:#265080"><b>Assignment</b></span>
         </div>
         <!-- <search -->
         <div class="columns">
@@ -95,7 +94,6 @@
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>

@@ -113,14 +113,14 @@
     <div v-else>
         <div id="bodyBg" v-if="isProfileType == false">
             <div class="columns is-multiline">
-                <!-- <div class="column is-one-third" v-for="(project,index) in allProjectPresent" v-bind:key="index"> -->
-                <div class="column is-one-quarter" v-for="(project,index) in allProjectPresent" v-bind:key="index">
+                <div class="column is-one-third" v-for="(project,index) in allProjectPresent" v-bind:key="index">
+                <!-- <div class="column is-one-quarter" v-for="(project,index) in allProjectPresent" v-bind:key="index"> -->
                     <router-link :to="`/ProjectDetail/${project.id}`">
                         <div class="card projectCard content_img">
                             <div v-if="project.cover_path != null">
                                 <figure class="image coverImg is-4by2">
-                                    <img :src="project.cover_path" alt="Placeholder image" style="height: 200px !important;border-radius: 5px;">
-                                    <!-- <img :src="project.cover_path" alt="Placeholder image" style="height: 271px !important;border-radius: 5px;"> -->
+                                    <!-- <img :src="project.cover_path" alt="Placeholder image" style="height: 200px !important;border-radius: 5px;"> -->
+                                    <img :src="project.cover_path" alt="Placeholder image" style="height: 271px !important;border-radius: 5px;">
                                     <div class="img-text">
                                         <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
                                         <span class="countText">{{project.count_viewer}} </span>
@@ -131,7 +131,7 @@
                             </div>
                             <div v-else>
                                 <figure class="image coverImg is-4by2">
-                                    <img src="./../../assets/noCoverImg.png" style="height: 200px !important;border-radius: 5px;">
+                                    <img src="./../../assets/noCoverImg.png" style="height: 271px !important;border-radius: 5px;">
                                     <!-- <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;"> -->
                                     <div class="img-text">
                                         <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
@@ -349,6 +349,8 @@ export default {
                 this.showYear = false
                 if (searchBy == 'tags') {
                     this.searchInput = false
+                }else if(searchBy == 'stdProfile'){
+                    this.search = ''
                 }
             }
             this.searchBy()
