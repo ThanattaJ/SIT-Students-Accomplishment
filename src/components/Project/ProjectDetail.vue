@@ -196,7 +196,7 @@
                 <div class="column">
                     <div id="Authors">
                         <member />
-                        <!-- {{this.nonMembers}} -->
+                        {{this.nonMembers}}
                     </div>
                     <div id="lecturer" v-if="this.haveAssignment">
                         <div class="card lecturerCard" id="Documents">
@@ -446,8 +446,12 @@ export default {
                 this.setNonMember(data.outsiders)
             }
         }
-
-        this.setRef(data.project_detail.references[0])
+        if(data.project_detail.references !=null){
+            if(data.project_detail.references.length){
+                this.setRef(data.project_detail.references[0])
+            }
+        }
+        // this.setRef(data.project_detail.references[0])
         this.setTool(data.project_detail.tool_techniq_detail)
         this.setTag(data.tags)
         this.setClap(data.project_detail.count_clap)
@@ -695,6 +699,7 @@ export default {
         this.setFile(this.noPic.cover)
         this.setMember('')
         this.setNonMember('')
+        this.setRef('')
     },
     beforeMount() {
         this.setEditProject(this.EditProject)
