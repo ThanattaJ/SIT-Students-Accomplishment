@@ -110,7 +110,7 @@
     </div> -->
     <!-- All projects -->
     <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
-    <div>
+    <div v-else>
         <div id="bodyBg" v-if="isProfileType == false">
             <div v-if="allProjectPresent.length > 0" class="columns is-multiline">
                 <div class="column is-one-third" v-for="(project,index) in allProjectPresent" v-bind:key="index">
@@ -160,7 +160,7 @@
 
     <!-- All profiles -->
     <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
-    <div>
+    <div v-else>
         <div id="bodyBg" v-if="isProfileType == true">
             <div v-if="profiles.length > 0" class="columns is-multiline">
                 <div class="column is-half" v-for="(profile,index) in profiles" v-bind:key="index">
