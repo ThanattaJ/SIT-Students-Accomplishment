@@ -2,11 +2,11 @@
 <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
 <div v-else>
     <div id="bodyBg">
-        <div class="columns">
-            <div class="column is-narrow">
+        <div class="columns"  v-if="this.haveLecturer">
+            <div class="column is-narrow"> 
                 <div class="field">
                     <p class="control has-icons-left">
-                        <input class="input" type="text" v-model="search" placeholder="Search Lecturer ...">
+                        <input class="input" type="text" v-model="search" placeholder="Search Lecturer ..." >
                         <span class="icon is-small is-left">
                             <i class="la la-search"></i>
                         </span>
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="columns">
+        <div class="columns" v-if="this.haveLecturer">
             <div class="column">
                 <div class="card-content cardSize colName">
                     <div class="columns">
@@ -32,6 +32,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div v-else>
+            <p id="noLecturer">
+                Name of teacher not found in the system</p>
         </div>
     </div>
 </div>
@@ -50,14 +54,11 @@ export default {
     data() {
         return {
             columns: ['#', 'Name', 'Position', 'Actions '],
-            persons: [{
-                fName: "Sophon",
-                lName: "Jampasornklin",
-                position: "รายละเอียดวิชา"
-            }, ],
+            persons: [],
             bin: [],
             isActive: false,
             search: "",
+            haveLecturer: true
         }
     },
     async mounted() {
@@ -66,14 +67,21 @@ export default {
             data
         } = await axios.get(`${this.URL}/users/list_lecturer`);
         console.log(data);
-        for (let i = 0; i < data.length; i++) {
-            this.persons.push(data[i])
-            this.persons[i].fName = data[i].firstname
-            this.persons[i].lName = data[i].lastname
-            this.persons[i].position = data[i].position_name
+        if (data.message != 'Validate Error') {
+            for (let i = 0; i < data.length; i++) {
+                this.persons.push(data[i])
+                this.persons[i].fName = data[i].firstname
+                this.persons[i].lName = data[i].lastname
+                this.persons[i].position = data[i].position_name
+            }
+            this.persons.length = data.length
+            this.SET_LOADING_STATUS(false)
+        } else {
+            console.log('no locturer');
+            this.SET_LOADING_STATUS(false)
+            this.haveLecturer = false
+
         }
-        this.persons.length = data.length
-        this.SET_LOADING_STATUS(false)
     },
     methods: {
         ...mapActions(['SET_LOADING_STATUS']),
@@ -83,7 +91,7 @@ export default {
         },
     },
     beforeMount() {
-      this.SET_LOADING_STATUS(true)
+        this.SET_LOADING_STATUS(true)
     },
     computed: {
         ...mapGetters({
@@ -112,9 +120,13 @@ var ordonner = function (a, b) {
 };
 </script>
 
-<style  scoped>
-.lecturerName{
+<style scoped>
+.lecturerName {
     height: 60px !important;
     margin-bottom: 15px;
+}
+#noLecturer{
+    margin-left: 40%;
+    margin-top: 10%
 }
 </style>
