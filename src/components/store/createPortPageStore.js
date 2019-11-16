@@ -29,11 +29,11 @@ export const createPortPageStore = {
         assignment_id: 0
     },
     actions: {
-        LOAD_ALL_STUDENT: async function ({ commit, rootState }) { //ดึงนศทั้งหมด
-            console.log("ดึงนศทั้งหมด")
+        LOAD_ALL_STUDENT: async function ({ commit, rootState }, student_id) { //ดึงนศทั้งหมด
+            console.log("ดึงนศ")
             const URL = rootState.pathStore.pathName
             const { data } = await axios.get(
-                URL+'/users/list_student/59'
+                URL+'/users/list_student/'+student_id
             );
             commit('SET_ALL_STUDENT', data)
         },

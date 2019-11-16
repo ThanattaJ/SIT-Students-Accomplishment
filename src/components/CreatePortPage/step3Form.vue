@@ -12,6 +12,7 @@
         </ul>
     </nav>
     <!-- Add และ show นศที่ถูกเลือกเพิ่มเข้ามาเป็น member -->
+
     <div id="Student" class="content-tab">
         <div class="field">
             <multi-select :options="allStudent" :selectedOptions="selectedStudentMember" placeholder="Select Student ID" @select="onSelect">
@@ -86,13 +87,14 @@
 </template>
 
 <script>
+import {
+    MultiSelect
+} from 'vue-search-select'
 import 'vue-search-select/dist/VueSearchSelect.css'
 // import './../../../node_modules/bulma/css/bulma.css';
 import './../css/form.css';
 import vueStep from 'vue-step';
-import {
-    MultiSelect
-} from 'vue-search-select'
+
 import axios from 'axios';
 import {
     mapGetters,
@@ -117,10 +119,13 @@ export default {
             outsider: 'GET_OUTSIDER',
             //ใช้แสดงพวก step ในการ create project
             isExternalProject: 'GET_PROJECTTYPE',
-            isGroupProject: 'GET_ISGROUP'
+            isGroupProject: 'GET_ISGROUP',
+            pathName: 'GET_PATHNAME'
         })
     },
-    mounted() {},
+    mounted() {
+        this.LOAD_ALL_STUDENT('59')
+    },
     methods: {
         ...mapActions(['LOAD_ALL_STUDENT', 'SET_SELECTED_STUDENT_MEMBER', 'SET_OUTSIDER']),
         openTab(tabName) {
@@ -152,10 +157,10 @@ export default {
                 this.outsiderFirstname = '';
                 this.outsiderLastname = ''
             } else {
-                if(this.outsiderFirstname.length == 0){
+                if (this.outsiderFirstname.length == 0) {
                     this.$refs.tmpFirstValidate.innerHTML = 'The field is required'
                 }
-                if(this.outsiderLastname.length == 0){
+                if (this.outsiderLastname.length == 0) {
                     this.$refs.tmpLastValidate.innerHTML = 'The field is required'
                 }
             }

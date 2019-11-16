@@ -79,7 +79,6 @@ export default {
     },
 
     mounted() {
-        this.LOAD_ALL_STUDENT()
         if (this.isExternalProject == false && this.isGroupProject == false) {
             this.mySteps = ['Create Project', 'Project Overview', 'Project Achievement']
         }

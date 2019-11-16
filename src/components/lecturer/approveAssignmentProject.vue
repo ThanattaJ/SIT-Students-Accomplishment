@@ -1,11 +1,13 @@
 <template>
 <div>
-    Status :
-    <span v-if="project_status == 'Waiting'">
-        <a id='Waiting' class="button statusBtn" @click="setStatus('Waiting');openAskModal()"><span id='WaitingText' class="courseName">Waiting</span></a>
+    Project Status :
+    <span v-if="project_status == 'Waiting' || project_status == 'Reject'">
+        <!-- <a id='Waiting' class="button statusBtn" @click="setStatus('Waiting');openAskModal()"><span id='WaitingText' class="courseName">Waiting</span></a> -->
+        <a id='Waiting' class="button statusBtn"  v-if="project_status == 'Waiting'"><span id='WaitingText' class="courseName">Waiting</span></a>
         <a id='Approve' class="button statusBtn" @click="setStatus('Approve');openAskModal()"><span id='ApproveText' class="courseName">Approve</span></a>
         <a id='Reject' class="button statusBtn" @click="setStatus('Reject');openAskModal()"><span id='RejectText' class="courseName">Reject</span></a>
     </span>
+
     <span class="projectStatus approved" v-else-if="project_status == 'Approve'">Approved</span>
     <span class="projectStatus request" v-else-if="project_status == 'Request'">Waiting for edit project</span>
     <span class="projectStatus denied" v-else-if="project_status == 'Reject'">Rejected</span>
@@ -76,18 +78,19 @@ export default {
         })
     },
     mounted() {
+        console.log("--- this.project_status --- ",this.project_status)
         this.setStatus(this.project_status)
         this.statusBefore = this.project_status
     },
     methods: {
-        ...mapActions(['SET_PROJECT_STATUS']),
+        ...mapActions(['SET_PROJECT_STATUS', 'SET_ISAPPROVER']),
         setStatus(status) {
             console.log("status_name: ", status)
             this.statusBefore = this.statusTmp
             this.statusTmp = status
-            this.setCssToDefault()
-            console.log("before : ", this.statusBefore)
-            console.log("after : ", this.statusTmp)
+            if(this.project_status != "Approve"){
+                this.setCssToDefault()
+            }
             if (status == 'Approve') {
                 document.getElementById('Approve').className = 'button statusBtn approved'
             } else if (status == 'Waiting') {
@@ -99,11 +102,13 @@ export default {
             document.getElementById(status).className += ' white'
         },
         setCssToDefault() {
+            if(this.project_status == 'Waiting'){
+                document.getElementById('Waiting').className = 'button statusBtn'
+                document.getElementById('WaitingText').className = 'courseName'
+            }
             document.getElementById('Approve').className = 'button statusBtn'
-            document.getElementById('Waiting').className = 'button statusBtn'
             document.getElementById('Reject').className = 'button statusBtn'
             document.getElementById('ApproveText').className = 'courseName'
-            document.getElementById('WaitingText').className = 'courseName'
             document.getElementById('RejectText').className = 'courseName'
         },
         setBeforeStatus() {
@@ -152,6 +157,9 @@ export default {
                     console.error("error : " + err);
                 });
         }
-    }
+    },
+     beforeDestroy() {
+        this.SET_ISAPPROVER(false)
+    },
 }
 </script>

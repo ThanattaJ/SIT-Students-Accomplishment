@@ -98,9 +98,9 @@ export default {
     methods: {
         ...mapActions([]),
     },
-    beforeDestroy() {
-        this.setMember(" ")
-    },
+    // beforeDestroy() {
+    //     this.setMember(" ")
+    // },
 }
 </script>
 

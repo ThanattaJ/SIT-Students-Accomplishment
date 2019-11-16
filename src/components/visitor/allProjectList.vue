@@ -296,19 +296,6 @@ export default {
         this.canClickYear('projects')
     },
     methods: {
-        // goToStudentProfile(student_id) {
-        //     console.log(student_id)
-        //     try {
-        //         this.SET_LOADING_STATUS(true)
-        //         this.LOAD_OTHER_STUDENT_DATA({
-        //             user_role: 'student',
-        //             user_id: student_id,
-        //         })
-        //     } catch (err) {
-        //         console.log('err', err)
-        //     }
-        //     this.$router.push('/student')
-        // },
         ...mapActions(['LOAD_ALL_PROJECT_VISITORVIEW', 'LOAD_PROJECT_BY_SEARCH', 'LOAD_OTHER_STUDENT_DATA', 'SET_ALL_PROJECT_VISITORVIEW', 'SET_LOADING_STATUS']),
         showDropdown() {
             document.getElementById('tagInput').className = "dropdown is-active"

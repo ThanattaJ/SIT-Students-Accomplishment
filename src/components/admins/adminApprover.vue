@@ -1,7 +1,7 @@
 <template>
 <div>
-    <div id="approve_bar">
-        Approve request edit project:
+    <div>
+        <b>Approve request edit project ? </b>
         <a id='Approve' class="button statusBtn" @click="setStatus('Approve');openAskModal()"><span id='ApproveText' class="courseName">Yes</span></a>
         <a id='Reject' class="button statusBtn" @click="setStatus('Reject');openAskModal()"><span id='RejectText' class="courseName">No</span></a>
     </div>
@@ -50,25 +50,25 @@ export default {
         })
     },
     mounted() {
-        this.setStatus(this.project_status)
+        // this.setStatus(this.project_status)
     },
     methods: {
         ...mapActions(['set_approver']),
         setStatus(status) {
             this.statusTmp = status
-            console.log('status : ', this.statusTmp)
-            document.getElementById('Approve').className = 'button statusBtn'
-            document.getElementById('Reject').className = 'button statusBtn'
-            document.getElementById('ApproveText').className = 'courseName'
-            document.getElementById('RejectText').className = 'courseName'
+            //     console.log('status : ', this.statusTmp)
+            //     document.getElementById('Approve').className = 'button statusBtn'
+            //     document.getElementById('Reject').className = 'button statusBtn'
+            //     document.getElementById('ApproveText').className = 'courseName'
+            //     document.getElementById('RejectText').className = 'courseName'
 
-            if (status == 'Approve') {
-                document.getElementById('Approve').className = 'button statusBtn approved'
-            } else {
-                document.getElementById('Reject').className = 'button statusBtn denied'
-            }
-            document.getElementById(status + 'Text').className = 'white'
-            document.getElementById(status).className += ' white'
+            //     if (status == 'Approve') {
+            //         document.getElementById('Approve').className = 'button statusBtn approved'
+            //     } else {
+            //         document.getElementById('Reject').className = 'button statusBtn denied'
+            //     }
+            //     document.getElementById(status + 'Text').className = 'white'
+            //     document.getElementById(status).className += ' white'
         },
         openAskModal(status) {
             this.$modal.show('askForSure')
@@ -102,9 +102,3 @@ export default {
     },
 }
 </script>
-
-<style>
-#approve_bar {
-    margin-left: 28%
-}
-</style>

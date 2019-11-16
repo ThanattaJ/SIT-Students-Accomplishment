@@ -42,6 +42,7 @@
                     <div id="end">
                         <div style=" color: #949494; font-size: 12px;">Updated at: {{this.update}}</div>
                     </div>
+                    <!-- this.project_status : {{this.project_status}} -->
                     <div id="project_status">
                         <div v-if="this.access">
                             <div v-if="this.project_status === 'Request'">
@@ -61,6 +62,14 @@
                             <div v-if="this.project_status === 'Reject'">
                                 <p>Project Status : <span class="projectStatus denied">Reject</span></p>
                             </div>
+                        </div>
+                        <div v-if="GET_ISAPPROVER == true">
+                            <approveAssignmentProject></approveAssignmentProject>
+                        </div>
+                        <!-- admin : {{get_approver}} <br>
+                        project_status : {{project_status}} -->
+                        <div v-if="get_approver == true">
+                            <adminApprover  v-if="project_status == 'Request'"/>
                         </div>
                     </div>
                 </div>
@@ -137,14 +146,6 @@
                                     <button class="button is-success" id="save" @click="save" v-else-if="EditProject">Save Change</button>
                                     <button class="button" id="cancel" @click="cancel" v-if="EditProject">Cancel</button>
                                 </div>
-                            </div>
-                            lecturer : {{GET_ISAPPROVER}} <br>
-                            <div v-if="GET_ISAPPROVER == true">
-                                <approveAssignmentProject></approveAssignmentProject>
-                            </div>
-                            admin : {{get_approver}} <br>
-                            <div v-if="get_approver == true">
-                                <adminApprover />
                             </div>
                         </div>
                     </div>
@@ -634,7 +635,7 @@ export default {
             this.setRef(this.References)
 
             console.log(this.nonMembers, "defult");
-            
+
             this.setNonMember(this.getNonMember)
 
         },

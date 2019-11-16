@@ -1,7 +1,7 @@
 <template>
 <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
 <div v-else>
-    <div id="ManageEditRequest">
+    <div id="bodyBg">
         <div class="card-content cardSize colName">
             <div class="columns">
                 <div class="column is-two-thirds">Project</div>

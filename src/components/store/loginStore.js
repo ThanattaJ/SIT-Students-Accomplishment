@@ -30,13 +30,6 @@ export const loginStore = {
       try {
         console.log("เข้า try LOGIN")
         await axios
-          // .post(pathName + "/login", data)
-          // .post("http://localhost:7000/login", data,
-          //   {
-          //     headers: {
-          //       'Content-Type': 'application/json'
-          //     }
-          //   })
           .post(pathName + "/login", data,{
             headers: {
               'Content-Type': 'application/json'
@@ -58,18 +51,10 @@ export const loginStore = {
                 }
               }
               localStorage.setItem('Authen_token', res.data.token);
+              localStorage.setItem('name', res.data.fullname);
               localStorage.setItem('usernameSIT', username);
               localStorage.setItem('loginStatus', true);
               location.reload()
-              // router.push('/student/'+username)')
-
-              // if(res.data.isAdmin){
-              //   router.push('/course')
-              // }
-              // else{
-              //   location.reload()
-              //   // router.push('/student')
-              // }
             }
           })
           .catch(err => {

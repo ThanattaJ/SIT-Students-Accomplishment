@@ -75,6 +75,7 @@ export const lecturerStore = {
             return state.isApprover
         },
         GET_PROJECT_STATUS(state) {
+            console.log('state.assignmentProjectStatus : ',state.assignmentProjectStatus)
             return state.assignmentProjectStatus
         }
     }

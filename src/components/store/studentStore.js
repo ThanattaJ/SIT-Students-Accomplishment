@@ -4,15 +4,6 @@ export const studentStore = {
     state: {
         studentData: {
             profile: {
-                // student_id: "",
-                // firstname: "",
-                // lastname: "",
-                // email: null,
-                // profile_picture: null,
-                // viewer: 0,
-                // resume_gen_count: 0,
-                // curriculum_name: "",
-                // nickname: ""
             },
             projects: [],
             numberOfProjects: 0,

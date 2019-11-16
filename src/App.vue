@@ -66,7 +66,7 @@
 
             <div class="navbar-end">
                 <a class="navbar-item">
-                    <span v-if="loginStatus == true">Hi, <b>{{usernameFromState}}</b> | <a @click="logout">Logout</a></span>
+                    <span v-if="loginStatus == true">Hi, <b>{{name}}</b> | <a @click="logout">Logout</a></span>
                     <span v-else><i class="la la-sign-in"></i> | <a @click="showLoginModal">Login</a></span>
                 </a>
             </div>
@@ -102,7 +102,8 @@ export default {
             username: null,
             user_role: null,
             isAdmin: null,
-            loadNav: false
+            loadNav: false,
+            name: localStorage.getItem('name')
         }
     },
     computed: {
