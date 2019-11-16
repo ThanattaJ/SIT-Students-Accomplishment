@@ -336,25 +336,25 @@ export default {
     data() {
         return {
             header: {
-                TitleName: "",
-                TitleName_TH: ""
+                TitleName: null,
+                TitleName_TH: null
             },
             Abstract: {
-                content_Abstract: ""
+                content_Abstract: null
             },
             Detail: {
-                content_eg: " "
+                content_eg: null
             },
             Authours: [{
-                Student_id: "",
-                firstname: "",
-                lastname: "",
-                mail: ""
+                Student_id: null,
+                firstname: null,
+                lastname: null,
+                mail: null
             }],
             nonMembers: [],
             Tools: {},
             Acheivement: [],
-            References: " ",
+            References: null,
             files: [],
             EditProject: false,
             tags: [],
@@ -364,21 +364,22 @@ export default {
                 path: null
             },
             pictures: [],
-            clap: '',
-            viewer: '',
-            create: '',
-            update: '',
+            clap: null,
+            viewer: null,
+            create: null,
+            update: null,
             noPic: {
                 'cover': require('../.././assets/cover_nopic.png')
             },
             show: true,
             access: true,
+            haveOutsider: false,
             haveAssignment: false,
-            assignment_id: '',
-            academic_term: '',
+            assignment_id: null,
+            academic_term: null,
             lecturer: [],
             isClap: true,
-            project_status: '',
+            project_status: null,
             isLoading: false,
             status: 'Status',
             statusRequest: false,
@@ -432,6 +433,7 @@ export default {
         this.setPID(data.project_detail.id)
         this.header.TitleName = data.project_detail.project_name_en;
         this.header.TitleName_TH = data.project_detail.project_name_th;
+        this.haveOutsider = data.haveOutsider
         this.viewer = data.project_detail.count_viewer
         this.create = data.project_detail.created_at
         this.update = data.project_detail.updated_at
@@ -445,10 +447,13 @@ export default {
                 this.setNonMember(data.outsiders)
             }
         }
+        console.log(data.project_detail.references);
         if (data.project_detail.references != null) {
             if (data.project_detail.references.length) {
                 this.setRef(data.project_detail.references[0])
             }
+        } else {
+            this.setRef('')
         }
         // this.setRef(data.project_detail.references[0])
         this.setTool(data.project_detail.tool_techniq_detail)
@@ -561,17 +566,18 @@ export default {
             if (this.getNonMember) {} else {
                 this.setNonMember([])
             }
+            console.log('this.getRef', this.getRef.length);
             var data = {
                 project_detail: {
                     id: this.$route.params.pId,
                     project_name_th: this.header.TitleName_TH,
                     project_name_en: this.header.TitleName,
-                    project_detail: this.getDetail === " " ? null : this.getDetail,
+                    project_detail: this.getDetail.length === 0 ? null : this.getDetail,
                     project_abstract: this.getAbstract,
-                    haveOutsider: true,
+                    haveOutsider: this.haveOutsider,
                     isShow: this.show,
-                    tool_techniq_detail: this.getTool === " " ? null : this.getTool,
-                    references: this.getRef === " " ? null : this.getRef,
+                    tool_techniq_detail: this.getTool.length === 0 ? null : this.getTool,
+                    references: this.getRef.length === 0 ? null : this.getRef,
                 },
                 students: this.getMember,
                 achievements: this.GET_ACHIEVEMENT,
@@ -592,12 +598,12 @@ export default {
                             id: this.$route.params.pId,
                             project_name_th: this.header.TitleName_TH,
                             project_name_en: this.header.TitleName,
-                            project_detail: this.getDetail === " " ? null : this.getDetail,
+                            project_detail: this.getDetail.length === 0 ? null : this.getDetail,
                             project_abstract: this.getAbstract,
-                            haveOutsider: true,
+                            haveOutsider: this.haveOutsider,
                             isShow: this.show,
-                            tool_techniq_detail: this.getTool === " " ? null : this.getTool,
-                            references: this.getRef === " " ? null : this.getRef,
+                            tool_techniq_detail: this.getTool.length === 0 ? null : this.getTool,
+                            references: this.getRef.length === 0 ? null : this.getRef,
                             // count_viewer: 0,
                             // count_clap: this.clap,
                             start_month: 2,
