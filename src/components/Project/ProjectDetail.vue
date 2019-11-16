@@ -702,6 +702,7 @@ export default {
         this.setMember('')
         this.setNonMember('')
         this.setRef('')
+        this.SET_VDO_PATHNAME('')
     },
     beforeMount() {
         this.setEditProject(this.EditProject)
