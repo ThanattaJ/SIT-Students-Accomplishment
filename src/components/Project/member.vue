@@ -10,10 +10,10 @@
                     <div class="content" id="student">
                         <router-link :to="`/student/${student.student_id}`">
                             <div class="columns">
-                                <div class="column">
+                                <div class="column" >
                                     <a id="student"> {{student.firstname}}</a>
                                 </div>
-                                <div class="column">
+                                <div class="column" style="margin-left:-80px">
                                     <a id="student">{{student.lastname}}</a>
                                 </div>
                             </div>
@@ -22,27 +22,28 @@
                 </div>
                 <div class="column">
                     <div class="content">
-                        <div id="student_id">ID : <a id="student">{{student.student_id}}</a></div>
+                        <div id="student_id">ID : <router-link :to="`/student/${student.student_id}`"> <a id="student">{{student.student_id}}</a></router-link></div>
                         <div id="mail" >{{student.email}}</div>
                     </div>
                 </div>
                 <md-tooltip md-direction="bottom">Click on the name/id to go to the profile.</md-tooltip>
             </div>
-            <div v-if=" this.getNonMember.length != 0">
-                <div class="columns" v-for=" (out,index) in getNonMember" v-bind:key="index">
+            <div v-if=" this.getNonMember">
+                <div class="columns" v-for=" (out,index) in this.getNonMember" v-bind:key="index">
                     <div class="column">
                         <div class="content">
-                            <div v-if="!getEditProject">
+                            <div>
+                            <!-- <div v-if="!getEditProject"> -->
                                 <div class="columns" id="nonMember">
                                     <div class="column">                                        
                                         {{out.firstname}}
                                     </div>
-                                    <div class="column">
+                                    <div class="column" style="margin-left:-80px">
                                         {{out.lastname}}
                                     </div>
                                 </div>
                             </div>
-                            <div v-else>
+                            <!-- <div v-else>
                                 <div class="columns">
                                     <div class="column">
                                         <input class="input" type="text" v-model="out.firstname" id="nonMember">
@@ -57,19 +58,18 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                         </div>
                     </div>
-                    <!-- <div class="column">
+                    <div class="column">
                         <div class="content">
                             <div id="mail">{{out.email}}</div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 </template>
@@ -83,7 +83,8 @@ import {
 export default {
     data() {
         return {
-            user_role: "student"
+            user_role: "student",
+            storeNonMember:[]
         }
     },
     computed: {
@@ -92,11 +93,15 @@ export default {
             'getMember',
             'getEditProject',
             'GET_STUDENT_PROFILE'
-        ])
+        ]),
     },
-    mounted() {},
+    mounted() {
+        console.log(this.getNonMember,'get non member');        
+    },
     methods: {
-        ...mapActions([]),
+        ...mapActions([
+            'setMember'
+        ])
     },
     // beforeDestroy() {
     //     this.setMember(" ")
@@ -105,25 +110,21 @@ export default {
 </script>
 
 <style>
-#non {
-    color: #949494;
-    margin-left: 15%;
-    margin-bottom: 20px;
-    margin-top: -10px;
-}
+
 #student,
 #student_id {
     color: #265080 !important;
     background-color: white !important;
     border: none !important;
     font-size: 15px !important;
-    margin-top: 2px !important;
+    /* margin-top: -2px !important; */
 }
 #nonMember{
     color: #265080 !important;
     background-color: white !important;
     border: none !important;
     font-size: 15px !important;
+    margin-top: -25px !important;
 }
 
 #mail {
@@ -131,7 +132,6 @@ export default {
     line-height: 16px !important;
     display: flex !important;
     align-items: center !important;
-
     color: #949494 !important;
 }
 

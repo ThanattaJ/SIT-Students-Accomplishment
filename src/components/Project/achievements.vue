@@ -5,15 +5,21 @@
             <header class="card-header">
                 <p class="card-header-title" id="cardHeader">Achievement</p>
             </header>
-
             <div class="card-content">
-                <div v-for="(ach,index) in achievement " v-bind:key="index">
-                    <div class="card lecturerCard lecturerCourseCard" @click="showAchivement(index)">
-                        <div class="card-content cardSize">
-                            <div class="columns">
-                                <div class="column  courseName"> {{ach.achievement_name}}</div>
-                                <div class="column" style="font-size:10px">organize_by :{{ach.organize_by}}</div>
-                            </div>
+                <div v-for="(ach,index) in achievement " v-bind:key="index" id="achievement">
+                    <div style="margin-top:-14px;margin-left:5%">
+                        <div id="title">Name : {{ach.achievement_name}}</div>
+                        <div v-if="ach.achievement_detail">
+                            <p>Detail : {{ach.achievement_detail}}</p>
+                        </div>
+                        <div v-if="ach.organize_by">
+                            <p>Organize by : {{ach.organize_by}}</p>
+                        </div>
+                        <div v-if="ach.date_of_event">
+                            <p>Date of event : {{ach.date_of_event}}</p>
+                        </div>
+                        <div style="margin-left:20%;margin-top:20px">
+                        <hr style="width:70%">
                         </div>
                     </div>
                 </div>
@@ -71,7 +77,7 @@
             </div>
         </div>
     </div>
-    <modal name="showDetails">
+    <!-- <modal name="showDetails">
         <md-card-header>
             <md-card-header-text>
                 <div class="md-title" id="title"> {{this.achievement_name}}</div>
@@ -90,13 +96,13 @@
             <p style="margin-top:10%">Organize by : -</p>
         </md-card-content>
         <md-card-content v-if="this.date_of_event">
-            <p >Date of event : {{this.date_of_event}}</p>
+            <p>Date of event : {{this.date_of_event}}</p>
         </md-card-content>
         <md-card-content v-else>
             <p>Date of event : -</p>
         </md-card-content>
 
-    </modal>
+    </modal> -->
 
     <div v-if="editAchievementDialog==true">
         <div class="modal is-active">
@@ -283,7 +289,7 @@ export default {
     background-color: #265080 !important;
 }
 
-#title {
+#achievement {
     color: #265080;
 }
 </style>

@@ -29,7 +29,6 @@
                 </div>
                 <div class="column is-3 is-offset-1">
                     <uploadCover v-if="EditProject" id="uploadCover" />
-                    <p id="poster" v-if="this.EditProject">Poster 1920 x 1080 px</p>
                 </div>
             </div>
             <div class="columns">
@@ -57,7 +56,7 @@
                                 </div>
                             </div>
                             <div v-else>
-                                <p>Project Status : <span class="projectStatus request">Request Approved</span></p>
+                                <p>Project Status : <span class="projectStatus request">Waiting for edit project</span></p>
                             </div>
                             <div v-if="this.project_status === 'Reject'">
                                 <p>Project Status : <span class="projectStatus denied">Reject</span></p>
@@ -104,8 +103,7 @@
                             </div>
                             <div v-if="this.access == false" class="column is-2" style="margin-left:-25%">
                                 <div @click="clapProject()" id="claps" style="margin-top:-38%">
-                                    <vue-clap-button icon="good" maxClick="50" colorActive="#265080" id="claps" />
-                                    <!-- maxClick="50" -->
+                                    <vue-clap-button icon="good" maxClick="50" colorActive="#265080" id="claps"/>
                                 </div>
                             </div>
                             <div v-else class="column is-2 " style="margin-left:-28%">
@@ -195,7 +193,8 @@
                 <div class="column">
                     <div id="Authors">
                         <member />
-                        {{this.nonMembers}}
+                        <!-- nonMembers : {{this.nonMembers}}<br>
+                        getNonMember: {{this.getNonMember}} -->
                     </div>
                     <div id="lecturer" v-if="this.haveAssignment">
                         <div class="card lecturerCard" id="Documents">
@@ -206,7 +205,7 @@
                                 <div class="content" style="color: #265080 !important " v-for='(lecturer,index) in lecturer' v-bind:key="index">
                                     <div class="columns">
                                         <div class="column is-one-quarter" style="margin-top:-20px">{{lecturer.fname}}</div>
-                                        <div class="column" style="margin-top:-20px">{{lecturer.lname}}</div>
+                                        <div class="column" style="margin-top:-20px;margin-left:-40px">{{lecturer.lname}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -635,14 +634,15 @@ export default {
             this.setRef(this.References)
 
             console.log(this.nonMembers, "defult");
-
-            this.setNonMember(this.getNonMember)
+            
+            this.setNonMember(this.nonMembers)
 
         },
         Edit: function () {
             this.EditProject = true
             this.setEditProject(this.EditProject)
-            this.nonMembers = this.getNonMember
+            for(var n = 0; n < this.getNonMember.length; n++)
+            this.nonMembers.push(this.getNonMember[n])
         },
         clapProject() {
             try {
@@ -677,7 +677,6 @@ export default {
                 })
 
             } catch (err) {
-
             }
         }
     },

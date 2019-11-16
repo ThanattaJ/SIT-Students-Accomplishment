@@ -13,7 +13,7 @@
                 <div class="card-content cardSize">
                     <div class="columns">
                         <div class="column is-two-thirds courseName">{{index+1}}) {{project.project_name_en}}</div>
-                        <div class="column countAssign"><span class="projectStatus request">Request</span></div>
+                        <div class="column countAssign"><span class="projectStatus request">Request Edit Project</span></div>
                     </div>
                 </div>
             </router-link>
