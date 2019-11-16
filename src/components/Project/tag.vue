@@ -65,6 +65,8 @@ export default {
             const {
                 data
             } = await axios.get(this.GET_PATHNAME+`/tags/${this.tag}`)
+            console.log('data', data);
+            this.autocompleteItems = []
             data.forEach(tag => {
                 this.autocompleteItems.push({
                     text: tag.tag_name,
@@ -72,6 +74,7 @@ export default {
                 })
             })
             // console.log(this.arrayTags,'Items')
+            this.arrayTags = []
             for(let i = 0 ;i<this.autocompleteItems.length;i++){
                 this.arrayTags.push(this.autocompleteItems[i])
             }
