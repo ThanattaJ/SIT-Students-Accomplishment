@@ -471,7 +471,9 @@ export default {
 
         //video
         this.video_pathname = data.video.path_name
-        this.SET_VDO_PATHNAME(this.video_pathname)
+        if(this.video_pathname !== null) {
+            this.SET_VDO_PATHNAME(this.video_pathname)
+        }
 
         //tag
         for (let i = 0; i < data.tags.length; i++) {
