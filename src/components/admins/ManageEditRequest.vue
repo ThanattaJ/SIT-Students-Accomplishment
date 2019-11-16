@@ -2,6 +2,7 @@
 <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
 <div v-else>
     <div id="bodyBg">
+        <div v-if="this.request.length !=0">
         <div class="card-content cardSize colName">
             <div class="columns">
                 <div class="column is-two-thirds">Project</div>
@@ -19,6 +20,10 @@
             </router-link>
         </div>
     </div>
+    <div v-else>
+        <p style="margin-left:45% ; margin-top:10%">Not Found Request</p>
+    </div>
+    </div>    
 </div>
 </template>
 
@@ -56,7 +61,7 @@ export default {
             this.GET_PATHNAME+'/assignment/requests?status=Request',
             this.GET_CONFIG);
         this.request = data
-        console.log("data : ", this.request)
+        console.log("request : ", this.request)
         // console.log('all project ',this.GET_ALL_PROJECT_VISITORVIEW)
         this.loading = false
 

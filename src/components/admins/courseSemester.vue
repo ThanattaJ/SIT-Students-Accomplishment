@@ -11,30 +11,35 @@
             <!-- nav bar -->
             <div class="column is-1">
                 <aside class="menu navAssignDetail">
-                    <ul id="navAssignment" class="menu-list navTopic navCanClick" v-for="(year,indexSem) in semesters" v-bind:key="indexSem">
-                        <li @click="getSemester(indexSem)" id="year">{{year.academic_term}}</li>
+                    <ul id="navAssignment" v-for="(year,indexSem) in semesters" v-bind:key="indexSem">
+                        <button @click="getSemester(indexSem)" class="menu-list navTopic  clickYear" v-bind:class="{ active: indexSem === activeClick}">{{year.academic_term}}</button>
                     </ul>
                 </aside>
             </div>
             <div class="column">
-                <div class="columns">
-                    <div class="column">
-                        <div class="card-content cardSize colName">
-                            <div class="columns">
-                                <div class="column is-6">Course Name</div>
-                                <!-- <div class="column countAssign">Lecturer</div> -->
-                                <div class="column countAssign">Add Lecturer</div>
-                            </div>
-                        </div>
-                        <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_semester.course" v-bind:key="index">
-                            <div class="card-content cardSize">
+                <div v-if="this.get_semester.course.length != 0">
+                    <div class="columns">
+                        <div class="column">
+                            <div class="card-content cardSize colName">
                                 <div class="columns">
-                                    <div class="column is-6 courseName" @click="showLecturer(index)">{{index+1}}) {{person.course}}</div>
-                                    <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
+                                    <div class="column is-6">Course Name</div>
+                                    <!-- <div class="column countAssign">Lecturer</div> -->
+                                    <div class="column countAssign">Add Lecturer</div>
+                                </div>
+                            </div>
+                            <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_semester.course" v-bind:key="index">
+                                <div class="card-content cardSize">
+                                    <div class="columns">
+                                        <div class="column is-6 courseName" @click="showLecturer(index)">{{index+1}}) {{person.course}}</div>
+                                        <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div v-else>
+                    <p style="margin-left:40%;margin-top:10%">Course Not Found </p>
                 </div>
             </div>
         </div>
@@ -113,8 +118,13 @@
                     <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
                     </model-select>
                     <div v-if="item.text">
-                        <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px; margin-left:50%">
-                        </multi-select>
+                        <div v-if="this.items.length !=0">
+                            <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px; margin-left:50%">
+                            </multi-select>
+                        </div>
+                        <div v-else>
+                            <p style="margin-left:60%; margin-top:3%;"> Lecturer not found </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,7 +165,7 @@ export default {
             'get_lecturer',
             'get_select_lecturer',
             'GET_PATHNAME'
-        ])
+        ]),
     },
     data() {
         return {
@@ -192,7 +202,6 @@ export default {
             deleteActive: false,
             delIndex: null,
             addIndex: null,
-            selectedIndex: 0,
             selectedYear: 0,
             lec: 0,
             showLec: [],
@@ -208,7 +217,10 @@ export default {
 
             courseName: '',
             allLecturers: [],
-            loading: true
+            loading: true,
+            click: true,
+            activeClick: null
+
         }
     },
     async mounted() {
@@ -229,11 +241,19 @@ export default {
 
         for (let i = 0; i < data.semester.length; i++) {
             this.semesters.push(data.semester[i])
+            // console.log(this.semesters[i].academic_term, 'year');
+
             JSON.stringify(this.semesters[i])
             this.semesters[i].academic_term = data.semester[i].academic_term
             this.semesters[i].academic_term_id = data.semester[i].academic_term_id
         }
         this.semesters.length = data.semester.length
+        this.semesters.sort(function (a, b) {
+            return b.academic_term_id - a.academic_term_id
+        })
+        if (this.indexSem == null) {
+            this.activeClick = 0
+        }
 
         var course
         await axios.get(this.GET_PATHNAME + '/course').then(response => course = response.data)
@@ -278,7 +298,9 @@ export default {
             this.$modal.show('add')
         },
         hideAdd() {
+            this.item = ''
             this.$modal.hide('add')
+
         },
         ...mapActions([
             'set_semester',
@@ -319,9 +341,7 @@ export default {
                             lecturers: this.storeLecName
                         })
                         this.$modal.hide('add')
-                        // this.item = ''
-                        this.items = []
-                        this.storeLecturer = []
+                        this.item = ''
 
                     })
                     this.file = " ";
@@ -436,6 +456,10 @@ export default {
             this.item = {}
         },
         async getSemester(indexSem) {
+
+            this.activeClick = indexSem
+            console.log(this.activeClick, 'index');
+
             try {
                 const {
                     data
@@ -554,5 +578,19 @@ var ordonner = function (a, b) {
 
 #editCourse {
     height: 500px;
+}
+
+.clickYear {
+    border: none;
+    outline: none;
+    padding: 10px 16px;
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.active,
+.clickYear:hover {
+    background-color: #265080;
+    color: white;
 }
 </style>

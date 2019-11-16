@@ -35,7 +35,7 @@
         </div>
         <div v-else>
             <p id="noLecturer">
-                Name of teacher not found in the system</p>
+                Lecturer not found </p>
         </div>
     </div>
 </div>
@@ -126,7 +126,7 @@ var ordonner = function (a, b) {
     margin-bottom: 15px;
 }
 #noLecturer{
-    margin-left: 40%;
+    margin-left: 45%;
     margin-top: 10%
 }
 </style>

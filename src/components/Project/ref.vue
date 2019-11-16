@@ -39,12 +39,17 @@ export default {
                 return this.getRef
             },
             set(value) {
-                this.$store.commit('setRef', value)
+                if (this.getRef.length != 0) {
+                    this.$store.commit('setRef', value)
+                } else {
+                    this.$store.commit('setRef',null)
+                }
+
             }
         }
     },
     async mounted() {
-        console.log("ref : ",this.getRef)
+        console.log("ref : ", this.getRef.length)
         var sizeArea = document.getElementsByTagName("textarea");
         for (var i = 0; i < sizeArea.length; i++) {
             sizeArea[i].setAttribute(
