@@ -68,7 +68,7 @@
                         <!-- admin : {{get_approver}} <br>
                         project_status : {{project_status}} -->
                         <div v-if="get_approver == true">
-                            <adminApprover  v-if="project_status == 'Request'"/>
+                            <adminApprover v-if="project_status == 'Request'" />
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                             </div>
                             <div v-if="this.access == false" class="column is-2" style="margin-left:-25%">
                                 <div @click="clapProject()" id="claps" style="margin-top:-38%">
-                                    <vue-clap-button icon="good" maxClick="50" colorActive="#265080" id="claps"/>
+                                    <vue-clap-button icon="good" maxClick="50" colorActive="#265080" id="claps" />
                                 </div>
                             </div>
                             <div v-else class="column is-2 " style="margin-left:-28%">
@@ -513,7 +513,7 @@ export default {
             const {
                 data
             } = await axios.get(this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`,
-            this.GET_CONFIG)
+                this.GET_CONFIG)
 
             const doc = data.document.map((_item, index = 0) => _item.path_name);
             this.files = []
@@ -614,7 +614,19 @@ export default {
                             path_name: vdo_pathname == "" ? null : vdo_pathname,
                         },
                         outsiders: this.getNonMember === " " ? null : this.getNonMember
-                    }, this.GET_CONFIG)
+                    }, this.GET_CONFIG) .then(res => {
+                        console.log("res : ", res)
+                        if (res.status == 200) {
+                            if (res.data.message == "Validate Error") {
+                                alert('File has been Error')
+                            } else {
+                                location.reload();
+                                console.log('tags : ', this.getTag)
+                                this.EditProject = false;
+                            }
+                            this.loadDocumentToShow()
+                        }
+                    })
                 this.message = "File has been update";
                 this.getEditProject
                 this.video_pathname = vdo_pathname
@@ -635,15 +647,15 @@ export default {
             this.setRef(this.References)
 
             console.log(this.nonMembers, "defult");
-            
+
             this.setNonMember(this.nonMembers)
 
         },
         Edit: function () {
             this.EditProject = true
             this.setEditProject(this.EditProject)
-            for(var n = 0; n < this.getNonMember.length; n++)
-            this.nonMembers.push(this.getNonMember[n])
+            for (var n = 0; n < this.getNonMember.length; n++)
+                this.nonMembers.push(this.getNonMember[n])
         },
         clapProject() {
             try {
@@ -677,8 +689,7 @@ export default {
                     }
                 })
 
-            } catch (err) {
-            }
+            } catch (err) {}
         }
     },
     beforeDestroy() {
