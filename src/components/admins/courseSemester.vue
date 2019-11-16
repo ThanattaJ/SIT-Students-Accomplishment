@@ -23,7 +23,6 @@
                             <div class="card-content cardSize colName">
                                 <div class="columns">
                                     <div class="column is-6">Course Name</div>
-                                    <!-- <div class="column countAssign">Lecturer</div> -->
                                     <div class="column countAssign">Add Lecturer</div>
                                 </div>
                             </div>
@@ -94,8 +93,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <model-select :options="option" v-model="item" placeholder="select course">
-                        </model-select> -->
                         <md-card-content v-if="this.options.length == 0">
                             No lecturer can be added
                         </md-card-content>
@@ -118,7 +115,7 @@
                     <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
                     </model-select>
                     <div v-if="item.text">
-                        <div v-if="this.items.length !=0">
+                        <div v-if="this.options.length !=0">
                             <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" style="position: absolute; max-width: 200px; font-size: 12px; margin-left:50%">
                             </multi-select>
                         </div>
@@ -152,6 +149,7 @@ import {
 import {
     ModelSelect
 } from 'vue-search-select'
+import index from '../../router';
 export default {
     components: {
         MultiSelect,
@@ -219,8 +217,7 @@ export default {
             allLecturers: [],
             loading: true,
             click: true,
-            activeClick: null
-
+            activeClick: null,
         }
     },
     async mounted() {
@@ -253,6 +250,7 @@ export default {
         })
         if (this.indexSem == null) {
             this.activeClick = 0
+            this.indexSem = 0
         }
 
         var course
@@ -282,7 +280,6 @@ export default {
                 value: result[i].course_id
             })
         }
-        console.log('option : ', this.option)
         this.loading = false
     },
     methods: {
@@ -320,7 +317,7 @@ export default {
         async add() {
             for (let i = 0; i < this.items.length; i++) {
                 this.storeLecName.push({
-                    lecturer_name: this.items[i].text
+                    lecturer_name: this.item.text
                 })
             }
             for (let i = 0; i < this.items.length; i++) {
@@ -328,33 +325,31 @@ export default {
                     "lecturer_id": this.items[i].value
                 })
             }
-            if (this.get_semester.course[0].academic_term_id) {
-                try {
-                    await axios.post(this.GET_PATHNAME + '/course/courseSemester', {
-                        academic_term_id: this.get_semester.course[0].academic_term_id,
-                        course_id: this.item.value,
-                        lecturers: this.storeLecturer
-                    }).then((res) => {
-                        console.log(res);
-                        this.get_semester.course.push({
-                            course: this.item.text,
-                            lecturers: this.storeLecName
-                        })
-                        this.$modal.hide('add')
-                        this.item = ''
 
+            try {
+                await axios.post(this.GET_PATHNAME + '/course/courseSemester', {
+                    academic_term_id: this.semesters[this.indexSem].academic_term_id,
+                    course_id: this.item.value,
+                    lecturers: this.storeLecturer
+                }).then((res) => {
+                    console.log(res);
+                    this.get_semester.course.push({
+                        course: this.item.text,
+                        lecturers: this.storeLecName
                     })
-                    this.file = " ";
-                    this.error = false;
-                } catch (err) {
-                    console.log('FAILURE!!' + err)
-                    this.message = "Something went wrong";
-                    this.error = true;
-                    this.storeLecturer = []
-                }
-            } else {
-                console.log("err something")
+                    this.$modal.hide('add')
+                    this.item = ''
+
+                })
+                this.file = " ";
+                this.error = false;
+            } catch (err) {
+                console.log('FAILURE!!' + err)
+                this.message = "Something went wrong";
+                this.error = true;
+                this.storeLecturer = []
             }
+
         },
         // function to handle data edition
         async edit(index) {
@@ -456,34 +451,31 @@ export default {
             this.item = {}
         },
         async getSemester(indexSem) {
-
             this.activeClick = indexSem
-            console.log(this.activeClick, 'index');
+            console.log('index sem', this.semesters[indexSem].academic_term_id);
 
             try {
                 const {
                     data
                 } = await axios.get(this.GET_PATHNAME + '/course/courseSemester?semester_id=' + this.semesters[indexSem].academic_term_id)
-                console.log("semester : ", data)
-
-                for (let i = 0; i < data.course.length; i++) {
+                if (data.course.length == 0) {
                     this.set_semester({
-                        course: data.course
+                        course: []
                     })
-                    this.delIndex = i
-                    if (data.course[i] === []) {
-                        console.log("data is null ")
-                        this.persons[i].course = "is Empty"
-
-                    } else {
-                        for (let r = 0; r < data.course[r].lecturers; r++) {
-                            this.set_semester({
-                                lecturer: data.course[i].lecturers
-                            })
-                        }
+                    console.log('no course');
+                } else {
+                    for (let i = 0; i < data.course.length; i++) {
+                        this.set_semester({
+                            course: data.course 
+                        })
                     }
+                    console.log('set value');
+
                 }
-                this.persons.length = data.course.length
+                // this.persons.length = data.course.length
+                console.log(data, 'semester');
+                console.log(this.get_semester, 'get');
+
             } catch (err) {
                 console.log('FAILURE!!' + err)
                 this.message = "Something went wrong";
@@ -493,19 +485,22 @@ export default {
         }
     },
     watch: {
+
         async item() {
+            // console.log(this.semesters[this.indexSem].academic_term_id,'tearm');
+            // console.log('index',this.get_semester.semester);
+
             try {
-                console.log('item', this.item.value, this.get_semester.course[0].academic_term_id)
                 var lecturer
-                await axios.get(this.GET_PATHNAME + `/users/list_lecturer/?academic_term_id=${this.get_semester.course[0].academic_term_id}&courses_id=${this.item.value}`)
+                await axios.get(this.GET_PATHNAME + `/users/list_lecturer/?academic_term_id=${this.semesters[this.indexSem].academic_term_id}&courses_id=${this.item.value}`)
                     .then(response => lecturer = response.data)
-                console.log('data ; ', lecturer)
                 for (let i = 0; i < lecturer.length; i++) {
                     this.options.push({
                         text: lecturer[i].firstname + ' ' + lecturer[i].lastname,
                         value: lecturer[i].lecturer_id
                     })
                 }
+                console.log('data ; ', this.storeLecturer)
             } catch (err) {
 
             }
