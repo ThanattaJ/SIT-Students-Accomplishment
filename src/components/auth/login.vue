@@ -88,41 +88,41 @@ export default {
 
 <style>
 .loginBtn {
-    color: white;
-    background-color: #265080;
+    color: white !important;
+    background-color: #265080 !important;
     border-radius: 8px !important;
-    border-color: white;
-    padding: 2px 20px 2px 20px;
-    font-size: 14px;
-    font-weight: 500;
+    border-color: white !important;
+    padding: 2px 20px 2px 20px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
 }
 
 .loginBtn:hover {
-    color: white;
-    background-color: #1b3a5e;
-    border-color: white;
+    color: white !important;
+    background-color: #1b3a5e !important;
+    border-color: white !important;
 }
 
 #loginCenter {
-    text-align: center;
+    text-align: center !important;
 }
 
 #loginText {
-    color: #265080;
+    color: #265080 !important;
 }
 
 #title {
-    color: #265080;
-    text-align: center;
-    font-weight: 600
+    color: #265080 !important;
+    text-align: center !important;
+    font-weight: 600 !important;
 }
 
 #flex-container {
-    display: flex;
+    display: flex !important;
 }
 
 #sign-in {
-    width: 100%;
+    width: 100% !important;
 }
 
 /* #media {

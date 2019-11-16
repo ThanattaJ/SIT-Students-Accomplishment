@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <div  class="overflowY" style="height: 540px;">
+        <div  class="overflowY" style="height: 560px;">
             <div class="card lecturerCard lecturerCourseCard" v-for="(course,index) in allCourse" v-bind:key="'courseTerm'+index">
                 <router-link :to="`/allassignment/${course.course_id}`">
                     <div class="card-content cardSize" @click="SET_COURSENAME(course.course_name)">

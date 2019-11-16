@@ -287,7 +287,7 @@ export default {
                     this.countProject.approve = countProjectNav[n].count
                 }else if(countProjectNav[n].status_name == 'Waiting'){
                     this.countProject.request = countProjectNav[n].count
-                }else{
+                }else if(countProjectNav[n].status_name == 'Reject'){
                     this.countProject.denied = countProjectNav[n].count
                 }
             }
