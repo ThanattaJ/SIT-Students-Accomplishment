@@ -352,11 +352,16 @@ export default {
                 mail: null
             }],
             nonMembers: [],
+            type: null,
             Tools: {},
             Acheivement: [],
             References: null,
             files: [],
-            EditProject: false,
+            start_year_th: 0,
+            start_year_en: 0,
+            end_year_th: 0,
+            end_year_en: 0,
+            EditProject: 0,
             tags: [],
             video_pathname: '',
             img: [],
@@ -433,7 +438,12 @@ export default {
         this.setPID(data.project_detail.id)
         this.header.TitleName = data.project_detail.project_name_en;
         this.header.TitleName_TH = data.project_detail.project_name_th;
-        this.haveOutsider = data.haveOutsider
+        this.type = data.project_detail.project_type_name;
+        this.start_year_th = data.project_detail.start_year_th,
+        this.start_year_en = data.project_detail.start_year_en
+        this.end_year_th = data.project_detail.end_year_th,
+        this.end_year_en = data.project_detail.end_year_en,
+        this.haveOutsider = data.project_detail.haveOutsider
         this.viewer = data.project_detail.count_viewer
         this.create = data.project_detail.created_at
         this.update = data.project_detail.updated_at
@@ -566,31 +576,6 @@ export default {
             if (this.getNonMember) {} else {
                 this.setNonMember([])
             }
-            console.log('this.getRef', this.getRef.length);
-            var data = {
-                project_detail: {
-                    id: this.$route.params.pId,
-                    project_name_th: this.header.TitleName_TH,
-                    project_name_en: this.header.TitleName,
-                    project_detail: this.getDetail === null || this.getDetail.length === 0 ? null : this.getDetail,
-                    project_abstract: this.getAbstract,
-                    haveOutsider: this.haveOutsider,
-                    isShow: this.show,
-                            tool_techniq_detail: this.getTool === null || this.getTool.length === 0 ? null : this.getTool,
-                            references: this.getRef === null || this.getRef.length === 0 ? null : this.getRef,
-                },
-                students: this.getMember,
-                achievements: this.GET_ACHIEVEMENT,
-                tags: [],
-                //update tags  
-                // document: [],
-                picture: [],
-                video: {
-                    path_name: vdo_pathname == "" ? null : vdo_pathname,
-                },
-                // outsiders: this.getNonMember === " " ? null : this.getNonMember
-            }
-            console.log('path : ', data.video)
             try {
                 axios
                     .patch(this.GET_PATHNAME + `/projects/`, {
@@ -604,15 +589,14 @@ export default {
                             isShow: this.show,
                             tool_techniq_detail: this.getTool === null || this.getTool.length === 0 ? null : this.getTool,
                             references: this.getRef === null || this.getRef.length === 0 ? null : this.getRef,
-                            // count_viewer: 0,
-                            // count_clap: this.clap,
-                            start_month: 2,
-                            start_year_th: 2562,
-                            start_year_en: 2019,
-                            "end_month": 5,
-                            "end_year_th": 2562,
-                            "end_year_en": 2019,
-                            project_type_name: "External"
+                            start_year_th: this.start_year_th,
+                            start_year_en: this.start_year_en,
+                            end_year_th: this.end_year_th,
+                            end_year_en: this.end_year_en,
+                            project_type_name: this.type,
+                            assignment_detail: {
+                                assignment_id: this.assignment_id
+                            }
                         },
                         students: this.getMember,
                         achievements: this.GET_ACHIEVEMENT,
@@ -630,7 +614,7 @@ export default {
                             if (res.data.message == "Validate Error") {
                                 alert('File has been Error')
                             } else {
-                                location.reload();
+                                // location.reload();
                                 console.log('tags : ', this.getTag)
                                 this.EditProject = false;
                             }
