@@ -1,6 +1,6 @@
 <template>
 <div id="body-bg">
-    {{assignment_id}}
+    <!-- {{assignment_id}} -->
     <div style="margin-top: -25px;">
         <stepProgress :steps="mySteps" :currentStep="currentStep" iconClass="la la-check"></stepProgress>
     </div>
@@ -187,6 +187,7 @@ export default {
                     }
                 }
             }
+                console.log("data : ", data)
             try {
                 console.log("data : ", data)
                 await axios
@@ -240,7 +241,7 @@ export default {
     },
 
     beforeDestroy() {
-        // this.resetField()
+        this.resetField()
     },
     components: {
         StepProgress,

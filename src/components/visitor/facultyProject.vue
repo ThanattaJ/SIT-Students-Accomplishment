@@ -24,48 +24,66 @@
             </div> -->
             <!-- All course -->
             <div class="columns">
-                <div class="column is-3">
-                    <aside class="menu navAssignDetail" v-for="(course,index) in courses" v-bind:key="index">
-                        <ul class="menu-list">
-                            <li>
-                                <a :id="'navAssignment navCourse'+index" class="menu-list navTopic navCanClick" @click="nav(index);showAcademicTerm(index)">
-                                    <span :id="'courseName'+index" style="color:#4A4A4A">{{course.course_code}}<br>
-                                        {{course.course_name}}</span>
-                                </a>
-                                <ul :id="'academic_term'+index" style="display:none">
-                                    <li v-for="(term,index) in course.term" v-bind:key="index" @click="chooseTerm(course.course_id,term.academic_term_id)"><a><span style="color:#265080">{{term.academic_term}}</span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </aside>
+                <div class="column is-one-third">
+                    <div class="column is-three-quarters">
+                        <aside class="menu navAssignDetail" v-for="(course,index) in courses" v-bind:key="index">
+                            <ul class="menu-list">
+                                <li>
+                                    <a :id="'navAssignment navCourse'+index" class="menu-list navTopic navCanClick" @click="nav(index);showAcademicTerm(index)">
+                                        <span :id="'courseName'+index" style="color:#4A4A4A">{{course.course_code}}<br>
+                                            {{course.course_name}}</span>
+                                    </a>
+                                    <ul :id="'academic_term'+index" style="display:none">
+                                        <li v-for="(term,index) in course.term" v-bind:key="index" @click="chooseTerm(course.course_id,term.academic_term_id)"><a><span style="color:#265080">{{term.academic_term}}</span></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </aside>
+                    </div>
                 </div>
+
                 <!-- All projects -->
-                <div v-if="fetch"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
-                <div v-else>
-                    <div class="columns is-multiline">
-                        <div class="column is-one-third" v-for="(allProject,index) in allProjects" v-bind:key="index">
-                            <router-link :to="`/ProjectDetail/${allProject.id}`">
-                                <div class="card projectCard content_img">
-                                    <div class="card-image" v-if="allProject.cover_path != null">
-                                        <figure class="image is-4by2">
-                                            <img src="./../../assets/gold-medal.png" width="17px" v-if="allProject.achievement" style="z-index:2;position:absolute;width:40px;">
-                                            <img :src="allProject.cover_path" alt="Placeholder image" style="height: 156.22px !important;border-radius: 5px;">
-                                            <div class="img-text">
-                                                <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
-                                                <span class="countText">{{allProject.count_viewer}} </span>
-                                                <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
-                                                <span class="countText">{{allProject.count_clap}} </span>
-                                            </div>
-                                        </figure>
+                <div class="column">
+                    <div v-if="fetch"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
+                    <div v-else>
+                        <div class="columns is-multiline">
+                            <div class="column is-half" v-for="(allProject,index) in allProjects" v-bind:key="index">
+                                <router-link :to="`/ProjectDetail/${allProject.id}`">
+                                    <div class="card projectCard content_img">
+                                        <div class="card-image" v-if="allProject.cover_path != null">
+                                            <figure class="image is-4by2">
+                                                <img src="./../../assets/gold-medal.png" width="17px" v-if="allProject.achievement" style="z-index:2;position:absolute;width:40px;">
+                                                <img :src="allProject.cover_path" alt="Placeholder image" style="height: 271px !important;border-radius: 5px;">
+                                                <div class="img-text">
+                                                    <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
+                                                    <span class="countText">{{allProject.count_viewer}} </span>
+                                                    <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
+                                                    <span class="countText">{{allProject.count_clap}} </span>
+                                                </div>
+                                            </figure>
+                                        </div>
+                                        <div v-else>
+                                            <figure class="image coverImg is-4by2">
+                                                <img src="./../../assets/noCoverImg.png" style="height: 271px !important;border-radius: 5px;">
+                                                <!-- <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;"> -->
+                                                <div class="img-text">
+                                                    <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
+                                                    <span class="countText">{{project.count_viewer}} </span>
+                                                    <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
+                                                    <span class="countText">{{project.count_clap}} </span>
+                                                </div>
+                                            </figure>
+                                        </div>
+                                        <div class="card-content projectInfo">
+                                            <p class="projectName" style="height: 22px;overflow: hidden;">{{allProject.project_name_en}}</p>
+                                        </div>
                                     </div>
-                                    <div class="card-content projectInfo">
-                                        <p class="projectName" style="height: 22px;overflow: hidden;">{{allProject.project_name_en}}</p>
-                                    </div>
-                                </div>
-                            </router-link>
+                                </router-link>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -150,7 +168,7 @@ export default {
             }
             this.SET_LOADING_STATUS(false)
         },
-        async chooseTerm(course_id, academic_term_id) { 
+        async chooseTerm(course_id, academic_term_id) {
             this.fetch = true
             console.log('course_id : ', course_id)
             console.log('academic_term_id : ', academic_term_id)
@@ -212,7 +230,7 @@ export default {
         }
     },
     beforeMount() {
-      this.SET_LOADING_STATUS(true)
+        this.SET_LOADING_STATUS(true)
     }
 }
 </script>
