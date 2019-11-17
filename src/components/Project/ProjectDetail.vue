@@ -130,7 +130,7 @@
                             <div v-if="this.project_status === 'Approve'">
                                 <div v-if="this.access == true">
                                     <div v-if="!this.statusRequest">
-                                        <button class="button" @click="sendRequest()" id="request">Request Edit</button>
+                                        <button class="button" @click="sendRequest()" id="request">Request admin to edit project</button>
                                     </div>
                                     <div v-else>
                                     </div>
@@ -457,7 +457,7 @@ export default {
                 this.setNonMember(data.outsiders)
             }
         }
-        console.log(data.project_detail.references);
+        console.log(data.project_detail,'ref');
         if (data.project_detail.references != null) {
             if (data.project_detail.references.length) {
                 this.setRef(data.project_detail.references[0])
@@ -728,7 +728,7 @@ export default {
     color: white;
     background-color: #265080 !important;
     border: none;
-    margin-left: 68%;
+    margin-left: 50%;
 }
 
 #waitimg {
