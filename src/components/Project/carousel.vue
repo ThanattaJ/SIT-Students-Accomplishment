@@ -61,6 +61,9 @@ export default {
     padding: 5px;
     max-width: 100% !important;
     height: 110px !important;
+    display: block;
+    text-align: center;
+    object-fit:contain;
 }
 
 #showImg {
@@ -69,6 +72,7 @@ export default {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    object-fit:contain;
     overflow: hidden;
 }
 
@@ -76,8 +80,9 @@ export default {
     cursor: zoom-in;
 }
 #frame{
-    width: 100%;
-    height: 350px;
+    width: 100% !important;
+    height: 350px !important;
+    text-align: center;
 }
 
 /* .my-gallery{
