@@ -169,7 +169,7 @@
                             <!-- <div class="columns card profile" @click="goToStudentProfile(profile.student_id)"> -->
                             <div v-if="profile.profile_picture != null" style="padding-right:20px">
                                 <figure class="image" style="height: 160px;width: 120px">
-                                    <img :src="profile.profile_picture" alt="Placeholder image" style="border-radius: 5px;">
+                                    <img :src="profile.profile_picture" alt="Placeholder image" style="border-radius: 5px;height: 160px;width: 120px">
                                 </figure>
                             </div>
                             <div v-else style="padding-right:20px">
@@ -180,7 +180,11 @@
                             <div class="card-content projectInfo" style="width:100%;">
                                 <p class="profileName">{{profile.firstname}} {{profile.lastname}}</p>
                                 <!-- <p id="info" style="height: 22px;overflow: hidden;">{{profile.student_id}}</p> -->
-                                <p id="info">Bachelor of Science Programme in <b>{{profile.curriculum_name}}</b></p>
+                                <p id="info">Bachelor of Science Programme in 
+                                    <b v-if="profile.curriculum_name == 'IT'">Information Technology</b>
+                                    <b v-if="profile.curriculum_name == 'CS'">Computer Science</b>
+                                    <b v-if="profile.curriculum_name == 'DSI'">Digital Service Innovation</b>
+                                </p>
                                 <div style="position:absolute;bottom:20px;" v-if="profile.email != null">
                                     <p id="info"><i class="la la-envelope" style="color:#265080;margin-right:5px"></i>{{profile.email}}</p>
                                 </div>

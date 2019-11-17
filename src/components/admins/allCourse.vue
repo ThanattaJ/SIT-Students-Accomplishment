@@ -518,7 +518,7 @@ var ordonner = function (a, b) {
     cursor: pointer;
 }
 
-.active,
+/* .active, */
 .clickSearch:hover {
     background-color: #265080;
     color: white;

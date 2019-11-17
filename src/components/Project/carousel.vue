@@ -6,7 +6,7 @@
     <div v-if="this.getImages.length > 1">
         <carousel :autoplay="true">
             <div v-for="(pic,index) in getImages" :key="index" @click="focusImg(index)">
-                <img :src=pic.path id="imgSize">
+                <img :src="pic.path"  :id="'focusImg'+index" class="imgSize">
             </div>
         </carousel>
     </div>
@@ -44,13 +44,19 @@ export default {
         focusImg(index) {
             this.indexImg = index
             console.log(index);
-        },
+
+            for(var n = 0; n < this.getImages.length; n++){
+                document.getElementById('focusImg'+n).style.border = "none"
+            }
+            document.getElementById('focusImg'+index).style.border = "1px solid #265080"
+
+        }
     },
 }
 </script>
 
 <style>
-#imgSize {
+.imgSize {
     margin-top: 10%;
     padding: 5px;
     max-width: 100% !important;
@@ -72,5 +78,13 @@ export default {
 #frame{
     width: 100%;
     height: 350px;
+}
+
+/* .my-gallery{
+    
+} */
+figure{
+    display: inline;
+    margin: 0px !important;
 }
 </style>
