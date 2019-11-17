@@ -22,9 +22,9 @@
     transition: visibility 0s, opacity 0.3s linear;
 } */
 .img-text {
-    position: absolute !important;
     bottom: 0px !important;
     right: 0px !important;
+    position: absolute !important;
     background: rgba(255, 255, 255, .9) !important;
     border-top-left-radius: .3em !important;
     border-bottom-right-radius: .3em !important;
