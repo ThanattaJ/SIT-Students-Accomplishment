@@ -2,7 +2,6 @@
 <div id="carousel">
     <div id="frame">
         <vue-picture-swipe :items="[{src:this.getImages[this.indexImg].path,thumbnail: this.getImages[this.indexImg].path,w: 1920,h: 1080}]" :options="{shareEl: false}" id="showImg"></vue-picture-swipe>
-        <!-- <img :src= this.getImages[this.indexImg].path id="showImg" > -->
     </div>
     <div v-if="this.getImages.length > 1">
         <carousel :autoplay="true">
@@ -55,12 +54,12 @@ export default {
     margin-top: 10%;
     padding: 5px;
     max-width: 100% !important;
-    max-height: 110px !important;
+    height: 110px !important;
 }
 
 #showImg {
-    width: 100% !important;
-    height: 300px !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -68,6 +67,10 @@ export default {
 }
 
 #showImg.pointer {
-    cursor: pointer;
+    cursor: zoom-in;
+}
+#frame{
+    width: auto;
+    height: 300px;
 }
 </style>
