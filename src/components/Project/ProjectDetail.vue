@@ -1,7 +1,7 @@
 <template>
 <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
 <div v-else>
-    <div class="body" id="ProjectDetail-bg">
+    <div class="body" id="bodyBg">
         <div id="TitleName">
             <p id="TitleName_eg">{{header.TitleName}}</p>
             <p id="TitleName_th">{{header.TitleName_TH}}</p>
@@ -174,9 +174,9 @@
                             </div>
                         </div>
                     </div>
-                    <div id="Details" v-if="GET_VDO_PATHNAME != '' && EditProject == false">
+                    <div id="Details" v-if="GET_VDO_PATHNAME != '' && EditProject == false" style="margin-bottom:100px">
                         <div class="resp-container">
-                            <iframe width="560" height="315" :src="'//www.youtube.com/embed/' + GET_VDO_PATHNAME " frameborder="0" allowfullscreen></iframe>
+                            <iframe style="height:371.25px !important;width:100%" :src="'//www.youtube.com/embed/' + GET_VDO_PATHNAME " frameborder="0" allowfullscreen></iframe>
                         </div>
                     </div>
                     <div class="card lecturerCard" id="Documents" v-else-if="EditProject">

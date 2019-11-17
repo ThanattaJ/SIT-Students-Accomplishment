@@ -70,7 +70,7 @@ export default {
     cursor: zoom-in;
 }
 #frame{
-    width: auto;
-    height: 300px;
+    width: 100%;
+    height: 350px;
 }
 </style>
