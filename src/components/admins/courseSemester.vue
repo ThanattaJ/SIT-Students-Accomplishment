@@ -4,7 +4,7 @@
     <div id="bodyBg">
         <div class="columns">
             <div class="column countAll">
-                <button class="button createBtn" @click="openCreateAssignmentModal()">+ Add course ...</button>
+                <button class="button createBtn" @click="openCreateAssignmentModal()" v-if="this.showAdd">+ Add course</button>
             </div>
         </div>
         <div class="columns">
@@ -86,8 +86,10 @@
                                         No lecturer
                                     </md-card-content>
                                     <md-card-content v-else>
-                                        <div v-for="(lecturers,index) in allLecturers" v-bind:key="index">
-                                            {{index+1}}) {{lecturers.lecturer_name}}
+                                        <div>
+                                            <div v-for="(lecturers,index) in allLecturers" v-bind:key="index">
+                                                {{index+1}}) {{lecturers.lecturer_name}}
+                                            </div>
                                         </div>
                                     </md-card-content>
                                 </div>
@@ -96,7 +98,7 @@
                         <md-card-content v-if="this.options.length == 0">
                             No lecturer can be added
                         </md-card-content>
-                        <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" v-else>
+                        <multi-select :options="options" :selected-options="items" placeholder="select lecturer" @select="onSelect" v-else style="width: 80%;margin-left: 5%;">
                         </multi-select>
                     </div>
                     <span class="addBtn">
@@ -106,7 +108,7 @@
                 </div>
             </div>
         </div>
-        <modal name="add" id="editCourse">
+        <modal name="add">
             <div class="modal-card-body">
                 <md-card-header>
                     <div class="md-title">Add Course</div>
@@ -120,8 +122,7 @@
                             </multi-select>
                         </div>
                         <div v-else>
-                            <img src="/static/img/empty.f27adc6.png" style="height: 350px !important;margin-left:50%; ">
-                            <b style="margin-left:60%; font-size: 20px;"> Lecturer not found </b>
+                            <b style="margin-left:60%;"> Lecturer not found </b>
                         </div>
                     </div>
                 </div>
@@ -219,6 +220,7 @@ export default {
             loading: true,
             click: true,
             activeClick: null,
+            showAdd: true
         }
     },
     async mounted() {
@@ -249,10 +251,10 @@ export default {
         this.semesters.sort(function (a, b) {
             return b.academic_term_id - a.academic_term_id
         })
-        if (this.indexSem == null) {
-            this.activeClick = 0
-            this.indexSem = 0
+        if (this.activeClick = 0) {
+            this.activeClick = 6
         }
+        console.log(this.activeClick, 'active');
 
         var course
         await axios.get(this.GET_PATHNAME + '/course').then(response => course = response.data)
@@ -296,7 +298,7 @@ export default {
             this.$modal.show('add')
         },
         hideAdd() {
-            this.item = ''
+            this.item = {}
             this.$modal.hide('add')
 
         },
@@ -445,7 +447,9 @@ export default {
             this.item = {}
         },
         async getSemester(indexSem) {
-            console.log('term',this.semesters[this.activeClick].academic_term_id);
+            if (!this.semesters[indexSem].academic_term_id == '6') {
+                this.showAdd = false
+            }
             this.activeClick = indexSem
             try {
                 const {
@@ -462,7 +466,6 @@ export default {
                             course: data.course
                         })
                     }
-                 
 
                 }
 
@@ -477,10 +480,12 @@ export default {
     watch: {
 
         async item() {
-            this.options = []  
-            try {
+            console.log(this.semesters[this.activeClick].academic_term_id,'dddd');
+            this.items = []
+            this.options = []
+            
                 var lecturer
-                await axios.get(this.GET_PATHNAME + `/users/list_lecturer/?academic_term_id=${this.semesters[this.indexSem].academic_term_id}&courses_id=${this.item.value}`)
+                await axios.get(this.GET_PATHNAME + `/users/list_lecturer/?academic_term_id=${this.semesters[this.activeClick].academic_term_id}&courses_id=${this.item.value}`)
                     .then(response => lecturer = response.data)
                 for (let i = 0; i < lecturer.length; i++) {
                     this.options.push({
@@ -488,10 +493,9 @@ export default {
                         value: lecturer[i].lecturer_id
                     })
                 }
-                console.log('data ; ', this.options)
-            } catch (err) {
-
-            }
+                console.log(this.options,'options');
+                
+            
         }
     }
 };
@@ -584,5 +588,9 @@ var ordonner = function (a, b) {
 
 .v--modal-overlay .v--modal-box {
     overflow: visible
+}
+
+#editCourse {
+    height: 700px;
 }
 </style>
