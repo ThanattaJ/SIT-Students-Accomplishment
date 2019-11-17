@@ -22,11 +22,22 @@
             <!-- nav bar -->
             <div class="column is-2">
                 <aside class="menu navAssignDetail">
-                    <ul id="faculty" class="menu-list navTopic clickSearch" @click="filterByFaculty('')">All</ul>
-                    <ul id="faculty" class="menu-list navTopic clickSearch" @click="filterByFaculty('INT')">Information Technology</ul>
-                    <ul id="faculty" class="menu-list navTopic clickSearch" @click="filterByFaculty('CSC')">Computer Science</ul>
-                    <ul id="faculty" class="menu-list navTopic clickSearch" @click="filterByFaculty('DSI')">Digital Service Innovation</ul>
-                    <ul id="faculty" class="menu-list navTopic clickSearch" @click="showNoInCourse('noInCourse')">Canceled Courses</ul>
+                    <button class="menu-list navTopic clickSearch" id="all">
+                        <ul id="faculty" @click="filterByFaculty('')">All</ul>
+                    </button>
+                    <button class="menu-list navTopic clickSearch" id="it">
+                        <ul id="faculty" @click="filterByFaculty('INT')">Information Technology</ul>
+                    </button>
+                    <button class="menu-list navTopic clickSearch" id="cs">
+                        <ul id="faculty" @click="filterByFaculty('CSC')">Computer Science</ul>
+                    </button>
+                    <button class="menu-list navTopic clickSearch" id="dsi">
+                        <ul id="faculty" @click="filterByFaculty('DSI')">Digital Service Innovation</ul>
+                    </button>
+                    <button class="menu-list navTopic clickSearch" id="nocourse">
+                        <ul id="faculty" @click="showNoInCourse('noInCourse')">Canceled Courses</ul>
+                    </button>
+
                 </aside>
             </div>
             <div class="column" style="padding-left:100px;">
@@ -51,19 +62,25 @@
                         </div>
                     </div>
                     <div class="column" v-if="this.noInCourse === true">
-                        <div class="card-content cardSize colName">
-                            <div class="columns">
-                                <div class="column is-two-thirds">Course Name</div>
-                                <div class="column countAssign">Add Course</div>
-                            </div>
-                        </div>
-                        <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_notInCourse " v-bind:key="index">
-                            <div class="card-content cardSize">
+                        <div v-if="this.get_notInCourse.length !=0">
+                            <div class="card-content cardSize colName">
                                 <div class="columns">
-                                    <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course_code}} | {{person.course_name}}</div>
-                                    <div class="column countAssign"><i id="Action" @click="addCourse(index)">+</i></div>
+                                    <div class="column is-two-thirds">Course Name</div>
+                                    <div class="column countAssign">Add Course</div>
                                 </div>
                             </div>
+                            <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_notInCourse " v-bind:key="index">
+                                <div class="card-content cardSize">
+                                    <div class="columns">
+                                        <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course_code}} | {{person.course_name}}</div>
+                                        <div class="column countAssign"><i id="Action" @click="addCourse(index)">+</i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <img src="/static/img/empty.f27adc6.png" style="height: 350px !important; margin-left:10% ;">
+                            <p style="margin-left:26% ;font-size: 20px;">Course Not Found</p>
                         </div>
                     </div>
                 </div>
@@ -148,7 +165,6 @@
                                 <div class="md-title"> {{person.course}} | {{person.name}}</div>
                                 <div class="md-subhead">index : {{delIndex+1}}</div>
                             </md-card-header>
-
                             <md-card-content>
                                 {{person.detail}}
                             </md-card-content>
@@ -267,7 +283,7 @@ export default {
 
             courseDetail: '', //gib
             faculty: '',
-            loading: true
+            loading: true,
         }
     },
 
@@ -311,7 +327,7 @@ export default {
         closeAddCourseModal() {
             this.$modal.hide('addCourse')
             this.hasMessages = false
-            this.addInput= {}
+            this.addInput = {}
         },
         modalActive: function (index) {
             this.addActive = true
@@ -350,14 +366,14 @@ export default {
                         this.error = true;
                     }
                     this.hasMessages = false
-                    this.addInput= {}
+                    this.addInput = {}
                 } else {
                     this.hasMessages = true
                 }
             } else {
                 this.hasMessages = true
-                console.log('null',this.hasMessages );
-                
+                console.log('null', this.hasMessages);
+
             }
 
         },
@@ -492,6 +508,23 @@ var ordonner = function (a, b) {
 <style>
 #Action {
     color: #265080 !important
+}
+
+#all,
+#it,
+#cs,
+#dsi,
+#nocourse {
+    width: 150px;
+}
+
+button#all:focus,
+button#it:focus,
+button#cs:focus,
+button#dsi:focus,
+button#nocourse:focus {
+    background-color: #265080 !important;
+    color: white !important
 }
 
 #error {
