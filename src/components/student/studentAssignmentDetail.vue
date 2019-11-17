@@ -47,13 +47,13 @@
                         <md-card-content>
                             <div class="columns">
                                 <div class="column">
-                                    <div class="createPortPage">
-                                        <div class="textCreate" @click="showProjectList">Add project to assignment</div>
+                                    <div class="createPortPage" @click="showProjectList">
+                                        <div class="textCreate">Add project to assignment</div>
                                     </div>
                                 </div>
                                 <div class="column">
-                                    <div class="createPortPage">
-                                        <div class="textCreate" @click="routeToCreatePortPage()">Create new assignment project</div>
+                                    <div class="createPortPage" @click="routeToCreatePortPage()">
+                                        <div class="textCreate">Create new assignment project</div>
                                     </div>
                                 </div>
                             </div>

@@ -1,16 +1,16 @@
 <template>
 <!-- <div class="columns">
     <div class="column is-one-quarter"> -->
-        <div>
-        <div class="createPortPage" @click="showChooseProjectType">
-            <div class="textCreate" style="font-size:30px !important">+</div>
-            <div class="textCreate" style="padding-top:10px">Create Project</div>
-        </div>
-        <modal name="chooseProjectType">
-            <chooseProjectTypeModal />
-        </modal>
-        </div>
-    <!-- </div>
+<div>
+    <div class="createPortPage" @click="showChooseProjectType">
+        <div class="textCreate" style="font-size:30px !important">+</div>
+        <div class="textCreate" style="padding-top:10px">Create Project</div>
+    </div>
+    <modal name="chooseProjectType">
+        <chooseProjectTypeModal />
+    </modal>
+</div>
+<!-- </div>
     <div class="column"></div>
 </div> -->
 </template>

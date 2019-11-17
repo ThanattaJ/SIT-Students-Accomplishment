@@ -8,13 +8,13 @@
         </md-card-header>
         <md-card-content>
             <div class="columns">
-                <div class="column">
-                    <div class="createPortPage" @click="routeToCreatePortPage(true, '')">
+                <div class="column" @click="routeToCreatePortPage(true, '')">
+                    <div class="createPortPage">
                         <div class="textCreate">No, I don't</div>
                     </div>
                 </div>
-                <div class="column">
-                    <div class="createPortPage" @click="routeToCreatePortPage(false, '')">
+                <div class="column" @click="routeToCreatePortPage(false, '')">
+                    <div class="createPortPage">
                         <div class="textCreate">Yes, I do.</div>
                     </div>
                 </div>
@@ -43,7 +43,9 @@
                 <div class="card lecturerCard lecturerCourseCard" v-for="(assignment,index) in assignments" v-bind:key="index">
                     <div class="card-content cardSize">
                         <div class="columns">
-                            <div class="column is-three-fifths courseName" @click="showAddOrCreate(assignment.assignment_id,assignment.isGroup, assignment.assignment_name)">{{index+1}}) {{assignment.assignment_name}}</div>
+                            <div class="column is-three-fifths courseName" @click="showAddOrCreate(assignment.assignment_id,assignment.isGroup, assignment.assignment_name)">
+                                {{index+1}}) {{assignment.assignment_name}}
+                            </div>
                             <div class="column countAssign">
                                 <img src="./../../assets/group.png" style="height: 22px;" v-if="assignment.isGroup == true" />
                                 <img src="./../../assets/person.png" style="height: 22px;" v-else />
@@ -97,13 +99,13 @@
             <md-card-content>
                 <div class="columns">
                     <div class="column">
-                        <div class="createPortPage">
-                            <div class="textCreate" @click="showProjectList">Add project to assignment</div>
+                        <div class="createPortPage" @click="showProjectList">
+                            <div class="textCreate">Add project to assignment</div>
                         </div>
                     </div>
                     <div class="column">
-                        <div class="createPortPage">
-                            <div class="textCreate" @click="routeToCreatePortPage(false, true)">Create new assignment project</div>
+                        <div class="createPortPage" @click="routeToCreatePortPage(false, true)">
+                            <div class="textCreate">Create new assignment project</div>
                         </div>
                     </div>
                 </div>
@@ -197,6 +199,7 @@ export default {
             if (externalProjectOrNot) {
                 router.push('/createPortPage')
             } else if (externalProjectOrNot == false && goTo4Step == true) {
+                // this.SET_ASSIGNMENTID(this.assignment_id)
                 router.push('/createPortPage')
             } else if (externalProjectOrNot == false && goTo4Step == '') {
                 this.getAllAssignment()
@@ -204,6 +207,7 @@ export default {
             }
         },
         showAddOrCreate(assignment_id, isGroup, assignment_name) {
+            // console.log('-- assignment_id : ',assignment_id)
             this.assignment_id = assignment_id
             this.isGroup = isGroup
             this.assignment_name = assignment_name

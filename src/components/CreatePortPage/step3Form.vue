@@ -12,11 +12,12 @@
         </ul>
     </nav>
     <!-- Add และ show นศที่ถูกเลือกเพิ่มเข้ามาเป็น member -->
-
     <div id="Student" class="content-tab">
         <div class="field">
-            <multi-select :options="allStudent" :selectedOptions="selectedStudentMember" placeholder="Select Student ID" @select="onSelect">
-            </multi-select>
+            <!-- <multi-select :options="allStudent" :selectedOptions="selectedStudentMember" placeholder="Select Student ID" @select="onSelect">
+            </multi-select> -->
+
+            <vue-tags-input placeholder="Search Student ID" v-model="searchStudentId" :autocomplete-items="allStudent" :tags="selectedStudentMember" @tags-changed="newTags => SET_SELECTED_STUDENT_MEMBER(newTags)" />
         </div>
         <div v-for="(student,student_index) in selectedStudentMember" v-bind:key="student_index">
             <div class="field has-addons">
@@ -87,6 +88,7 @@
 </template>
 
 <script>
+import VueTagsInput from '@johmun/vue-tags-input';
 import {
     MultiSelect
 } from 'vue-search-select'
@@ -104,12 +106,26 @@ import {
 export default {
     components: {
         vueStep,
-        MultiSelect
+        MultiSelect,
+        VueTagsInput
     },
     data() {
         return {
+            searchStudentId: "",
             outsiderFirstname: "",
-            outsiderLastname: ""
+            outsiderLastname: "",
+            tags: [{
+                style: 'color: #56c1da; background-color: transparent; border: 1px solid #56c1da',
+            }],
+        }
+    },
+    watch: {
+        searchStudentId: function (val) {
+            if (val != "") {
+                console.log('searchStudentId : ', this.searchStudentId)
+                this.LOAD_ALL_STUDENT(val)
+            }
+
         }
     },
     computed: {
@@ -124,10 +140,13 @@ export default {
         })
     },
     mounted() {
-        this.LOAD_ALL_STUDENT('59')
+        // this.LOAD_ALL_STUDENT('59')
     },
     methods: {
         ...mapActions(['LOAD_ALL_STUDENT', 'SET_SELECTED_STUDENT_MEMBER', 'SET_OUTSIDER']),
+        selectStudent(selectedStudentMember) {
+            console.log('selectStudent : ', selectedStudentMember)
+        },
         openTab(tabName) {
             var i, x, tablinks;
             x = document.getElementsByClassName("content-tab");
@@ -171,3 +190,18 @@ export default {
     }
 }
 </script>
+
+<style>
+.ti-tag {
+    background-color: #265080 !important;
+}
+.ti-selected-item {
+    background-color: #265080 !important;
+}
+.content ul {
+    list-style: none !important;
+}
+.vue-tags-input{
+    max-width: 100% !important;
+}
+</style>

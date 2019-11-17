@@ -1,5 +1,6 @@
 <template>
 <div id="body-bg">
+    {{assignment_id}}
     <div style="margin-top: -25px;">
         <stepProgress :steps="mySteps" :currentStep="currentStep" iconClass="la la-check"></stepProgress>
     </div>
@@ -238,6 +239,9 @@ export default {
         }
     },
 
+    beforeDestroy() {
+        // this.resetField()
+    },
     components: {
         StepProgress,
         step1Form,
