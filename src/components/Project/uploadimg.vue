@@ -89,19 +89,23 @@ export default {
                     'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2ODcxNzYxNzI0NH0.Vn_kGau8dG9DBQIqm7_NOQVTKfK4ZjlfUKGmrZK0NzU'
                 }
             }
-            // "false"
             try {
                 const {
                     data
-                } = await axios.post(this.GET_PATHNAME+'/files/imageMul', formData, this.GET_CONFIG)
-
-                this.message = "File has been uploaded";
-                this.error = false;
-                this.addImage({
-                    path: data.url[0].path_name
+                } = await axios.post(this.GET_PATHNAME + '/files/imageMul', formData, this.GET_CONFIG).then(res => {
+                    console.log("res : ", res)
+                    if (res.status == 200) {
+                        if (res.data.message == "Validate Error") {
+                            this.message = "Something went wrong";
+                        } else {
+                            this.message = "File has been uploaded";
+                            this.addImage({
+                                path: data.url[0].path_name
+                            })
+                            this.isActive = false;
+                        }
+                    }
                 })
-                // console.log("upload image : ", data.url[0].path_name)
-                this.isActive = false;
 
             } catch (err) {
                 console.log('FAILURE!!' + err)
