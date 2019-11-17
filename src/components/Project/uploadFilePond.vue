@@ -112,7 +112,8 @@ export default {
             this.myFiles = []
             const {
                 data
-            } = await axios.get(this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`)
+            } = await axios.get(this.GET_PATHNAME + `/projects/?project_id=${this.$route.params.pId}`,
+                this.GET_CONFIG)
             const doc = data.document.map((_item, index = 0) => _item.path_name);
 
             for (let i = 0; i < doc.length; i++) {

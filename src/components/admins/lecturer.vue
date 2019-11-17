@@ -34,8 +34,9 @@
             </div>
         </div>
         <div v-else>
-            <p id="noLecturer">
-                Lecturer not found </p>
+            <img src="/static/img/empty.f27adc6.png" style="height: 350px !important;">
+            <b id="noLecturer" style="font-size: 20px;">
+                Lecturer not found </b>
         </div>
     </div>
 </div>
@@ -66,7 +67,6 @@ export default {
         const {
             data
         } = await axios.get(`${this.URL}/users/list_lecturer`);
-        console.log(data);
         if (data.message != 'Validate Error') {
             for (let i = 0; i < data.length; i++) {
                 this.persons.push(data[i])

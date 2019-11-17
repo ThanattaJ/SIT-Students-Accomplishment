@@ -5,7 +5,7 @@
         <div class="columns">
             <div class="column is-narrow">
                 <div class="field">
-                    <p class="control has-icons-left">
+                    <p class="control has-icons-left" >
                         <input class="input" type="text" v-model="search" placeholder="Search Course ...">
                         <span class="icon is-small is-left">
                             <i class="la la-search"></i>
@@ -22,11 +22,11 @@
             <!-- nav bar -->
             <div class="column is-2">
                 <aside class="menu navAssignDetail">
-                    <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('')">All</ul>
-                    <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('INT')">Information Technology</ul>
-                    <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('CSC')">Computer Science</ul>
-                    <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="filterByFaculty('DSI')">Digital Service Innovation</ul>
-                    <ul id="navAssignment" class="menu-list navTopic navCanClick" @click="showNoInCourse('noInCourse')">วิชาที่ไม่มีในหลักสูตร</ul>
+                    <ul id="faculty" class="menu-list navTopic clickSearch" @click="filterByFaculty('')">All</ul>
+                    <ul id="faculty" class="menu-list navTopic clickSearch" @click="filterByFaculty('INT')">Information Technology</ul>
+                    <ul id="faculty" class="menu-list navTopic clickSearch" @click="filterByFaculty('CSC')">Computer Science</ul>
+                    <ul id="faculty" class="menu-list navTopic clickSearch" @click="filterByFaculty('DSI')">Digital Service Innovation</ul>
+                    <ul id="faculty" class="menu-list navTopic clickSearch" @click="showNoInCourse('noInCourse')">Canceled Courses</ul>
                 </aside>
             </div>
             <div class="column" style="padding-left:100px;">
@@ -61,7 +61,7 @@
                             <div class="card-content cardSize">
                                 <div class="columns">
                                     <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course_code}} | {{person.course_name}}</div>
-                                    <div class="column countAssign"><i  id="Action" @click="addCourse(index)">+</i></div>
+                                    <div class="column countAssign"><i id="Action" @click="addCourse(index)">+</i></div>
                                 </div>
                             </div>
                         </div>
@@ -225,6 +225,7 @@ export default {
                     )
                 }
                 return this.persons
+                
             } else if (this.faculty == "DSI") {
                 var ssc = "SSC"
                 if (this.search != "") {
@@ -255,7 +256,7 @@ export default {
                     items.course_code.toLowerCase().includes(this.faculty.toLowerCase())
                 )
             }
-        }
+        },
     },
     data() {
         return {
@@ -294,7 +295,7 @@ export default {
         } = await axios.get(this.GET_PATHNAME + '/course')
         this.set_course(data.course)
         this.set_notInCourse(data.courseIsDelete)
-        console.log(this.get_notInCourse, "course delete")
+        // console.log(this.get_notInCourse, "course delete")
         for (let i = 0; i < data.course.length; i++) {
             this.persons.push(data.course[i])
             JSON.stringify(this.persons[i])
@@ -304,7 +305,7 @@ export default {
             this.persons[i].course_detail = data.course[i].course_detail
         }
         this.persons.length = data.course.length
-        console.log('persons : ', this.persons)
+        // console.log('persons : ', this.persons)
         this.loading = false
     },
     methods: {
@@ -480,7 +481,7 @@ export default {
                         this.push_notInCourse({
                             course_code: this.get_course[index].course,
                             course_detail: this.get_course[index].course_detail,
-                            course_name:this.get_course[index].course_name,
+                            course_name: this.get_course[index].course_name,
                         })
                         this.get_course.splice(index, 1)
                     })
@@ -507,5 +508,19 @@ var ordonner = function (a, b) {
 
 #error {
     margin-left: 80%;
+}
+
+.clickSearch {
+    border: none;
+    outline: none;
+    padding: 10px 16px;
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.active,
+.clickSearch:hover {
+    background-color: #265080;
+    color: white;
 }
 </style>

@@ -81,22 +81,22 @@
                                         <md-switch v-model="show">
                                             <p v-if="this.show == true" style="margin-left:-180px">
                                                 {{this.status}}
-                                                <h id="status">: Public</h>
+                                                <h id="status">: Publish</h>
                                             </p>
                                             <p v-else style="margin-left:-180px">
                                                 {{this.status}}
-                                                <h id="status">: Not Public</h>
+                                                <h id="status">: Private</h>
                                             </p>
                                         </md-switch>
                                     </div>
                                     <div v-else>
                                         <p v-if="this.get_show == true" style="margin-left:-100px;margin-top:15px">
                                             {{this.status}}
-                                            <h id="status">: Public</h>
+                                            <h id="status">: Publish</h>
                                         </p>
                                         <p v-else style="margin-left:-100px;margin-top:15px">
                                             {{this.status}}
-                                            <h id="status">: Not Public</h>
+                                            <h id="status">: Private</h>
                                         </p>
                                     </div>
                                 </div>
@@ -572,12 +572,12 @@ export default {
                     id: this.$route.params.pId,
                     project_name_th: this.header.TitleName_TH,
                     project_name_en: this.header.TitleName,
-                    project_detail: this.getDetail.length === 0 ? null : this.getDetail,
+                    project_detail: this.getDetail === null || this.getDetail.length === 0 ? null : this.getDetail,
                     project_abstract: this.getAbstract,
                     haveOutsider: this.haveOutsider,
                     isShow: this.show,
-                    tool_techniq_detail: this.getTool.length === 0 ? null : this.getTool,
-                    references: this.getRef.length === 0 ? null : this.getRef,
+                            tool_techniq_detail: this.getTool === null || this.getTool.length === 0 ? null : this.getTool,
+                            references: this.getRef === null || this.getRef.length === 0 ? null : this.getRef,
                 },
                 students: this.getMember,
                 achievements: this.GET_ACHIEVEMENT,
@@ -598,12 +598,12 @@ export default {
                             id: this.$route.params.pId,
                             project_name_th: this.header.TitleName_TH,
                             project_name_en: this.header.TitleName,
-                            project_detail: this.getDetail.length === 0 ? null : this.getDetail,
+                            project_detail: this.getDetail === null || this.getDetail.length === 0 ? null : this.getDetail,
                             project_abstract: this.getAbstract,
                             haveOutsider: this.haveOutsider,
                             isShow: this.show,
-                            tool_techniq_detail: this.getTool.length === 0 ? null : this.getTool,
-                            references: this.getRef.length === 0 ? null : this.getRef,
+                            tool_techniq_detail: this.getTool === null || this.getTool.length === 0 ? null : this.getTool,
+                            references: this.getRef === null || this.getRef.length === 0 ? null : this.getRef,
                             // count_viewer: 0,
                             // count_clap: this.clap,
                             start_month: 2,
