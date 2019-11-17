@@ -162,7 +162,7 @@
                         <achievements />
                     </div>
                     <div id="image">
-                        <div id="container">
+                        <div>
                             <div v-if="this.pictures[0]">
                                 <carousel />
                             </div>
