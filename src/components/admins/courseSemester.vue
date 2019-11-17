@@ -571,7 +571,7 @@ var ordonner = function (a, b) {
     cursor: pointer;
 }
 
-.active,
+
 .clickYear:hover {
     background-color: #265080;
     color: white;
