@@ -121,17 +121,7 @@
                                 <figure class="image coverImg is-4by2">
                                     <!-- <img :src="project.cover_path" alt="Placeholder image" style="height: 200px !important;border-radius: 5px;"> -->
                                     <img :src="project.cover_path" alt="Placeholder image" style="height: 271px !important;border-radius: 5px;">
-                                    <div style="bottom: 0px !important;
-    right: 0px !important;
-    position: absolute !important;
-    background: rgba(255, 255, 255, .9) !important;
-    border-top-left-radius: .3em !important;
-    border-bottom-right-radius: .3em !important;
-    color: white !important;
-    padding: 4px 9px !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    max-width: 80% !important;">
+                                    <div class="img-text">
                                         <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
                                         <span class="countText">{{project.count_viewer}} </span>
                                         <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
@@ -143,17 +133,7 @@
                                 <figure class="image coverImg is-4by2">
                                     <img src="./../../assets/noCoverImg.png" style="height: 271px !important;border-radius: 5px;">
                                     <!-- <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;"> -->
-                                    <div style="bottom: 0px !important;
-    right: 0px !important;
-    position: absolute !important;
-    background: rgba(255, 255, 255, .9) !important;
-    border-top-left-radius: .3em !important;
-    border-bottom-right-radius: .3em !important;
-    color: white !important;
-    padding: 4px 9px !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    max-width: 80% !important;">
+                                    <div class="img-text">
                                         <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
                                         <span class="countText">{{project.count_viewer}} </span>
                                         <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
@@ -163,6 +143,8 @@
                             </div>
                             <div class="card-content projectInfo">
                                 <p class="projectName" style="height: 22px;overflow: hidden;">{{project.project_name_en}}</p>
+                            </div>
+                            <div style="padding: 0px 10px">
                                 <p class="" style="font-size:12px;line-height:14px;height: 30px;overflow: hidden;">{{project.project_abstract}}</p>
                             </div>
                         </div>
