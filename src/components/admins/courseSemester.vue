@@ -311,10 +311,6 @@ export default {
             this.items = items
             this.lastSelectItem = lastSelectItem
         },
-        reset() {
-            this.items = []
-            this.item = {}
-        },
         async add() {
             for (let i = 0; i < this.items.length; i++) {
                 this.storeLecName.push({
@@ -329,7 +325,7 @@ export default {
 
             try {
                 await axios.post(this.GET_PATHNAME + '/course/courseSemester', {
-                    academic_term_id: this.semesters[this.indexSem].academic_term_id,
+                    academic_term_id: this.semesters[this.activeClick].academic_term_id,
                     course_id: this.item.value,
                     lecturers: this.storeLecturer
                 }).then((res) => {
@@ -410,7 +406,7 @@ export default {
             if (this.get_semester.course[0].academic_term_id) {
                 try {
                     axios.patch(this.GET_PATHNAME + '/course/courseSemester', {
-                        academic_term_id: this.get_semester.course[0].academic_term_id,
+                        academic_term_id: this.semesters[this.activeClick].academic_term_id,
                         course_id: this.item.value,
                         lecturers: this.storeLecturer
                     }).then(res => {
@@ -419,9 +415,6 @@ export default {
                                 lecturer_name: this.items[i].text
                             })
                         }
-                        this.items = []
-                        this.options = []
-                        this.storeLecturer = []
                         console.log("res : ", res)
                         if (res.status == 200) {
                             this.$modal.hide('lecturer')
@@ -430,6 +423,7 @@ export default {
                     this.message = " uploaded complete";
                     this.file = " ";
                     this.persons.splice(index, 1);
+                    this.item = {}
                     this.persons.push({
                         course: this.editInput.course,
                     });
@@ -448,17 +442,15 @@ export default {
         close: function (index) {
             this.isActive = false;
             this.option.splice(this.option.length - 1, 1)
-            this.items = []
             this.item = {}
         },
         async getSemester(indexSem) {
+            console.log('term',this.semesters[this.activeClick].academic_term_id);
             this.activeClick = indexSem
-            console.log('index sem', this.semesters[indexSem].academic_term_id);
-
             try {
                 const {
                     data
-                } = await axios.get(this.GET_PATHNAME + '/course/courseSemester?semester_id=' + this.semesters[indexSem].academic_term_id)
+                } = await axios.get(this.GET_PATHNAME + '/course/courseSemester?semester_id=' + this.semesters[this.activeClick].academic_term_id)
                 if (data.course.length == 0) {
                     this.set_semester({
                         course: []
@@ -470,12 +462,9 @@ export default {
                             course: data.course
                         })
                     }
-                    console.log('set value');
+                 
 
                 }
-                // this.persons.length = data.course.length
-                console.log(data, 'semester');
-                console.log(this.get_semester, 'get');
 
             } catch (err) {
                 console.log('FAILURE!!' + err)
@@ -488,7 +477,7 @@ export default {
     watch: {
 
         async item() {
-            this.options = []
+            this.options = []  
             try {
                 var lecturer
                 await axios.get(this.GET_PATHNAME + `/users/list_lecturer/?academic_term_id=${this.semesters[this.indexSem].academic_term_id}&courses_id=${this.item.value}`)
@@ -588,11 +577,12 @@ var ordonner = function (a, b) {
     display: inline-block;
     position: absolute;
 }
-.manu{
+
+.manu {
     z-index: 1000;
 }
-.v--modal-overlay .v--modal-box {
-    overflow:visible
 
+.v--modal-overlay .v--modal-box {
+    overflow: visible
 }
 </style>
