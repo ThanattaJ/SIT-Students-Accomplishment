@@ -106,13 +106,13 @@
                 </div>
             </div>
         </div>
-        <modal name="add">
-            <div class="modal-card-body" id="editCourse">
+        <modal name="add" id="editCourse">
+            <div class="modal-card-body">
                 <md-card-header>
                     <div class="md-title">Add Course</div>
                 </md-card-header>
                 <div class="column">
-                    <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px; height:36px ;font-size: 12px ">
+                    <model-select :options="option" v-model="item" placeholder="select course" style="position: absolute; max-width: 250px; margin-top :10px;font-size: 12px;">
                     </model-select>
                     <div v-if="item.text">
                         <div v-if="this.options.length !=0">
@@ -488,9 +488,7 @@ export default {
     watch: {
 
         async item() {
-            // console.log(this.semesters[this.indexSem].academic_term_id,'tearm');
-            // console.log('index',this.get_semester.semester);
-
+            this.options = []
             try {
                 var lecturer
                 await axios.get(this.GET_PATHNAME + `/users/list_lecturer/?academic_term_id=${this.semesters[this.indexSem].academic_term_id}&courses_id=${this.item.value}`)
@@ -501,7 +499,7 @@ export default {
                         value: lecturer[i].lecturer_id
                     })
                 }
-                console.log('data ; ', this.storeLecturer)
+                console.log('data ; ', this.options)
             } catch (err) {
 
             }
@@ -572,10 +570,6 @@ var ordonner = function (a, b) {
     font-size: 14px;
 }
 
-#editCourse {
-    height: 500px;
-}
-
 .clickYear {
     border: none;
     outline: none;
@@ -588,5 +582,17 @@ var ordonner = function (a, b) {
 .clickYear:hover {
     background-color: #265080;
     color: white;
+}
+
+.ui.dropdown {
+    display: inline-block;
+    position: absolute;
+}
+.manu{
+    z-index: 1000;
+}
+.v--modal-overlay .v--modal-box {
+    overflow:visible
+
 }
 </style>
