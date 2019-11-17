@@ -102,6 +102,9 @@ export default {
                 if (res.data.courses.length != 0) {
                     this.courses = res.data.courses
                     this.defaultCourse = this.courses[0]
+                    if (this.semester == "") {
+                        this.semester = res.data.courses[0].academic_term_id
+                    }
                 }
             })
             .catch(err => {
