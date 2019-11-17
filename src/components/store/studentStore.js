@@ -84,6 +84,7 @@ export const studentStore = {
             return state.studentData.totalProject
         },
         GET_DATATOCHART: function (state) {
+            console.log('GET_DATATOCHART')
             state.dataToChart = []
             var start = state.studentData.totalProject[0].start_year_en
             var last = state.studentData.totalProject[state.studentData.totalProject.length - 1].start_year_en

@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                         </nav>
-                        <nav class="level">
+                        <nav class="level" v-if="totalProject.length > 0">
                             <div class="level-item has-text-centered">
                                 <svg style="width:0; height:0; position:absolute;" aria-hidden="true" focusable="false">
                                     <defs>
@@ -150,6 +150,12 @@
                         </div>
                     </router-link>
                 </div>
+            </div>
+        </div>
+        <div id="bodyBg" v-if="allProjects.length == 0" style="text-align:center">
+            <img src="./../assets/empty.png" style="height: 350px !important;margin-top:-6%">
+            <div>
+                <b style="font-size:20px">No project</b>
             </div>
         </div>
     </div>

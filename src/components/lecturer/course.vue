@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div id="bodyBg">
+    <div id="bodyBg" v-if="courses.length > 0">
         <div class="columns">
             <div class="column" style="margin-bottom: -55px;">
                 <div class="field has-addons">
@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <div  class="overflowY" style="height: 560px;">
+        <div class="overflowY" style="height: 560px;">
             <div class="card lecturerCard lecturerCourseCard" v-for="(course,index) in allCourse" v-bind:key="'courseTerm'+index">
                 <router-link :to="`/allassignment/${course.course_id}`">
                     <div class="card-content cardSize" @click="SET_COURSENAME(course.course_name)">
@@ -45,6 +45,12 @@
                     </div>
                 </router-link>
             </div>
+        </div>
+    </div>
+    <div id="bodyBg" v-else style="text-align:center">
+        <img src="./../../assets/empty.png" style="height: 350px !important;margin-top:8%">
+        <div>
+            <b style="font-size:20px">No course</b>
         </div>
     </div>
 </div>
@@ -92,12 +98,14 @@ export default {
                 this.URL + "/users/default", this.config
             ).then(res => {
                 console.log("res : ", res)
-                this.courses = res.data.courses
+                if (res.data.courses.length != 0) {
+                    this.courses = res.data.courses
+                    this.defaultCourse = this.courses[0]
+                }
             })
             .catch(err => {
                 console.error("error : " + err);
             });
-        this.defaultCourse = this.courses[0]
         this.SET_LOADING_STATUS(false)
     },
     methods: {
@@ -113,7 +121,7 @@ export default {
         }
     },
     beforeMount() {
-      this.SET_LOADING_STATUS(true)
+        this.SET_LOADING_STATUS(true)
     }
 }
 </script>
