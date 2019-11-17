@@ -45,7 +45,7 @@
                     <div id="project_status">
                         <div v-if="this.access">
                             <div v-if="this.project_status === 'Request'">
-                                <p>Project Status : <span class="projectStatus request">Waiting for edit project</span></p>
+                                <p>Project Status : <span class="projectStatus request">Request admin to edit project</span></p>
                             </div>
                             <div v-if="this.project_status === 'Waiting'">
                                 <p>Project Status : <span class="projectStatus request">Waiting for approve project</span></p>
@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             <div v-else>
-                                <p>Project Status : <span class="projectStatus request">Waiting for edit project</span></p>
+                                <p>Project Status : <span class="projectStatus request">Request admin to edit project</span></p>
                             </div>
                             <div v-if="this.project_status === 'Reject'">
                                 <p>Project Status : <span class="projectStatus denied">Reject</span></p>
