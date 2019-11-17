@@ -120,7 +120,8 @@
                             </multi-select>
                         </div>
                         <div v-else>
-                            <p style="margin-left:60%; margin-top:3%;"> Lecturer not found </p>
+                            <img src="/static/img/empty.f27adc6.png" style="height: 350px !important;margin-left:50%; ">
+                            <b style="margin-left:60%; font-size: 20px;"> Lecturer not found </b>
                         </div>
                     </div>
                 </div>
@@ -466,7 +467,7 @@ export default {
                 } else {
                     for (let i = 0; i < data.course.length; i++) {
                         this.set_semester({
-                            course: data.course 
+                            course: data.course
                         })
                     }
                     console.log('set value');
