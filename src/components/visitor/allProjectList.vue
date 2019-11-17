@@ -187,13 +187,13 @@
                     <router-link :to="`/student/${profile.student_id}`">
                         <div class="columns card profile">
                             <!-- <div class="columns card profile" @click="goToStudentProfile(profile.student_id)"> -->
-                            <div v-if="profile.profile_picture != null" style="padding-right:20px">
-                                <figure class="image" style="height: 160px;width: 120px">
-                                    <img :src="profile.profile_picture" alt="Placeholder image" style="border-radius: 5px;height: 160px;width: 120px">
+                            <div v-if="profile.profile_picture != null" style="margin-right:20px">
+                                <figure class="image" style="height: 160px;">
+                                    <img :src="profile.profile_picture" alt="Placeholder image" style="border-radius: 5px;height: 160px;width: 160px">
                                 </figure>
                             </div>
-                            <div v-else style="padding-right:20px">
-                                <figure class="image" style="height: 160px;width: 120px">
+                            <div v-else style="margin-right:20px">
+                                <figure class="image" style="height: 160px;">
                                     <img src="./../../assets/noProfilePicture.png" style="border-radius: 5px;">
                                 </figure>
                             </div>
