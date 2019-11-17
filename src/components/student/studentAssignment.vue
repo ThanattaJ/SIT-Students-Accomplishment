@@ -138,7 +138,7 @@ export default {
         this.getAllAssignment()
     },
     methods: {
-        ...mapActions(['']),
+        ...mapActions(['SET_ASSIGNMENTID']),
         async getAllAssignment() {
             await axios.get(
                     this.URL + '/assignment/projects?isHave=all', this.config
@@ -175,6 +175,7 @@ export default {
                 });
         },
         routeToAssignmentDetail(assignment_id) {
+            this.SET_ASSIGNMENTID(assignment_id)
             router.push(`/studentAssignmentDetail/${assignment_id}`)
         },
         goToProfile() {

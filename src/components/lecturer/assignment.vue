@@ -191,7 +191,7 @@ export default {
         ...mapActions(['SET_COURSE_ID', 'SET_ISAPPROVER']),
         async getAllAssignment() {
             await axios.get(
-                    this.URL + `/assignment/list-assignment?course_id=${this.$route.params.courseId}`, this.config
+                    this.URL + `/assignment/list-assignment?course_id=${this.$route.params.courseId}&academic_term_id=${this.$route.params.semesterId}`, this.config
                 ).then(res => {
                     console.log("res : ", res)
                     this.assignments = res.data

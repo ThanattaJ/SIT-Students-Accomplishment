@@ -35,7 +35,7 @@
         </div>
         <div class="overflowY" style="height: 560px;">
             <div class="card lecturerCard lecturerCourseCard" v-for="(course,index) in allCourse" v-bind:key="'courseTerm'+index">
-                <router-link :to="`/allassignment/${course.course_id}`">
+                <router-link :to="`/allassignment/${course.course_id}/${semester}`">
                     <div class="card-content cardSize" @click="SET_COURSENAME(course.course_name)">
                         <div class="columns">
                             <div class="column is-two-thirds courseName">{{index+1}}) {{course.course_name}}</div>
@@ -73,7 +73,8 @@ export default {
         return {
             courses: {},
             defaultCourse: [],
-            search: ''
+            search: '',
+            semester: ''
         }
     },
     computed: {
@@ -111,9 +112,9 @@ export default {
     methods: {
         ...mapActions(['SET_COURSENAME', 'SET_ACADEMIC_TERM_ID', 'SET_LOADING_STATUS']),
         chooseTerm() {
-            var chooseTerm = document.getElementById("chooseTerm").value
+            this.semester = document.getElementById("chooseTerm").value
             for (var n = 0; n < this.courses.length; n++) {
-                if (this.courses[n].academic_term_id == chooseTerm) {
+                if (this.courses[n].academic_term_id == this.semester) {
                     this.SET_ACADEMIC_TERM_ID(this.courses[n].academic_term_id)
                     this.defaultCourse = this.courses[n]
                 }

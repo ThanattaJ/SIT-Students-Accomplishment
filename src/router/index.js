@@ -142,7 +142,7 @@ export default new Router({
       component: course,
     },
     {
-      path: '/allassignment/:courseId',
+      path: '/allassignment/:courseId/:semesterId',
       name: 'assignment',
       component: assignment,
     },
