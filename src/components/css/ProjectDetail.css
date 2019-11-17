@@ -1,0 +1,149 @@
+#ProjectDetail-bg{
+    max-width: 80%;
+    margin: 2% 0 0 10%;    
+}
+#TitleName{
+    text-align: center;
+}
+#TitleName_eg{
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  color: #265080;
+}
+#TitleName_th{
+  font-size: 16px;
+  margin-top: 5px;
+  color: #6F6F6F;
+}
+#imgCover{
+    text-align: center;
+    margin-top: -30px;
+    max-width: 1920px;
+    max-height: 1080px;
+    overflow: hidden;
+}
+#body-project{
+    margin: -1% 0 0 0;
+}
+#Details,#achievement,#Authors,#tool,#Documents,#Tag,#References,#video,#lecturer{
+    margin: 5% 0 0 0; 
+    border-radius: 5px;
+    
+}
+.card-header{
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+#cardHeader{
+    background:#F9F9F9;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    color: #265080;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+#content{
+    border-color: transparent;
+    background-color: white;
+    color: #6F6F6F;
+    font-size: 0.6em;
+    margin: 0 0 0 0 ;
+}
+/* ___Authors__ */
+#student_name{
+    font-size: 0.85em;
+}
+#mail{
+    font-size: 0.7em;
+    color: #6F6F6F;
+}
+#student_id{
+    font-size: 0.85em;
+}
+  #Edit{
+    background:#265080;
+    color: #F9F9F9 ;
+    height: 40px;
+    border: none; 
+    margin-left: 58%;
+  }
+  #save{
+    width: 150px !important;
+    height: 40px;
+    border: none;
+    margin-left: 31%;
+  }
+  #cancel{
+    width: 120px;
+    height: 40px;
+    color: white;
+    background-color: #EB5656 !important;
+    border: 2px solid #EB5656;
+    box-sizing: border-box;
+    border-radius: 6px;
+  }
+  #student_id,#mail{
+      margin-left: 10%;
+      font-size: 0.7em;
+  }
+  #contentAbstract{
+    font-size: 0.9em;
+    background-color: white;
+    border: none;
+  }
+  #achievements.card{
+      margin-top: 20px;
+  }
+  #achieve {
+    width: 80%;
+    display: inline-block;
+    vertical-align: top; 
+    margin: 20px;  
+    margin-left: 50px; 
+    margin-top: -2px;
+  }
+  #addAchievements{
+    margin-left: 90%;
+    width: 50px;
+    padding: 2%;
+    
+  }
+  #fname{ 
+    width: 50% !important;
+    background-color: white;
+    margin-top: -5px !important;       
+  }
+  #lname{
+    width: 60% !important;
+    background-color: white;
+    border: none;
+    color: #6F6F6F !important;
+    margin-top: -5px !important;
+  }
+  #deleteImg{
+      color: gray !important;
+  }
+  #Abstract{
+      margin-top: 20px;
+  }
+  #deleteTag{
+    color: #6F6F6F !important;
+    margin-top: 6px;
+  }
+  #References{
+      height: auto !important;
+  }
+  #addAC{
+    font-size: 12px !important;
+    color: black !important;
+  }
+  #image{
+    margin-top: 5%;
+  }
+
+
+
+  

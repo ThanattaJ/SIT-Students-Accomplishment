@@ -1,0 +1,273 @@
+.VueCarousel-dot{
+  outline: none !important;
+}
+
+.VueCarousel-dot-container {
+  margin-top: -22px !important
+}
+#block {
+  margin: 5% 10% 0 10% !important;
+}
+
+.row {
+  height:700px; /*set height*/
+  width:100%;
+  margin-bottom: 3%;
+  padding: 2.5%;
+}
+
+.introCol {
+  width:50%;
+  float:left;
+  height:100%;
+}
+
+
+#introCol {
+  box-sizing: border-box;
+  display: inline-block;
+  padding: 3%;
+  text-align: left;
+  width: 50%;
+  white-space: normal
+}
+
+#footer {
+  position: fixed !important;
+  width: 100%;
+  height: 7%;
+  bottom: 0px;
+  padding-left: 11%;
+  padding-top: 1.5%;
+  padding-bottom: 2%;
+  padding-right: 11%;
+  background-color: #265080;
+  z-index: 2000;
+}
+
+.footerContent {
+  width:49%;
+  float:left;
+  font-size: 18px;
+  font-weight: normal;
+  color: #FFFFFF;
+}
+
+.buttonToViewProject {
+  bottom: 15px !important;
+  font-size: 20px;
+  color: #265080 !important;
+  border-radius: 20px !important;
+  background-color: white !important;
+}
+
+.footerRight {
+  text-align: right;
+}
+
+#headerContent{
+  font-size: 50px;
+  font-weight: bolder;
+  margin: 5% 0% 0% 0%;
+  line-height: 50px;
+  color: #265080;
+}
+
+#contentIntro{
+  color: black;
+  font-size: 25px;
+  padding: 2.5%;
+  line-height: 35px;
+}
+
+#contentFetures{
+  color: black;
+  font-size: 20px;
+  padding: 5%;
+  line-height: 25px;
+}
+
+.featuresBlock {
+  position: relative;
+  height:800px  !important; /*set height*/
+  width:100%;
+  margin-bottom: 3%;
+  padding:1.8%;
+  background-color: #f4f5f9;
+}
+
+.featuresRow {
+  box-sizing: border-box;
+  height: 30% !important; /*set height*/
+  width:100%;
+  margin-bottom:4%;
+  float: left;
+  padding-left: 9%;
+  padding-right: 9%;
+}
+
+
+.featuresCol{
+  width: 25%;
+  float: left;
+  height: 100%;
+}
+
+#featuresCol {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 25%;
+  margin: 1.5% 0 0 0 !important;
+  text-align: center;
+  white-space: normal
+}
+
+.featuresHeader {
+  margin: 1.5% 0 1.5% 10% !important;
+  color: #265080;
+}
+
+.imgFeaturers {
+  height: 50%;
+  width: 50%;
+}
+
+.imgQuote {
+  height: 10%;
+  width: 10%;
+  margin-bottom: 5%;
+}
+
+p.quote{
+  font-size: 25px;
+  color: #265080;
+  text-align: center;
+  margin-bottom: 3.5%;
+  white-space: normal;
+  line-height: 35px;
+}
+
+p.quote-footer {
+  font-size: 13px;
+  color: #265080;
+  text-align: center;
+  white-space: normal;
+}
+
+.grid {
+  position: relative;
+  max-width: 100%;
+  list-style: none;
+  text-align: center;
+}
+
+/* Common style */
+.grid figure {
+  position: relative;
+  float: left;
+  overflow: hidden;
+  max-height: 650px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.grid figure img {
+  position: relative;
+  display: block;
+  height: 650px;
+  width: 100%;
+}
+
+.grid figure figcaption {
+  padding: 2em;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 30px;
+  font-size: 25px;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.grid figure figcaption::before,
+.grid figure figcaption::after {
+  pointer-events: none;
+}
+
+.grid figure figcaption {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Anchor will cover the whole item by default */
+/* For some effects it will show as a button */
+.grid figure figcaption > a {
+  z-index: 1000;
+  text-indent: 200%;
+  white-space: nowrap;
+  font-size: 0;
+  opacity: 0;
+}
+
+.grid figure h2 {
+  /* word-spacing: -0.15em; */
+  font-weight: 300;
+}
+
+.grid figure h2 span {
+  font-weight: 500;
+}
+
+.grid figure h2 {
+  margin: 0;
+}
+
+figure.effect-zoe figcaption {
+  top: auto;
+  bottom: 0;
+  padding: 1em;
+  height: 3.75em;
+  background: rgba(255, 255, 255, 0.849);
+  color: #265080;
+  -webkit-transition: -webkit-transform 0.35s;
+  transition: transform 0.35s;
+  -webkit-transform: translate3d(0,100%,0);
+  transform: translate3d(0,100%,0);
+}
+
+figure.effect-zoe h2 {
+  float: left;
+}
+
+
+figure.effect-zoe h2 {
+  -webkit-transition: -webkit-transform 0.35s;
+  transition: transform 0.35s;
+  -webkit-transform: translate3d(0,200%,0);
+  transform: translate3d(0,200%,0);
+}
+
+figure.effect-zoe span::before {
+  display: inline-block;
+  padding: 8px 10px;
+}
+
+figure.effect-zoe h2 {
+  display: inline-block;
+}
+
+
+figure.effect-zoe:hover figcaption,
+figure.effect-zoe:hover h2,
+figure.effect-zoe:hover {
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+}
+
+figure.effect-zoe:hover h2 {
+  -webkit-transition-delay: 0.05s;
+  transition-delay: 0.05s;
+}
