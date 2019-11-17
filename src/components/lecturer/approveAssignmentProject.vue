@@ -1,7 +1,7 @@
 <template>
 <div>
     Project Status :
-    <span v-if="project_status == 'Waiting' || project_status == 'Reject'">
+    <span v-if="project_status == 'Waiting'">
         <!-- <a id='Waiting' class="button statusBtn" @click="setStatus('Waiting');openAskModal()"><span id='WaitingText' class="courseName">Waiting</span></a> -->
         <a id='Waiting' class="button statusBtn"  v-if="project_status == 'Waiting'"><span id='WaitingText' class="courseName">Waiting</span></a>
         <a id='Approve' class="button statusBtn" @click="setStatus('Approve');openAskModal()"><span id='ApproveText' class="courseName">Approve</span></a>

@@ -221,4 +221,7 @@ export default {
 .ti-tag {
     background-color: #265080 !important;
 }
+.ti-selected-item {
+    background-color: #265080 !important;
+}
 </style>
