@@ -5,7 +5,7 @@
         <div class="columns">
             <div class="column is-narrow">
                 <div class="field">
-                    <p class="control has-icons-left" >
+                    <p class="control has-icons-left">
                         <input class="input" type="text" v-model="search" placeholder="Search Course ...">
                         <span class="icon is-small is-left">
                             <i class="la la-search"></i>
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="column countAll">
-                <button class="button createBtn" @click="showAddCourseModal()">+ Add Course ..</button>
+                <button class="button createBtn" @click="showAddCourseModal()">+ Add Course</button>
             </div>
         </div>
 
@@ -116,10 +116,10 @@
                 </md-card-header-text>
             </md-card-header>
             <md-card-content>
-                <md-field :class="messageClass">
+                <md-field>
                     <label>Course ID</label>
                     <md-textarea v-model="addInput.course" md-autogrow required></md-textarea>
-                    <span class="md-error" id="error">There is an error</span>
+                    <span id="error" v-if="this.hasMessages">There is an error</span>
                 </md-field>
                 <md-field>
                     <label>Course Name</label>
@@ -186,24 +186,6 @@ export default {
             'get_notInCourse',
             'GET_LOADING'
         ]),
-        messageClass() {
-            if (this.addInput.course != null) {
-                if (this.addInput.course.length === 6) {
-                    console.log('not null', this.addInput.course)
-                    this.hasMessages = false
-                } else {
-                    this.hasMessages = true
-                    return {
-                        'md-invalid': this.hasMessages
-                    }
-                }
-            } else {
-                this.hasMessages = true
-                return {
-                    'md-invalid': this.hasMessages
-                }
-            }
-        },
         editMessage() {
             if (this.editMessages === false) {
                 console.log(' A1')
@@ -225,7 +207,7 @@ export default {
                     )
                 }
                 return this.persons
-                
+
             } else if (this.faculty == "DSI") {
                 var ssc = "SSC"
                 if (this.search != "") {
@@ -278,7 +260,7 @@ export default {
             cs: [],
             dsi: [],
             search: "",
-            hasMessages: true,
+            hasMessages: false,
             editMessages: false,
             isDelete: true,
             noInCourse: false,
@@ -328,6 +310,8 @@ export default {
         },
         closeAddCourseModal() {
             this.$modal.hide('addCourse')
+            this.hasMessages = false
+            this.addInput= {}
         },
         modalActive: function (index) {
             this.addActive = true
@@ -336,40 +320,44 @@ export default {
             }
         },
         async add() {
-            if (!this.hasMessages) {
-
-                try {
-                    axios.post(this.GET_PATHNAME + '/course', {
-                        code: this.addInput.course,
-                        name: this.addInput.name,
-                    }).then(res => {
-                        console.log("res : ", res)
-                        if (res.status == 200) {
-                            this.addActive = false
-                        }
-                        this.persons.push({
-                            course: this.addInput.course,
-                            course_code: this.addInput.course,
+            if (this.addInput.course != null) {
+                if (this.addInput.course.length === 6) {
+                    try {
+                        axios.post(this.GET_PATHNAME + '/course', {
+                            code: this.addInput.course,
                             name: this.addInput.name,
-                            course_detail: this.addInput.course_detail
+                        }).then(res => {
+                            console.log("res : ", res)
+                            if (res.status == 200) {
+                                this.addActive = false
+                            }
+                            this.persons.push({
+                                course: this.addInput.course,
+                                course_code: this.addInput.course,
+                                name: this.addInput.name,
+                                course_detail: this.addInput.course_detail
+                            })
+
+                            this.$modal.hide('addCourse')
+                            console.log("getCourse : ", this.get_course)
+
                         })
-
-                        this.$modal.hide('addCourse')
-                        console.log("getCourse : ", this.get_course)
-
-                    })
-                    this.message = " uploaded complete";
-                    this.file = " ";
-                    this.error = false;
-
-                } catch (err) {
-                    console.log('FAILURE!!' + err)
-                    this.message = "Something went wrong";
-                    this.error = true;
+                        this.message = " uploaded complete";
+                        this.file = " ";
+                    } catch (err) {
+                        console.log('FAILURE!!' + err)
+                        this.message = "Something went wrong";
+                        this.error = true;
+                    }
+                    this.hasMessages = false
+                    this.addInput= {}
+                } else {
+                    this.hasMessages = true
                 }
             } else {
-                console.log('can not add')
                 this.hasMessages = true
+                console.log('null',this.hasMessages );
+                
             }
 
         },
@@ -508,6 +496,7 @@ var ordonner = function (a, b) {
 
 #error {
     margin-left: 80%;
+    color: red
 }
 
 .clickSearch {

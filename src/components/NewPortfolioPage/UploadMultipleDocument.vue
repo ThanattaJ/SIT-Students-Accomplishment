@@ -4,7 +4,7 @@
         <div class="field">
             <div class="file is-primary">
                     <input 
-                        accept="application/pdf"
+                        accept="application/pdf,application/zip"
                         multiple
                         type="file"
                         ref="files"
