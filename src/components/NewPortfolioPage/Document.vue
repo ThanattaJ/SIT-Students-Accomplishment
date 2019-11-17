@@ -18,7 +18,7 @@
                                     <div class="file has-name">
                                         <label class="file-label">
                                             <input 
-                                                accept="application/pdf" 
+                                                accept="application/pdf,application/zip" 
                                                 class="file-input" 
                                                 type="file" 
                                                 ref = "file" 

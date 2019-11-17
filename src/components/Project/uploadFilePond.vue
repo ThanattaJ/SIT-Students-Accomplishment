@@ -5,7 +5,7 @@
             {{file}}
         </div>
     </div> -->
-    <file-pond name="test" ref="pond" label-idle="Click to Upload or Drop files here..." v-bind:allow-multiple="true" accepted-file-types="application/pdf" :server="api" v-bind:files="myFiles" v-on:init="handleFilePondInit" v-bind:maxFiles="2" maxFileSize="5MB" />
+    <file-pond name="test" ref="pond" label-idle="Click to Upload or Drop files here..." v-bind:allow-multiple="true" accepted-file-types="application/pdf,application/zip" :server="api" v-bind:files="myFiles" v-on:init="handleFilePondInit" v-bind:maxFiles="2" maxFileSize="5MB" />
     <!-- <file-pond v-if="clickUpload==false" name="test" ref="pond" label-idle="Click to Upload or Drop files here..." v-bind:allow-multiple="true" accepted-file-types="application/pdf" :server="api" v-bind:files="myFiles" v-on:init="handleFilePondInit" v-bind:maxFiles="2" maxFileSize="5MB" /> -->
 
     <!-- <button v-if="clickUpload==true" @click="clickUpload = !clickUpload">upload</button> -->
