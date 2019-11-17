@@ -614,7 +614,7 @@ export default {
                             if (res.data.message == "Validate Error") {
                                 alert('File has been Error')
                             } else {
-                                // location.reload();
+                                location.reload();
                                 console.log('tags : ', this.getTag)
                                 this.EditProject = false;
                             }
