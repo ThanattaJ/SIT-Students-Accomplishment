@@ -77,6 +77,9 @@
                                         <div class="card-content projectInfo">
                                             <p class="projectName" style="height: 22px;overflow: hidden;">{{allProject.project_name_en}}</p>
                                         </div>
+                                        <div style="padding: 0px 10px">
+                                            <p class="" style="font-size:12px;line-height:14px;height: 30px;overflow: hidden;">{{allProject.project_abstract}}</p>
+                                        </div>
                                     </div>
                                 </router-link>
                             </div>
