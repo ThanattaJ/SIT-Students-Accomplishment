@@ -89,7 +89,7 @@ export default {
     
 } */
 figure{
-    display: inline;
+    display: inline !important;
     margin: 0px !important;
 }
 </style>
