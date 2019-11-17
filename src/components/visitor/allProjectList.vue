@@ -121,7 +121,17 @@
                                 <figure class="image coverImg is-4by2">
                                     <!-- <img :src="project.cover_path" alt="Placeholder image" style="height: 200px !important;border-radius: 5px;"> -->
                                     <img :src="project.cover_path" alt="Placeholder image" style="height: 271px !important;border-radius: 5px;">
-                                    <div class="img-text">
+                                    <div style="bottom: 0px !important;
+    right: 0px !important;
+    position: absolute !important;
+    background: rgba(255, 255, 255, .9) !important;
+    border-top-left-radius: .3em !important;
+    border-bottom-right-radius: .3em !important;
+    color: white !important;
+    padding: 4px 9px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    max-width: 80% !important;">
                                         <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
                                         <span class="countText">{{project.count_viewer}} </span>
                                         <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
@@ -133,7 +143,17 @@
                                 <figure class="image coverImg is-4by2">
                                     <img src="./../../assets/noCoverImg.png" style="height: 271px !important;border-radius: 5px;">
                                     <!-- <img src="./../../assets/noCoverImg.png" style="height: 156.22px !important;border-radius: 5px;"> -->
-                                    <div class="img-text">
+                                    <div style="bottom: 0px !important;
+    right: 0px !important;
+    position: absolute !important;
+    background: rgba(255, 255, 255, .9) !important;
+    border-top-left-radius: .3em !important;
+    border-bottom-right-radius: .3em !important;
+    color: white !important;
+    padding: 4px 9px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    max-width: 80% !important;">
                                         <img src="./../../assets/visibility-button.png" style="width:15px;display: inline;">
                                         <span class="countText">{{project.count_viewer}} </span>
                                         <img src="./../../assets/clap-hands.png" style="width:15px;display: inline;">
@@ -167,13 +187,13 @@
                     <router-link :to="`/student/${profile.student_id}`">
                         <div class="columns card profile">
                             <!-- <div class="columns card profile" @click="goToStudentProfile(profile.student_id)"> -->
-                            <div v-if="profile.profile_picture != null" style="padding-right:20px">
-                                <figure class="image" style="height: 160px;width: 120px">
-                                    <img :src="profile.profile_picture" alt="Placeholder image" style="border-radius: 5px;height: 160px;width: 120px">
+                            <div v-if="profile.profile_picture != null" style="margin-right:20px">
+                                <figure class="image" style="height: 160px;">
+                                    <img :src="profile.profile_picture" alt="Placeholder image" style="border-radius: 5px;height: 160px;width: 160px">
                                 </figure>
                             </div>
-                            <div v-else style="padding-right:20px">
-                                <figure class="image" style="height: 160px;width: 120px">
+                            <div v-else style="margin-right:20px">
+                                <figure class="image" style="height: 160px;">
                                     <img src="./../../assets/noProfilePicture.png" style="border-radius: 5px;">
                                 </figure>
                             </div>
