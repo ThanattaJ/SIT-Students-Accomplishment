@@ -25,7 +25,11 @@
                     <div class="column is-three-fifths" id="information">
                         <br>
                         <p id="name">{{profile.firstname}} {{profile.lastname}}</p>
-                        <p id="info">Bachelor of Science Programme in {{profile.curriculum_name}}</p>
+                        <p id="info">Bachelor of Science Programme in 
+                            <b v-if="profile.curriculum_name == 'IT'">Information Technology</b>
+                            <b v-if="profile.curriculum_name == 'CS'">Computer Science</b>
+                            <b v-if="profile.curriculum_name == 'DSI'">Digital Service Innovation</b>
+                        </p>
                         <p id="info"> {{profile.student_id}}</p>
                         <br><br>
                         <p id="info" v-if="clickEditEmail == false">{{profile.email}} <i class="la la-pencil" @click="clickEditEmail = true" v-if="access == true"></i></p>
