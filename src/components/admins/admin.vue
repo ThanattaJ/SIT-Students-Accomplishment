@@ -1,21 +1,26 @@
 <template>
 <div id="admin">
-     <div id="bodyBg">
+    <div id="bodyBg">
         <div class="buttons has-addons is-centered " style="font-weight:bold">
-            <span class="button adminMenu" @click="allCourse()" style="color: #265080 " id="box" >Courses</span>
-            <span class="button adminMenu" @click="lecturer()" style="color: #265080 " id="box">Lecturers</span>
-            <span class="button adminMenu" @click="courseSemester()" style="color: #265080 " id="box">Course Semester</span>
-             <span class="button adminMenu" @click="ManageEditRequest()" style="color: #265080 " id="box">Manage Requests</span>
+
+            <div @click="navClick('course')" class="button adminMenu is-info is-selected" id="coursebtn">
+                Courses
+            </div>
+
+            <div style="color:#265080 !important" class="button adminMenu" @click="navClick('lecturers')" id="lecturersbtn">
+                Lecturers
+            </div>
+
+            <div style="color:#265080 !important" @click="navClick('semesters')" class="button adminMenu" id="semestersbtn">
+                Courses Semester
+            </div>
+
+            <div style="color:#265080 !important" @click="navClick('manage')" class="button adminMenu" id="managebtn">
+                 Manage Requests
+            </div>
+
         </div>
     </div>
-    <!-- <div class="tabs" id="header_admin">
-        <ul>
-            <li><a @click="allCourse()" id="manu_bar">All Course</a></li>
-            <li><a @click="lecturer()" id="manu_bar">Lecturer</a></li>
-            <li><a @click="courseSemester()" id="manu_bar">Course Semester</a></li>
-            <li><a @click="ManageEditRequest()">Manage Edit Request</a></li>
-        </ul>
-    </div> -->
     <router-view />
 
 </div>
@@ -30,31 +35,38 @@ export default {
     name: "admin",
 
     data() {
-        return {
-        }
+        return {}
     },
-    component: {},
-
     methods: {
-        allCourse() {
-            this.$router.push({
-                path: '/allCourse'
-            })
-        },
-        ManageEditRequest() {
-            this.$router.push({
-                path: '/ManageEditRequest'
-            })
-        },
-        lecturer() {
-            this.$router.push({
-                path: '/lecturer'
-            })
-        },
-        courseSemester() {
-            this.$router.push({
-                path: '/courseSemester'
-            })
+        navClick(type) {
+            var btn = ['course', 'lecturers', 'semesters', 'manage']
+            if (type == 'course') {
+                this.$router.push({
+                    path: '/allCourse'
+                })
+            }
+            if (type == 'lecturers') {
+                this.$router.push({
+                    path: '/lecturer'
+                })
+            }
+            if (type == 'semesters') {
+                this.$router.push({
+                    path: '/courseSemester'
+                })
+            }
+            if (type == 'manage') {
+                this.$router.push({
+                    path: '/ManageEditRequest'
+                })
+            }
+            console.log(type, '-----------')
+            for (var n = 0; n < btn.length; n++) {
+                document.getElementById(btn[n] + 'btn').className = "button adminMenu"
+                document.getElementById(btn[n] + 'btn').style.color = "#265080"
+            }
+            document.getElementById(type + 'btn').className = "button adminMenu is-info is-selected"
+            document.getElementById(type + 'btn').style.color = "white"
         }
     }
 }
@@ -66,44 +78,34 @@ export default {
     margin: 2% 0 0 10%;
 }
 
-#manu_bar {
-    color: #265080 !important
-}
-
-#manu {
-    color: #265080 !important;
-    font-size: 12px;
-}
-span:active{
-    background-color: #265080 !important;
-    color: white !important
-}
-#box{
+#coursebtn,
+#lecturersbtn,
+#semestersbtn,
+#managebtn {
     font-size: 16px;
     width: 20%;
 }
-.adminMenu{
+
+.adminMenu {
     padding: 1.7% 12.4% 1.7% 12.4% !important
-  }
-  
-  @media screen and (max-width: 1024px){
-    .adminMenu{
-      padding: 1.7% 5.1% 1.7% 5.1% !important;
-    }
-  }
-  
-  @media screen and (max-width: 800px){
-    .adminMenu{
-      padding: 1.7% 3.5% 1.7% 3.5% !important;
-    }
-  }
-  
-  @media screen and (max-width: 500px){
-    .adminMenu{
-      width: 100% !important;
-      border-radius: 5px !important;
-    }
-  }
+}
 
+@media screen and (max-width: 1024px) {
+    .adminMenu {
+        padding: 1.7% 5.1% 1.7% 5.1% !important;
+    }
+}
 
+@media screen and (max-width: 800px) {
+    .adminMenu {
+        padding: 1.7% 3.5% 1.7% 3.5% !important;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .adminMenu {
+        width: 100% !important;
+        border-radius: 5px !important;
+    }
+}
 </style>

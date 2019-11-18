@@ -45,7 +45,7 @@
                     <div id="project_status">
                         <div v-if="this.access">
                             <div v-if="this.project_status === 'Request'">
-                                <p>Project Status : <span class="projectStatus request">Waiting for edit project</span></p>
+                                <p>Project Status : <span class="projectStatus request">Request admin to edit project</span></p>
                             </div>
                             <div v-if="this.project_status === 'Waiting'">
                                 <p>Project Status : <span class="projectStatus request">Waiting for approve project</span></p>
@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             <div v-else>
-                                <p>Project Status : <span class="projectStatus request">Waiting for edit project</span></p>
+                                <p>Project Status : <span class="projectStatus request">Request admin to edit project</span></p>
                             </div>
                             <div v-if="this.project_status === 'Reject'">
                                 <p>Project Status : <span class="projectStatus denied">Reject</span></p>
@@ -130,7 +130,7 @@
                             <div v-if="this.project_status === 'Approve'">
                                 <div v-if="this.access == true">
                                     <div v-if="!this.statusRequest">
-                                        <button class="button" @click="sendRequest()" id="request">Request Edit</button>
+                                        <button class="button" @click="sendRequest()" id="request">Request admin to edit project</button>
                                     </div>
                                     <div v-else>
                                     </div>
@@ -457,7 +457,7 @@ export default {
                 this.setNonMember(data.outsiders)
             }
         }
-        console.log(data.project_detail.references);
+        console.log(data.project_detail,'ref');
         if (data.project_detail.references != null) {
             if (data.project_detail.references.length) {
                 this.setRef(data.project_detail.references[0])
@@ -728,7 +728,7 @@ export default {
     color: white;
     background-color: #265080 !important;
     border: none;
-    margin-left: 68%;
+    margin-left: 50%;
 }
 
 #waitimg {

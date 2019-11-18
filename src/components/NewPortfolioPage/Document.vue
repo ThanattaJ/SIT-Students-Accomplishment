@@ -62,7 +62,16 @@
 
 <script>
 import axios from 'axios';
+import {
+mapGetters,
+mapActions
+} from 'vuex'
   export default {
+    computed: ({
+    ...mapGetters({
+        URL: 'GET_PATHNAME'
+    }),
+    }),
     data(){
       return {
         file: "",
@@ -75,7 +84,7 @@ import axios from 'axios';
     async mounted() {
         // console.log("ดึงจาก db ครั้งที่ 1")
 
-        const { data } = await axios.get(`http://localhost:7000/projects/${this.$route.params.pId}`)
+        const { data } = await axios.get(`${this.URL}/projects/${this.$route.params.pId}`)
         const doc = data.document.map((_item , index = 0) => _item.path_name);
         for(let i=0;i<doc.length;i++){
             var docName = doc[i].substring(doc[i].lastIndexOf("/", doc[i].length-1)).substring(1)
@@ -103,7 +112,7 @@ import axios from 'axios';
         },
         async removeUploadedDocument(index){
             try {
-                await axios.delete('http://localhost:7000/files/document', {
+                await axios.delete(`${this.URL}/files/document`, {
                 data: {"path_name": this.uploaded[index].path_name}
             } )
             
@@ -120,7 +129,7 @@ import axios from 'axios';
                 console.log(i + " : " + this.uploaded[i].path_name)
             }
 
-            const { data } = await axios.get(`http://localhost:7000/projects/${this.$route.params.pId}`)
+            const { data } = await axios.get(`${this.URL}/projects/${this.$route.params.pId}`)
             const doc = data.document.map((_item , index = 0) => _item.path_name);
             this.countFileUploaded = doc.length; 
         },
@@ -144,11 +153,11 @@ import axios from 'axios';
                     }else{
                         try {
                             console.log("เอาลง db")
-                            await axios.post('http://localhost:7000/files/document',formData)
+                            await axios.post(`${this.URL}/files/document`,formData)
                             .then(function(){ console.log('SUCCESS!!');})
                             this.file = "";
                             
-                            const { data } = await axios.get(`http://localhost:7000/projects/${this.$route.params.pId}`)
+                            const { data } = await axios.get(`${this.URL}/projects/${this.$route.params.pId}`)
                             const doc = data.document.map((_item , index = 0) => _item.path_name);
                             this.countFileUploaded = doc.length; 
                             

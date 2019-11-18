@@ -447,8 +447,11 @@ export default {
             this.item = {}
         },
         async getSemester(indexSem) {
-            if (!this.semesters[indexSem].academic_term_id == '6') {
+                    
+            if (this.semesters[indexSem].academic_term_id != '6') {
                 this.showAdd = false
+            }else{
+                this.showAdd = true
             }
             this.activeClick = indexSem
             try {

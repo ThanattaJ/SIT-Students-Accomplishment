@@ -22,7 +22,7 @@
     </div>
     <div v-else>
         <img src="/static/img/empty.f27adc6.png" style="height: 350px !important; margin-left:30% ;">
-        <p style="margin-left:45% ;font-size: 20px;">Not Found Request</p>
+        <p style="margin-left:45% ;font-size: 20px;">Request Not Found</p>
     </div>
     </div>    
 </div>
