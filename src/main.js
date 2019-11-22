@@ -26,8 +26,10 @@ Vue.use(vmodal)
 
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
-
 Vue.use(Autocomplete)
+
+import VueQRCodeComponent from 'vue-qrcode-component'
+Vue.component('qr-code', VueQRCodeComponent)
 
 Vue.config.productionTip = false
 

@@ -4,12 +4,10 @@
         <div class="columns A4Padding breakWord">
             <div class="column is-4 leftSide">
                 <div class="name">
-                    <img :src="GET_RESUME_DATA.profile.resume_picture == null ? GET_RESUME_DATA.profile.profile_picture : GET_RESUME_DATA.profile.resume_picture" 
-                        style="vertical-align: middle;
+                    <img :src="GET_RESUME_DATA.profile.resume_picture == null ? GET_RESUME_DATA.profile.profile_picture : GET_RESUME_DATA.profile.resume_picture" style="vertical-align: middle;
                         width: 150px;
                         height: 150px;
-                        border-radius: 50%;" 
-                    />
+                        border-radius: 50%;" />
                     <p style="font-size:22px;font-weight:bold">{{GET_FIRSTNAME}}</p>
                     <p style="font-size:18px;font-weight:bold">{{GET_LASTNAME}}</p>
                     <p v-if="GET_NICKNAME != null">( {{GET_NICKNAME}} )</p>
@@ -103,7 +101,8 @@
                     </div>
                 </div>
             </div>
-
+            <qr-code :text="GET_PATHNAME_FRONTEND+'/student/'+GET_USERNAME" :size='50' error-level="L">
+            </qr-code>
         </div>
 
     </form>
@@ -178,6 +177,7 @@ export default {
     computed: {
         ...mapGetters([
             // 'GET_STUDENT_PROFILE',
+            'GET_PATHNAME_FRONTEND', 'GET_USERNAME',
             'GET_RESUME_DATA',
             'GET_FIRSTNAME', 'GET_LASTNAME',
             'GET_NICKNAME', 'GET_BIOGRAPHY',
@@ -188,19 +188,6 @@ export default {
     },
     mounted() {
         this.LOAD_RESUME_DATA()
-        console.log("GET_RESUME_DATA : ",GET_RESUME_DATA)
-        console.log("GET_NICKNAME : ",GET_NICKNAME)
-        console.log("GET_BIOGRAPHY : ",GET_BIOGRAPHY)
-        console.log("GET_STREET : ",GET_STREET)
-        console.log("GET_SUBDISTRICT : ",GET_SUBDISTRICT)
-        console.log("GET_DISTRICT : ",GET_DISTRICT)
-        console.log("GET_PROVINCE : ",GET_PROVINCE)
-        console.log("GET_ZIPCODE : ",GET_ZIPCODE)
-        console.log("GET_EMAIL : ",GET_EMAIL)
-        console.log("GET_PHONENO : ",GET_PHONENO)
-        console.log("GET_BIRTHDAY : ",GET_BIRTHDAY)
-        console.log("GET_SOCIAL : ",GET_SOCIAL)
-        console.log("GET_EDUCATION_DATA : ",GET_EDUCATION_DATA)
     },
     methods: {
         getImgUrl(pic) {

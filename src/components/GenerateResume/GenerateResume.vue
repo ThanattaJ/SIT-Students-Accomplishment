@@ -285,7 +285,9 @@ export default {
     },
     mounted() {
         this.LOAD_RESUME_DATA()
-        this.dob = this.GET_BIRTHDAY.substring(6,10) + "-" + this.GET_BIRTHDAY.substring(3,5) + "-" + this.GET_BIRTHDAY.substring(0,2)
+        if(this.dob != null){
+            this.dob = this.GET_BIRTHDAY.substring(6,10) + "-" + this.GET_BIRTHDAY.substring(3,5) + "-" + this.GET_BIRTHDAY.substring(0,2)
+        }
     },
     watch: {
         dob: function (val) {

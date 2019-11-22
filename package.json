@@ -57,6 +57,7 @@
     "vue-multiselect": "^2.1.6",
     "vue-owl-carousel2": "^2.0.7",
     "vue-picture-swipe": "^1.2.0",
+    "vue-qrcode-component": "^2.1.1",
     "vue-router": "^3.0.1",
     "vue-search-select": "^2.9.3",
     "vue-spinners": "^1.0.2",

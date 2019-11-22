@@ -34,7 +34,7 @@
                     </router-link>
                 </span>
 
-                <span class="navbar-item" v-if="user_role == 'student'">
+                <span class="navbar-item" v-if="user_role == 'student'" @click="LOAD_OWN_STUDENT_DATA">
                     <router-link :to="'/student/'+usernameFromState">
                         <a class="navbar-item menuName">
                             <i class="la la-user"></i>
