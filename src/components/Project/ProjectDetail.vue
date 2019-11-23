@@ -17,7 +17,7 @@
         </div>
         <div id="EditProjects">
             <div class="columns">
-                <div class="column is-three-quarters" style="padding: 8px 8px;">
+                <div class="column is-three-quarters" style="margin: 0 0 0 1%;">
                     <div class="tags">
                         <span class="tag profileTag" v-for="(tag,index) in getTag" v-bind:key="index">
                             <span style="padding-left:5px">{{tag.tag_name}} </span>
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="columns">
-                <div id="create" class="column is-three-fifths" style="margin-top:30px;margin-left:1%">
+                <div id="create" class="column is-three-fifths" style="margin-top:1.5%;margin-left:1%">
                     <div style=" color: #949494 ; font-size: 12px;">Created Project: {{this.create}}</div>
                     <div id="term" v-if="this.haveAssignment">
                         <div style="color: #949494 ; font-size: 12px;">Academic Term: {{this.academic_term}}</div>
@@ -353,9 +353,10 @@ export default {
             }],
             nonMembers: [],
             type: null,
-            Tools: {},
+            tools: {},
             Acheivement: [],
-            References: null,
+            references: null,
+            github: null,
             files: [],
             start_year_th: 0,
             start_year_en: 0,
@@ -478,8 +479,9 @@ export default {
 
         this.Abstract.content_Abstract = data.project_detail.project_abstract
         this.Detail.content_eg = data.project_detail.project_detail
-        this.Tools = data.project_detail.tool_techniq_detail
-        this.References = data.project_detail.references
+        this.tools = data.project_detail.tool_techniq_detail
+        this.references = data.project_detail.references
+        this.github = data.project_detail.github
 
         // document
         this.loadDocumentToShow()
@@ -589,6 +591,7 @@ export default {
                             isShow: this.show,
                             tool_techniq_detail: this.getTool === null || this.getTool.length === 0 ? null : this.getTool,
                             references: this.getRef === null || this.getRef.length === 0 ? null : this.getRef,
+                            // github: this.getGitHub === null || this.getGitHub.length === 0 ? null : this.getGitHub,
                             start_year_th: this.start_year_th,
                             start_year_en: this.start_year_en,
                             end_year_th: this.end_year_th,
@@ -637,8 +640,8 @@ export default {
             this.setEditProject(this.EditProject)
             this.setAbstract(this.Abstract.content_Abstract)
             this.setDetail(this.Detail.content_eg)
-            this.setTool(this.Tools)
-            this.setRef(this.References)
+            this.setTool(this.tools)
+            this.setRef(this.references)
 
             console.log(this.nonMembers, "defult");
 
