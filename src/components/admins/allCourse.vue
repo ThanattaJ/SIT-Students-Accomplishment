@@ -50,10 +50,10 @@
                                 <div class="column countAssign">Remove Course</div>
                             </div>
                         </div>
-                        <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_course " v-bind:key="index">
+                        <div class="card lecturerCard lecturerCourseCard" v-for="(course,index) in get_course " v-bind:key="index">
                             <div class="card-content cardSize">
                                 <div class="columns">
-                                    <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course}} | {{person.name}}</div>
+                                    <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{course.course}} | {{course.name}}</div>
                                     <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
                                     <div class="column countAssign"><i class="la la-trash" id="Action" @click="deleteCourse(index)"></i></div>
 
@@ -69,17 +69,17 @@
                                     <div class="column countAssign">Add Course</div>
                                 </div>
                             </div>
-                            <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_notInCourse " v-bind:key="index">
+                            <div class="card lecturerCard lecturerCourseCard" v-for="(course,index) in get_notInCourse " v-bind:key="index">
                                 <div class="card-content cardSize">
                                     <div class="columns">
-                                        <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{person.course_code}} | {{person.course_name}}</div>
+                                        <div class="column is-two-thirds courseName" @click="showDetail(index)">{{index+1}}) {{course.course_code}} | {{course.course_name}}</div>
                                         <div class="column countAssign"><i id="Action" @click="addCourse(index)">+</i></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div v-else>
-                            <img src="/static/img/empty.f27adc6.png" style="height: 350px !important; margin-left:10% ;">
+                            <img src="/static/img/empty.f27adc6.png" style="height: 350px !important; margin-left:15% ;">
                             <p style="margin-left:26% ;font-size: 20px;">Course Not Found</p>
                         </div>
                     </div>
@@ -159,14 +159,14 @@
             <div class="modal" v-show="bin.length" v-bind:class="{'is-active':deleteActive}" id="alert">
                 <div class="modal-background"></div>
                 <div class="modal-content">
-                    <md-card class="md-accent" md-with-hover v-for="(person,index) in bin" v-bind:key="index">
+                    <md-card class="md-accent" md-with-hover v-for="(courses,index) in bin" v-bind:key="index">
                         <md-ripple>
                             <md-card-header>
-                                <div class="md-title"> {{person.course}} | {{person.name}}</div>
+                                <div class="md-title"> {{courses.course}} | {{courses.name}}</div>
                                 <div class="md-subhead">index : {{delIndex+1}}</div>
                             </md-card-header>
                             <md-card-content>
-                                {{person.detail}}
+                                {{courses.detail}}
                             </md-card-content>
 
                             <md-card-actions>
@@ -216,18 +216,18 @@ export default {
         get_course() {
             if (this.faculty == "") {
                 if (this.search != "") {
-                    return this.persons.filter(
+                    return this.courses.filter(
                         items =>
                         items.course.toLowerCase().includes(this.search.toLowerCase()) ||
                         items.name.toLowerCase().includes(this.search.toLowerCase())
                     )
                 }
-                return this.persons
+                return this.courses
 
             } else if (this.faculty == "DSI") {
                 var ssc = "SSC"
                 if (this.search != "") {
-                    return this.persons.filter(
+                    return this.courses.filter(
                         items =>
                         (items.course.toLowerCase().includes(this.search.toLowerCase()) ||
                             items.name.toLowerCase().includes(this.search.toLowerCase())) &&
@@ -235,21 +235,21 @@ export default {
                             items.course_code.toLowerCase().includes(ssc.toLowerCase()))
                     )
                 }
-                return this.persons.filter(
+                return this.courses.filter(
                     items =>
                     items.course_code.toLowerCase().includes(this.faculty.toLowerCase()) ||
                     items.course_code.toLowerCase().includes(ssc.toLowerCase())
                 )
             } else {
                 if (this.search != "") {
-                    return this.persons.filter(
+                    return this.courses.filter(
                         items =>
                         (items.course.toLowerCase().includes(this.search.toLowerCase()) ||
                             items.name.toLowerCase().includes(this.search.toLowerCase())) &&
                         items.course_code.toLowerCase().includes(this.faculty.toLowerCase())
                     )
                 }
-                return this.persons.filter(
+                return this.courses.filter(
                     items =>
                     items.course_code.toLowerCase().includes(this.faculty.toLowerCase())
                 )
@@ -259,7 +259,7 @@ export default {
     data() {
         return {
             columns: ['#', 'Course', 'Actions '],
-            persons: [],
+            courses: [],
             bin: [],
             input: {},
             editInput: {
@@ -295,15 +295,14 @@ export default {
         this.set_notInCourse(data.courseIsDelete)
         // console.log(this.get_notInCourse, "course delete")
         for (let i = 0; i < data.course.length; i++) {
-            this.persons.push(data.course[i])
-            JSON.stringify(this.persons[i])
-            this.persons[i].course = data.course[i].course_code
-            this.persons[i].name = data.course[i].course_name
-            this.persons[i].course_id = data.course[i].course_id
-            this.persons[i].course_detail = data.course[i].course_detail
+            this.courses.push(data.course[i])
+            JSON.stringify(this.courses[i])
+            this.courses[i].course = data.course[i].course_code
+            this.courses[i].name = data.course[i].course_name
+            this.courses[i].course_id = data.course[i].course_id
+            this.courses[i].course_detail = data.course[i].course_detail
         }
-        this.persons.length = data.course.length
-        // console.log('persons : ', this.persons)
+        this.courses.length = data.course.length
         this.loading = false
     },
     methods: {
@@ -347,7 +346,7 @@ export default {
                             if (res.status == 200) {
                                 this.addActive = false
                             }
-                            this.persons.push({
+                            this.courses.push({
                                 course: this.addInput.course,
                                 course_code: this.addInput.course,
                                 name: this.addInput.name,
@@ -379,7 +378,7 @@ export default {
         },
         //function to handle data edition
         edit: function (index) {
-            this.editInput = this.persons[index];
+            this.editInput = this.courses[index];
             this.isActive = true
             this.editInput.indexCouse = index
             this.$modal.show('editCourseDetail')
@@ -394,9 +393,9 @@ export default {
         update(index) {
             if (this.editInput.course.length === 6) {
                 console.log("if : ", this.editInput.course.length)
-                JSON.stringify(this.persons[index])
+                JSON.stringify(this.courses[index])
                 try {
-                    axios.patch(this.GET_PATHNAME + '/course?id=' + this.persons[index].course_id, {
+                    axios.patch(this.GET_PATHNAME + '/course?id=' + this.courses[index].course_id, {
                         code: this.editInput.course,
                         name: this.editInput.name,
                         detail: this.editInput.course_detail
@@ -457,7 +456,7 @@ export default {
                             this.isActive = false;
                             this.editMessages = false
                         }
-                        this.persons.push({
+                        this.courses.push({
                             course_code: this.get_notInCourse[index].course_code,
                             course: this.get_notInCourse[index].course_code,
                             name: this.get_notInCourse[index].course_name,
@@ -473,7 +472,7 @@ export default {
         deleteCourse(index) {
             if ((confirm('Do you want to remove ? '))) {
                 try {
-                    axios.delete(this.GET_PATHNAME + '/course?id=' + this.persons[index].course_id, {
+                    axios.delete(this.GET_PATHNAME + '/course?id=' + this.courses[index].course_id, {
                         code: this.get_course[index].course,
                     }).then(res => {
 
@@ -535,13 +534,16 @@ button#nocourse:focus {
 .clickSearch {
     border: none;
     outline: none;
-    padding: 10px 16px;
+    border-radius: 6px !important;
+    padding: 10px 16px !important;
     background-color: #f1f1f1;
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .clickSearch:hover {
-    background-color: #265080;
-    color: white;
+    color: #4A4A4A !important;
+    cursor: pointer !important;
+    background-color: rgba(74, 74, 74, 0.068) !important;
+    border-radius: 6px !important;
 }
 </style>

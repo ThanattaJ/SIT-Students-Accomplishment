@@ -5,6 +5,7 @@
         <div class="columns">
             <div class="column countAll">
                 <button class="button createBtn" @click="openCreateAssignmentModal()" v-if="this.showAdd">+ Add course</button>
+                <div v-else style="height:36px"></div>
             </div>
         </div>
         <div class="columns">
@@ -12,7 +13,7 @@
             <div class="column is-1">
                 <aside class="menu navAssignDetail">
                     <ul id="navAssignment" v-for="(year,indexSem) in semesters" v-bind:key="indexSem">
-                        <button @click="getSemester(indexSem)" class="menu-list navTopic  clickYear" v-bind:class="{ active: indexSem === activeClick}">{{year.academic_term}}</button>
+                        <button id='year' @click="getSemester(indexSem)" class="menu-list navTopic clickYear" v-bind:class="{ active: indexSem === activeClick}">{{year.academic_term}}</button>
                     </ul>
                 </aside>
             </div>
@@ -26,10 +27,10 @@
                                     <div class="column countAssign">Add Lecturer</div>
                                 </div>
                             </div>
-                            <div class="card lecturerCard lecturerCourseCard" v-for="(person,index) in get_semester.course" v-bind:key="index">
+                            <div class="card lecturerCard lecturerCourseCard" v-for="(course,index) in get_semester.course" v-bind:key="index">
                                 <div class="card-content cardSize">
                                     <div class="columns">
-                                        <div class="column is-6 courseName" @click="showLecturer(index)">{{index+1}}) {{person.course}}</div>
+                                        <div class="column is-6 courseName" @click="showLecturer(index)">{{index+1}}) {{course.course}}</div>
                                         <div class="column countAssign"><i class="la la-edit" id="Action" @click="edit(index)"></i></div>
                                     </div>
                                 </div>
@@ -178,7 +179,7 @@ export default {
                 id: null
             }],
 
-            persons: [{
+            courses: [{
                 course: null,
                 course_id: null,
                 lecturer: [{
@@ -234,10 +235,10 @@ export default {
                 for (let r = 0; r < data.course[i].lecturers.length; r++) {
                     this.set_lecturer(data.course[i].lecturers)
                 }
-                this.persons[i].lecturer.length = data.course[i].lecturers.length
+                this.courses[i].lecturer.length = data.course[i].lecturers.length
             } else {}
         }
-        this.persons.length = data.course.length
+        this.courses.length = data.course.length
 
         for (let i = 0; i < data.semester.length; i++) {
             this.semesters.push(data.semester[i])
@@ -381,7 +382,7 @@ export default {
         //function to send data to bin
         Delete: function (index) {
             this.bin.push(this.get_semester.course[index]);
-            this.persons.splice(index, 1);
+            this.courses.splice(index, 1);
             this.bin.sort(ordonner);
             this.delIndex = index
             this.deleteActive = true
@@ -389,7 +390,7 @@ export default {
         },
         //function to restore data
         restore: function (index) {
-            this.persons.push(this.bin[index]);
+            this.courses.push(this.bin[index]);
             this.bin.splice(index, 1);
             this.bin.sort(ordonner);
         },
@@ -424,15 +425,15 @@ export default {
                     })
                     this.message = " uploaded complete";
                     this.file = " ";
-                    this.persons.splice(index, 1);
+                    this.courses.splice(index, 1);
                     this.item = {}
-                    this.persons.push({
+                    this.courses.push({
                         course: this.editInput.course,
                     });
                     for (var key in this.editInput) {
                         this.editInput[key] = '';
                     }
-                    this.persons.sort(ordonner);
+                    this.courses.sort(ordonner);
                     this.isActive = false;
                 } catch (err) {
                     console.log('FAILURE!!' + err)
@@ -508,6 +509,14 @@ var ordonner = function (a, b) {
 </script>
 
 <style>
+button#year:focus {
+    background-color: #265080 !important;
+    color: white !important
+}
+button#nocourse:focus {
+    background-color: #265080 !important;
+    color: white !important
+}
 #courseSemester {
     width: 90%;
     margin-left: 100px;
@@ -569,15 +578,17 @@ var ordonner = function (a, b) {
 .clickYear {
     border: none;
     outline: none;
-    padding: 10px 16px;
+    border-radius: 6px !important;
+    padding: 10px 16px !important;
     background-color: #f1f1f1;
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
-
 .clickYear:hover {
-    background-color: #265080;
-    color: white;
+    color: #4A4A4A !important;
+    cursor: pointer !important;
+    background-color: rgba(74, 74, 74, 0.068) !important;
+    border-radius: 6px !important;
 }
 
 .ui.dropdown {

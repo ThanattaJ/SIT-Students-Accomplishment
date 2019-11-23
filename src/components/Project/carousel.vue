@@ -1,7 +1,7 @@
 <template>
 <div id="carousel">
     <div id="frame">
-        <vue-picture-swipe :items="[{src:this.getImages[this.indexImg].path,thumbnail: this.getImages[this.indexImg].path,w: 1920,h: 1080}]" :options="{shareEl: false}" id="showImg"></vue-picture-swipe>
+        <vue-picture-swipe :items="[{src:this.getImages[this.indexImg].path,thumbnail: this.getImages[this.indexImg].path,w: width,h: height}]" :options="{shareEl: false}" id="showImg"></vue-picture-swipe>
     </div>
     <div v-if="this.getImages.length > 1">
         <carousel :autoplay="true">
@@ -33,7 +33,9 @@ export default {
     data() {
         return {
             indexImg: 0,
-            loopIndex: 0
+            loopIndex: 0,
+            height: 0,
+            width: 0,
         }
     },
     mounted() {
@@ -43,8 +45,10 @@ export default {
     methods: {
         focusImg(index) {
             this.indexImg = index
-            console.log(index);
-
+            var img = new Image()
+            img.src = this.getImages[index].path
+            this.height = img.height
+            this.width = img.width
             for(var n = 0; n < this.getImages.length; n++){
                 document.getElementById('focusImg'+n).style.border = "none"
             }
@@ -81,15 +85,19 @@ export default {
 }
 #frame{
     width: 100% !important;
-    height: 350px !important;
+    height: 400px !important;
     text-align: center;
 }
 
-/* .my-gallery{
-    
-} */
 figure{
-    display: inline !important;
+    display: inline-block !important;
     margin: 0px !important;
+}
+figure > a > img {
+    display: inline-block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 400px !important;
+    object-fit:contain;
 }
 </style>

@@ -3,16 +3,24 @@
 }
 
 .VueCarousel-dot-container {
-  margin-top: -22px !important
+  margin-top: -15px !important
 }
+
+.background {
+  background-color: #fafafa !important;
+}
+
 #block {
-  margin: 5% 10% 0 10% !important;
+  margin: 3% 10% 0 10% !important;
+}
+
+#blockCover {
+  padding: 0% 10% 0 10%;
 }
 
 .row {
   height:700px; /*set height*/
   width:100%;
-  margin-bottom: 3%;
   padding: 2.5%;
 }
 
@@ -166,17 +174,17 @@ p.quote-footer {
   position: relative;
   float: left;
   overflow: hidden;
-  max-height: 650px;
+  max-height: 700px !important;
   width: 100%;
   text-align: left;
   cursor: pointer;
 }
 
 .grid figure img {
-  position: relative;
-  display: block;
-  height: 650px;
-  width: 100%;
+  position: relative !important;
+  display: inline-block !important;
+  max-height: 700px !important;
+  width: 100% !important;
 }
 
 .grid figure figcaption {

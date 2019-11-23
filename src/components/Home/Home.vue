@@ -1,47 +1,49 @@
 <template>
   <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
   <div v-else>
-    <div>
-    <carousel :perPage="1" 
-      :adjustableHeight="true" 
-      :paginationSize="20" 
-      paginationActiveColor="#265080" 
-      :autoplay="true" 
-      :loop="true">
-      <slide  v-for="(project,i) in projects" :key="i">
-        <div class="grid">
-           <router-link :to="`/ProjectDetail/${projects[i].project_id}`">
-            <figure class="effect-zoe">
-              <img :src=project.cover_path >
-                <figcaption>
-                  <h2><span>{{project.name_en}}</span></h2>
-                </figcaption>			
-            </figure>
-           </router-link>
-        </div>
-      </slide>
-    </carousel>
-    </div>
-    <div id="block">
-        <div class="row">
-          <div class="introCol" id="introCol">
-            <img src="../../assets/home-example.png">
+    <div class="background">
+      <div id="blockCover">
+        <carousel :perPage="1" 
+          :adjustableHeight="true" 
+          :paginationSize="15" 
+          paginationActiveColor="#265080" 
+          :autoplay="true" 
+          :loop="true">
+          <slide  v-for="(project,i) in projects" :key="i">
+            <div class="grid">
+              <router-link :to="`/ProjectDetail/${projects[i].project_id}`">
+                <figure class="effect-zoe">
+                  <img :src=project.cover_path >
+                    <figcaption>
+                      <h2><span>{{project.name_en}}</span></h2>
+                    </figcaption>			
+                </figure>
+              </router-link>
+            </div>
+          </slide>
+        </carousel>
+      </div>
+      <div id="block">
+          <div class="row">
+            <div class="introCol" id="introCol">
+              <img src="../../assets/home-example.png">
+            </div>
+            <div class="introCol" id="introCol">
+              <h1 id="headerContent">SIT STUDENTS ACCOMPLISHMENT</h1>
+              <p id="contentIntro">
+                &emsp;&nbsp; Online portfolio lets students of the 
+                School of Information Technology faculty at KMUTT collecting 
+                their portfolios that persistent, not lost and can be used in the future
+                <br><br>
+                <blockquote style="display: block;">
+                  <div style="padding-left:45%"><img class="imgQuote" src="../../assets/left-quotes-sign.png"></div>
+                  <p class="quote">Everyone is base on achievement.<br>We believe that the portfolio is a success.</p>
+                  <p class="quote-footer">SIT Student Accomplishment</p>
+                </blockquote>
+              <!-- </p> -->
+            </div>
           </div>
-          <div class="introCol" id="introCol">
-            <h1 id="headerContent">SIT STUDENTS ACCOMPLISHMENT</h1>
-            <p id="contentIntro">
-              &emsp;&nbsp; Online portfolio lets students of the 
-              School of Information Technology faculty at KMUTT collecting 
-              their portfolios that persistent, not lost and can be used in the future
-              <br><br>
-              <blockquote style="display: block;">
-                <div style="padding-left:45%"><img class="imgQuote" src="../../assets/left-quotes-sign.png"></div>
-                <p class="quote">Everyone is base on achievement.<br>We believe that the portfolio is a success.</p>
-                <p class="quote-footer">SIT Student Accomplishment</p>
-              </blockquote>
-            <!-- </p> -->
-          </div>
-        </div>
+      </div>
     </div>
     <div class="featuresBlock">
         <h1 class="featuresHeader" id="headerContent">FEATURES</h1>
