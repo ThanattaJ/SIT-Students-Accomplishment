@@ -9,7 +9,7 @@
         <hr style="margin-top:20px!important;;">
         <div class="section" id="imgCover">
             <div v-if="this.getFile">
-                <img :src="this.getFile" id="coverI">
+                <img :src="this.getFile">
             </div>
             <div v-else>
                 <img :src=" this.noPic.cover">
@@ -705,10 +705,6 @@ export default {
 </script>
 
 <style>
-#coverI {
-    max-width: 1000px;
-    max-height: 600px;
-}
 
 .md-button.md-theme-default.md-accent {
     color: #265080;
