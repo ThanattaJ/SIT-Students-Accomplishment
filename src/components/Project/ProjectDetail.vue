@@ -41,6 +41,21 @@
                     <div id="end">
                         <div style=" color: #949494; font-size: 12px;">Updated at: {{this.update}}</div>
                     </div>
+                    <div v-if="this.get_gitHub">
+                        <div v-if="!this.EditProject">
+                            <a :href="get_gitHub">
+                                <div style="margin-top: 20px"><img src="../../assets/Github.png" id="github"></div>
+                            </a>
+                        </div>
+                        <div v-else>
+                            <div style="margin-top: 20px"><img src="../../assets/Github.png" id="github"> <input v-model="github" placeholder="Git Hub" id="github_model"></div>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div v-if="this.EditProject">
+                            <div style="margin-top: 20px"><img src="../../assets/Github.png" id="github"> <input v-model="github" placeholder="Git Hub" id="github_model"></div>
+                        </div>
+                    </div>
                     <!-- this.project_status : {{this.project_status}} -->
                     <div id="project_status">
                         <div v-if="this.access">
@@ -261,7 +276,6 @@ import tool from './tool';
 import ref from './ref';
 import tag from './tag';
 import uploadFilePond from "./uploadFilePond";
-import uploadimg from "./uploadimg";
 import uploadCover from "./uploadCover";
 import editImg from "./editImg"
 import Document from "./../NewPortfolioPage/Document.vue";
@@ -302,6 +316,7 @@ export default {
             'getPID',
             'get_assignment_id',
             'get_show',
+            'get_gitHub',
             //admin
             'get_approver',
 
@@ -314,7 +329,6 @@ export default {
         ]),
     },
     components: {
-        uploadimg,
         uploadCover,
         Document,
         Video,
@@ -389,7 +403,8 @@ export default {
             isLoading: false,
             status: 'Status',
             statusRequest: false,
-            loading: true
+            loading: true,
+
         }
     },
 
@@ -441,10 +456,10 @@ export default {
         this.header.TitleName_TH = data.project_detail.project_name_th;
         this.type = data.project_detail.project_type_name;
         this.start_year_th = data.project_detail.start_year_th,
-        this.start_year_en = data.project_detail.start_year_en
+            this.start_year_en = data.project_detail.start_year_en
         this.end_year_th = data.project_detail.end_year_th,
-        this.end_year_en = data.project_detail.end_year_en,
-        this.haveOutsider = data.project_detail.haveOutsider
+            this.end_year_en = data.project_detail.end_year_en,
+            this.haveOutsider = data.project_detail.haveOutsider
         this.viewer = data.project_detail.count_viewer
         this.create = data.project_detail.created_at
         this.update = data.project_detail.updated_at
@@ -458,7 +473,7 @@ export default {
                 this.setNonMember(data.outsiders)
             }
         }
-        console.log(data.project_detail,'ref');
+        console.log(data.project_detail, 'ref');
         if (data.project_detail.references != null) {
             if (data.project_detail.references.length) {
                 this.setRef(data.project_detail.references[0])
@@ -481,6 +496,7 @@ export default {
         this.Detail.content_eg = data.project_detail.project_detail
         this.tools = data.project_detail.tool_techniq_detail
         this.references = data.project_detail.references
+        this.set_gitHub(data.project_detail.github)
         this.github = data.project_detail.github
 
         // document
@@ -488,7 +504,7 @@ export default {
 
         //video
         this.video_pathname = data.video.path_name
-        if(this.video_pathname !== null) {
+        if (this.video_pathname !== null) {
             this.SET_VDO_PATHNAME(this.video_pathname)
         }
 
@@ -567,7 +583,8 @@ export default {
             'set_assignment_id',
             'set_show',
             'SET_LOADING_STATUS',
-            'SET_VDO_PATHNAME'
+            'SET_VDO_PATHNAME',
+            'set_gitHub'
 
         ]),
         save() {
@@ -586,12 +603,12 @@ export default {
                             project_name_th: this.header.TitleName_TH,
                             project_name_en: this.header.TitleName,
                             project_detail: this.getDetail === null || this.getDetail.length === 0 ? null : this.getDetail,
-                            project_abstract: this.getAbstract,
+                            project_abstract: this.getAbstract === null || this.getAbstract.length ===0 ? null:this.getAbstract,
                             haveOutsider: this.haveOutsider,
                             isShow: this.show,
                             tool_techniq_detail: this.getTool === null || this.getTool.length === 0 ? null : this.getTool,
                             references: this.getRef === null || this.getRef.length === 0 ? null : this.getRef,
-                            // github: this.getGitHub === null || this.getGitHub.length === 0 ? null : this.getGitHub,
+                            github: this.github === null ? null : this.github,
                             start_year_th: this.start_year_th,
                             start_year_en: this.start_year_en,
                             end_year_th: this.end_year_th,
@@ -611,7 +628,7 @@ export default {
                             path_name: vdo_pathname == "" ? null : vdo_pathname,
                         },
                         outsiders: this.getNonMember === " " ? null : this.getNonMember
-                    }, this.GET_CONFIG) .then(res => {
+                    }, this.GET_CONFIG).then(res => {
                         console.log("res : ", res)
                         if (res.status == 200) {
                             if (res.data.message == "Validate Error") {
@@ -640,17 +657,16 @@ export default {
             this.setEditProject(this.EditProject)
             this.setAbstract(this.Abstract.content_Abstract)
             this.setDetail(this.Detail.content_eg)
-            this.setTool(this.tools)
-            this.setRef(this.references)
-
-            console.log(this.nonMembers, "defult");
-
+            this.setTool(this.Tools)
+            this.setRef(this.References)
             this.setNonMember(this.nonMembers)
-
+            this.set_gitHub(this.get_gitHub)
         },
         Edit: function () {
             this.EditProject = true
             this.setEditProject(this.EditProject)
+            console.log(this.GET_CONFIG, 'config ');
+
             for (var n = 0; n < this.getNonMember.length; n++)
                 this.nonMembers.push(this.getNonMember[n])
         },
@@ -705,7 +721,6 @@ export default {
 </script>
 
 <style>
-
 .md-button.md-theme-default.md-accent {
     color: #265080;
 }
@@ -749,6 +764,27 @@ export default {
 
 #claps:hover {
     transform: scale(1.1);
+}
+#github:hover{
+     transform: scale(1.1);
+}
+
+#github,
+#github_model {
+    max-height: 40px !important;
+    margin-right: 10px;
+}
+
+#github_model {
+    width: 500px;
+    height: 50px;
+    padding: 10px 10px;
+    border: 0.5px solid #6F6F6F;
+    border-radius: 5px;
+}
+.ti-input[data-v-61d92e31] {
+    border: 0.5px solid #6F6F6F;
+    border-radius: 5px;
 }
 
 </style

@@ -43,7 +43,7 @@
 <script>
 import Vue from "vue";
 import axios from "axios";
-import uploadimg from './uploadimg';
+
 import {
     mapActions,
     mapGetters,
@@ -60,7 +60,7 @@ export default {
         ]),
     },
     components: {
-        uploadimg
+        
     },
     data() {
         return {
@@ -118,12 +118,6 @@ export default {
             const formData = new FormData();
             formData.append('files', this.file);
             formData.append('project_id', this.$route.params.pId);
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJzdHVkZW50MDEiLCJmdWxsbmFtZSI6InN0dWRlbnQwMSIsImVtYWlsIjoic3R1ZGVudDAxQHN0LnNpdC5rbXV0dC5hYy50aCIsImRlc2NyaXB0aW9uIjoiQ1MiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU2ODcxNzYxNzI0NH0.Vn_kGau8dG9DBQIqm7_NOQVTKfK4ZjlfUKGmrZK0NzU'
-                }
-            }
             try {
                 const {
                     data

@@ -15,6 +15,7 @@ export const detailStore = {
         tag:[],
         clap:'',
         show: [],
+        gitHub:null
     },
     mutations: {
         setPID:(state ,pID)=>{
@@ -56,6 +57,9 @@ export const detailStore = {
         },
         set_show:(state,show)=>{
             state.show = show
+        },
+        set_gitHub:(state,gitHub)=>{
+            state.gitHub = gitHub
         }
     },
     actions: {
@@ -97,6 +101,9 @@ export const detailStore = {
         },
         set_show:({commit},show)=>{
             commit('set_show',show)
+        },
+        set_gitHub:({commit},gitHub)=>{
+            commit('set_gitHub',gitHub)
         }
     },
     getters: {
@@ -135,6 +142,9 @@ export const detailStore = {
         },
         get_show(state){
             return state.show
+        },
+        get_gitHub(state){
+            return state.gitHub
         }
 
     }
