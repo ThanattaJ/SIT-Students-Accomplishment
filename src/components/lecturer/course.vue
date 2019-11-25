@@ -1,7 +1,7 @@
 <template>
 <div>
-    <div id="bodyBg" v-if="courses.length > 0">
-        <div class="columns">
+    <div id="bodyBg">
+        <div class="columns" v-if="courses.length > 0">
             <div class="column" style="margin-bottom: -55px;">
                 <div class="field has-addons">
                     <p class="control">
@@ -24,7 +24,7 @@
         </div>
         <!-- All courses -->
         <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
-        <div v-else>
+        <div v-else-if="courses.length > 0">
             <div class="card-content cardSize colName">
                 <div class="columns">
                     <div class="column is-two-thirds">Course</div>
@@ -32,27 +32,28 @@
                     <!-- <div class="column"></div> -->
                 </div>
             </div>
-        </div>
-        <div class="overflowY" style="height: 560px;">
-            <div class="card lecturerCard lecturerCourseCard" v-for="(course,index) in allCourse" v-bind:key="'courseTerm'+index">
-                <router-link :to="`/allassignment/${course.course_id}/${semester}`">
-                    <div class="card-content cardSize" @click="SET_COURSENAME(course.course_name)">
-                        <div class="columns">
-                            <div class="column is-two-thirds courseName">{{index+1}}) {{course.course_name}}</div>
-                            <div class="column countAssign">{{course.assignment_counting}}</div>
-                            <!-- <div class="column"><span class="createAssignBtn">+ Create Assignment</span></div> -->
+            <div class="overflowY" style="height: 560px;">
+                <div class="card lecturerCard lecturerCourseCard" v-for="(course,index) in allCourse" v-bind:key="'courseTerm'+index">
+                    <router-link :to="`/allassignment/${course.course_id}/${semester}`">
+                        <div class="card-content cardSize" @click="SET_COURSENAME(course.course_name)">
+                            <div class="columns">
+                                <div class="column is-two-thirds courseName">{{index+1}}) {{course.course_name}}</div>
+                                <div class="column countAssign">{{course.assignment_counting}}</div>
+                                <!-- <div class="column"><span class="createAssignBtn">+ Create Assignment</span></div> -->
+                            </div>
                         </div>
-                    </div>
-                </router-link>
+                    </router-link>
+                </div>
+            </div>
+        </div>
+        <div id="bodyBg" v-else style="text-align:center">
+            <img src="./../../assets/empty.png" style="height: 350px !important;margin-top:8%">
+            <div>
+                <b style="font-size:20px">No course</b>
             </div>
         </div>
     </div>
-    <div id="bodyBg" v-else style="text-align:center">
-        <img src="./../../assets/empty.png" style="height: 350px !important;margin-top:8%">
-        <div>
-            <b style="font-size:20px">No course</b>
-        </div>
-    </div>
+
 </div>
 </template>
 

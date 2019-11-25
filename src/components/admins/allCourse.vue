@@ -22,22 +22,21 @@
             <!-- nav bar -->
             <div class="column is-2">
                 <aside class="menu navAssignDetail">
-                    <button class="menu-list navTopic clickSearch" id="all">
-                        <ul id="faculty" @click="filterByFaculty('')">All</ul>
-                    </button>
-                    <button class="menu-list navTopic clickSearch" id="it">
-                        <ul id="faculty" @click="filterByFaculty('INT')">Information Technology</ul>
-                    </button>
-                    <button class="menu-list navTopic clickSearch" id="cs">
-                        <ul id="faculty" @click="filterByFaculty('CSC')">Computer Science</ul>
-                    </button>
-                    <button class="menu-list navTopic clickSearch" id="dsi">
-                        <ul id="faculty" @click="filterByFaculty('DSI')">Digital Service Innovation</ul>
-                    </button>
-                    <button class="menu-list navTopic clickSearch" id="nocourse">
-                        <ul id="faculty" @click="showNoInCourse('noInCourse')">Canceled Courses</ul>
-                    </button>
-
+                    <ul id="all" class="menu-list navTopic navCanClick clickNav" @click="filterByFaculty('')">
+                        All
+                    </ul>
+                    <ul id="it" class="menu-list navTopic navCanClick" @click="filterByFaculty('INT')">
+                        Information Technology
+                    </ul>
+                    <ul id="cs" class="menu-list navTopic navCanClick" @click="filterByFaculty('CSC')">
+                        Computer Science
+                    </ul>
+                    <ul id="dsi" class="menu-list navTopic navCanClick" @click="filterByFaculty('DSI')">
+                        Digital Service Innovation
+                    </ul>
+                    <ul id="nocourse" class="menu-list navTopic navCanClick" @click="showNoInCourse('noInCourse')">
+                        Canceled Courses
+                    </ul>
                 </aside>
             </div>
             <div class="column" style="padding-left:100px;">
@@ -306,12 +305,28 @@ export default {
         this.loading = false
     },
     methods: {
+        setDefaultNavStyle() {
+            var elem = ['all', 'it', 'cs', 'dsi', 'nocourse']
+            for (var n = 0; n < elem.length; n++) {
+                document.getElementById(elem[n]).className = 'menu-list navTopic navCanClick'
+            }
+        },
         filterByFaculty(faculty) {
             this.faculty = faculty
             this.noInCourse = false
+            this.setDefaultNavStyle()
+            if (faculty == '') {
+                document.getElementById('all').className += ' clickNav'
+            } else {
+                if (faculty == 'INT') document.getElementById('it').className += ' clickNav'
+                else if (faculty == 'CSC') document.getElementById('cs').className += ' clickNav'
+                else if (faculty == 'DSI') document.getElementById('dsi').className += ' clickNav'
+            }
         },
         showNoInCourse() {
             this.noInCourse = true
+            this.setDefaultNavStyle()
+            document.getElementById('nocourse').className += ' clickNav'
         },
         ...mapActions([
             'set_course',
@@ -509,41 +524,15 @@ var ordonner = function (a, b) {
     color: #265080 !important
 }
 
-#all,
-#it,
-#cs,
-#dsi,
-#nocourse {
-    width: 150px;
-}
-
-button#all:focus,
-button#it:focus,
-button#cs:focus,
-button#dsi:focus,
-button#nocourse:focus {
+.clickNav {
     background-color: #265080 !important;
-    color: white !important
+    color: white !important;
+    border-radius: 6px;
+    padding: 3px 5px 3px 5px;
 }
 
 #error {
     margin-left: 80%;
     color: red
-}
-
-.clickSearch {
-    border: none;
-    outline: none;
-    border-radius: 6px !important;
-    padding: 10px 16px !important;
-    background-color: #f1f1f1;
-    cursor: pointer !important;
-}
-
-.clickSearch:hover {
-    color: #4A4A4A !important;
-    cursor: pointer !important;
-    background-color: rgba(74, 74, 74, 0.068) !important;
-    border-radius: 6px !important;
 }
 </style>
