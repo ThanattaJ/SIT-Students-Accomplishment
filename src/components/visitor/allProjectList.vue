@@ -2,21 +2,61 @@
 <div id="list-project of student">
     <div id="bodyBg">
         <div>
-            <div class="field has-addons has-addons-centered is-narrow" v-if="search == ''">
-                <p class="control has-icons-left" style="margin-left:15% !important">
-                    <input id="search" style="font-size: 30px;width: 55%;border: none;box-shadow: none;" class="input" type="text" v-model="search" v-on:keyup.enter="searchBy();blur(true)" placeholder="Search ... ">
-                    <span style="font-size: 30px !important;" class="icon is-small is-left">
-                        <i style="font-size: 33px !important;" class="la la-search"></i>
-                    </span>
-                </p>
+            <!-- typeOfSearch : {{typeOfSearch}} -->
+            <div v-if="searchInput == true">
+                <div class="field has-addons has-addons-centered is-narrow" v-if="search == ''">
+                    <p class="control has-icons-left" style="margin-left:15% !important">
+                        <input id="search" style="font-size: 30px;width: 55%;border: none;box-shadow: none;" class="input" type="text" v-model="search" v-on:keyup.enter="searchBy();blur(true)" placeholder="Search ... ">
+                        <span style="font-size: 30px !important;" class="icon is-small is-left">
+                            <i style="font-size: 33px !important;" class="la la-search"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field has-addons has-addons-centered" style="justify-content: center;align-items: center;display: flex;" v-else-if="searchInput == true && search != ''">
+                    <input id="search searchExpand" style="font-size: 30px;width: 5%;max-width:100%;border: none;box-shadow: none;text-align:center" class="input" type="text" v-model="search" v-on:keyup.enter="searchBy();blur(false)">
+                    <i class="la la-times delSearch" @click="searchBy();clearSearchInput();"></i>
+                </div>
             </div>
-            <div class="field has-addons has-addons-centered" style="justify-content: center;align-items: center;display: flex;" v-else>
-                <!-- <p class="control" style="width:100%"> -->
-                <input id="search searchExpand" style="font-size: 30px;width: 5%;max-width:100%;border: none;box-shadow: none;text-align:center" class="input" type="text" v-model="search" v-on:keyup.enter="searchBy();blur(false)" placeholder="Search ... ">
-                <!-- </p> -->
-                <i class="la la-times delSearch" @click="clearSearchInput();searchBy()"></i>
+            <!-- search by tags -->
+            <div v-if="searchInput == false">
+                <div class="field has-addons has-addons-centered is-narrow" v-if="searchTagText == ''">
+                    <p class="control has-icons-left" style="margin-left:15% !important">
+                        <input id="searchTag" style="font-size: 30px;width: 55%;border: none;box-shadow: none;" class="input" type="text" v-model="searchTagText" v-on:keyup.enter="searchBy();blur(true)" placeholder="Search ... ">
+                        <span style="font-size: 30px !important;" class="icon is-small is-left">
+                            <i style="font-size: 33px !important;" class="la la-search"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field has-addons has-addons-centered" style="justify-content: center;align-items: center;display: flex;" v-else-if="searchInput == false && searchTagText != ''">
+                    <input id="searchTag searchExpand" style="font-size: 30px;width: 5%;max-width:100%;border: none;box-shadow: none;text-align:center" class="input" type="text" v-model="searchTagText" v-on:keyup.enter="searchBy();blur(false)">
+                    <i class="la la-times delSearch" @click="searchBy();clearSearchInput();"></i>
+                </div>
             </div>
         </div>
+<div style="justify-content: center;display: flex;">
+        <div id="tagInput" class="dropdown" v-if="searchInput == false">
+            <!-- <div class="dropdown-trigger">
+                <div class="field">
+                    <p class="control is-expanded has-icons-left">
+                        <input class="input" type="search" placeholder="Looking for?" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;" />
+                        <span class="icon is-small is-left"><i class="la la-search"></i></span>
+                    </p>
+                </div>
+            </div> -->
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content" style="max-height: 300px;overflow-y: auto;">
+                    <a href="#" @click="chooseTag(tag.tag_name)" class="dropdown-item" v-for="(tag,index) in tags" v-bind:key="index">
+                        <span style="color:black">{{tag.tag_name}} ({{tag.count_tags}}
+                            <span v-if="tag.count_tags == 1">project</span>
+                            <span v-else>projects</span>
+                            )1
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- menu bar -->
         <div style="text-align:center">
             <button id="projects" class="button is-light viewBtn" style="z-index:1" @click="canClickYear('projects');haveTag = false">Projects</button>
             <button id="tags" class="button is-light viewBtn" style="margin:0px 30px;z-index: 1;" @click="filterByTag('All','');canClickYear('tags');haveTag = true">Tags</button>
@@ -37,19 +77,19 @@
             </p>
         </div>
     </div>
-    <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
+    <!-- <div v-if="loading"><img src="../../assets/Rolling-2s-200px.svg" class="center-div"></div>
     <div v-else>
         <div id="bodyBg" class="tags" v-if="searchInput == false">
             <span id='allTag' class="tag profileTag" @click="filterByTag('All','')">
                 All
             </span>
             <span :id="'tag'+index" class="tag profileTag" @click="filterByTag(tag.tag_name,index)" v-for="(tag,index) in tags" v-bind:key="index">
-                <!-- <vc-donut :sections="[{ value: (tag.total_tag*100/numberOfProjects), color: '#5FAEB8' }]" :size="15" :thickness="40"></vc-donut> -->
                 {{tag.tag_name}}
             </span>
         </div>
-    </div>
+    </div> -->
     <div style="height: 1px;background-color: #E8E8E8;position: absolute;top: 227px;width: 100%;z-index: 0;"></div>
+
     <!-- <div id="bodyBg">
         <div class="field has-addons">
             <p class="control">
@@ -182,7 +222,7 @@
                             <div class="card-content projectInfo" style="width:100%;">
                                 <p class="profileName">{{profile.firstname}} {{profile.lastname}}</p>
                                 <!-- <p id="info" style="height: 22px;overflow: hidden;">{{profile.student_id}}</p> -->
-                                <p id="info">Bachelor of Science Programme in 
+                                <p id="info">Bachelor of Science Programme in
                                     <b v-if="profile.curriculum_name == 'IT'">Information Technology</b>
                                     <b v-if="profile.curriculum_name == 'CS'">Computer Science</b>
                                     <b v-if="profile.curriculum_name == 'DSI'">Digital Service Innovation</b>
@@ -258,22 +298,23 @@ export default {
         }
     },
     watch: {
-        searchTagText: function (val) {
-            if (val == "") {
-                this.hideDropdown()
-            } else if (this.tagInputEmpty == false) {
-                this.hideDropdown()
-                this.tagInputEmpty = true
-            } else {
-                this.showDropdown()
-            }
-        },
+        // searchTagText: function (val) {
+        //     if (val == "") {
+        //         this.hideDropdown()
+        //     } else if (this.tagInputEmpty == false) {
+        //         this.hideDropdown()
+        //         this.tagInputEmpty = true
+        //     } else {
+        //         this.showDropdown()
+        //     }
+        // },
         search: function (val) {
-
+            console.log('1')
             if (val != "") {
                 if (this.searchByTag) {
                     setTimeout(() => {
                         document.getElementById('search searchExpand').style.width = (this.search.length + 7) + '%'
+                        document.getElementById('search searchExpand').focus()
                     }, 5)
                 } else {
                     if (document.getElementById('search searchExpand') != null) {
@@ -290,7 +331,39 @@ export default {
                     document.getElementById('search').focus()
                 }, 10)
             }
-        }
+        },
+        searchTagText: function (val) {
+            if (val != "") {
+                if (this.searchByTag) {
+                    setTimeout(() => {
+                        document.getElementById('searchTag searchExpand').style.width = (this.searchTagText.length + 7) + '%'
+                        document.getElementById('searchTag searchExpand').focus()
+                    }, 5)
+                } else {
+                    if (document.getElementById('searchTag searchExpand') != null) {
+                        document.getElementById('searchTag searchExpand').style.width = (this.searchTagText.length + 7) + '%'
+                    } else {
+                        setTimeout(() => {
+                            document.getElementById('searchTag searchExpand').focus()
+                        }, 5)
+                    }
+                }
+                this.searchByTag = true
+            } else {
+                setTimeout(() => {
+                    document.getElementById('searchTag').focus()
+                }, 10)
+            }
+
+            if (val == "") {
+                this.hideDropdown()
+            } else if (this.tagInputEmpty == false) {
+                this.hideDropdown()
+                this.tagInputEmpty = true
+            } else {
+                this.showDropdown()
+            }
+        },
     },
     mounted() {
         console.log('loading', this.loading);
@@ -330,7 +403,7 @@ export default {
             console.log(tag_name)
             this.tagInputEmpty = false
             this.searchTagText = tag_name
-            this.search = tag_name
+            // this.search = tag_name
             this.searchBy()
         },
 
@@ -338,7 +411,11 @@ export default {
             if (isDefault) {
                 document.getElementById("search").blur();
             } else {
-                document.getElementById("search searchExpand").blur();
+                if (this.searchInput == true) {
+                    document.getElementById("search searchExpand").blur();
+                } else if (this.searchInput == false) {
+                    document.getElementById("searchTag searchExpand").blur();
+                }
             }
         },
         canClickYear(searchBy) {
@@ -352,12 +429,14 @@ export default {
             this.searchInput = true
             if (searchBy == 'projects') {
                 this.showYear = true
+                this.searchTagText = ''
             } else {
                 this.showYear = false
                 if (searchBy == 'tags') {
                     this.searchInput = false
                 } else if (searchBy == 'stdProfile') {
                     this.search = ''
+                    this.searchTagText = ''
                 }
             }
             this.searchBy()
@@ -385,7 +464,7 @@ export default {
                 } else {
                     this.selectYear()
                 }
-            } else if (searchBy == 'tags' && this.search != '') {
+            } else if (searchBy == 'tags' && this.searchTagText != '') {
                 var para = {
                     type: "search",
                     searchBy: "tags",
@@ -445,10 +524,11 @@ export default {
         },
         clearSearchInput() {
             this.search = ''
+            this.searchTagText = ''
             if (this.haveTag) {
-                setTimeout(() => {
-                    document.getElementById("search").blur();
-                }, 100)
+                // setTimeout(() => {
+                //     document.getElementById("search").blur();
+                // }, 100)
                 this.filterByTag('All')
             }
         }
