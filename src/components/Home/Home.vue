@@ -3,8 +3,7 @@
   <div v-else>
     <div class="background">
       <div id="blockCover">
-        <carousel :perPage="1" 
-          :adjustableHeight="true" 
+        <carousel :perPage="1"
           :paginationSize="15" 
           paginationActiveColor="#265080" 
           :autoplay="true" 
