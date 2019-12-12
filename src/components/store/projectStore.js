@@ -17,7 +17,8 @@ export const projectStore = {
                 URL += "?year=" + year
             } else if (type == 'search') {
                 URL += "?by=" + searchBy + "&search=" + searchText
-            } else if (type == 'profile') {
+                console.log("searchBy : " + searchBy + 'search : '+searchText)
+        } else if (type == 'profile') {
                 URL += "?search=" + searchText
             }
             console.log("URL : " + URL)

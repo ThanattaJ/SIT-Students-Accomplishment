@@ -43,13 +43,13 @@
                     </p>
                 </div>
             </div> -->
-            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-menu" id="dropdown-menu" role="menu" v-if="tags.length != 0">
                 <div class="dropdown-content" style="max-height: 300px;overflow-y: auto;">
                     <a href="#" @click="chooseTag(tag.tag_name)" class="dropdown-item" v-for="(tag,index) in tags" v-bind:key="index">
                         <span style="color:black">{{tag.tag_name}} ({{tag.count_tags}}
                             <span v-if="tag.count_tags == 1">project</span>
                             <span v-else>projects</span>
-                            )1
+                            )
                         </span>
                     </a>
                 </div>
@@ -468,7 +468,7 @@ export default {
                 var para = {
                     type: "search",
                     searchBy: "tags",
-                    searchText: this.search
+                    searchText: this.searchTagText
                 }
                 this.LOAD_ALL_PROJECT_VISITORVIEW(para)
             } else if (searchBy == 'stdProfile') {

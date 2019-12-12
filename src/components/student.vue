@@ -25,7 +25,7 @@
                     <div class="column is-three-fifths" id="information">
                         <br>
                         <p id="name">{{profile.firstname}} {{profile.lastname}}</p>
-                        <p id="info">Bachelor of Science Programme in 
+                        <p id="info">Bachelor of Science Programme in
                             <b v-if="profile.curriculum_name == 'IT'">Information Technology</b>
                             <b v-if="profile.curriculum_name == 'CS'">Computer Science</b>
                             <b v-if="profile.curriculum_name == 'DSI'">Digital Service Innovation</b>
@@ -54,7 +54,7 @@
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="title">{{profile.resume_gen_count}}</p>
-                                    <p class="heading">Gen Resume</p>
+                                    <p class="heading">Generate Resume</p>
                                 </div>
                             </div>
                             <div class="level-item has-text-centered">
@@ -92,6 +92,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="bodyBg">
+            <span id="info" style="margin-right:15px" v-if="profile.Twitter!=null"><img src="./../assets/Twitter.png" class="contact_icon">{{profile.Twitter}}</span>
+            <span id="info" style="margin-right:15px" v-if="profile.Facebook!=null"><img src="./../assets/Facebook.png" class="contact_icon">{{profile.Facebook}}</span>
+            <span id="info" style="margin-right:15px" v-if="profile.Instagram!=null"><img src="./../assets/Instagram.png" class="contact_icon">{{profile.Instagram}}</span>
+            <span id="info" style="margin-right:15px" v-if="profile.Linkedin!=null"><img src="./../assets/Linkedin.png" class="contact_icon">{{profile.Linkedin}}</span>
+            <span id="info" style="margin-right:15px" v-if="profile.Github!=null"><img src="./../assets/Github.png" class="contact_icon">{{profile.Github}}</span>
+            <span id="info" style="margin-right:15px" v-if="profile.Pinterest!=null"><img src="./../assets/Pinterest.png" class="contact_icon">{{profile.Pinterest}}</span>
+            <span id="info" style="margin-right:15px" v-if="profile.Vimeo!=null"><img src="./../assets/Vimeo.png" class="contact_icon">{{profile.Vimeo}}</span>
+            <span id="info" style="margin-right:15px" v-if="profile.Tumblr!=null"><img src="./../assets/Tumblr.png" class="contact_icon">{{profile.Tumblr}}</span>
+            <span id="info" style="margin-right:15px" v-if="profile.Flickr!=null"><img src="./../assets/Flickr.png" class="contact_icon">{{profile.Flickr}}</span>
+            <span id="info" style="margin-right:15px" v-if="profile.Link!=null"><img src="./../assets/Link.png" class="contact_icon">{{profile.Link}}</span>
         </div>
         <!-- All projects -->
         <div id="bodyBg">
@@ -232,11 +244,8 @@ export default {
                 user_id: `${this.$route.params.stdId}`,
             })
         }
+        console.log(this.profile)
     },
-    // updated() {
-    //     console.log('profile pic > ', this.profile.profile_picture)
-    //     console.log('numberOfProjects > ', this.numberOfProjects)
-    // },
     methods: {
         ...mapActions(['LOAD_OWN_STUDENT_DATA', 'LOAD_OTHER_STUDENT_DATA', 'UPDATE_FIELD', 'SET_EMAIL', 'SET_STUDENT_PROJECT']),
         showUploadImg: function () {

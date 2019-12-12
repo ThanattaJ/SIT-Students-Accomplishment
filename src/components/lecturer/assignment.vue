@@ -202,7 +202,7 @@ export default {
                 });
         },
         async createAssignment() {
-
+            console.log('this.academic_term_id : '+this.academic_term_id)
             var data = {
                 academic_term_id: this.academic_term_id,
                 course_id: this.course_id,

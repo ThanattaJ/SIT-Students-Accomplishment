@@ -105,6 +105,7 @@ export default {
                     this.defaultCourse = this.courses[0]
                     if (this.semester == "") {
                         this.semester = res.data.courses[0].academic_term_id
+                        this.SET_ACADEMIC_TERM_ID(this.semester)
                     }
                 }
             })
