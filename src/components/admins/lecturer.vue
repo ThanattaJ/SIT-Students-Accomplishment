@@ -63,12 +63,12 @@
             <md-card-header>
                 <div v-if="this.Admin == false">
                     <md-card-header-text>
-                        <div class="md-title" id="title">You want to allow {{this.firstname}} to become a admin? </div>
+                        <div class="md-title" id="title">You want to not allow {{this.firstname}} to become a admin? </div>
                     </md-card-header-text>
                 </div>
                 <div v-else>
                     <md-card-header-text>
-                        <div class="md-title" id="title">You want to not allow {{this.firstname}} to become a admin? </div>
+                        <div class="md-title" id="title">You want to allow {{this.firstname}} to become a admin? </div>
                     </md-card-header-text>
                 </div>
             </md-card-header>

@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <!-- this.project_status : {{this.project_status}} -->
-                    <div id="project_status">
+                    <di v id="project_status">
                         <div v-if="this.access">
                             <div v-if="this.project_status === 'Request'">
                                 <p>Project Status : <span class="projectStatus request">Request admin to edit project</span></p>
@@ -85,7 +85,7 @@
                         <div v-if="get_approver == true">
                             <adminApprover v-if="project_status == 'Request'" />
                         </div>
-                    </div>
+                    </di>
                 </div>
                 <div class="column">
                     <div class="column">
@@ -117,7 +117,7 @@
                                 </div>
                             </div>
                             <div v-if="this.access == false" class="column is-2" style="margin-left:-25%">
-                                <div @click="clapProject()" id="claps" style="margin-top:-38%">
+                                <div @click="clapProject()" id="claps" style="margin-top:-34%">
                                     <vue-clap-button icon="good" maxClick="50" colorActive="#265080" id="claps" />
                                 </div>
                             </div>

@@ -13,8 +13,8 @@
         </md-card-header>
         <md-card-content>
             <span class="addBtn">
-                <a class="button cancelCommentBtn" @click="closeAskModal"><span class="courseName">No</span></a>
                 <a class="button addCommentBtn" @click="addRequest">Yes</a>
+                <a class="button cancelCommentBtn" @click="closeAskModal"><span class="courseName">No</span></a>
             </span>
         </md-card-content>
     </modal>
@@ -89,7 +89,8 @@ export default {
                 ).then(res => {
                     console.log("res : ", res)
                     if (res.status == 200) {
-                        this.closeAskModal()
+                        this.closeAskModal();
+                        location.reload();
                     }
                 })
                 .catch(err => {
