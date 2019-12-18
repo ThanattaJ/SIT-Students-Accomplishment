@@ -21,7 +21,7 @@
                     <div class="columns">
                         <div class="column is-4">Lecturer Name</div>
                         <div class="column">Position</div>
-                        <div style="margin-right:12%;">Admin</div>
+                        <div style="margin-right:22%;">Admin</div>
 
                     </div>
                 </div>
